@@ -1,0 +1,133 @@
+# Colors:
+# Объекты Django: SeaGreen
+# Ключевые объекты: DeepSkyBlue
+# Объекты справочников: Khaki
+# Дополнительные объекты: Indigo
+# Массивы выбора: Coral
+#
+# Связи:
+#  ForeignKey blank=True    Master *--? Source
+#  ForeignKey blank=False   Master *--1 Source
+#  M2M        blank=True    Master *--* Source
+#  M2M        blank=False   Master *--+ Source
+#  O2O                      Master *--+ Source
+#  Choices                  Master 1--+ Source
+#
+
+entity {font: "FreeSans", size: "14"}
+relationship {font: "FreeSans", size: "12"}
+
+
+[DigitalResource] {bgcolor: "DeepSkyBlue", label: "Паспорт ЦОР"}
+*id
+title {label: "Наименование; CF"}
+type {label: "Тип; CF"}
+description {label: "Описание; TF"}
++directions {label: "Направления подготовки; M2M"}
++disciplines {label: "Дисциплины; M2M"}
+keywords {label: "Ключевые слова; CF"}
++language {label: "Язык; FK"}
+format {label: "Формат; CF"}
++rightholder {label: "Правообладатель; FK"}
++competences {label: "Компетенции; M2M"}
++platform {label: "Платформа; FK"}
++authors {label: "Авторы; M2M"}
+content_count {label: "Показатель объема контента; Int"}
+usage_stats {label: "Показатель использования; Int"}
+programs_count {label: "Показатель назначения; Int"}
++sources {label: "Точки входа; M2M"}
++owner {label: "Владелец; FK"}
++status {label: "Статус ЦОР; O2O"}
+'get_themes()' {label: "Тематические планы дисциплин"}
+
+[ResourceStatus] {bgcolor: "Indigo", color: "white", label: "Статус паспорта ЦОР"} 
+status {label: "Статус; CF"}
+model {label: "Модель использования; CF"} 
+due_date {label: "Статус; CF"}
+
+
+[Direction] {bgcolor: "Indigo", color: "white", label: "Направление подготовки"} 
+*id
+title {label: "Наименование; CF"}
+
+[Language] {bgcolor: "Khaki", label: "Язык"}
+code {label: "Код языка; CF"}
+title {label: "Наименование; CF"}
+
+[Competence] {bgcolor: "Khaki", label: "Компетенция"}
+*id
+code {label: "Код компетенции; CF"}
+title {label: "Наименование; CF"}
++category {label: "Категория; FK"}
+
+
+[CompetenceCategory] {bgcolor: "Khaki", label: "Категория компетенций"}
+*id
+title {label: "Наименование; CF"}
+
+[Platform] {bgcolor: "Khaki", label: "Платформа"}
+title {label: "Наименование; CF"}
+logo {label: "Логотип; ImageField"}
+url {label: "URL; URLField"}
+description {label: "Описание; TF"}
+contacts {label: "Контакты; TF"}
+
+[Organisation] {bgcolor: "Khaki", label: "Организация-правообладатель"}
+title {label: "Наименование; CF"}
+description {label: "Описание; TF"}
+logo {label: "Логотип; ImageField"}
+site_url {label: "URL сайта; URLField"}
+contacts {label: "Контакты; TF"}
+
+[Author] {bgcolor: "Khaki", label: "Автор ЦОР"}
+title {label: "Наименование; CF"}
+description {label: "Описание; TF"}
+image {label: "Фото; ImageField"}
+
+[`django.contrib.auth.User`] {bgcolor: "SeaGreen"}
+username
+first_name
+last_name
+email
+
+[Source] {bgcolor: "Indigo", color: "white", label: "Источник ЦОР"} 
+link {label: "Ссылка; URLField"}
+status {label: "Статус; CF"}
+type {label: "Статус; CF"}
+file {label: "Файл; FF"}
+priority {label: "Приоритет; Int"}
+
+[Discipline] {bgcolor: "Khaki", label: "Дисциплина"}
+title {label: "Наименование; CF"}
+description {label: "Описание; TF"}
+labor {label: "Трудоемкость; Int"}
+
+[DisciplineTheme] {bgcolor: "Indigo", color: "white", label: "Тема дисциплины"} 
+index {label: "Индекс; CF"}
+title {label: "Наименование; CF"}
+
+[ThematicPlan] {bgcolor: "Indigo", color: "white", label: "Тематический план"} 
++discipline {label: "Дисциплина; FK"}
++themes {label: "Темы; M2M"}
+
+[DisciplineThemeResource] {bgcolor: "DeepSkyBlue", label: "Темы, к которым привязан ЦОР"} 
++digital_resource_source {label: "Источник ЦОР; FK"}
++discipline_themes {label: "Темы дисциплин; FK"}
+
+Competence *--1 CompetenceCategory
+DigitalResource *--+ Author {label: "authors"}
+DigitalResource *--? Platform {label: "platform"}
+DigitalResource *--1 Organisation {label: "rightholder"}
+DigitalResource *--* Competence {label: "competences"}
+DigitalResource *--* `django.contrib.auth.User` {label: "owner"}
+DigitalResource *--* Source {label: "source"}
+ThematicPlan *--* Discipline {label: "discipline"}
+ThematicPlan *--+ DisciplineTheme {label: "themes"}
+DisciplineThemeResource *--* Source {label: "digital_resource_source"}
+DisciplineThemeResource *--* DisciplineTheme {label: "discipline_themes"}
+DigitalResource *--* Direction {label: "directions"}
+DigitalResource *--1 Language {label: "language"}
+DigitalResource 1--1 ResourceStatus {label: "status"}
+DigitalResource 1--? ResourceStatus
+Source 1--1 'SOURCE STATUSES'
+Source 1--1 'SOURCE TYPES'
