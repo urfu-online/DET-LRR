@@ -25,12 +25,12 @@ Basic Commands
 ^^^^^^^^^^^^^^^^^^^
 
 **Собрать и запустить проект**
+ 
+``$ docker-compose -f local.yml up -d --build``
 
-```$ docker-compose -f local.yml up -d --build```
+``$ docker-compose -f local.yml run --rm django python manage.py migrate``
 
-```$ docker-compose -f local.yml run --rm django python manage.py migrate```
-
-```$ docker-compose -f local.yml run --rm django python manage.py createsuperuser```
+``$ docker-compose -f local.yml run --rm django python manage.py createsuperuser``
 
 
 Setting Up Your Users
