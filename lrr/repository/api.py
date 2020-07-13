@@ -8,7 +8,7 @@ class DigitalResourceViewSet(viewsets.ModelViewSet):
 
     queryset = models.DigitalResource.objects.all()
     serializer_class = serializers.DigitalResourceSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class DirectionViewSet(viewsets.ModelViewSet):
@@ -16,7 +16,7 @@ class DirectionViewSet(viewsets.ModelViewSet):
 
     queryset = models.Direction.objects.all()
     serializer_class = serializers.DirectionSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class LanguageViewSet(viewsets.ModelViewSet):
@@ -24,7 +24,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
 
     queryset = models.Language.objects.all()
     serializer_class = serializers.LanguageSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class CompetenceCategoryViewSet(viewsets.ModelViewSet):
@@ -32,7 +32,7 @@ class CompetenceCategoryViewSet(viewsets.ModelViewSet):
 
     queryset = models.CompetenceCategory.objects.all()
     serializer_class = serializers.CompetenceCategorySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class CompetenceViewSet(viewsets.ModelViewSet):
@@ -40,7 +40,7 @@ class CompetenceViewSet(viewsets.ModelViewSet):
 
     queryset = models.Competence.objects.all()
     serializer_class = serializers.CompetenceSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class PlatformViewSet(viewsets.ModelViewSet):
@@ -48,7 +48,7 @@ class PlatformViewSet(viewsets.ModelViewSet):
 
     queryset = models.Platform.objects.all()
     serializer_class = serializers.PlatformSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class OrganisationViewSet(viewsets.ModelViewSet):
@@ -56,7 +56,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
 
     queryset = models.Organisation.objects.all()
     serializer_class = serializers.OrganisationSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
@@ -64,7 +64,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 
     queryset = models.Author.objects.all()
     serializer_class = serializers.AuthorSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class SourceViewSet(viewsets.ModelViewSet):
@@ -72,7 +72,7 @@ class SourceViewSet(viewsets.ModelViewSet):
 
     queryset = models.Source.objects.all()
     serializer_class = serializers.SourceSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class ResourceStatusViewSet(viewsets.ModelViewSet):
@@ -80,7 +80,7 @@ class ResourceStatusViewSet(viewsets.ModelViewSet):
 
     queryset = models.ResourceStatus.objects.all()
     serializer_class = serializers.ResourceStatusSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class DisciplineThemeViewSet(viewsets.ModelViewSet):
@@ -88,7 +88,7 @@ class DisciplineThemeViewSet(viewsets.ModelViewSet):
 
     queryset = models.DisciplineTheme.objects.all()
     serializer_class = serializers.DisciplineThemeSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class DisciplineViewSet(viewsets.ModelViewSet):
@@ -96,7 +96,7 @@ class DisciplineViewSet(viewsets.ModelViewSet):
 
     queryset = models.Discipline.objects.all()
     serializer_class = serializers.DisciplineSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class ThematicPlanViewSet(viewsets.ModelViewSet):
@@ -104,7 +104,7 @@ class ThematicPlanViewSet(viewsets.ModelViewSet):
 
     queryset = models.ThematicPlan.objects.all()
     serializer_class = serializers.ThematicPlanSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class DisciplineThemeResourceViewSet(viewsets.ModelViewSet):
@@ -112,5 +112,5 @@ class DisciplineThemeResourceViewSet(viewsets.ModelViewSet):
 
     queryset = models.DisciplineThemeResource.objects.all()
     serializer_class = serializers.DisciplineThemeResourceSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
