@@ -7,8 +7,10 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from lrr.repository.views import DigitalResourceListView
+
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", DigitalResourceListView.as_view(), name="home"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
@@ -17,7 +19,7 @@ urlpatterns = [
     # User management
     path("users/", include("lrr.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+    path("repository/", include(("lrr.repository.urls", "repository"), namespace="repository")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
@@ -56,3 +58,10 @@ if settings.DEBUG:
         import debug_toolbar
 
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+
+    if 'schema_graph' in settings.INSTALLED_APPS:
+        from schema_graph.views import Schema
+
+        urlpatterns += [
+            path("schema/", Schema.as_view())
+            ]

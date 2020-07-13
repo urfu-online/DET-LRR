@@ -21,6 +21,17 @@ Moved to settings_.
 Basic Commands
 --------------
 
+Разработка в Docker
+^^^^^^^^^^^^^^^^^^^
+
+**Собрать и запустить проект**
+
+`$ docker-compose -f local.yml up -d --build`
+
+`$ docker-compose -f local.yml run --rm django python manage.py migrate`
+`$ docker-compose -f local.yml run --rm django python manage.py createsuperuser`
+
+
 Setting Up Your Users
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -110,7 +121,6 @@ Deployment
 ----------
 
 The following details how to deploy this application.
-
 
 
 Docker

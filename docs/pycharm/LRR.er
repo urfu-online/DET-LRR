@@ -67,10 +67,15 @@ title {label: "Наименование; CF"}
 
 [Platform] {bgcolor: "Khaki", label: "Платформа"}
 title {label: "Наименование; CF"}
++base {label: "Технологическая платформа; FK"}
 logo {label: "Логотип; ImageField"}
 url {label: "URL; URLField"}
 description {label: "Описание; TF"}
 contacts {label: "Контакты; TF"}
+
+[BasePlatform] {bgcolor: "Khaki", label: "Технологическая платформа"}
+title {label: "Наименование; CF"}
+
 
 [Organisation] {bgcolor: "Khaki", label: "Организация-правообладатель"}
 title {label: "Наименование; CF"}
@@ -129,5 +134,6 @@ DigitalResource *--* Direction {label: "directions"}
 DigitalResource *--1 Language {label: "language"}
 DigitalResource 1--1 ResourceStatus {label: "status"}
 DigitalResource 1--? ResourceStatus
+Platform *--? BasePlatform {label: "platform"}
 Source 1--1 'SOURCE STATUSES'
 Source 1--1 'SOURCE TYPES'

@@ -60,7 +60,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
-    "django.contrib.admin",
+    # "django.contrib.admin",
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
@@ -71,11 +71,14 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
+    "admin_interface",
+    "colorfield",
 ]
 
 LOCAL_APPS = [
+    "lrr.apps.LRRAdminConfig",
     "lrr.users.apps.UsersConfig",
-    # Your stuff: custom apps go here
+    'lrr.repository.apps.RepositoryConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -208,7 +211,7 @@ CSRF_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
-X_FRAME_OPTIONS = "DENY"
+X_FRAME_OPTIONS = "SAMEORIGIN"
 
 # EMAIL
 # ------------------------------------------------------------------------------

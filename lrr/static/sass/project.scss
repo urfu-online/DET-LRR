@@ -15,7 +15,8 @@ $mint-green: #d6e9c6;
 $black: #000;
 $pink: #f2dede;
 $dark-pink: #eed3d7;
-$red: #b94a48;
+$red: red;
+
 
 ////////////////////////////////
 		//Alerts//
@@ -35,3 +36,12 @@ $red: #b94a48;
   border-color: $dark-pink;
   color: $red;
 }
+.navbar {
+  background-color: #16697A;
+  color: #EDE7E3;
+
+  a {
+    color: #EDE7E3;
+  }
+}
+
