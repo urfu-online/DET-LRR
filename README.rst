@@ -29,6 +29,7 @@ Basic Commands
 `$ docker-compose -f local.yml up -d --build`
 
 `$ docker-compose -f local.yml run --rm django python manage.py migrate`
+
 `$ docker-compose -f local.yml run --rm django python manage.py createsuperuser`
 
 
