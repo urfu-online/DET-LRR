@@ -10,6 +10,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from lrr.repository.views import DigitalResourceListView
 
 urlpatterns = [
+
     path("", DigitalResourceListView.as_view(), name="home"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
@@ -19,7 +20,7 @@ urlpatterns = [
     # User management
     path("users/", include("lrr.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    path("repository/", include(("lrr.repository.urls", "repository"), namespace="repository")),
+    path("repository/", include(("lrr.repository.urls", "lrr.repository"), namespace="repository")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
