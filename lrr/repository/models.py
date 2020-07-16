@@ -71,7 +71,7 @@ class DigitalResource(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -91,7 +91,7 @@ class Direction(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -112,7 +112,7 @@ class Language(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -132,7 +132,7 @@ class CompetenceCategory(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -158,7 +158,7 @@ class Competence(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -182,7 +182,7 @@ class Platform(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -206,7 +206,7 @@ class Organisation(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -228,7 +228,7 @@ class Author(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -252,7 +252,7 @@ class Source(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -274,7 +274,7 @@ class ResourceStatus(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -295,7 +295,7 @@ class DisciplineTheme(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def discipline(self):
@@ -320,7 +320,7 @@ class Discipline(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -347,7 +347,7 @@ class ThematicPlan(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
@@ -376,7 +376,7 @@ class DisciplineThemeResource(models.Model):
     class Meta:
         ordering = ('-created',)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.pk
 
     def get_absolute_url(self):
