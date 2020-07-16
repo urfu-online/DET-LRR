@@ -62,6 +62,7 @@ DJANGO_APPS = [
     # "django.contrib.humanize", # Handy template tags
     # "django.contrib.admin",
     "django.forms",
+    "corsheaders",
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -73,7 +74,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "admin_interface",
     "colorfield",
-    "corsheaders",
+
 ]
 
 LOCAL_APPS = [
@@ -300,10 +301,12 @@ SOCIALACCOUNT_ADAPTER = "lrr.users.adapters.SocialAccountAdapter"
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.TokenAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": (
+        # "rest_framework.permissions.IsAuthenticated",
+        ),
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
