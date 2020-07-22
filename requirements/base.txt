@@ -22,3 +22,5 @@ django-redis==4.12.1  # https://github.com/jazzband/django-redis
 djangorestframework==3.11.0  # https://github.com/encode/django-rest-framework
 django-admin-interface==0.12.2
 django-cors-headers==3.4.0
+django-rest-swagger
+pygraphviz
