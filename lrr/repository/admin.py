@@ -41,9 +41,6 @@ class ExpertiseStatusAdmin(admin.ModelAdmin):
     ]
     readonly_fields = [
         "last_updated",
-        "end_date",
-        "status",
-        "accepted_status",
         "created",
     ]
 
@@ -64,11 +61,8 @@ class SubjectAdmin(admin.ModelAdmin):
         "labor",
     ]
     readonly_fields = [
-        "description",
         "created",
-        "title",
         "last_updated",
-        "labor",
     ]
 
 
@@ -88,29 +82,6 @@ class OrganizationAdmin(admin.ModelAdmin):
         "title",
         "created",
         "url",
-    ]
-    readonly_fields = [
-        "last_updated",
-        "description",
-        "logo",
-        "contacts",
-        "title",
-        "created",
-        "url",
-    ]
-
-
-class ResultEduResourcesAdminForm(forms.ModelForm):
-    class Meta:
-        model = models.ResultEduResources
-        fields = "__all__"
-
-
-class ResultEduResourcesAdmin(admin.ModelAdmin):
-    form = ResultEduResourcesAdminForm
-    list_display = [
-        "last_updated",
-        "created",
     ]
     readonly_fields = [
         "last_updated",
@@ -134,11 +105,8 @@ class EduProgramAdmin(admin.ModelAdmin):
         "title",
     ]
     readonly_fields = [
-        "description",
         "last_updated",
         "created",
-        "short_description",
-        "title",
     ]
 
 
@@ -156,7 +124,6 @@ class ProvidingDisciplineAdmin(admin.ModelAdmin):
         "last_updated",
     ]
     readonly_fields = [
-        "rate",
         "created",
         "last_updated",
     ]
@@ -177,10 +144,8 @@ class ResultEduAdmin(admin.ModelAdmin):
         "description",
     ]
     readonly_fields = [
-        "title",
         "last_updated",
         "created",
-        "description",
     ]
 
 
@@ -193,7 +158,6 @@ class DigitalResourceAdminForm(forms.ModelForm):
 class DigitalResourceAdmin(admin.ModelAdmin):
     form = DigitalResourceAdminForm
     list_display = [
-        "id",
         "title",
         "created",
         "type",
@@ -203,14 +167,8 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         "description",
     ]
     readonly_fields = [
-        "id",
-        "title",
         "created",
-        "type",
-        "source_data",
         "last_updated",
-        "ketwords",
-        "description",
     ]
 
 
@@ -229,8 +187,6 @@ class CompetenceAdmin(admin.ModelAdmin):
     ]
     readonly_fields = [
         "created",
-        "title",
-        "code",
     ]
 
 
@@ -251,12 +207,7 @@ class PlatformAdmin(admin.ModelAdmin):
         "title",
     ]
     readonly_fields = [
-        "created",
-        "url",
-        "logo",
-        "description",
-        "contacts",
-        "title",
+        "created"
     ]
 
 
@@ -274,8 +225,6 @@ class LanguageAdmin(admin.ModelAdmin):
         "created",
     ]
     readonly_fields = [
-        "code",
-        "titile",
         "created",
     ]
 
@@ -311,19 +260,18 @@ class StudentAdmin(admin.ModelAdmin):
         "created",
     ]
     readonly_fields = [
-        "academic_group",
         "created",
     ]
 
 
-class ConformityThemesAdminForm(forms.ModelForm):
+class ConformityThemeAdminForm(forms.ModelForm):
     class Meta:
-        model = models.ConformityThemes
+        model = models.ConformityTheme
         fields = "__all__"
 
 
-class ConformityThemesAdmin(admin.ModelAdmin):
-    form = ConformityThemesAdminForm
+class ConformityThemeAdmin(admin.ModelAdmin):
+    form = ConformityThemeAdminForm
     list_display = [
         "practice",
         "theory",
@@ -331,8 +279,6 @@ class ConformityThemesAdmin(admin.ModelAdmin):
         "last_updated",
     ]
     readonly_fields = [
-        "practice",
-        "theory",
         "created",
         "last_updated",
     ]
@@ -370,7 +316,6 @@ class SubjectThemeAdmin(admin.ModelAdmin):
         "title",
     ]
     readonly_fields = [
-        "description",
         "created",
         "title",
     ]
@@ -390,7 +335,6 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     ]
     readonly_fields = [
         "created",
-        "title",
     ]
 
 
@@ -414,15 +358,7 @@ class PersonAdmin(admin.ModelAdmin):
         "last_name",
     ]
     readonly_fields = [
-        "location",
-        "date_birthday",
-        "city",
         "created",
-        "middle_name",
-        "country",
-        "first_name",
-        "avatar",
-        "last_name",
     ]
 
 
@@ -430,7 +366,6 @@ admin.site.register(models.StatusCOR, StatusCORAdmin)
 admin.site.register(models.ExpertiseStatus, ExpertiseStatusAdmin)
 admin.site.register(models.Subject, SubjectAdmin)
 admin.site.register(models.Organization, OrganizationAdmin)
-admin.site.register(models.ResultEduResources, ResultEduResourcesAdmin)
 admin.site.register(models.EduProgram, EduProgramAdmin)
 admin.site.register(models.ProvidingDiscipline, ProvidingDisciplineAdmin)
 admin.site.register(models.ResultEdu, ResultEduAdmin)
@@ -440,7 +375,7 @@ admin.site.register(models.Platform, PlatformAdmin)
 admin.site.register(models.Language, LanguageAdmin)
 admin.site.register(models.SubjectTag, SubjectTagAdmin)
 admin.site.register(models.Student, StudentAdmin)
-admin.site.register(models.ConformityThemes, ConformityThemesAdmin)
+admin.site.register(models.ConformityTheme, ConformityThemeAdmin)
 admin.site.register(models.EduProgramTag, EduProgramTagAdmin)
 admin.site.register(models.SubjectTheme, SubjectThemeAdmin)
 admin.site.register(models.ThematicPlan, ThematicPlanAdmin)

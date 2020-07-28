@@ -36,14 +36,6 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class ResultEduResourcesViewSet(viewsets.ModelViewSet):
-    """ViewSet for the ResultEduResources class"""
-
-    queryset = models.ResultEduResources.objects.all()
-    serializer_class = serializers.ResultEduResourcesSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
 class EduProgramViewSet(viewsets.ModelViewSet):
     """ViewSet for the EduProgram class"""
 
@@ -116,11 +108,11 @@ class StudentViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class ConformityThemesViewSet(viewsets.ModelViewSet):
-    """ViewSet for the ConformityThemes class"""
+class ConformityThemeViewSet(viewsets.ModelViewSet):
+    """ViewSet for the ConformityTheme class"""
 
-    queryset = models.ConformityThemes.objects.all()
-    serializer_class = serializers.ConformityThemesSerializer
+    queryset = models.ConformityTheme.objects.all()
+    serializer_class = serializers.ConformityThemeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

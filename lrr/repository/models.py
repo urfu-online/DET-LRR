@@ -9,7 +9,6 @@ from datetime import datetime
 
 
 class StatusCOR(models.Model):
-
     # quality_category
     INNER = '0'
     OUTER = '1'
@@ -54,7 +53,6 @@ class StatusCOR(models.Model):
 
 
 class ExpertiseStatus(models.Model):
-
     # status
     NO_INIT = '0'
     SUB_APP = '1'
@@ -91,7 +89,6 @@ class ExpertiseStatus(models.Model):
 
 
 class Subject(models.Model):
-
     # Fields
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
@@ -113,7 +110,6 @@ class Subject(models.Model):
 
 
 class Organization(models.Model):
-
     # Fields
     last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
@@ -136,31 +132,7 @@ class Organization(models.Model):
         return reverse("repository_Organization_update", args=(self.pk,))
 
 
-class ResultEduResources(models.Model):
-
-    # Relationships
-    status = models.ForeignKey("repository.StatusCOR", on_delete=models.PROTECT)
-    result_edu = models.ForeignKey("repository.ResultEdu", on_delete=models.PROTECT)
-
-    # Fields
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
-    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
-
-    class Meta:
-        pass
-
-    def __str__(self):
-        return str(self.pk)
-
-    def get_absolute_url(self):
-        return reverse("repository_ResultEduResources_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_ResultEduResources_update", args=(self.pk,))
-
-
 class EduProgram(models.Model):
-
     # Fields
     description = models.TextField("Описание", max_length=1024, null=True, blank=True)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
@@ -182,14 +154,13 @@ class EduProgram(models.Model):
 
 
 class ProvidingDiscipline(models.Model):
-
     # Relationships
     edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT)
     subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT)
 
     # Fields
     rate = models.PositiveIntegerField("Процент покрытия")
-    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
@@ -206,9 +177,9 @@ class ProvidingDiscipline(models.Model):
 
 
 class ResultEdu(models.Model):
-
     # Fields
     title = models.CharField("Наименование", max_length=150)
+    digital_resource_competence = models.ForeignKey("repository.DigitalResourceCompetence", on_delete=models.CASCADE)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
     created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
     description = models.TextField("Описание", max_length=500)
@@ -227,7 +198,6 @@ class ResultEdu(models.Model):
 
 
 class DigitalResource(models.Model):
-
     # source_data
     NULL = '0'
     MANUAL = '1'
@@ -254,13 +224,12 @@ class DigitalResource(models.Model):
 
     # Relationships
     edu_programs_tags = models.ManyToManyField("EduProgramTag")
-    conformity_themes = models.ManyToManyField("ConformityThemes")
-    authors = models.ManyToManyField("Person", verbose_name="Авторы", blank=True, related_name="authors_digital_resource")
+    authors = models.ManyToManyField("Person", verbose_name="Авторы", blank=True,
+                                     related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT)
     subjects_tags = models.ManyToManyField("SubjectTag")
     status_cor = models.ForeignKey("StatusCOR", on_delete=models.CASCADE)
     owner = models.ForeignKey("Person", on_delete=models.PROTECT, related_name="owner_digital_resource")
-    result_edu_resource = models.ManyToManyField("ResultEduResources")
     language = models.ForeignKey("Language", on_delete=models.PROTECT)
     provided_disciplines = models.ManyToManyField("ProvidingDiscipline")
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT)
@@ -270,7 +239,8 @@ class DigitalResource(models.Model):
     title = models.CharField("Наименование", max_length=150)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
-    source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, null=True, default=NULL)    #TODO исправить НУЛЛ на проде
+    source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, null=True,
+                                   default=NULL)  # TODO исправить НУЛЛ на проде
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
     ketwords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
@@ -288,8 +258,21 @@ class DigitalResource(models.Model):
         return reverse("repository_DigitalResource_update", args=(self.pk,))
 
 
-class Competence(models.Model):
+class DigitalResourceCompetence(models.Model):
+    digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE)
+    competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT)
 
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_DigitalResourceCompetence_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
+
+
+class Competence(models.Model):
     # Fields
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     title = models.CharField("Наименование", max_length=150)
@@ -309,7 +292,6 @@ class Competence(models.Model):
 
 
 class Platform(models.Model):
-
     # Fields
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     url = models.URLField("Ссылка")
@@ -332,7 +314,6 @@ class Platform(models.Model):
 
 
 class Language(models.Model):
-
     # Fields
     code = models.CharField("Код языка", max_length=4)
     titile = models.CharField("Наименование", max_length=80)
@@ -352,9 +333,8 @@ class Language(models.Model):
 
 
 class SubjectTag(models.Model):
-
     # Relationships
-    tag = models.ForeignKey("repository.Subject", on_delete=models.PROTECT)
+    tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE)
 
     # Fields
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
@@ -374,7 +354,6 @@ class SubjectTag(models.Model):
 
 
 class Student(models.Model):
-
     # Relationships
     person = models.ForeignKey("repository.Person", on_delete=models.CASCADE)
 
@@ -395,16 +374,16 @@ class Student(models.Model):
         return reverse("repository_Student_update", args=(self.pk,))
 
 
-class ConformityThemes(models.Model):
-
+class ConformityTheme(models.Model):
     # Relationships
-    theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.PROTECT)
+    theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.CASCADE)
+    providing_discipline = models.ForeignKey("repository.ProvidingDiscipline", on_delete=models.CASCADE)
 
     # Fields
     practice = models.NullBooleanField("Практика")
     theory = models.NullBooleanField("Теория")
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последние обновление",auto_now=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
         pass
@@ -413,20 +392,19 @@ class ConformityThemes(models.Model):
         return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse("repository_ConformityThemes_detail", args=(self.pk,))
+        return reverse("repository_ConformityTheme_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_ConformityThemes_update", args=(self.pk,))
+        return reverse("repository_ConformityTheme_update", args=(self.pk,))
 
 
 class EduProgramTag(models.Model):
-
     # Relationships
-    tag = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT)
+    tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE)
 
     # Fields
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последние обновление",auto_now=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
         pass
@@ -442,9 +420,8 @@ class EduProgramTag(models.Model):
 
 
 class SubjectTheme(models.Model):
-
     # Fields
-    thematic_plan = models.ForeignKey("repository.ThematicPlan")
+    thematic_plan = models.ForeignKey("repository.ThematicPlan", on_delete=models.PROTECT)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     title = models.CharField("Наимаенование", max_length=150)
@@ -463,10 +440,9 @@ class SubjectTheme(models.Model):
 
 
 class ThematicPlan(models.Model):
-
     # Relationships
     subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT)
-    edu_programs = models.ForeignKey("repository.EduProgram")
+    edu_programs = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT)
 
     # Fields
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
@@ -486,7 +462,6 @@ class ThematicPlan(models.Model):
 
 
 class Person(models.Model):
-
     # Relationships
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 

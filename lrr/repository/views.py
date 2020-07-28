@@ -87,27 +87,6 @@ class OrganizationUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-class ResultEduResourcesListView(generic.ListView):
-    model = models.ResultEduResources
-    form_class = forms.ResultEduResourcesForm
-
-
-class ResultEduResourcesCreateView(generic.CreateView):
-    model = models.ResultEduResources
-    form_class = forms.ResultEduResourcesForm
-
-
-class ResultEduResourcesDetailView(generic.DetailView):
-    model = models.ResultEduResources
-    form_class = forms.ResultEduResourcesForm
-
-
-class ResultEduResourcesUpdateView(generic.UpdateView):
-    model = models.ResultEduResources
-    form_class = forms.ResultEduResourcesForm
-    pk_url_kwarg = "pk"
-
-
 class EduProgramListView(generic.ListView):
     model = models.EduProgram
     form_class = forms.EduProgramForm
@@ -297,24 +276,24 @@ class StudentUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-class ConformityThemesListView(generic.ListView):
-    model = models.ConformityThemes
-    form_class = forms.ConformityThemesForm
+class ConformityThemeListView(generic.ListView):
+    model = models.ConformityTheme
+    form_class = forms.ConformityThemeForm
 
 
-class ConformityThemesCreateView(generic.CreateView):
-    model = models.ConformityThemes
-    form_class = forms.ConformityThemesForm
+class ConformityThemeCreateView(generic.CreateView):
+    model = models.ConformityTheme
+    form_class = forms.ConformityThemeForm
 
 
-class ConformityThemesDetailView(generic.DetailView):
-    model = models.ConformityThemes
-    form_class = forms.ConformityThemesForm
+class ConformityThemeDetailView(generic.DetailView):
+    model = models.ConformityTheme
+    form_class = forms.ConformityThemeForm
 
 
-class ConformityThemesUpdateView(generic.UpdateView):
-    model = models.ConformityThemes
-    form_class = forms.ConformityThemesForm
+class ConformityThemeUpdateView(generic.UpdateView):
+    model = models.ConformityTheme
+    form_class = forms.ConformityThemeForm
     pk_url_kwarg = "pk"
 
 

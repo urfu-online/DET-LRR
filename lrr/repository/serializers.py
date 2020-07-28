@@ -51,14 +51,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "url",
         ]
 
-class ResultEduResourcesSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.ResultEduResources
-        fields = [
-            "last_updated",
-            "created",
-        ]
 
 class EduProgramSerializer(serializers.ModelSerializer):
 
@@ -159,10 +151,10 @@ class StudentSerializer(serializers.ModelSerializer):
             "created",
         ]
 
-class ConformityThemesSerializer(serializers.ModelSerializer):
+class ConformityThemeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.ConformityThemes
+        model = models.ConformityTheme
         fields = [
             "practice",
             "theory",

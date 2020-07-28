@@ -44,14 +44,6 @@ class OrganizationForm(forms.ModelForm):
         ]
 
 
-class ResultEduResourcesForm(forms.ModelForm):
-    class Meta:
-        model = models.ResultEduResources
-        fields = [
-            "status",
-            "result_edu",
-        ]
-
 
 class EduProgramForm(forms.ModelForm):
     class Meta:
@@ -92,13 +84,11 @@ class DigitalResourceForm(forms.ModelForm):
             "ketwords",
             "description",
             "edu_programs_tags",
-            "conformity_themes",
             "authors",
             "copyright_holder",
             "subjects_tags",
             "status_cor",
             "owner",
-            "result_edu_resource",
             "language",
             "provided_disciplines",
             "platform",
@@ -152,9 +142,9 @@ class StudentForm(forms.ModelForm):
         ]
 
 
-class ConformityThemesForm(forms.ModelForm):
+class ConformityThemeForm(forms.ModelForm):
     class Meta:
-        model = models.ConformityThemes
+        model = models.ConformityTheme
         fields = [
             "practice",
             "theory",
@@ -184,7 +174,6 @@ class ThematicPlanForm(forms.ModelForm):
         model = models.ThematicPlan
         fields = [
             "title",
-            "subject_themes",
             "subject",
             "edu_programs",
         ]

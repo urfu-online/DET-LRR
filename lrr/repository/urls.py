@@ -10,7 +10,6 @@ router.register("StatusCOR", api.StatusCORViewSet)
 router.register("ExpertiseStatus", api.ExpertiseStatusViewSet)
 router.register("Subject", api.SubjectViewSet)
 router.register("Organization", api.OrganizationViewSet)
-router.register("ResultEduResources", api.ResultEduResourcesViewSet)
 router.register("EduProgram", api.EduProgramViewSet)
 router.register("ProvidingDiscipline", api.ProvidingDisciplineViewSet)
 router.register("ResultEdu", api.ResultEduViewSet)
@@ -20,7 +19,7 @@ router.register("Platform", api.PlatformViewSet)
 router.register("Language", api.LanguageViewSet)
 router.register("SubjectTag", api.SubjectTagViewSet)
 router.register("Student", api.StudentViewSet)
-router.register("ConformityThemes", api.ConformityThemesViewSet)
+router.register("ConformityTheme", api.ConformityThemeViewSet)
 router.register("EduProgramTag", api.EduProgramTagViewSet)
 router.register("SubjectTheme", api.SubjectThemeViewSet)
 router.register("ThematicPlan", api.ThematicPlanViewSet)
@@ -44,10 +43,6 @@ urlpatterns = (
     path("repository/Organization/create/", views.OrganizationCreateView.as_view(), name="repository_Organization_create"),
     path("repository/Organization/detail/<int:pk>/", views.OrganizationDetailView.as_view(), name="repository_Organization_detail"),
     path("repository/Organization/update/<int:pk>/", views.OrganizationUpdateView.as_view(), name="repository_Organization_update"),
-    path("repository/ResultEduResources/", views.ResultEduResourcesListView.as_view(), name="repository_ResultEduResources_list"),
-    path("repository/ResultEduResources/create/", views.ResultEduResourcesCreateView.as_view(), name="repository_ResultEduResources_create"),
-    path("repository/ResultEduResources/detail/<int:pk>/", views.ResultEduResourcesDetailView.as_view(), name="repository_ResultEduResources_detail"),
-    path("repository/ResultEduResources/update/<int:pk>/", views.ResultEduResourcesUpdateView.as_view(), name="repository_ResultEduResources_update"),
     path("repository/EduProgram/", views.EduProgramListView.as_view(), name="repository_EduProgram_list"),
     path("repository/EduProgram/create/", views.EduProgramCreateView.as_view(), name="repository_EduProgram_create"),
     path("repository/EduProgram/detail/<int:pk>/", views.EduProgramDetailView.as_view(), name="repository_EduProgram_detail"),
@@ -84,10 +79,10 @@ urlpatterns = (
     path("repository/Student/create/", views.StudentCreateView.as_view(), name="repository_Student_create"),
     path("repository/Student/detail/<int:pk>/", views.StudentDetailView.as_view(), name="repository_Student_detail"),
     path("repository/Student/update/<int:pk>/", views.StudentUpdateView.as_view(), name="repository_Student_update"),
-    path("repository/ConformityThemes/", views.ConformityThemesListView.as_view(), name="repository_ConformityThemes_list"),
-    path("repository/ConformityThemes/create/", views.ConformityThemesCreateView.as_view(), name="repository_ConformityThemes_create"),
-    path("repository/ConformityThemes/detail/<int:pk>/", views.ConformityThemesDetailView.as_view(), name="repository_ConformityThemes_detail"),
-    path("repository/ConformityThemes/update/<int:pk>/", views.ConformityThemesUpdateView.as_view(), name="repository_ConformityThemes_update"),
+    path("repository/ConformityTheme/", views.ConformityThemeListView.as_view(), name="repository_ConformityTheme_list"),
+    path("repository/ConformityTheme/create/", views.ConformityThemeCreateView.as_view(), name="repository_ConformityTheme_create"),
+    path("repository/ConformityTheme/detail/<int:pk>/", views.ConformityThemeDetailView.as_view(), name="repository_ConformityTheme_detail"),
+    path("repository/ConformityTheme/update/<int:pk>/", views.ConformityThemeUpdateView.as_view(), name="repository_ConformityTheme_update"),
     path("repository/EduProgramTag/", views.EduProgramTagListView.as_view(), name="repository_EduProgramTag_list"),
     path("repository/EduProgramTag/create/", views.EduProgramTagCreateView.as_view(), name="repository_EduProgramTag_create"),
     path("repository/EduProgramTag/detail/<int:pk>/", views.EduProgramTagDetailView.as_view(), name="repository_EduProgramTag_detail"),
