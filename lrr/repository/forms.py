@@ -1,88 +1,206 @@
 from django import forms
-from .models import DigitalResource, Direction, Language, CompetenceCategory, Competence, Platform, Organisation, Author, Source, ResourceStatus, DisciplineTheme, Discipline, ThematicPlan, DisciplineThemeResource
+from . import models
+
+
+class StatusCORForm(forms.ModelForm):
+    class Meta:
+        model = models.StatusCOR
+        fields = [
+            "quality_category",
+            "interactive_category",
+            "expertise_status",
+        ]
+
+
+class ExpertiseStatusForm(forms.ModelForm):
+    class Meta:
+        model = models.ExpertiseStatus
+        fields = [
+            "end_date",
+            "status",
+            "accepted_status",
+        ]
+
+
+class SubjectForm(forms.ModelForm):
+    class Meta:
+        model = models.Subject
+        fields = [
+            "description",
+            "title",
+            "labor",
+        ]
+
+
+class OrganizationForm(forms.ModelForm):
+    class Meta:
+        model = models.Organization
+        fields = [
+            "description",
+            "logo",
+            "contacts",
+            "title",
+            "url",
+        ]
+
+
+class ResultEduResourcesForm(forms.ModelForm):
+    class Meta:
+        model = models.ResultEduResources
+        fields = [
+            "status",
+            "result_edu",
+        ]
+
+
+class EduProgramForm(forms.ModelForm):
+    class Meta:
+        model = models.EduProgram
+        fields = [
+            "description",
+            "short_description",
+            "title",
+        ]
+
+
+class ProvidingDisciplineForm(forms.ModelForm):
+    class Meta:
+        model = models.ProvidingDiscipline
+        fields = [
+            "rate",
+            "edu_program",
+            "subject",
+        ]
+
+
+class ResultEduForm(forms.ModelForm):
+    class Meta:
+        model = models.ResultEdu
+        fields = [
+            "title",
+            "description",
+        ]
 
 
 class DigitalResourceForm(forms.ModelForm):
     class Meta:
-        model = DigitalResource
-        fields = ['title', 'type', 'description', 'keywords', 'format', 'content_count', 'usage_stats', 'programs_count', 'directions', 'disciplines', 'language', 'rightholder', 'competences', 'platform', 'authors', 'sources', 'owner', 'status']
-
-
-class DirectionForm(forms.ModelForm):
-    class Meta:
-        model = Direction
-        fields = ['title']
-
-
-class LanguageForm(forms.ModelForm):
-    class Meta:
-        model = Language
-        fields = ['code', 'title']
-
-
-class CompetenceCategoryForm(forms.ModelForm):
-    class Meta:
-        model = CompetenceCategory
-        fields = ['title']
+        model = models.DigitalResource
+        fields = [
+            "title",
+            "type",
+            "source_data",
+            "ketwords",
+            "description",
+            "edu_programs_tags",
+            "conformity_themes",
+            "authors",
+            "copyright_holder",
+            "subjects_tags",
+            "status_cor",
+            "owner",
+            "result_edu_resource",
+            "language",
+            "provided_disciplines",
+            "platform",
+        ]
 
 
 class CompetenceForm(forms.ModelForm):
     class Meta:
-        model = Competence
-        fields = ['code', 'title', 'category']
+        model = models.Competence
+        fields = [
+            "title",
+            "code",
+        ]
 
 
 class PlatformForm(forms.ModelForm):
     class Meta:
-        model = Platform
-        fields = ['title', 'logo', 'url', 'description', 'contacts']
+        model = models.Platform
+        fields = [
+            "url",
+            "logo",
+            "description",
+            "contacts",
+            "title",
+        ]
 
 
-class OrganisationForm(forms.ModelForm):
+class LanguageForm(forms.ModelForm):
     class Meta:
-        model = Organisation
-        fields = ['title', 'description', 'logo', 'site_url', 'contacts']
+        model = models.Language
+        fields = [
+            "code",
+            "titile",
+        ]
 
 
-class AuthorForm(forms.ModelForm):
+class SubjectTagForm(forms.ModelForm):
     class Meta:
-        model = Author
-        fields = ['title', 'description', 'image']
+        model = models.SubjectTag
+        fields = [
+            "tag",
+        ]
 
 
-class SourceForm(forms.ModelForm):
+class StudentForm(forms.ModelForm):
     class Meta:
-        model = Source
-        fields = ['link', 'status', 'type', 'file', 'priority']
+        model = models.Student
+        fields = [
+            "academic_group",
+            "person",
+        ]
 
 
-class ResourceStatusForm(forms.ModelForm):
+class ConformityThemesForm(forms.ModelForm):
     class Meta:
-        model = ResourceStatus
-        fields = ['status', 'model', 'due_date']
+        model = models.ConformityThemes
+        fields = [
+            "practice",
+            "theory",
+            "theme",
+        ]
 
 
-class DisciplineThemeForm(forms.ModelForm):
+class EduProgramTagForm(forms.ModelForm):
     class Meta:
-        model = DisciplineTheme
-        fields = ['index', 'title']
+        model = models.EduProgramTag
+        fields = [
+            "tag",
+        ]
 
 
-class DisciplineForm(forms.ModelForm):
+class SubjectThemeForm(forms.ModelForm):
     class Meta:
-        model = Discipline
-        fields = ['title', 'description', 'labor']
+        model = models.SubjectTheme
+        fields = [
+            "description",
+            "title",
+        ]
 
 
 class ThematicPlanForm(forms.ModelForm):
     class Meta:
-        model = ThematicPlan
-        fields = ['discipline', 'themes']
+        model = models.ThematicPlan
+        fields = [
+            "title",
+            "subject_themes",
+            "subject",
+            "edu_programs",
+        ]
 
 
-class DisciplineThemeResourceForm(forms.ModelForm):
+class PersonForm(forms.ModelForm):
     class Meta:
-        model = DisciplineThemeResource
-        fields = ['digital_resource_source', 'discipline_themes']
-
-
+        model = models.Person
+        fields = [
+            "location",
+            "date_birthday",
+            "city",
+            "middle_name",
+            "country",
+            "first_name",
+            "avatar",
+            "last_name",
+            "user",
+        ]

@@ -1,256 +1,402 @@
-from django.views.generic import DetailView, ListView, UpdateView, CreateView
-from .models import DigitalResource, Direction, Language, CompetenceCategory, Competence, Platform, Organisation, Author, Source, ResourceStatus, DisciplineTheme, Discipline, ThematicPlan, DisciplineThemeResource
-from .forms import DigitalResourceForm, DirectionForm, LanguageForm, CompetenceCategoryForm, CompetenceForm, PlatformForm, OrganisationForm, AuthorForm, SourceForm, ResourceStatusForm, DisciplineThemeForm, DisciplineForm, ThematicPlanForm, DisciplineThemeResourceForm
+from django.views import generic
+from . import models
+from . import forms
 
 
-class DigitalResourceListView(ListView):
-    model = DigitalResource
+class StatusCORListView(generic.ListView):
+    model = models.StatusCOR
+    form_class = forms.StatusCORForm
 
 
-class DigitalResourceCreateView(CreateView):
-    model = DigitalResource
-    form_class = DigitalResourceForm
+class StatusCORCreateView(generic.CreateView):
+    model = models.StatusCOR
+    form_class = forms.StatusCORForm
 
 
-class DigitalResourceDetailView(DetailView):
-    model = DigitalResource
+class StatusCORDetailView(generic.DetailView):
+    model = models.StatusCOR
+    form_class = forms.StatusCORForm
 
 
-class DigitalResourceUpdateView(UpdateView):
-    model = DigitalResource
-    form_class = DigitalResourceForm
+class StatusCORUpdateView(generic.UpdateView):
+    model = models.StatusCOR
+    form_class = forms.StatusCORForm
+    pk_url_kwarg = "pk"
 
 
-class DirectionListView(ListView):
-    model = Direction
+class ExpertiseStatusListView(generic.ListView):
+    model = models.ExpertiseStatus
+    form_class = forms.ExpertiseStatusForm
 
 
-class DirectionCreateView(CreateView):
-    model = Direction
-    form_class = DirectionForm
+class ExpertiseStatusCreateView(generic.CreateView):
+    model = models.ExpertiseStatus
+    form_class = forms.ExpertiseStatusForm
 
 
-class DirectionDetailView(DetailView):
-    model = Direction
+class ExpertiseStatusDetailView(generic.DetailView):
+    model = models.ExpertiseStatus
+    form_class = forms.ExpertiseStatusForm
 
 
-class DirectionUpdateView(UpdateView):
-    model = Direction
-    form_class = DirectionForm
+class ExpertiseStatusUpdateView(generic.UpdateView):
+    model = models.ExpertiseStatus
+    form_class = forms.ExpertiseStatusForm
+    pk_url_kwarg = "pk"
 
 
-class LanguageListView(ListView):
-    model = Language
+class SubjectListView(generic.ListView):
+    model = models.Subject
+    form_class = forms.SubjectForm
 
 
-class LanguageCreateView(CreateView):
-    model = Language
-    form_class = LanguageForm
+class SubjectCreateView(generic.CreateView):
+    model = models.Subject
+    form_class = forms.SubjectForm
 
 
-class LanguageDetailView(DetailView):
-    model = Language
+class SubjectDetailView(generic.DetailView):
+    model = models.Subject
+    form_class = forms.SubjectForm
 
 
-class LanguageUpdateView(UpdateView):
-    model = Language
-    form_class = LanguageForm
+class SubjectUpdateView(generic.UpdateView):
+    model = models.Subject
+    form_class = forms.SubjectForm
+    pk_url_kwarg = "pk"
 
 
-class CompetenceCategoryListView(ListView):
-    model = CompetenceCategory
+class OrganizationListView(generic.ListView):
+    model = models.Organization
+    form_class = forms.OrganizationForm
 
 
-class CompetenceCategoryCreateView(CreateView):
-    model = CompetenceCategory
-    form_class = CompetenceCategoryForm
+class OrganizationCreateView(generic.CreateView):
+    model = models.Organization
+    form_class = forms.OrganizationForm
 
 
-class CompetenceCategoryDetailView(DetailView):
-    model = CompetenceCategory
+class OrganizationDetailView(generic.DetailView):
+    model = models.Organization
+    form_class = forms.OrganizationForm
 
 
-class CompetenceCategoryUpdateView(UpdateView):
-    model = CompetenceCategory
-    form_class = CompetenceCategoryForm
+class OrganizationUpdateView(generic.UpdateView):
+    model = models.Organization
+    form_class = forms.OrganizationForm
+    pk_url_kwarg = "pk"
 
 
-class CompetenceListView(ListView):
-    model = Competence
+class ResultEduResourcesListView(generic.ListView):
+    model = models.ResultEduResources
+    form_class = forms.ResultEduResourcesForm
 
 
-class CompetenceCreateView(CreateView):
-    model = Competence
-    form_class = CompetenceForm
+class ResultEduResourcesCreateView(generic.CreateView):
+    model = models.ResultEduResources
+    form_class = forms.ResultEduResourcesForm
 
 
-class CompetenceDetailView(DetailView):
-    model = Competence
+class ResultEduResourcesDetailView(generic.DetailView):
+    model = models.ResultEduResources
+    form_class = forms.ResultEduResourcesForm
 
 
-class CompetenceUpdateView(UpdateView):
-    model = Competence
-    form_class = CompetenceForm
+class ResultEduResourcesUpdateView(generic.UpdateView):
+    model = models.ResultEduResources
+    form_class = forms.ResultEduResourcesForm
+    pk_url_kwarg = "pk"
 
 
-class PlatformListView(ListView):
-    model = Platform
+class EduProgramListView(generic.ListView):
+    model = models.EduProgram
+    form_class = forms.EduProgramForm
 
 
-class PlatformCreateView(CreateView):
-    model = Platform
-    form_class = PlatformForm
+class EduProgramCreateView(generic.CreateView):
+    model = models.EduProgram
+    form_class = forms.EduProgramForm
 
 
-class PlatformDetailView(DetailView):
-    model = Platform
+class EduProgramDetailView(generic.DetailView):
+    model = models.EduProgram
+    form_class = forms.EduProgramForm
 
 
-class PlatformUpdateView(UpdateView):
-    model = Platform
-    form_class = PlatformForm
+class EduProgramUpdateView(generic.UpdateView):
+    model = models.EduProgram
+    form_class = forms.EduProgramForm
+    pk_url_kwarg = "pk"
 
 
-class OrganisationListView(ListView):
-    model = Organisation
+class ProvidingDisciplineListView(generic.ListView):
+    model = models.ProvidingDiscipline
+    form_class = forms.ProvidingDisciplineForm
 
 
-class OrganisationCreateView(CreateView):
-    model = Organisation
-    form_class = OrganisationForm
+class ProvidingDisciplineCreateView(generic.CreateView):
+    model = models.ProvidingDiscipline
+    form_class = forms.ProvidingDisciplineForm
 
 
-class OrganisationDetailView(DetailView):
-    model = Organisation
+class ProvidingDisciplineDetailView(generic.DetailView):
+    model = models.ProvidingDiscipline
+    form_class = forms.ProvidingDisciplineForm
 
 
-class OrganisationUpdateView(UpdateView):
-    model = Organisation
-    form_class = OrganisationForm
+class ProvidingDisciplineUpdateView(generic.UpdateView):
+    model = models.ProvidingDiscipline
+    form_class = forms.ProvidingDisciplineForm
+    pk_url_kwarg = "pk"
 
 
-class AuthorListView(ListView):
-    model = Author
+class ResultEduListView(generic.ListView):
+    model = models.ResultEdu
+    form_class = forms.ResultEduForm
 
 
-class AuthorCreateView(CreateView):
-    model = Author
-    form_class = AuthorForm
+class ResultEduCreateView(generic.CreateView):
+    model = models.ResultEdu
+    form_class = forms.ResultEduForm
 
 
-class AuthorDetailView(DetailView):
-    model = Author
+class ResultEduDetailView(generic.DetailView):
+    model = models.ResultEdu
+    form_class = forms.ResultEduForm
 
 
-class AuthorUpdateView(UpdateView):
-    model = Author
-    form_class = AuthorForm
+class ResultEduUpdateView(generic.UpdateView):
+    model = models.ResultEdu
+    form_class = forms.ResultEduForm
+    pk_url_kwarg = "pk"
 
 
-class SourceListView(ListView):
-    model = Source
+class DigitalResourceListView(generic.ListView):
+    model = models.DigitalResource
+    form_class = forms.DigitalResourceForm
 
 
-class SourceCreateView(CreateView):
-    model = Source
-    form_class = SourceForm
+class DigitalResourceCreateView(generic.CreateView):
+    model = models.DigitalResource
+    form_class = forms.DigitalResourceForm
 
 
-class SourceDetailView(DetailView):
-    model = Source
+class DigitalResourceDetailView(generic.DetailView):
+    model = models.DigitalResource
+    form_class = forms.DigitalResourceForm
 
 
-class SourceUpdateView(UpdateView):
-    model = Source
-    form_class = SourceForm
+class DigitalResourceUpdateView(generic.UpdateView):
+    model = models.DigitalResource
+    form_class = forms.DigitalResourceForm
+    pk_url_kwarg = "pk"
 
 
-class ResourceStatusListView(ListView):
-    model = ResourceStatus
+class CompetenceListView(generic.ListView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
 
 
-class ResourceStatusCreateView(CreateView):
-    model = ResourceStatus
-    form_class = ResourceStatusForm
+class CompetenceCreateView(generic.CreateView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
 
 
-class ResourceStatusDetailView(DetailView):
-    model = ResourceStatus
+class CompetenceDetailView(generic.DetailView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
 
 
-class ResourceStatusUpdateView(UpdateView):
-    model = ResourceStatus
-    form_class = ResourceStatusForm
+class CompetenceUpdateView(generic.UpdateView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
+    pk_url_kwarg = "pk"
 
 
-class DisciplineThemeListView(ListView):
-    model = DisciplineTheme
+class PlatformListView(generic.ListView):
+    model = models.Platform
+    form_class = forms.PlatformForm
 
 
-class DisciplineThemeCreateView(CreateView):
-    model = DisciplineTheme
-    form_class = DisciplineThemeForm
+class PlatformCreateView(generic.CreateView):
+    model = models.Platform
+    form_class = forms.PlatformForm
 
 
-class DisciplineThemeDetailView(DetailView):
-    model = DisciplineTheme
+class PlatformDetailView(generic.DetailView):
+    model = models.Platform
+    form_class = forms.PlatformForm
 
 
-class DisciplineThemeUpdateView(UpdateView):
-    model = DisciplineTheme
-    form_class = DisciplineThemeForm
+class PlatformUpdateView(generic.UpdateView):
+    model = models.Platform
+    form_class = forms.PlatformForm
+    pk_url_kwarg = "pk"
 
 
-class DisciplineListView(ListView):
-    model = Discipline
+class LanguageListView(generic.ListView):
+    model = models.Language
+    form_class = forms.LanguageForm
 
 
-class DisciplineCreateView(CreateView):
-    model = Discipline
-    form_class = DisciplineForm
+class LanguageCreateView(generic.CreateView):
+    model = models.Language
+    form_class = forms.LanguageForm
 
 
-class DisciplineDetailView(DetailView):
-    model = Discipline
+class LanguageDetailView(generic.DetailView):
+    model = models.Language
+    form_class = forms.LanguageForm
 
 
-class DisciplineUpdateView(UpdateView):
-    model = Discipline
-    form_class = DisciplineForm
+class LanguageUpdateView(generic.UpdateView):
+    model = models.Language
+    form_class = forms.LanguageForm
+    pk_url_kwarg = "pk"
 
 
-class ThematicPlanListView(ListView):
-    model = ThematicPlan
+class SubjectTagListView(generic.ListView):
+    model = models.SubjectTag
+    form_class = forms.SubjectTagForm
 
 
-class ThematicPlanCreateView(CreateView):
-    model = ThematicPlan
-    form_class = ThematicPlanForm
+class SubjectTagCreateView(generic.CreateView):
+    model = models.SubjectTag
+    form_class = forms.SubjectTagForm
 
 
-class ThematicPlanDetailView(DetailView):
-    model = ThematicPlan
+class SubjectTagDetailView(generic.DetailView):
+    model = models.SubjectTag
+    form_class = forms.SubjectTagForm
 
 
-class ThematicPlanUpdateView(UpdateView):
-    model = ThematicPlan
-    form_class = ThematicPlanForm
+class SubjectTagUpdateView(generic.UpdateView):
+    model = models.SubjectTag
+    form_class = forms.SubjectTagForm
+    pk_url_kwarg = "pk"
 
 
-class DisciplineThemeResourceListView(ListView):
-    model = DisciplineThemeResource
+class StudentListView(generic.ListView):
+    model = models.Student
+    form_class = forms.StudentForm
 
 
-class DisciplineThemeResourceCreateView(CreateView):
-    model = DisciplineThemeResource
-    form_class = DisciplineThemeResourceForm
+class StudentCreateView(generic.CreateView):
+    model = models.Student
+    form_class = forms.StudentForm
 
 
-class DisciplineThemeResourceDetailView(DetailView):
-    model = DisciplineThemeResource
+class StudentDetailView(generic.DetailView):
+    model = models.Student
+    form_class = forms.StudentForm
 
 
-class DisciplineThemeResourceUpdateView(UpdateView):
-    model = DisciplineThemeResource
-    form_class = DisciplineThemeResourceForm
+class StudentUpdateView(generic.UpdateView):
+    model = models.Student
+    form_class = forms.StudentForm
+    pk_url_kwarg = "pk"
 
+
+class ConformityThemesListView(generic.ListView):
+    model = models.ConformityThemes
+    form_class = forms.ConformityThemesForm
+
+
+class ConformityThemesCreateView(generic.CreateView):
+    model = models.ConformityThemes
+    form_class = forms.ConformityThemesForm
+
+
+class ConformityThemesDetailView(generic.DetailView):
+    model = models.ConformityThemes
+    form_class = forms.ConformityThemesForm
+
+
+class ConformityThemesUpdateView(generic.UpdateView):
+    model = models.ConformityThemes
+    form_class = forms.ConformityThemesForm
+    pk_url_kwarg = "pk"
+
+
+class EduProgramTagListView(generic.ListView):
+    model = models.EduProgramTag
+    form_class = forms.EduProgramTagForm
+
+
+class EduProgramTagCreateView(generic.CreateView):
+    model = models.EduProgramTag
+    form_class = forms.EduProgramTagForm
+
+
+class EduProgramTagDetailView(generic.DetailView):
+    model = models.EduProgramTag
+    form_class = forms.EduProgramTagForm
+
+
+class EduProgramTagUpdateView(generic.UpdateView):
+    model = models.EduProgramTag
+    form_class = forms.EduProgramTagForm
+    pk_url_kwarg = "pk"
+
+
+class SubjectThemeListView(generic.ListView):
+    model = models.SubjectTheme
+    form_class = forms.SubjectThemeForm
+
+
+class SubjectThemeCreateView(generic.CreateView):
+    model = models.SubjectTheme
+    form_class = forms.SubjectThemeForm
+
+
+class SubjectThemeDetailView(generic.DetailView):
+    model = models.SubjectTheme
+    form_class = forms.SubjectThemeForm
+
+
+class SubjectThemeUpdateView(generic.UpdateView):
+    model = models.SubjectTheme
+    form_class = forms.SubjectThemeForm
+    pk_url_kwarg = "pk"
+
+
+class ThematicPlanListView(generic.ListView):
+    model = models.ThematicPlan
+    form_class = forms.ThematicPlanForm
+
+
+class ThematicPlanCreateView(generic.CreateView):
+    model = models.ThematicPlan
+    form_class = forms.ThematicPlanForm
+
+
+class ThematicPlanDetailView(generic.DetailView):
+    model = models.ThematicPlan
+    form_class = forms.ThematicPlanForm
+
+
+class ThematicPlanUpdateView(generic.UpdateView):
+    model = models.ThematicPlan
+    form_class = forms.ThematicPlanForm
+    pk_url_kwarg = "pk"
+
+
+class PersonListView(generic.ListView):
+    model = models.Person
+    form_class = forms.PersonForm
+
+
+class PersonCreateView(generic.CreateView):
+    model = models.Person
+    form_class = forms.PersonForm
+
+
+class PersonDetailView(generic.DetailView):
+    model = models.Person
+    form_class = forms.PersonForm
+
+
+class PersonUpdateView(generic.UpdateView):
+    model = models.Person
+    form_class = forms.PersonForm
+    pk_url_kwarg = "pk"

@@ -1,36 +1,8 @@
+
 {% extends "base.html" %}
-{% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'repository:repository_digitalresource_list' %}">DigitalResource Listing</a></p>
-<table class="table">
-<tr>
-<td>ID</td><td>Link</td>
-    <td>title</td>
-    <td>type</td>
-    <td>description</td>
-    <td>created</td>
-    <td>last_updated</td>
-    <td>keywords</td>
-    <td>format</td>
-    <td>content_count</td>
-    <td>usage_stats</td>
-    <td>programs_count</td>
-</tr>
 {% for object in object_list %}
-<tr>
-    <td>{{object.pk}}</td>
-    <td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
-    <td>{{ object.title }}</td>
-    <td>{{ object.type }}</td>
-    <td>{{ object.description }}</td>
-    <td>{{ object.created }}</td>
-    <td>{{ object.last_updated }}</td>
-    <td>{{ object.keywords }}</td>
-    <td>{{ object.format }}</td>
-    <td>{{ object.content_count }}</td>
-    <td>{{ object.usage_stats }}</td>
-    <td>{{ object.programs_count }}</td>
-</tr>
+  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>
 {% endfor %}
-</table><a class="btn btn-primary" href="{% url 'repository:repository_digitalresource_create' %}">Create new DigitalResource</a>
+<div><a class="btn btn-primary" href="{% url 'repository_DigitalResource_create' %}">Create a new DigitalResource</a></div>
 {% endblock %}

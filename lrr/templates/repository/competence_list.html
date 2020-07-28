@@ -1,26 +1,8 @@
+
 {% extends "base.html" %}
-{% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'repository:repository_competence_list' %}">Competence Listing</a></p>
-<table class="table">
-<tr>
-<td>ID</td><td>Link</td>
-    <td>id</td>
-    <td>code</td>
-    <td>created</td>
-    <td>last_updated</td>
-    <td>title</td>
-</tr>
 {% for object in object_list %}
-<tr>
-    <td>{{object.pk}}</td>
-    <td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
-    <td>{{ object.id }}</td>
-    <td>{{ object.code }}</td>
-    <td>{{ object.created }}</td>
-    <td>{{ object.last_updated }}</td>
-    <td>{{ object.title }}</td>
-</tr>
+  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>
 {% endfor %}
-</table><a class="btn btn-primary" href="{% url 'repository:repository_competence_create' %}">Create new Competence</a>
+<div><a class="btn btn-primary" href="{% url 'repository_Competence_create' %}">Create a new Competence</a></div>
 {% endblock %}

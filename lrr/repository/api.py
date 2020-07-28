@@ -1,6 +1,71 @@
-from lrr.repository import models
-from lrr.repository import serializers
 from rest_framework import viewsets, permissions
+
+from . import serializers
+from . import models
+
+
+class StatusCORViewSet(viewsets.ModelViewSet):
+    """ViewSet for the Status_COR class"""
+
+    queryset = models.StatusCOR.objects.all()
+    serializer_class = serializers.StatusCORSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class ExpertiseStatusViewSet(viewsets.ModelViewSet):
+    """ViewSet for the Expertise_status class"""
+
+    queryset = models.ExpertiseStatus.objects.all()
+    serializer_class = serializers.ExpertiseStatusSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class SubjectViewSet(viewsets.ModelViewSet):
+    """ViewSet for the Subject class"""
+
+    queryset = models.Subject.objects.all()
+    serializer_class = serializers.SubjectSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class OrganizationViewSet(viewsets.ModelViewSet):
+    """ViewSet for the Organization class"""
+
+    queryset = models.Organization.objects.all()
+    serializer_class = serializers.OrganizationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class ResultEduResourcesViewSet(viewsets.ModelViewSet):
+    """ViewSet for the ResultEduResources class"""
+
+    queryset = models.ResultEduResources.objects.all()
+    serializer_class = serializers.ResultEduResourcesSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class EduProgramViewSet(viewsets.ModelViewSet):
+    """ViewSet for the EduProgram class"""
+
+    queryset = models.EduProgram.objects.all()
+    serializer_class = serializers.EduProgramSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class ProvidingDisciplineViewSet(viewsets.ModelViewSet):
+    """ViewSet for the Providing_discipline class"""
+
+    queryset = models.ProvidingDiscipline.objects.all()
+    serializer_class = serializers.ProvidingDisciplineSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class ResultEduViewSet(viewsets.ModelViewSet):
+    """ViewSet for the ResultEdu class"""
+
+    queryset = models.ResultEdu.objects.all()
+    serializer_class = serializers.ResultEduSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class DigitalResourceViewSet(viewsets.ModelViewSet):
@@ -8,31 +73,7 @@ class DigitalResourceViewSet(viewsets.ModelViewSet):
 
     queryset = models.DigitalResource.objects.all()
     serializer_class = serializers.DigitalResourceSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-
-
-class DirectionViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Direction class"""
-
-    queryset = models.Direction.objects.all()
-    serializer_class = serializers.DirectionSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-
-
-class LanguageViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Language class"""
-
-    queryset = models.Language.objects.all()
-    serializer_class = serializers.LanguageSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-
-
-class CompetenceCategoryViewSet(viewsets.ModelViewSet):
-    """ViewSet for the CompetenceCategory class"""
-
-    queryset = models.CompetenceCategory.objects.all()
-    serializer_class = serializers.CompetenceCategorySerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class CompetenceViewSet(viewsets.ModelViewSet):
@@ -40,7 +81,7 @@ class CompetenceViewSet(viewsets.ModelViewSet):
 
     queryset = models.Competence.objects.all()
     serializer_class = serializers.CompetenceSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class PlatformViewSet(viewsets.ModelViewSet):
@@ -48,55 +89,55 @@ class PlatformViewSet(viewsets.ModelViewSet):
 
     queryset = models.Platform.objects.all()
     serializer_class = serializers.PlatformSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
-class OrganisationViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Organisation class"""
+class LanguageViewSet(viewsets.ModelViewSet):
+    """ViewSet for the Language class"""
 
-    queryset = models.Organisation.objects.all()
-    serializer_class = serializers.OrganisationSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-
-
-class AuthorViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Author class"""
-
-    queryset = models.Author.objects.all()
-    serializer_class = serializers.AuthorSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    queryset = models.Language.objects.all()
+    serializer_class = serializers.LanguageSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
-class SourceViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Source class"""
+class SubjectTagViewSet(viewsets.ModelViewSet):
+    """ViewSet for the SubjectTag class"""
 
-    queryset = models.Source.objects.all()
-    serializer_class = serializers.SourceSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-
-
-class ResourceStatusViewSet(viewsets.ModelViewSet):
-    """ViewSet for the ResourceStatus class"""
-
-    queryset = models.ResourceStatus.objects.all()
-    serializer_class = serializers.ResourceStatusSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    queryset = models.SubjectTag.objects.all()
+    serializer_class = serializers.SubjectTagSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
-class DisciplineThemeViewSet(viewsets.ModelViewSet):
-    """ViewSet for the DisciplineTheme class"""
+class StudentViewSet(viewsets.ModelViewSet):
+    """ViewSet for the Student class"""
 
-    queryset = models.DisciplineTheme.objects.all()
-    serializer_class = serializers.DisciplineThemeSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    queryset = models.Student.objects.all()
+    serializer_class = serializers.StudentSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
-class DisciplineViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Discipline class"""
+class ConformityThemesViewSet(viewsets.ModelViewSet):
+    """ViewSet for the ConformityThemes class"""
 
-    queryset = models.Discipline.objects.all()
-    serializer_class = serializers.DisciplineSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    queryset = models.ConformityThemes.objects.all()
+    serializer_class = serializers.ConformityThemesSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class EduProgramTagViewSet(viewsets.ModelViewSet):
+    """ViewSet for the EduProgramTag class"""
+
+    queryset = models.EduProgramTag.objects.all()
+    serializer_class = serializers.EduProgramTagSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class SubjectThemeViewSet(viewsets.ModelViewSet):
+    """ViewSet for the SubjectTheme class"""
+
+    queryset = models.SubjectTheme.objects.all()
+    serializer_class = serializers.SubjectThemeSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ThematicPlanViewSet(viewsets.ModelViewSet):
@@ -104,13 +145,12 @@ class ThematicPlanViewSet(viewsets.ModelViewSet):
 
     queryset = models.ThematicPlan.objects.all()
     serializer_class = serializers.ThematicPlanSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
-class DisciplineThemeResourceViewSet(viewsets.ModelViewSet):
-    """ViewSet for the DisciplineThemeResource class"""
+class PersonViewSet(viewsets.ModelViewSet):
+    """ViewSet for the Person class"""
 
-    queryset = models.DisciplineThemeResource.objects.all()
-    serializer_class = serializers.DisciplineThemeResourceSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-
+    queryset = models.Person.objects.all()
+    serializer_class = serializers.PersonSerializer
+    permission_classes = [permissions.IsAuthenticated]

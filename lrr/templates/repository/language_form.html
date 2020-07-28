@@ -1,11 +1,30 @@
+
 {% extends "base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'repository:repository_language_list' %}">Language Listing</a></p>
+    
+<p>
+    <a class="btn btn-light" href="{% url 'repository_Language_list' %}">
+    Language Listing
+    </a>
+</p>
+    
 <form method="post">
-{% csrf_token %}
-{{form|crispy}}
-<button class="btn btn-primary" type="submit">Submit</button>
+  {% csrf_token %}
+  {{form.errors}}
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="code">code: </label>
+  <input class="form-control col-sm-10" id="code" type="text" name="code" value="{{ object.code }}">
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="titile">titile: </label>
+  <input class="form-control col-sm-10" id="titile" type="text" name="titile" value="{{ object.titile }}">
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="created">created: </label>
+  <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
+  </div>
+  <input type="submit" value="Save" class="btn btn-primary">
 </form>
+
 {% endblock %}

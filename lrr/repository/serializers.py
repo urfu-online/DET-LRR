@@ -1,202 +1,215 @@
-from . import models
-
 from rest_framework import serializers
 
+from . import models
+
+
+class StatusCORSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.StatusCOR
+        fields = [
+            "created",
+            "quality_category",
+            "interactive_category",
+        ]
+
+class ExpertiseStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.ExpertiseStatus
+        fields = [
+            "last_updated",
+            "end_date",
+            "status",
+            "accepted_status",
+            "created",
+        ]
+
+class SubjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Subject
+        fields = [
+            "description",
+            "created",
+            "title",
+            "last_updated",
+            "labor",
+        ]
+
+class OrganizationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Organization
+        fields = [
+            "last_updated",
+            "description",
+            "logo",
+            "contacts",
+            "title",
+            "created",
+            "url",
+        ]
+
+class ResultEduResourcesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.ResultEduResources
+        fields = [
+            "last_updated",
+            "created",
+        ]
+
+class EduProgramSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.EduProgram
+        fields = [
+            "description",
+            "last_updated",
+            "created",
+            "short_description",
+            "title",
+        ]
+
+class ProvidingDisciplineSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.ProvidingDiscipline
+        fields = [
+            "rate",
+            "created",
+            "last_updated",
+        ]
+
+class ResultEduSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.ResultEdu
+        fields = [
+            "title",
+            "last_updated",
+            "created",
+            "description",
+        ]
 
 class DigitalResourceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.DigitalResource
-        fields = (
-            'pk', 
-            'title', 
-            'type', 
-            'description', 
-            'created', 
-            'last_updated', 
-            'keywords', 
-            'format', 
-            'content_count', 
-            'usage_stats', 
-            'programs_count', 
-        )
-
-
-class DirectionSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.Direction
-        fields = (
-            'pk', 
-            'id', 
-            'title', 
-            'created', 
-            'last_updated', 
-        )
-
-
-class LanguageSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.Language
-        fields = (
-            'pk', 
-            'code', 
-            'title', 
-            'created', 
-            'last_updated', 
-        )
-
-
-class CompetenceCategorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.CompetenceCategory
-        fields = (
-            'pk', 
-            'id', 
-            'title', 
-            'created', 
-            'last_updated', 
-        )
-
+        fields = [
+            "id",
+            "title",
+            "created",
+            "type",
+            "source_data",
+            "last_updated",
+            "ketwords",
+            "description",
+        ]
 
 class CompetenceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Competence
-        fields = (
-            'pk', 
-            'id', 
-            'code', 
-            'created', 
-            'last_updated', 
-            'title', 
-        )
-
+        fields = [
+            "created",
+            "title",
+            "code",
+        ]
 
 class PlatformSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Platform
-        fields = (
-            'pk', 
-            'title', 
-            'logo', 
-            'created', 
-            'last_updated', 
-            'url', 
-            'description', 
-            'contacts', 
-        )
+        fields = [
+            "created",
+            "url",
+            "logo",
+            "description",
+            "contacts",
+            "title",
+        ]
 
-
-class OrganisationSerializer(serializers.ModelSerializer):
+class LanguageSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Organisation
-        fields = (
-            'pk', 
-            'title', 
-            'description', 
-            'created', 
-            'last_updated', 
-            'logo', 
-            'site_url', 
-            'contacts', 
-        )
+        model = models.Language
+        fields = [
+            "code",
+            "titile",
+            "created",
+        ]
 
-
-class AuthorSerializer(serializers.ModelSerializer):
+class SubjectTagSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Author
-        fields = (
-            'pk', 
-            'title', 
-            'description', 
-            'created', 
-            'last_updated', 
-            'image', 
-        )
+        model = models.SubjectTag
+        fields = [
+            "created",
+            "last_updated",
+        ]
 
-
-class SourceSerializer(serializers.ModelSerializer):
+class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Source
-        fields = (
-            'pk', 
-            'link', 
-            'status', 
-            'created', 
-            'last_updated', 
-            'type', 
-            'file', 
-            'priority', 
-        )
+        model = models.Student
+        fields = [
+            "academic_group",
+            "created",
+        ]
 
-
-class ResourceStatusSerializer(serializers.ModelSerializer):
+class ConformityThemesSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.ResourceStatus
-        fields = (
-            'pk', 
-            'status', 
-            'model', 
-            'created', 
-            'last_updated', 
-            'due_date', 
-        )
+        model = models.ConformityThemes
+        fields = [
+            "practice",
+            "theory",
+            "created",
+            "last_updated",
+        ]
 
-
-class DisciplineThemeSerializer(serializers.ModelSerializer):
+class EduProgramTagSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.DisciplineTheme
-        fields = (
-            'pk', 
-            'index', 
-            'title', 
-            'created', 
-            'last_updated', 
-        )
+        model = models.EduProgramTag
+        fields = [
+            "created",
+            "last_updated",
+        ]
 
-
-class DisciplineSerializer(serializers.ModelSerializer):
+class SubjectThemeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Discipline
-        fields = (
-            'pk', 
-            'title', 
-            'description', 
-            'created', 
-            'last_updated', 
-            'labor', 
-        )
-
+        model = models.SubjectTheme
+        fields = [
+            "description",
+            "created",
+            "title",
+        ]
 
 class ThematicPlanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.ThematicPlan
-        fields = (
-            'pk', 
-            'created', 
-            'last_updated', 
-        )
+        fields = [
+            "created",
+            "title",
+        ]
 
-
-class DisciplineThemeResourceSerializer(serializers.ModelSerializer):
+class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.DisciplineThemeResource
-        fields = (
-            'pk', 
-            'created', 
-            'last_updated', 
-        )
-
-
+        model = models.Person
+        fields = [
+            "location",
+            "date_birthday",
+            "city",
+            "created",
+            "middle_name",
+            "country",
+            "first_name",
+            "avatar",
+            "last_name",
+        ]

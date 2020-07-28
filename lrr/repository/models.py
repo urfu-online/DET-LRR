@@ -8,379 +8,507 @@ from django.urls import reverse
 from datetime import datetime
 
 
-def get_source_path(instance, filename):
-    return f"{datetime.now().year}res_id_{instance.id}/{filename}"
+class StatusCOR(models.Model):
+
+    # quality_category
+    INNER = '0'
+    OUTER = '1'
+    OUTSIDE = '2'
+
+    QUALITY_CATEGORIES = [
+        (INNER, 'внутренний'),
+        (OUTER, 'внешний'),
+        (OUTSIDE, 'сторонний'),
+    ]
+
+    # interactive_category
+    NOT_INTERACTIVE = '0'
+    WITH_TEACHER_SUPPORT = '1'
+    AUTO = '2'
+
+    INTERACTIVE_CATEGORIES = [
+        (NOT_INTERACTIVE, 'не интерактивный'),
+        (WITH_TEACHER_SUPPORT, 'с поддержкой преподавателя'),
+        (AUTO, 'автоматизированный'),
+    ]
+
+    # Relationships
+    expertise_status = models.ForeignKey("repository.ExpertiseStatus", on_delete=models.CASCADE)
+
+    # Fields
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    quality_category = models.CharField(max_length=30, choices=QUALITY_CATEGORIES, blank=True)
+    interactive_category = models.CharField(max_length=30, choices=INTERACTIVE_CATEGORIES, blank=True)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_Status_COR_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_Status_COR_update", args=(self.pk,))
+
+
+class ExpertiseStatus(models.Model):
+
+    # status
+    NO_INIT = '0'
+    SUB_APP = '1'
+    ON_EXPERTISE = '2'
+    ON_REVISION = '3'
+    ASSIGNED_STATUS = '4'
+
+    STATUS_CHOICES = [
+        (NO_INIT, 'не инициирована'),
+        (SUB_APP, 'подана заявка'),
+        (ON_EXPERTISE, 'на экспертизе'),
+        (ON_REVISION, 'на доработку'),
+        (ASSIGNED_STATUS, 'присвоен статус'),
+    ]
+
+    # Fields
+    last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
+    end_date = models.DateTimeField("Срок действия")
+    status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES, default=NO_INIT)
+    accepted_status = models.BooleanField("Утверждено (присвоен статус)", default=False)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_Expertise_status_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_Expertise_status_update", args=(self.pk,))
+
+
+class Subject(models.Model):
+
+    # Fields
+    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    title = models.CharField("Наименование", max_length=100)
+    last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
+    labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_Subject_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_Subject_update", args=(self.pk,))
+
+
+class Organization(models.Model):
+
+    # Fields
+    last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
+    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
+    contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
+    title = models.CharField("Наименование", max_length=150)
+    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
+    url = models.URLField("URL", null=True, blank=True)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_Organization_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_Organization_update", args=(self.pk,))
+
+
+class ResultEduResources(models.Model):
+
+    # Relationships
+    status = models.ForeignKey("repository.StatusCOR", on_delete=models.PROTECT)
+    result_edu = models.ForeignKey("repository.ResultEdu", on_delete=models.PROTECT)
+
+    # Fields
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_ResultEduResources_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_ResultEduResources_update", args=(self.pk,))
+
+
+class EduProgram(models.Model):
+
+    # Fields
+    description = models.TextField("Описание", max_length=1024, null=True, blank=True)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
+    short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
+    title = models.CharField("Наименование", max_length=150)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_EduProgram_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_EduProgram_update", args=(self.pk,))
+
+
+class ProvidingDiscipline(models.Model):
+
+    # Relationships
+    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT)
+    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT)
+
+    # Fields
+    rate = models.PositiveIntegerField("Процент покрытия")
+    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_Providing_discipline_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_Providing_discipline_update", args=(self.pk,))
+
+
+class ResultEdu(models.Model):
+
+    # Fields
+    title = models.CharField("Наименование", max_length=150)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
+    description = models.TextField("Описание", max_length=500)
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_ResultEdu_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_ResultEdu_update", args=(self.pk,))
 
 
 class DigitalResource(models.Model):
-    # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.TextField("Наименование", max_length=1024)
-    type = models.TextField("Тип", max_length=100)
-    description = models.TextField("Описание", )
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-    keywords = models.CharField("Ключевые слова", max_length=150)
-    format = models.CharField(max_length=30)
-    content_count = models.PositiveIntegerField("Показатель объема контента")
-    usage_stats = models.PositiveIntegerField("Показатель использования")
-    programs_count = models.PositiveIntegerField("Показатель назначения")
 
-    # Relationship Fields
-    directions = models.ManyToManyField(
-        'repository.Direction',
-        related_name="digitalresources",
-    )
-    disciplines = models.ManyToManyField(
-        'repository.Discipline',
-        related_name="digitalresources",
-    )
-    language = models.ForeignKey(
-        'repository.Language',
-        on_delete=models.CASCADE, related_name="digitalresources",
-    )
-    rightholder = models.ForeignKey(
-        'repository.Organisation',
-        on_delete=models.CASCADE, related_name="digitalresources",
-    )
-    competences = models.ManyToManyField(
-        'repository.Competence',
-        related_name="digitalresources",
-    )
-    platform = models.ForeignKey(
-        'repository.Platform',
-        on_delete=models.CASCADE, related_name="digitalresources",
-    )
-    authors = models.ManyToManyField(
-        'repository.Author',
-        related_name="digitalresources",
-    )
-    sources = models.ManyToManyField(
-        'repository.Source',
-        related_name="digitalresources",
-    )
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE, related_name="digitalresources",
-    )
-    status = models.OneToOneField(
-        'repository.ResourceStatus',
-        on_delete=models.CASCADE, related_name="digitalresources",
-    )
+    # source_data
+    NULL = '0'
+    MANUAL = '1'
+    IMPORT = '2'
+
+    SOURCES = [
+        (NULL, ''),
+        (MANUAL, 'вручную'),
+        (IMPORT, 'импорт'),
+    ]
+
+    # type
+    OK = '0'
+    EUK = '1'
+    TEXT_EOR = '2'
+    MULTIMEDIA_EOR = '3'
+
+    RESOURCE_TYPE = [
+        (OK, 'Онлайн-курс'),
+        (EUK, 'ЭУК'),  # что такое ЭУК ?
+        (TEXT_EOR, 'Текстовый электронный образовательный ресурс'),
+        (MULTIMEDIA_EOR, 'Мультимедийный электронный образовательный ресурс'),
+    ]
+
+    # Relationships
+    edu_programs_tags = models.ManyToManyField("EduProgramTag")
+    conformity_themes = models.ManyToManyField("ConformityThemes")
+    authors = models.ManyToManyField("Person", verbose_name="Авторы", blank=True, related_name="authors_digital_resource")
+    copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT)
+    subjects_tags = models.ManyToManyField("SubjectTag")
+    status_cor = models.ForeignKey("StatusCOR", on_delete=models.CASCADE)
+    owner = models.ForeignKey("Person", on_delete=models.PROTECT, related_name="owner_digital_resource")
+    result_edu_resource = models.ManyToManyField("ResultEduResources")
+    language = models.ForeignKey("Language", on_delete=models.PROTECT)
+    provided_disciplines = models.ManyToManyField("ProvidingDiscipline")
+    platform = models.ForeignKey("Platform", on_delete=models.PROTECT)
+
+    # Fields
+    id = models.UUIDField("ID ресурса", primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField("Наименование", max_length=150)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
+    source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, null=True, default=NULL)    #TODO исправить НУЛЛ на проде
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+    ketwords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
+    description = models.TextField("Описание", max_length=500, null=True, blank=True)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_digitalresource_detail', args=(self.pk,))
+        return reverse("repository_DigitalResource_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_digitalresource_update', args=(self.pk,))
-
-
-class Direction(models.Model):
-    # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField("Наименование", max_length=255, editable=True)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-
-    class Meta:
-        ordering = ('-created',)
-
-    def __str__(self):
-        return u'%s' % self.pk
-
-    def get_absolute_url(self):
-        return reverse('repository:repository_direction_detail', args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse('repository:repository_direction_update', args=(self.pk,))
-
-
-class Language(models.Model):
-    # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    code = models.CharField("Код языка", max_length=4)
-    title = models.CharField("Наименование", max_length=100)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-
-    class Meta:
-        ordering = ('-created',)
-
-    def __str__(self):
-        return u'%s' % self.pk
-
-    def get_absolute_url(self):
-        return reverse('repository:repository_language_detail', args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse('repository:repository_language_update', args=(self.pk,))
-
-
-class CompetenceCategory(models.Model):
-    # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField("Наименование", max_length=100)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-
-    class Meta:
-        ordering = ('-created',)
-
-    def __str__(self):
-        return u'%s' % self.pk
-
-    def get_absolute_url(self):
-        return reverse('repository:repository_competencecategory_detail', args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse('repository:repository_competencecategory_update', args=(self.pk,))
+        return reverse("repository_DigitalResource_update", args=(self.pk,))
 
 
 class Competence(models.Model):
-    # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    code = models.CharField("Код компетенции", max_length=30)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-    title = models.CharField("Наименование", max_length=150)
 
-    # Relationship Fields
-    category = models.ForeignKey(
-        'repository.CompetenceCategory', related_name="competences", on_delete=models.PROTECT
-    )
+    # Fields
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    title = models.CharField("Наименование", max_length=150)
+    code = models.CharField("Код компетенции", max_length=8)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_competence_detail', args=(self.pk,))
+        return reverse("repository_Competence_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_competence_update', args=(self.pk,))
+        return reverse("repository_Competence_update", args=(self.pk,))
 
 
 class Platform(models.Model):
+
     # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField("Наименование", max_length=150)
-    logo = models.ImageField("Логотип", upload_to="images/platforms/logo/")
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-    url = models.URLField("URL", max_length=255)
-    description = models.TextField("Описание", max_length=1024)
-    contacts = models.TextField("Контакты", max_length=1024)
+    url = models.URLField("Ссылка")
+    logo = models.ImageField("Логотп", upload_to="upload/images/", null=True, blank=True)
+    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
+    title = models.CharField("Наимаенование", max_length=150)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_platform_detail', args=(self.pk,))
+        return reverse("repository_Platform_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_platform_update', args=(self.pk,))
+        return reverse("repository_Platform_update", args=(self.pk,))
 
 
-class Organisation(models.Model):
+class Language(models.Model):
+
     # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField("Наименование", max_length=150)
-    description = models.TextField("Описание", max_length=1024)
+    code = models.CharField("Код языка", max_length=4)
+    titile = models.CharField("Наименование", max_length=80)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-    logo = models.ImageField("Логотип", upload_to="images/org/logo/")
-    site_url = models.URLField("URL сайта", max_length=255)
-    contacts = models.TextField("Контакты", max_length=1024)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_organisation_detail', args=(self.pk,))
+        return reverse("repository_Language_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_organisation_update', args=(self.pk,))
+        return reverse("repository_Language_update", args=(self.pk,))
 
 
-class Author(models.Model):
+class SubjectTag(models.Model):
+
+    # Relationships
+    tag = models.ForeignKey("repository.Subject", on_delete=models.PROTECT)
+
     # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField("Наименование", max_length=255)
-    description = models.TextField("Описание", max_length=1024)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-    image = models.ImageField("Фото", upload_to='images/author/photos/')
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_author_detail', args=(self.pk,))
+        return reverse("repository_SubjectTag_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_author_update', args=(self.pk,))
+        return reverse("repository_SubjectTag_update", args=(self.pk,))
 
 
-class Source(models.Model):
+class Student(models.Model):
+
+    # Relationships
+    person = models.ForeignKey("repository.Person", on_delete=models.CASCADE)
+
     # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    link = models.URLField("Ссылка", max_length=255)
-    status = models.CharField("Статус", max_length=255)
+    academic_group = models.CharField("Академическая группа", max_length=30)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-    type = models.CharField("Тип", max_length=255)
-    file = models.FileField("Файл", upload_to=get_source_path)
-    priority = models.PositiveIntegerField("Приоритет")
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_source_detail', args=(self.pk,))
+        return reverse("repository_Student_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_source_update', args=(self.pk,))
+        return reverse("repository_Student_update", args=(self.pk,))
 
 
-class ResourceStatus(models.Model):
+class ConformityThemes(models.Model):
+
+    # Relationships
+    theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.PROTECT)
+
     # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    status = models.CharField("Статус", max_length=150)
-    model = models.CharField("Модель использования", max_length=255)
+    practice = models.NullBooleanField("Практика")
+    theory = models.NullBooleanField("Теория")
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-    due_date = models.CharField("Статус", max_length=255)
+    last_updated = models.DateTimeField("Последние обновление",auto_now=True, editable=False)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_resourcestatus_detail', args=(self.pk,))
+        return reverse("repository_ConformityThemes_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_resourcestatus_update', args=(self.pk,))
+        return reverse("repository_ConformityThemes_update", args=(self.pk,))
 
 
-class DisciplineTheme(models.Model):
+class EduProgramTag(models.Model):
+
+    # Relationships
+    tag = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT)
+
     # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.CharField("Индекс", max_length=255)
-    title = models.CharField("Наименование", max_length=255)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление",auto_now=True, editable=False)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
-
-    def discipline(self):
-        return self.thematicplan_set.first().discipline
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_disciplinetheme_detail', args=(self.pk,))
+        return reverse("repository_EduProgramTag_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_disciplinetheme_update', args=(self.pk,))
+        return reverse("repository_EduProgramTag_update", args=(self.pk,))
 
 
-class Discipline(models.Model):
+class SubjectTheme(models.Model):
+
     # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField("Наименование", max_length=255)
-    description = models.CharField("Описание", max_length=1024)
+    thematic_plan = models.ForeignKey("repository.ThematicPlan")
+    description = models.TextField("Описание", max_length=500, null=True, blank=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-    labor = models.PositiveSmallIntegerField("Трудоемкость")
+    title = models.CharField("Наимаенование", max_length=150)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_discipline_detail', args=(self.pk,))
+        return reverse("repository_SubjectTheme_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_discipline_update', args=(self.pk,))
+        return reverse("repository_SubjectTheme_update", args=(self.pk,))
 
 
 class ThematicPlan(models.Model):
-    # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
 
-    # Relationship Fields
-    discipline = models.ForeignKey(
-        'repository.Discipline', related_name="thematicplans", on_delete=models.PROTECT
-    )
-    themes = models.ManyToManyField(
-        'repository.DisciplineTheme'
-    )
+    # Relationships
+    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT)
+    edu_programs = models.ForeignKey("repository.EduProgram")
+
+    # Fields
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    title = models.CharField("Наименование", max_length=50)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_thematicplan_detail', args=(self.pk,))
+        return reverse("repository_ThematicPlan_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_thematicplan_update', args=(self.pk,))
+        return reverse("repository_ThematicPlan_update", args=(self.pk,))
 
 
-class DisciplineThemeResource(models.Model):
+class Person(models.Model):
+
+    # Relationships
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+
     # Fields
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    location = models.CharField("Адрес проживания", max_length=150, null=True, blank=True)
+    date_birthday = models.DateTimeField("Дата рождения", null=True, blank=True)
+    city = models.CharField("Город", max_length=100, null=True, blank=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последнее обновление", auto_now=True, editable=False)
-
-    # Relationship Fields
-    digital_resource_source = models.ForeignKey(
-        'repository.Source',
-        on_delete=models.CASCADE, related_name="disciplinethemeresources",
-    )
-    discipline_themes = models.ForeignKey(
-        'repository.DisciplineTheme',
-        on_delete=models.CASCADE, related_name="disciplinethemeresources",
-    )
+    middle_name = models.CharField("Фамилия", max_length=100)
+    country = models.CharField("Страна", max_length=100, null=True, blank=True)
+    first_name = models.CharField("Имя", max_length=45)
+    avatar = models.ImageField("Изображение профиля", upload_to="upload/images/", null=True, blank=True)
+    last_name = models.CharField("Отчество", max_length=100)
 
     class Meta:
-        ordering = ('-created',)
+        pass
 
     def __str__(self):
-        return u'%s' % self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('repository:repository_disciplinethemeresource_detail', args=(self.pk,))
+        return reverse("repository_Person_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('repository:repository_disciplinethemeresource_update', args=(self.pk,))
+        return reverse("repository_Person_update", args=(self.pk,))
