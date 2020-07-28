@@ -6,22 +6,25 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_swagger.views import get_swagger_view
 
 from lrr.repository.views import DigitalResourceListView
 
+schema_view = get_swagger_view(title='LRR API')
+
 urlpatterns = [
 
-    path("", DigitalResourceListView.as_view(), name="home"),
-    path(
-        "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
-    ),
-    # Django Admin, use {% url 'admin:index' %}
-    path(settings.ADMIN_URL, admin.site.urls),
-    # User management
-    path("users/", include("lrr.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
-    path("repository/", include(("lrr.repository.urls", "lrr.repository"), namespace="repository")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path("", DigitalResourceListView.as_view(), name="home"),
+                  path(
+                      "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
+                  ),
+                  # Django Admin, use {% url 'admin:index' %}
+                  path(settings.ADMIN_URL, admin.site.urls),
+                  # User management
+                  path("users/", include("lrr.users.urls", namespace="users")),
+                  path("accounts/", include("allauth.urls")),
+                  path("repository/", include(("lrr.repository.urls", "lrr.repository"), namespace="repository")),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
     urlpatterns += staticfiles_urlpatterns()
@@ -30,6 +33,10 @@ if settings.DEBUG:
 urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
+
+    # Swagger
+    path('api_docs/', schema_view),
+
     # DRF auth token
     path("auth-token/", obtain_auth_token),
 ]
@@ -65,4 +72,4 @@ if settings.DEBUG:
 
         urlpatterns += [
             path("schema/", Schema.as_view())
-            ]
+        ]

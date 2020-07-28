@@ -74,6 +74,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "admin_interface",
     "colorfield",
+    'rest_framework_swagger',
 
 ]
 
@@ -246,7 +247,7 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s "
-            "%(process)d %(thread)d %(message)s"
+                      "%(process)d %(thread)d %(message)s"
         }
     },
     "handlers": {
@@ -306,7 +307,8 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         # "rest_framework.permissions.IsAuthenticated",
-        ),
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
