@@ -1,0 +1,34 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<p>
+    <a class="btn btn-light" href="{% url 'repository_ConformityThemes_list' %}">
+    ConformityThemes Listing
+    </a>
+</p>
+    
+<form method="post">
+  {% csrf_token %}
+  {{form.errors}}
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="practice">practice: </label>
+  <input class="form-control col-sm-10" id="practice" type="text" name="practice" value="{{ object.practice }}">
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="theory">theory: </label>
+  <input class="form-control col-sm-10" id="theory" type="text" name="theory" value="{{ object.theory }}">
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="created">created: </label>
+  <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="last_updated">last_updated: </label>
+  <input class="form-control col-sm-10" id="last_updated" type="datetime-local" name="last_updated" value="{{ object.last_updated }}" disabled>
+  </div>
+  <input type="submit" value="Save" class="btn btn-primary">
+</form>
+
+{% endblock %}

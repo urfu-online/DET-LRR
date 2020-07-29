@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<p>
+    <a class="btn btn-light" href="{% url 'repository_StatusCOR_list' %}">
+    Status_COR Listing
+    </a>
+</p>
+
+<form method="post">
+  {% csrf_token %}
+  {{form.errors}}
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="created">created: </label>
+  <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="quality_category">quality_category: </label>
+  <input class="form-control col-sm-10" id="quality_category" type="text" name="quality_category" value="{{ object.quality_category }}">
+  </div>
+  <div class="form-group row">
+  <label class="col-sm-2 col-form-label" for="interactive_category">interactive_category: </label>
+  <input class="form-control col-sm-10" id="interactive_category" type="text" name="interactive_category" value="{{ object.interactive_category }}">
+  </div>
+  <input type="submit" value="Save" class="btn btn-primary">
+</form>
+
+{% endblock %}

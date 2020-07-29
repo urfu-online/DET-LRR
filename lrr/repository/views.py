@@ -1,6 +1,7 @@
 from django.views import generic
-from . import models
+
 from . import forms
+from . import models
 
 
 class StatusCORListView(generic.ListView):
@@ -255,25 +256,25 @@ class SubjectTagUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-class StudentListView(generic.ListView):
-    model = models.Student
-    form_class = forms.StudentForm
-
-
-class StudentCreateView(generic.CreateView):
-    model = models.Student
-    form_class = forms.StudentForm
-
-
-class StudentDetailView(generic.DetailView):
-    model = models.Student
-    form_class = forms.StudentForm
-
-
-class StudentUpdateView(generic.UpdateView):
-    model = models.Student
-    form_class = forms.StudentForm
-    pk_url_kwarg = "pk"
+# class StudentListView(generic.ListView):
+#     model = models.Student
+#     form_class = forms.StudentForm
+#
+#
+# class StudentCreateView(generic.CreateView):
+#     model = models.Student
+#     form_class = forms.StudentForm
+#
+#
+# class StudentDetailView(generic.DetailView):
+#     model = models.Student
+#     form_class = forms.StudentForm
+#
+#
+# class StudentUpdateView(generic.UpdateView):
+#     model = models.Student
+#     form_class = forms.StudentForm
+#     pk_url_kwarg = "pk"
 
 
 class ConformityThemeListView(generic.ListView):
@@ -360,22 +361,22 @@ class ThematicPlanUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-class PersonListView(generic.ListView):
-    model = models.Person
-    form_class = forms.PersonForm
-
-
-class PersonCreateView(generic.CreateView):
-    model = models.Person
-    form_class = forms.PersonForm
-
-
-class PersonDetailView(generic.DetailView):
-    model = models.Person
-    form_class = forms.PersonForm
-
-
-class PersonUpdateView(generic.UpdateView):
-    model = models.Person
-    form_class = forms.PersonForm
-    pk_url_kwarg = "pk"
+# class PersonListView(generic.ListView):
+#     model = models.Person
+#     form_class = forms.PersonForm
+#
+#
+# class PersonCreateView(generic.CreateView):
+#     model = models.Person
+#     form_class = forms.PersonForm
+#
+#
+# class PersonDetailView(generic.DetailView):
+#     model = models.Person
+#     form_class = forms.PersonForm
+#
+#
+# class PersonUpdateView(generic.UpdateView):
+#     model = models.Person
+#     form_class = forms.PersonForm
+#     pk_url_kwarg = "pk"

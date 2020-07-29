@@ -1,7 +1,9 @@
+from django import forms as form
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 
+from lrr.users import models
 from lrr.users.forms import UserChangeForm, UserCreationForm
 
 User = get_user_model()
@@ -9,9 +11,53 @@ User = get_user_model()
 
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin):
-
     form = UserChangeForm
     add_form = UserCreationForm
     fieldsets = (("User", {"fields": ("name",)}),) + auth_admin.UserAdmin.fieldsets
     list_display = ["username", "name", "is_superuser"]
     search_fields = ["name"]
+
+
+class PersonAdminForm(form.ModelForm):
+    class Meta:
+        model = models.Person
+        fields = "__all__"
+
+
+class PersonAdmin(admin.ModelAdmin):
+    form = PersonAdminForm
+    list_display = [
+        "location",
+        "date_birthday",
+        "city",
+        "created",
+        "middle_name",
+        "country",
+        "first_name",
+        "avatar",
+        "last_name",
+    ]
+    readonly_fields = [
+        "created",
+    ]
+
+
+class StudentAdminForm(form.ModelForm):
+    class Meta:
+        model = models.Student
+        fields = "__all__"
+
+
+class StudentAdmin(admin.ModelAdmin):
+    form = StudentAdminForm
+    list_display = [
+        "academic_group",
+        "created",
+    ]
+    readonly_fields = [
+        "created",
+    ]
+
+
+admin.site.register(models.Student, StudentAdmin)
+admin.site.register(models.Person, PersonAdmin)

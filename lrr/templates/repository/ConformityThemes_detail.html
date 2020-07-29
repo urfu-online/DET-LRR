@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+<p>
+    <a class="btn btn-light" href="{% url 'repository_ConformityThemes_list' %}">
+    ConformityThemes Listing
+    </a>
+</p>
+    
+<table class="table">
+    <tr><td>practice</td><td>{{ object.practice }}</td></tr>
+    <tr><td>theory</td><td>{{ object.theory }}</td></tr>
+    <tr><td>created</td><td>{{ object.created }}</td></tr>
+    <tr><td>last_updated</td><td>{{ object.last_updated }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+
+{% endblock %}

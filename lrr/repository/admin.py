@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelFilter, PolymorphicChildModelAdmin
 
 from . import models
 
@@ -149,27 +150,47 @@ class ResultEduAdmin(admin.ModelAdmin):
     ]
 
 
-class DigitalResourceAdminForm(forms.ModelForm):
-    class Meta:
-        model = models.DigitalResource
-        fields = "__all__"
+# class DigitalResourceAdminForm(forms.ModelForm):
+#     class Meta:
+#         model = models.DigitalResource
+#         fields = "__all__"
+#
+#
+# class DigitalResourceAdmin(admin.ModelAdmin):
+#     form = DigitalResourceAdminForm
+#     list_display = [
+#         "title",
+#         "created",
+#         "type",
+#         "source_data",
+#         "last_updated",
+#         "ketwords",
+#         "description",
+#     ]
+#     readonly_fields = [
+#         "created",
+#         "last_updated",
+#     ]
+
+class DigitalResourceChild(PolymorphicChildModelAdmin):
+    base_model = models.DigitalResource
 
 
-class DigitalResourceAdmin(admin.ModelAdmin):
-    form = DigitalResourceAdminForm
-    list_display = [
-        "title",
-        "created",
-        "type",
-        "source_data",
-        "last_updated",
-        "ketwords",
-        "description",
-    ]
-    readonly_fields = [
-        "created",
-        "last_updated",
-    ]
+@admin.register(models.DigitalResourceLinks)
+class DigitalResourceLinksAdmin(DigitalResourceChild):
+    base_model = models.DigitalResourceLinks
+
+
+@admin.register(models.DigitalResourceFiles)
+class DigitalResourceFilesAdmin(DigitalResourceChild):
+    base_model = models.DigitalResourceFiles
+
+
+@admin.register(models.DigitalResource)
+class DigitalResourceParentAdmin(PolymorphicParentModelAdmin):
+    base_model = models.DigitalResource
+    child_models = (models.DigitalResourceLinks, models.DigitalResourceFiles)
+    list_filter = (PolymorphicChildModelFilter,)
 
 
 class CompetenceAdminForm(forms.ModelForm):
@@ -247,23 +268,6 @@ class SubjectTagAdmin(admin.ModelAdmin):
     ]
 
 
-class StudentAdminForm(forms.ModelForm):
-    class Meta:
-        model = models.Student
-        fields = "__all__"
-
-
-class StudentAdmin(admin.ModelAdmin):
-    form = StudentAdminForm
-    list_display = [
-        "academic_group",
-        "created",
-    ]
-    readonly_fields = [
-        "created",
-    ]
-
-
 class ConformityThemeAdminForm(forms.ModelForm):
     class Meta:
         model = models.ConformityTheme
@@ -338,28 +342,28 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     ]
 
 
-class PersonAdminForm(forms.ModelForm):
-    class Meta:
-        model = models.Person
-        fields = "__all__"
+# class PersonAdminForm(forms.ModelForm):
+#     class Meta:
+#         model = models.Person
+#         fields = "__all__"
 
 
-class PersonAdmin(admin.ModelAdmin):
-    form = PersonAdminForm
-    list_display = [
-        "location",
-        "date_birthday",
-        "city",
-        "created",
-        "middle_name",
-        "country",
-        "first_name",
-        "avatar",
-        "last_name",
-    ]
-    readonly_fields = [
-        "created",
-    ]
+# class PersonAdmin(admin.ModelAdmin):
+#     form = PersonAdminForm
+#     list_display = [
+#         "location",
+#         "date_birthday",
+#         "city",
+#         "created",
+#         "middle_name",
+#         "country",
+#         "first_name",
+#         "avatar",
+#         "last_name",
+#     ]
+#     readonly_fields = [
+#         "created",
+#     ]
 
 
 admin.site.register(models.StatusCOR, StatusCORAdmin)
@@ -369,14 +373,11 @@ admin.site.register(models.Organization, OrganizationAdmin)
 admin.site.register(models.EduProgram, EduProgramAdmin)
 admin.site.register(models.ProvidingDiscipline, ProvidingDisciplineAdmin)
 admin.site.register(models.ResultEdu, ResultEduAdmin)
-admin.site.register(models.DigitalResource, DigitalResourceAdmin)
 admin.site.register(models.Competence, CompetenceAdmin)
 admin.site.register(models.Platform, PlatformAdmin)
 admin.site.register(models.Language, LanguageAdmin)
 admin.site.register(models.SubjectTag, SubjectTagAdmin)
-admin.site.register(models.Student, StudentAdmin)
 admin.site.register(models.ConformityTheme, ConformityThemeAdmin)
 admin.site.register(models.EduProgramTag, EduProgramTagAdmin)
 admin.site.register(models.SubjectTheme, SubjectThemeAdmin)
 admin.site.register(models.ThematicPlan, ThematicPlanAdmin)
-admin.site.register(models.Person, PersonAdmin)

@@ -5,6 +5,9 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 
+from lrr.users import forms
+from lrr.users import models
+
 User = get_user_model()
 
 
@@ -48,3 +51,46 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+# class StudentListView(ListView):
+#     model = models.Student
+#     form_class = forms.StudentForm
+#
+#
+# class StudentCreateView(CreateView):
+#     model = models.Student
+#     form_class = forms.StudentForm
+
+
+class StudentDetailView(DetailView):
+    model = models.Student
+    form_class = forms.StudentForm
+
+
+class StudentUpdateView(UpdateView):
+    model = models.Student
+    form_class = forms.StudentForm
+    pk_url_kwarg = "pk"
+
+
+
+# class PersonListView(ListView):
+#     model = models.Person
+#     form_class = forms.PersonForm
+#
+#
+# class PersonCreateView(CreateView):
+#     model = models.Person
+#     form_class = forms.PersonForm
+
+
+class PersonDetailView(DetailView):
+    model = models.Person
+    form_class = forms.PersonForm
+
+
+class PersonUpdateView(UpdateView):
+    model = models.Person
+    form_class = forms.PersonForm
+    pk_url_kwarg = "pk"

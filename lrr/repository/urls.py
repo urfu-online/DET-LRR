@@ -4,7 +4,6 @@ from rest_framework import routers
 from . import api
 from . import views
 
-
 router = routers.DefaultRouter()
 router.register("StatusCOR", api.StatusCORViewSet)
 router.register("ExpertiseStatus", api.ExpertiseStatusViewSet)
@@ -18,12 +17,12 @@ router.register("Competence", api.CompetenceViewSet)
 router.register("Platform", api.PlatformViewSet)
 router.register("Language", api.LanguageViewSet)
 router.register("SubjectTag", api.SubjectTagViewSet)
-router.register("Student", api.StudentViewSet)
+# router.register("Student", api.StudentViewSet)
 router.register("ConformityTheme", api.ConformityThemeViewSet)
 router.register("EduProgramTag", api.EduProgramTagViewSet)
 router.register("SubjectTheme", api.SubjectThemeViewSet)
 router.register("ThematicPlan", api.ThematicPlanViewSet)
-router.register("Person", api.PersonViewSet)
+# router.register("Person", api.PersonViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),
@@ -75,10 +74,10 @@ urlpatterns = (
     path("repository/SubjectTag/create/", views.SubjectTagCreateView.as_view(), name="repository_SubjectTag_create"),
     path("repository/SubjectTag/detail/<int:pk>/", views.SubjectTagDetailView.as_view(), name="repository_SubjectTag_detail"),
     path("repository/SubjectTag/update/<int:pk>/", views.SubjectTagUpdateView.as_view(), name="repository_SubjectTag_update"),
-    path("repository/Student/", views.StudentListView.as_view(), name="repository_Student_list"),
-    path("repository/Student/create/", views.StudentCreateView.as_view(), name="repository_Student_create"),
-    path("repository/Student/detail/<int:pk>/", views.StudentDetailView.as_view(), name="repository_Student_detail"),
-    path("repository/Student/update/<int:pk>/", views.StudentUpdateView.as_view(), name="repository_Student_update"),
+    # path("repository/Student/", views.StudentListView.as_view(), name="repository_Student_list"),
+    # path("repository/Student/create/", views.StudentCreateView.as_view(), name="repository_Student_create"),
+    # path("repository/Student/detail/<int:pk>/", views.StudentDetailView.as_view(), name="repository_Student_detail"),
+    # path("repository/Student/update/<int:pk>/", views.StudentUpdateView.as_view(), name="repository_Student_update"),
     path("repository/ConformityTheme/", views.ConformityThemeListView.as_view(), name="repository_ConformityTheme_list"),
     path("repository/ConformityTheme/create/", views.ConformityThemeCreateView.as_view(), name="repository_ConformityTheme_create"),
     path("repository/ConformityTheme/detail/<int:pk>/", views.ConformityThemeDetailView.as_view(), name="repository_ConformityTheme_detail"),
@@ -95,8 +94,8 @@ urlpatterns = (
     path("repository/ThematicPlan/create/", views.ThematicPlanCreateView.as_view(), name="repository_ThematicPlan_create"),
     path("repository/ThematicPlan/detail/<int:pk>/", views.ThematicPlanDetailView.as_view(), name="repository_ThematicPlan_detail"),
     path("repository/ThematicPlan/update/<int:pk>/", views.ThematicPlanUpdateView.as_view(), name="repository_ThematicPlan_update"),
-    path("repository/Person/", views.PersonListView.as_view(), name="repository_Person_list"),
-    path("repository/Person/create/", views.PersonCreateView.as_view(), name="repository_Person_create"),
-    path("repository/Person/detail/<int:pk>/", views.PersonDetailView.as_view(), name="repository_Person_detail"),
-    path("repository/Person/update/<int:pk>/", views.PersonUpdateView.as_view(), name="repository_Person_update"),
+    # path("repository/Person/", views.PersonListView.as_view(), name="repository_Person_list"),
+    # path("repository/Person/create/", views.PersonCreateView.as_view(), name="repository_Person_create"),
+    # path("repository/Person/detail/<int:pk>/", views.PersonDetailView.as_view(), name="repository_Person_detail"),
+    # path("repository/Person/update/<int:pk>/", views.PersonUpdateView.as_view(), name="repository_Person_update"),
 )

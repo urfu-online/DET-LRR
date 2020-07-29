@@ -75,7 +75,7 @@ THIRD_PARTY_APPS = [
     "admin_interface",
     "colorfield",
     'rest_framework_swagger',
-
+    'polymorphic',
 ]
 
 LOCAL_APPS = [

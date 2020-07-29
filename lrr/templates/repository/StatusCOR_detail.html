@@ -1,0 +1,19 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<p>
+    <a class="btn btn-light" href="{% url 'repository_StatusCOR_list' %}">
+    Status_COR Listing
+    </a>
+</p>
+
+<table class="table">
+    <tr><td>created</td><td>{{ object.created }}</td></tr>
+    <tr><td>quality_category</td><td>{{ object.quality_category }}</td></tr>
+    <tr><td>interactive_category</td><td>{{ object.interactive_category }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+
+{% endblock %}

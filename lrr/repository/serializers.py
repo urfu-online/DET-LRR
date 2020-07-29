@@ -4,7 +4,6 @@ from . import models
 
 
 class StatusCORSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.StatusCOR
         fields = [
@@ -13,8 +12,8 @@ class StatusCORSerializer(serializers.ModelSerializer):
             "interactive_category",
         ]
 
-class ExpertiseStatusSerializer(serializers.ModelSerializer):
 
+class ExpertiseStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ExpertiseStatus
         fields = [
@@ -25,8 +24,8 @@ class ExpertiseStatusSerializer(serializers.ModelSerializer):
             "created",
         ]
 
-class SubjectSerializer(serializers.ModelSerializer):
 
+class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
         fields = [
@@ -37,8 +36,8 @@ class SubjectSerializer(serializers.ModelSerializer):
             "labor",
         ]
 
-class OrganizationSerializer(serializers.ModelSerializer):
 
+class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Organization
         fields = [
@@ -53,7 +52,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class EduProgramSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.EduProgram
         fields = [
@@ -64,8 +62,8 @@ class EduProgramSerializer(serializers.ModelSerializer):
             "title",
         ]
 
-class ProvidingDisciplineSerializer(serializers.ModelSerializer):
 
+class ProvidingDisciplineSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ProvidingDiscipline
         fields = [
@@ -74,8 +72,8 @@ class ProvidingDisciplineSerializer(serializers.ModelSerializer):
             "last_updated",
         ]
 
-class ResultEduSerializer(serializers.ModelSerializer):
 
+class ResultEduSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ResultEdu
         fields = [
@@ -85,8 +83,8 @@ class ResultEduSerializer(serializers.ModelSerializer):
             "description",
         ]
 
-class DigitalResourceSerializer(serializers.ModelSerializer):
 
+class DigitalResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DigitalResource
         fields = [
@@ -100,8 +98,8 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
             "description",
         ]
 
-class CompetenceSerializer(serializers.ModelSerializer):
 
+class CompetenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Competence
         fields = [
@@ -110,8 +108,8 @@ class CompetenceSerializer(serializers.ModelSerializer):
             "code",
         ]
 
-class PlatformSerializer(serializers.ModelSerializer):
 
+class PlatformSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Platform
         fields = [
@@ -123,8 +121,8 @@ class PlatformSerializer(serializers.ModelSerializer):
             "title",
         ]
 
-class LanguageSerializer(serializers.ModelSerializer):
 
+class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Language
         fields = [
@@ -133,8 +131,8 @@ class LanguageSerializer(serializers.ModelSerializer):
             "created",
         ]
 
-class SubjectTagSerializer(serializers.ModelSerializer):
 
+class SubjectTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SubjectTag
         fields = [
@@ -142,17 +140,17 @@ class SubjectTagSerializer(serializers.ModelSerializer):
             "last_updated",
         ]
 
-class StudentSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = models.Student
-        fields = [
-            "academic_group",
-            "created",
-        ]
+# class StudentSerializer(serializers.ModelSerializer):
+#
+#     class Meta:
+#         model = models.Student
+#         fields = [
+#             "academic_group",
+#             "created",
+#         ]
 
 class ConformityThemeSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.ConformityTheme
         fields = [
@@ -162,8 +160,8 @@ class ConformityThemeSerializer(serializers.ModelSerializer):
             "last_updated",
         ]
 
-class EduProgramTagSerializer(serializers.ModelSerializer):
 
+class EduProgramTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EduProgramTag
         fields = [
@@ -171,8 +169,8 @@ class EduProgramTagSerializer(serializers.ModelSerializer):
             "last_updated",
         ]
 
-class SubjectThemeSerializer(serializers.ModelSerializer):
 
+class SubjectThemeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SubjectTheme
         fields = [
@@ -181,27 +179,27 @@ class SubjectThemeSerializer(serializers.ModelSerializer):
             "title",
         ]
 
-class ThematicPlanSerializer(serializers.ModelSerializer):
 
+class ThematicPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ThematicPlan
         fields = [
             "created",
             "title",
         ]
-
-class PersonSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.Person
-        fields = [
-            "location",
-            "date_birthday",
-            "city",
-            "created",
-            "middle_name",
-            "country",
-            "first_name",
-            "avatar",
-            "last_name",
-        ]
+#
+# class PersonSerializer(serializers.ModelSerializer):
+#
+#     class Meta:
+#         model = models.Person
+#         fields = [
+#             "location",
+#             "date_birthday",
+#             "city",
+#             "created",
+#             "middle_name",
+#             "country",
+#             "first_name",
+#             "avatar",
+#             "last_name",
+#         ]

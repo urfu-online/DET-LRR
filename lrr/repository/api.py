@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions
 
-from . import serializers
 from . import models
+from . import serializers
 
 
 class StatusCORViewSet(viewsets.ModelViewSet):
@@ -100,12 +100,12 @@ class SubjectTagViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class StudentViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Student class"""
-
-    queryset = models.Student.objects.all()
-    serializer_class = serializers.StudentSerializer
-    permission_classes = [permissions.IsAuthenticated]
+# class StudentViewSet(viewsets.ModelViewSet):
+#     """ViewSet for the Student class"""
+#
+#     queryset = models.Student.objects.all()
+#     serializer_class = serializers.StudentSerializer
+#     permission_classes = [permissions.IsAuthenticated]
 
 
 class ConformityThemeViewSet(viewsets.ModelViewSet):
@@ -140,9 +140,9 @@ class ThematicPlanViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class PersonViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Person class"""
-
-    queryset = models.Person.objects.all()
-    serializer_class = serializers.PersonSerializer
-    permission_classes = [permissions.IsAuthenticated]
+# class PersonViewSet(viewsets.ModelViewSet):
+#     """ViewSet for the Person class"""
+#
+#     queryset = models.Person.objects.all()
+#     serializer_class = serializers.PersonSerializer
+#     permission_classes = [permissions.IsAuthenticated]

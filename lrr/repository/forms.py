@@ -1,4 +1,5 @@
 from django import forms
+
 from . import models
 
 
@@ -42,7 +43,6 @@ class OrganizationForm(forms.ModelForm):
             "title",
             "url",
         ]
-
 
 
 class EduProgramForm(forms.ModelForm):
@@ -133,15 +133,6 @@ class SubjectTagForm(forms.ModelForm):
         ]
 
 
-class StudentForm(forms.ModelForm):
-    class Meta:
-        model = models.Student
-        fields = [
-            "academic_group",
-            "person",
-        ]
-
-
 class ConformityThemeForm(forms.ModelForm):
     class Meta:
         model = models.ConformityTheme
@@ -176,20 +167,4 @@ class ThematicPlanForm(forms.ModelForm):
             "title",
             "subject",
             "edu_programs",
-        ]
-
-
-class PersonForm(forms.ModelForm):
-    class Meta:
-        model = models.Person
-        fields = [
-            "location",
-            "date_birthday",
-            "city",
-            "middle_name",
-            "country",
-            "first_name",
-            "avatar",
-            "last_name",
-            "user",
         ]

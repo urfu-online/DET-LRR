@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import uuid
 
-from django.conf import settings
 from django.db import models as models
 from django.urls import reverse
+from polymorphic.models import PolymorphicModel
 
-from datetime import datetime
+from lrr.users.models import Person, Student
 
 
 class StatusCOR(models.Model):
@@ -197,14 +197,12 @@ class ResultEdu(models.Model):
         return reverse("repository_ResultEdu_update", args=(self.pk,))
 
 
-class DigitalResource(models.Model):
+class DigitalResource(PolymorphicModel):
     # source_data
-    NULL = '0'
-    MANUAL = '1'
-    IMPORT = '2'
+    MANUAL = '0'
+    IMPORT = '1'
 
     SOURCES = [
-        (NULL, ''),
         (MANUAL, 'вручную'),
         (IMPORT, 'импорт'),
     ]
@@ -224,12 +222,12 @@ class DigitalResource(models.Model):
 
     # Relationships
     edu_programs_tags = models.ManyToManyField("EduProgramTag")
-    authors = models.ManyToManyField("Person", verbose_name="Авторы", blank=True,
+    authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT)
     subjects_tags = models.ManyToManyField("SubjectTag")
     status_cor = models.ForeignKey("StatusCOR", on_delete=models.CASCADE)
-    owner = models.ForeignKey("Person", on_delete=models.PROTECT, related_name="owner_digital_resource")
+    owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource")
     language = models.ForeignKey("Language", on_delete=models.PROTECT)
     provided_disciplines = models.ManyToManyField("ProvidingDiscipline")
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT)
@@ -239,8 +237,7 @@ class DigitalResource(models.Model):
     title = models.CharField("Наименование", max_length=150)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
-    source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, null=True,
-                                   default=NULL)  # TODO исправить НУЛЛ на проде
+    source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
     ketwords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
@@ -256,6 +253,15 @@ class DigitalResource(models.Model):
 
     def get_update_url(self):
         return reverse("repository_DigitalResource_update", args=(self.pk,))
+
+
+class DigitalResourceLinks(DigitalResource):
+    URL = models.URLField("Ссылка на файл")
+    link_name = models.CharField("Наименование файла", max_length=150, null=True, blank=True)
+
+
+class DigitalResourceFiles(DigitalResource):
+    file = models.FileField(upload_to="upload/files")
 
 
 class DigitalResourceCompetence(models.Model):
@@ -353,25 +359,7 @@ class SubjectTag(models.Model):
         return reverse("repository_SubjectTag_update", args=(self.pk,))
 
 
-class Student(models.Model):
-    # Relationships
-    person = models.ForeignKey("repository.Person", on_delete=models.CASCADE)
 
-    # Fields
-    academic_group = models.CharField("Академическая группа", max_length=30)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-
-    class Meta:
-        pass
-
-    def __str__(self):
-        return str(self.pk)
-
-    def get_absolute_url(self):
-        return reverse("repository_Student_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_Student_update", args=(self.pk,))
 
 
 class ConformityTheme(models.Model):
@@ -461,29 +449,4 @@ class ThematicPlan(models.Model):
         return reverse("repository_ThematicPlan_update", args=(self.pk,))
 
 
-class Person(models.Model):
-    # Relationships
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 
-    # Fields
-    location = models.CharField("Адрес проживания", max_length=150, null=True, blank=True)
-    date_birthday = models.DateTimeField("Дата рождения", null=True, blank=True)
-    city = models.CharField("Город", max_length=100, null=True, blank=True)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    middle_name = models.CharField("Фамилия", max_length=100)
-    country = models.CharField("Страна", max_length=100, null=True, blank=True)
-    first_name = models.CharField("Имя", max_length=45)
-    avatar = models.ImageField("Изображение профиля", upload_to="upload/images/", null=True, blank=True)
-    last_name = models.CharField("Отчество", max_length=100)
-
-    class Meta:
-        pass
-
-    def __str__(self):
-        return str(self.pk)
-
-    def get_absolute_url(self):
-        return reverse("repository_Person_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_Person_update", args=(self.pk,))
