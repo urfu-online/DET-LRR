@@ -4,24 +4,24 @@ from . import forms
 from . import models
 
 
-class StatusCORListView(generic.ListView):
-    model = models.StatusCOR
-    form_class = forms.StatusCORForm
+class DRStatusListView(generic.ListView):
+    model = models.DRStatus
+    form_class = forms.DRStatusForm
 
 
-class StatusCORCreateView(generic.CreateView):
-    model = models.StatusCOR
-    form_class = forms.StatusCORForm
+class DRStatusCreateView(generic.CreateView):
+    model = models.DRStatus
+    form_class = forms.DRStatusForm
 
 
-class StatusCORDetailView(generic.DetailView):
-    model = models.StatusCOR
-    form_class = forms.StatusCORForm
+class DRStatusDetailView(generic.DetailView):
+    model = models.DRStatus
+    form_class = forms.DRStatusForm
 
 
-class StatusCORUpdateView(generic.UpdateView):
-    model = models.StatusCOR
-    form_class = forms.StatusCORForm
+class DRStatusUpdateView(generic.UpdateView):
+    model = models.DRStatus
+    form_class = forms.DRStatusForm
     pk_url_kwarg = "pk"
 
 

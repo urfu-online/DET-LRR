@@ -2,16 +2,16 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
+
 <p>
     <a class="btn btn-light" href="{% url 'repository_Language_list' %}">
     Language Listing
     </a>
 </p>
-    
+
 <table class="table">
     <tr><td>code</td><td>{{ object.code }}</td></tr>
-    <tr><td>titile</td><td>{{ object.titile }}</td></tr>
+    <tr><td>title</td><td>{{ object.title }}</td></tr>
     <tr><td>created</td><td>{{ object.created }}</td></tr>
 </table>
 <a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>

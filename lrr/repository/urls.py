@@ -5,7 +5,7 @@ from . import api
 from . import views
 
 router = routers.DefaultRouter()
-router.register("StatusCOR", api.StatusCORViewSet)
+router.register("DRStatus", api.DRStatusViewSet)
 router.register("ExpertiseStatus", api.ExpertiseStatusViewSet)
 router.register("Subject", api.SubjectViewSet)
 router.register("Organization", api.OrganizationViewSet)
@@ -26,10 +26,10 @@ router.register("ThematicPlan", api.ThematicPlanViewSet)
 
 urlpatterns = (
     path("api/v1/", include(router.urls)),
-    path("repository/StatusCOR/", views.StatusCORListView.as_view(), name="repository_StatusCOR_list"),
-    path("repository/StatusCOR/create/", views.StatusCORCreateView.as_view(), name="repository_StatusCOR_create"),
-    path("repository/StatusCOR/detail/<int:pk>/", views.StatusCORDetailView.as_view(), name="repository_StatusCOR_detail"),
-    path("repository/StatusCOR/update/<int:pk>/", views.StatusCORUpdateView.as_view(), name="repository_StatusCOR_update"),
+    path("repository/DRStatus/", views.DRStatusListView.as_view(), name="repository_DRStatus_list"),
+    path("repository/DRStatus/create/", views.DRStatusCreateView.as_view(), name="repository_DRStatus_create"),
+    path("repository/DRStatus/detail/<int:pk>/", views.DRStatusDetailView.as_view(), name="repository_DRStatus_detail"),
+    path("repository/DRStatus/update/<int:pk>/", views.DRStatusUpdateView.as_view(), name="repository_DRStatus_update"),
     path("repository/ExpertiseStatus/", views.ExpertiseStatusListView.as_view(), name="repository_ExpertiseStatus_list"),
     path("repository/ExpertiseStatus/create/", views.ExpertiseStatusCreateView.as_view(), name="repository_ExpertiseStatus_create"),
     path("repository/ExpertiseStatus/detail/<int:pk>/", views.ExpertiseStatusDetailView.as_view(), name="repository_ExpertiseStatus_detail"),

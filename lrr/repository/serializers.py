@@ -3,9 +3,9 @@ from rest_framework import serializers
 from . import models
 
 
-class StatusCORSerializer(serializers.ModelSerializer):
+class DRStatusSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.StatusCOR
+        model = models.DRStatus
         fields = [
             "created",
             "quality_category",
@@ -127,7 +127,7 @@ class LanguageSerializer(serializers.ModelSerializer):
         model = models.Language
         fields = [
             "code",
-            "titile",
+            "title",
             "created",
         ]
 

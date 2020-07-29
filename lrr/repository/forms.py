@@ -3,9 +3,9 @@ from django import forms
 from . import models
 
 
-class StatusCORForm(forms.ModelForm):
+class DRStatusForm(forms.ModelForm):
     class Meta:
-        model = models.StatusCOR
+        model = models.DRStatus
         fields = [
             "quality_category",
             "interactive_category",
@@ -121,7 +121,7 @@ class LanguageForm(forms.ModelForm):
         model = models.Language
         fields = [
             "code",
-            "titile",
+            "title",
         ]
 
 

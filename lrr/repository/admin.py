@@ -5,17 +5,17 @@ from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModel
 from . import models
 
 
-class StatusCORAdminForm(forms.ModelForm):
+class DRStatusAdminForm(forms.ModelForm):
     class Meta:
-        model = models.StatusCOR
+        model = models.DRStatus
         fields = "__all__"
 
 
-class StatusCORAdmin(admin.ModelAdmin):
-    form = StatusCORAdminForm
+class DRStatusAdmin(admin.ModelAdmin):
+    form = DRStatusAdminForm
     list_display = [
-        "created",
         "quality_category",
+        "created",
         "interactive_category",
     ]
     readonly_fields = [
@@ -23,6 +23,7 @@ class StatusCORAdmin(admin.ModelAdmin):
         "quality_category",
         "interactive_category",
     ]
+
 
 
 class ExpertiseStatusAdminForm(forms.ModelForm):
@@ -36,9 +37,9 @@ class ExpertiseStatusAdmin(admin.ModelAdmin):
     list_display = [
         "last_updated",
         "end_date",
-        "status",
         "accepted_status",
         "created",
+        "last_updated",
     ]
     readonly_fields = [
         "last_updated",
@@ -88,6 +89,7 @@ class OrganizationAdmin(admin.ModelAdmin):
         "last_updated",
         "created",
     ]
+    search_fields = ["title", ]
 
 
 class EduProgramAdminForm(forms.ModelForm):
@@ -174,6 +176,7 @@ class ResultEduAdmin(admin.ModelAdmin):
 
 class DigitalResourceChild(PolymorphicChildModelAdmin):
     base_model = models.DigitalResource
+    autocomplete_fields = ["copyright_holder"]
 
 
 @admin.register(models.DigitalResourceLinks)
@@ -242,7 +245,7 @@ class LanguageAdmin(admin.ModelAdmin):
     form = LanguageAdminForm
     list_display = [
         "code",
-        "titile",
+        "title",
         "created",
     ]
     readonly_fields = [
@@ -366,7 +369,7 @@ class ThematicPlanAdmin(admin.ModelAdmin):
 #     ]
 
 
-admin.site.register(models.StatusCOR, StatusCORAdmin)
+admin.site.register(models.DRStatus, DRStatusAdmin)
 admin.site.register(models.ExpertiseStatus, ExpertiseStatusAdmin)
 admin.site.register(models.Subject, SubjectAdmin)
 admin.site.register(models.Organization, OrganizationAdmin)

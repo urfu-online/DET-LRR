@@ -8,7 +8,7 @@ from polymorphic.models import PolymorphicModel
 from lrr.users.models import Person, Student
 
 
-class StatusCOR(models.Model):
+class DRStatus(models.Model):
     # quality_category
     INNER = '0'
     OUTER = '1'
@@ -226,7 +226,7 @@ class DigitalResource(PolymorphicModel):
                                      related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT)
     subjects_tags = models.ManyToManyField("SubjectTag")
-    status_cor = models.ForeignKey("StatusCOR", on_delete=models.CASCADE)
+    status_cor = models.ForeignKey("DRStatus", on_delete=models.CASCADE)
     owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource")
     language = models.ForeignKey("Language", on_delete=models.PROTECT)
     provided_disciplines = models.ManyToManyField("ProvidingDiscipline")
@@ -322,7 +322,7 @@ class Platform(models.Model):
 class Language(models.Model):
     # Fields
     code = models.CharField("Код языка", max_length=4)
-    titile = models.CharField("Наименование", max_length=80)
+    title = models.CharField("Наименование", max_length=80)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
     class Meta:

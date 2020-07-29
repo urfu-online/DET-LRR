@@ -4,11 +4,11 @@ from . import models
 from . import serializers
 
 
-class StatusCORViewSet(viewsets.ModelViewSet):
+class DRStatusViewSet(viewsets.ModelViewSet):
     """ViewSet for the Status_COR class"""
 
-    queryset = models.StatusCOR.objects.all()
-    serializer_class = serializers.StatusCORSerializer
+    queryset = models.DRStatus.objects.all()
+    serializer_class = serializers.DRStatusSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
