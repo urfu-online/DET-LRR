@@ -8,7 +8,15 @@ from polymorphic.models import PolymorphicModel
 from lrr.users.models import Person, Student
 
 
-class DRStatus(models.Model):
+class DateInfo(models.Model):
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
+
+    class Meta:
+        abstract = True
+
+
+class DRStatus(DateInfo):
     # quality_category
     INNER = '0'
     OUTER = '1'
@@ -32,15 +40,17 @@ class DRStatus(models.Model):
     ]
 
     # Relationships
-    expertise_status = models.ForeignKey("repository.ExpertiseStatus", on_delete=models.CASCADE)
+    expertise_status = models.ForeignKey("repository.ExpertiseStatus", verbose_name="Статус экспертизы",
+                                         on_delete=models.CASCADE)
 
     # Fields
-    created = models.DateTimeField(auto_now_add=True, editable=False)
-    quality_category = models.CharField(max_length=30, choices=QUALITY_CATEGORIES, blank=True)
-    interactive_category = models.CharField(max_length=30, choices=INTERACTIVE_CATEGORIES, blank=True)
+    quality_category = models.CharField("Категория качества", max_length=30, choices=QUALITY_CATEGORIES, blank=True)
+    interactive_category = models.CharField("Категория интерактивности", max_length=30, choices=INTERACTIVE_CATEGORIES,
+                                            blank=True)
 
     class Meta:
-        pass
+        verbose_name = u"Статус ЦОР"
+        verbose_name_plural = u"Статусы ЦОР"
 
     def __str__(self):
         return str(self.pk)
@@ -52,7 +62,7 @@ class DRStatus(models.Model):
         return reverse("repository_Status_COR_update", args=(self.pk,))
 
 
-class ExpertiseStatus(models.Model):
+class ExpertiseStatus(DateInfo):
     # status
     NO_INIT = '0'
     SUB_APP = '1'
@@ -69,14 +79,14 @@ class ExpertiseStatus(models.Model):
     ]
 
     # Fields
-    last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
+
     end_date = models.DateTimeField("Срок действия")
     status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES, default=NO_INIT)
     accepted_status = models.BooleanField("Утверждено (присвоен статус)", default=False)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
     class Meta:
-        pass
+        verbose_name = u"Статус экспертизы"
+        verbose_name_plural = u"Статусы экспертиз"
 
     def __str__(self):
         return str(self.pk)
@@ -88,16 +98,15 @@ class ExpertiseStatus(models.Model):
         return reverse("repository_Expertise_status_update", args=(self.pk,))
 
 
-class Subject(models.Model):
+class Subject(DateInfo):
     # Fields
-    description = models.TextField("Описание", max_length=500, null=True, blank=True)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     title = models.CharField("Наименование", max_length=100)
-    last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
+    description = models.TextField("Описание", max_length=500, null=True, blank=True)
     labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
 
     class Meta:
-        pass
+        verbose_name = u"Дисциплина"
+        verbose_name_plural = u"Дисциплины"
 
     def __str__(self):
         return str(self.pk)
@@ -109,18 +118,17 @@ class Subject(models.Model):
         return reverse("repository_Subject_update", args=(self.pk,))
 
 
-class Organization(models.Model):
+class Organization(DateInfo):
     # Fields
-    last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
+    title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
     logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
     contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
-    title = models.CharField("Наименование", max_length=150)
-    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
     url = models.URLField("URL", null=True, blank=True)
 
     class Meta:
-        pass
+        verbose_name = u"Организация"
+        verbose_name_plural = u"Организации"
 
     def __str__(self):
         return str(self.pk)
@@ -132,16 +140,15 @@ class Organization(models.Model):
         return reverse("repository_Organization_update", args=(self.pk,))
 
 
-class EduProgram(models.Model):
+class EduProgram(DateInfo):
     # Fields
-    description = models.TextField("Описание", max_length=1024, null=True, blank=True)
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
-    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
-    short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
     title = models.CharField("Наименование", max_length=150)
+    short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
+    description = models.TextField("Описание", max_length=1024, null=True, blank=True)
 
     class Meta:
-        pass
+        verbose_name = u"Образовательная программа"
+        verbose_name_plural = u"Образовательные программы"
 
     def __str__(self):
         return str(self.pk)
@@ -153,18 +160,18 @@ class EduProgram(models.Model):
         return reverse("repository_EduProgram_update", args=(self.pk,))
 
 
-class ProvidingDiscipline(models.Model):
+class ProvidingDiscipline(DateInfo):
     # Relationships
-    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT)
-    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT)
+    edu_program = models.ForeignKey("repository.EduProgram", verbose_name="Образовательная программа",
+                                    on_delete=models.PROTECT)
+    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", on_delete=models.PROTECT)
 
     # Fields
     rate = models.PositiveIntegerField("Процент покрытия")
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
-        pass
+        verbose_name = u"Рекомендация ЦОР в качестве обеспечения дисциплины"
+        verbose_name_plural = u"Рекомендации ЦОР в качестве обеспечения дисциплин"
 
     def __str__(self):
         return str(self.pk)
@@ -176,16 +183,16 @@ class ProvidingDiscipline(models.Model):
         return reverse("repository_Providing_discipline_update", args=(self.pk,))
 
 
-class ResultEdu(models.Model):
+class ResultEdu(DateInfo):
     # Fields
     title = models.CharField("Наименование", max_length=150)
-    digital_resource_competence = models.ForeignKey("repository.DigitalResourceCompetence", on_delete=models.CASCADE)
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
-    created = models.DateTimeField("Созданно", auto_now_add=True, editable=False)
     description = models.TextField("Описание", max_length=500)
+    digital_resource_competence = models.ForeignKey("repository.DigitalResourceCompetence", verbose_name="Компетенции",
+                                                    on_delete=models.CASCADE)
 
     class Meta:
-        pass
+        verbose_name = u"Образовательный результат"
+        verbose_name_plural = u"Образовательные результаты"
 
     def __str__(self):
         return str(self.pk)
@@ -221,29 +228,34 @@ class DigitalResource(PolymorphicModel):
     ]
 
     # Relationships
-    edu_programs_tags = models.ManyToManyField("EduProgramTag")
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
-    copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT)
-    subjects_tags = models.ManyToManyField("SubjectTag")
-    status_cor = models.ForeignKey("DRStatus", on_delete=models.CASCADE)
-    owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource")
-    language = models.ForeignKey("Language", on_delete=models.PROTECT)
-    provided_disciplines = models.ManyToManyField("ProvidingDiscipline")
-    platform = models.ForeignKey("Platform", on_delete=models.PROTECT)
+    copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
+    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЦОР")
+    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЦОР")
+    status_cor = models.ForeignKey("DRStatus", on_delete=models.CASCADE, verbose_name="Статус ЦОР")
+    owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
+                              verbose_name="Владелец")
+    language = models.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
+    provided_disciplines = models.ManyToManyField("ProvidingDiscipline",
+                                                  verbose_name="ЦОР рекомендован в качестве обеспечения дисциплины")
+    conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЦОР темам дисциплины")
+    platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
 
     # Fields
     id = models.UUIDField("ID ресурса", primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField("Наименование", max_length=150)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    title = models.CharField("Наименование ресурса", max_length=150)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
     ketwords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
 
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+
     class Meta:
-        pass
+        verbose_name = u"Паспорт ЦОР"
+        verbose_name_plural = u"Паспорта ЦОР"
 
     def __str__(self):
         return str(self.pk)
@@ -264,9 +276,10 @@ class DigitalResourceFiles(DigitalResource):
     file = models.FileField(upload_to="upload/files")
 
 
-class DigitalResourceCompetence(models.Model):
-    digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE)
-    competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT)
+class DigitalResourceCompetence(DateInfo):
+    digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE,
+                                         verbose_name="Паспорт ЦОР")
+    competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT, verbose_name="Компетенция")
 
     def __str__(self):
         return str(self.pk)
@@ -278,14 +291,14 @@ class DigitalResourceCompetence(models.Model):
         return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
 
 
-class Competence(models.Model):
+class Competence(DateInfo):
     # Fields
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код компетенции", max_length=8)
 
     class Meta:
-        pass
+        verbose_name = u"Компетенция"
+        verbose_name_plural = u"Компетенции"
 
     def __str__(self):
         return str(self.pk)
@@ -297,17 +310,17 @@ class Competence(models.Model):
         return reverse("repository_Competence_update", args=(self.pk,))
 
 
-class Platform(models.Model):
+class Platform(DateInfo):
     # Fields
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    title = models.CharField("Наимаенование", max_length=150)
+    description = models.TextField("Описание", max_length=500, null=True, blank=True)
     url = models.URLField("Ссылка")
     logo = models.ImageField("Логотп", upload_to="upload/images/", null=True, blank=True)
-    description = models.TextField("Описание", max_length=500, null=True, blank=True)
     contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
-    title = models.CharField("Наимаенование", max_length=150)
 
     class Meta:
-        pass
+        verbose_name = u"Платформа"
+        verbose_name_plural = u"Платформы"
 
     def __str__(self):
         return str(self.pk)
@@ -319,14 +332,14 @@ class Platform(models.Model):
         return reverse("repository_Platform_update", args=(self.pk,))
 
 
-class Language(models.Model):
+class Language(DateInfo):
     # Fields
-    code = models.CharField("Код языка", max_length=4)
     title = models.CharField("Наименование", max_length=80)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    code = models.CharField("Код языка", max_length=4)
 
     class Meta:
-        pass
+        verbose_name = u"Язык ресура"
+        verbose_name_plural = u"Языки ресурсов"
 
     def __str__(self):
         return str(self.pk)
@@ -338,16 +351,13 @@ class Language(models.Model):
         return reverse("repository_Language_update", args=(self.pk,))
 
 
-class SubjectTag(models.Model):
+class SubjectTag(DateInfo):
     # Relationships
-    tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE)
-
-    # Fields
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+    tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
 
     class Meta:
-        pass
+        verbose_name = u"Тэг дисциплины"
+        verbose_name_plural = u"Тэги дисциплин"
 
     def __str__(self):
         return str(self.pk)
@@ -359,13 +369,11 @@ class SubjectTag(models.Model):
         return reverse("repository_SubjectTag_update", args=(self.pk,))
 
 
-
-
-
-class ConformityTheme(models.Model):
+class ConformityTheme(DateInfo):
     # Relationships
-    theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.CASCADE)
-    providing_discipline = models.ForeignKey("repository.ProvidingDiscipline", on_delete=models.CASCADE)
+    theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.CASCADE, verbose_name="Тема дисциплины")
+    providing_discipline = models.ForeignKey("repository.ProvidingDiscipline", on_delete=models.CASCADE,
+                                             verbose_name="")  # TODO: Должно ли это быть тут ?
 
     # Fields
     practice = models.NullBooleanField("Практика")
@@ -374,7 +382,8 @@ class ConformityTheme(models.Model):
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
-        pass
+        verbose_name = u"Соответствие ЦОР темам дисциплины"
+        verbose_name_plural = u"Соответствия ЦОР темам дисциплин"
 
     def __str__(self):
         return str(self.pk)
@@ -386,16 +395,13 @@ class ConformityTheme(models.Model):
         return reverse("repository_ConformityTheme_update", args=(self.pk,))
 
 
-class EduProgramTag(models.Model):
+class EduProgramTag(DateInfo):
     # Relationships
-    tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE)
-
-    # Fields
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+    tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
 
     class Meta:
-        pass
+        verbose_name = u"Тэг образовательной программы"
+        verbose_name_plural = u"Тэги образовательных программ"
 
     def __str__(self):
         return str(self.pk)
@@ -407,15 +413,16 @@ class EduProgramTag(models.Model):
         return reverse("repository_EduProgramTag_update", args=(self.pk,))
 
 
-class SubjectTheme(models.Model):
+class SubjectTheme(DateInfo):
     # Fields
-    thematic_plan = models.ForeignKey("repository.ThematicPlan", on_delete=models.PROTECT)
-    description = models.TextField("Описание", max_length=500, null=True, blank=True)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     title = models.CharField("Наимаенование", max_length=150)
+    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    thematic_plan = models.ForeignKey("repository.ThematicPlan", on_delete=models.PROTECT,
+                                      verbose_name="Тематический план")
 
     class Meta:
-        pass
+        verbose_name = u"Тема дисциплины"
+        verbose_name_plural = u"Темы дисциплин"
 
     def __str__(self):
         return str(self.pk)
@@ -427,17 +434,16 @@ class SubjectTheme(models.Model):
         return reverse("repository_SubjectTheme_update", args=(self.pk,))
 
 
-class ThematicPlan(models.Model):
-    # Relationships
-    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT)
-    edu_programs = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT)
+class ThematicPlan(DateInfo):
 
-    # Fields
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     title = models.CharField("Наименование", max_length=50)
+    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Дисциплина")
+    edu_programs = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
+                                     verbose_name="Образовательная программа")
 
     class Meta:
-        pass
+        verbose_name = u"Тематический план"
+        verbose_name_plural = u"Тематические планы"
 
     def __str__(self):
         return str(self.pk)
@@ -447,6 +453,3 @@ class ThematicPlan(models.Model):
 
     def get_update_url(self):
         return reverse("repository_ThematicPlan_update", args=(self.pk,))
-
-
-
