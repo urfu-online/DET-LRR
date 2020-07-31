@@ -36,7 +36,7 @@ http:
       service: django
 
     web-secure-router:
-      rule: "Host(`lrr.openurfu.ru`) || Host(`www.lrr.openurfu.ru`)"
+      rule: "Host(`lrr.openurfu.ru`)"
 
       entryPoints:
         - web-secure
