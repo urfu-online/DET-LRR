@@ -8,15 +8,16 @@ from polymorphic.models import PolymorphicModel
 from lrr.users.models import Person, Student
 
 
-class DateInfo(models.Model):
+class BaseModel(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последние обнолвение", auto_now=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
         abstract = True
 
 
-class DRStatus(DateInfo):
+class DRStatus(BaseModel):
     # quality_category
     INNER = '0'
     OUTER = '1'
@@ -62,7 +63,7 @@ class DRStatus(DateInfo):
         return reverse("repository_Status_COR_update", args=(self.pk,))
 
 
-class ExpertiseStatus(DateInfo):
+class ExpertiseStatus(BaseModel):
     # status
     NO_INIT = '0'
     SUB_APP = '1'
@@ -98,7 +99,7 @@ class ExpertiseStatus(DateInfo):
         return reverse("repository_Expertise_status_update", args=(self.pk,))
 
 
-class Subject(DateInfo):
+class Subject(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=100)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
@@ -118,7 +119,7 @@ class Subject(DateInfo):
         return reverse("repository_Subject_update", args=(self.pk,))
 
 
-class Organization(DateInfo):
+class Organization(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
@@ -140,7 +141,7 @@ class Organization(DateInfo):
         return reverse("repository_Organization_update", args=(self.pk,))
 
 
-class EduProgram(DateInfo):
+class EduProgram(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
@@ -160,7 +161,7 @@ class EduProgram(DateInfo):
         return reverse("repository_EduProgram_update", args=(self.pk,))
 
 
-class ProvidingDiscipline(DateInfo):
+class ProvidingDiscipline(BaseModel):
     # Relationships
     edu_program = models.ForeignKey("repository.EduProgram", verbose_name="Образовательная программа",
                                     on_delete=models.PROTECT)
@@ -183,7 +184,7 @@ class ProvidingDiscipline(DateInfo):
         return reverse("repository_Providing_discipline_update", args=(self.pk,))
 
 
-class ResultEdu(DateInfo):
+class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500)
@@ -276,7 +277,7 @@ class DigitalResourceFiles(DigitalResource):
     file = models.FileField(upload_to="upload/files")
 
 
-class DigitalResourceCompetence(DateInfo):
+class DigitalResourceCompetence(BaseModel):
     digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE,
                                          verbose_name="Паспорт ЦОР")
     competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT, verbose_name="Компетенция")
@@ -291,7 +292,7 @@ class DigitalResourceCompetence(DateInfo):
         return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
 
 
-class Competence(DateInfo):
+class Competence(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код компетенции", max_length=8)
@@ -310,7 +311,7 @@ class Competence(DateInfo):
         return reverse("repository_Competence_update", args=(self.pk,))
 
 
-class Platform(DateInfo):
+class Platform(BaseModel):
     # Fields
     title = models.CharField("Наимаенование", max_length=150)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
@@ -332,7 +333,7 @@ class Platform(DateInfo):
         return reverse("repository_Platform_update", args=(self.pk,))
 
 
-class Language(DateInfo):
+class Language(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=80)
     code = models.CharField("Код языка", max_length=4)
@@ -351,7 +352,7 @@ class Language(DateInfo):
         return reverse("repository_Language_update", args=(self.pk,))
 
 
-class SubjectTag(DateInfo):
+class SubjectTag(BaseModel):
     # Relationships
     tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
 
@@ -369,7 +370,7 @@ class SubjectTag(DateInfo):
         return reverse("repository_SubjectTag_update", args=(self.pk,))
 
 
-class ConformityTheme(DateInfo):
+class ConformityTheme(BaseModel):
     # Relationships
     theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.CASCADE, verbose_name="Тема дисциплины")
     providing_discipline = models.ForeignKey("repository.ProvidingDiscipline", on_delete=models.CASCADE,
@@ -395,7 +396,7 @@ class ConformityTheme(DateInfo):
         return reverse("repository_ConformityTheme_update", args=(self.pk,))
 
 
-class EduProgramTag(DateInfo):
+class EduProgramTag(BaseModel):
     # Relationships
     tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
 
@@ -413,7 +414,7 @@ class EduProgramTag(DateInfo):
         return reverse("repository_EduProgramTag_update", args=(self.pk,))
 
 
-class SubjectTheme(DateInfo):
+class SubjectTheme(BaseModel):
     # Fields
     title = models.CharField("Наимаенование", max_length=150)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
@@ -434,7 +435,7 @@ class SubjectTheme(DateInfo):
         return reverse("repository_SubjectTheme_update", args=(self.pk,))
 
 
-class ThematicPlan(DateInfo):
+class ThematicPlan(BaseModel):
 
     title = models.CharField("Наименование", max_length=50)
     subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Дисциплина")
