@@ -31,7 +31,8 @@ class Person(models.Model):
     last_name = models.CharField("Отчество", max_length=100)
 
     class Meta:
-        pass
+        verbose_name = u"Профиль"
+        verbose_name_plural = u"Профили"
 
     def __str__(self):
         return str(self.pk)
@@ -52,7 +53,8 @@ class Student(models.Model):
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
     class Meta:
-        pass
+        verbose_name = u"Студент"
+        verbose_name_plural = u"Студенты"
 
     def __str__(self):
         return str(self.pk)

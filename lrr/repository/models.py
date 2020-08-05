@@ -3,7 +3,6 @@ import uuid
 
 from django.db import models as models
 from django.urls import reverse
-from polymorphic.models import PolymorphicModel
 
 from lrr.users.models import Person, Student
 
@@ -205,7 +204,7 @@ class ResultEdu(BaseModel):
         return reverse("repository_ResultEdu_update", args=(self.pk,))
 
 
-class DigitalResource(PolymorphicModel):
+class DigitalResource(BaseModel):
     # source_data
     MANUAL = '0'
     IMPORT = '1'
@@ -251,9 +250,6 @@ class DigitalResource(PolymorphicModel):
     ketwords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
 
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
-
     class Meta:
         verbose_name = u"Паспорт ЦОР"
         verbose_name_plural = u"Паспорта ЦОР"
@@ -268,13 +264,11 @@ class DigitalResource(PolymorphicModel):
         return reverse("repository_DigitalResource_update", args=(self.pk,))
 
 
-class DigitalResourceLinks(DigitalResource):
-    URL = models.URLField("Ссылка на файл")
+class Source(BaseModel):
     link_name = models.CharField("Наименование файла", max_length=150, null=True, blank=True)
-
-
-class DigitalResourceFiles(DigitalResource):
-    file = models.FileField(upload_to="upload/files")
+    URL = models.URLField("Ссылка на файл", null=True, blank=True)
+    file = models.FileField(upload_to="upload/files", null=True, blank=True)
+    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЦОР")
 
 
 class DigitalResourceCompetence(BaseModel):
@@ -436,7 +430,6 @@ class SubjectTheme(BaseModel):
 
 
 class ThematicPlan(BaseModel):
-
     title = models.CharField("Наименование", max_length=50)
     subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Дисциплина")
     edu_programs = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,

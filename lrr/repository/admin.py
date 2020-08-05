@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib import admin
-from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelFilter, PolymorphicChildModelAdmin
 
 from . import models
 
@@ -23,7 +22,6 @@ class DRStatusAdmin(admin.ModelAdmin):
         "quality_category",
         "interactive_category",
     ]
-
 
 
 class ExpertiseStatusAdminForm(forms.ModelForm):
@@ -152,48 +150,67 @@ class ResultEduAdmin(admin.ModelAdmin):
     ]
 
 
+class DigitalResourceAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.DigitalResource
+        fields = "__all__"
+
+
+class DigitalResourceAdmin(admin.ModelAdmin):
+    form = DigitalResourceAdminForm
+    list_display = [
+        "title",
+        "type",
+        "source_data",
+        "ketwords",
+        "description",
+        "created",
+        "last_updated",
+    ]
+    readonly_fields = [
+        "id",
+        "created",
+        "last_updated",
+    ]
+
+
+# class DigitalResourceChild(PolymorphicChildModelAdmin):
+#     base_model = models.DigitalResource
+#     autocomplete_fields = ["copyright_holder"]
+
+class SourceAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.Source
+        fields = "__all__"
+
+
+@admin.register(models.Source)
+class SourceAdmin(admin.ModelAdmin):
+    form = SourceAdminForm
+    list_display = [
+        "link_name",
+        "URL",
+        "file",
+        "digital_resource",
+    ]
+
+
+# class DigitalResourceLinksAdmin(DigitalResourceChild):
+#     base_model = models.DigitalResourceLinks
+#
+#
+# @admin.register(models.DigitalResourceFiles)
+# class DigitalResourceFilesAdmin(DigitalResourceChild):
+#     base_model = models.DigitalResourceFiles
+
 # class DigitalResourceAdminForm(forms.ModelForm):
 #     class Meta:
 #         model = models.DigitalResource
 #         fields = "__all__"
 #
-#
+# @admin.register(models.DigitalResource)
 # class DigitalResourceAdmin(admin.ModelAdmin):
 #     form = DigitalResourceAdminForm
-#     list_display = [
-#         "title",
-#         "created",
-#         "type",
-#         "source_data",
-#         "last_updated",
-#         "ketwords",
-#         "description",
-#     ]
-#     readonly_fields = [
-#         "created",
-#         "last_updated",
-#     ]
-
-class DigitalResourceChild(PolymorphicChildModelAdmin):
-    base_model = models.DigitalResource
-    autocomplete_fields = ["copyright_holder"]
-
-
-@admin.register(models.DigitalResourceLinks)
-class DigitalResourceLinksAdmin(DigitalResourceChild):
-    base_model = models.DigitalResourceLinks
-
-
-@admin.register(models.DigitalResourceFiles)
-class DigitalResourceFilesAdmin(DigitalResourceChild):
-    base_model = models.DigitalResourceFiles
-
-
-@admin.register(models.DigitalResource)
-class DigitalResourceParentAdmin(PolymorphicParentModelAdmin):
-    base_model = models.DigitalResource
-    child_models = (models.DigitalResourceLinks, models.DigitalResourceFiles)
-    list_filter = (PolymorphicChildModelFilter,)
 
 
 class CompetenceAdminForm(forms.ModelForm):
