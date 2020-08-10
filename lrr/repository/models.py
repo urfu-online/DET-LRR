@@ -131,7 +131,7 @@ class Organization(BaseModel):
         verbose_name_plural = u"Организации"
 
     def __str__(self):
-        return str(self.pk)
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_Organization_detail", args=(self.pk,))
@@ -231,15 +231,15 @@ class DigitalResource(BaseModel):
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
-    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЦОР")
-    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЦОР")
-    status_cor = models.ForeignKey("DRStatus", on_delete=models.CASCADE, verbose_name="Статус ЦОР")
+    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЦОР", blank=True)
+    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЦОР", blank=True)
+    status_cor = models.ForeignKey("DRStatus", on_delete=models.CASCADE, verbose_name="Статус ЦОР", blank=True, null=True)
     owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
-                              verbose_name="Владелец")
+                              verbose_name="Владелец", blank=True, null=True)
     language = models.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
     provided_disciplines = models.ManyToManyField("ProvidingDiscipline",
-                                                  verbose_name="ЦОР рекомендован в качестве обеспечения дисциплины")
-    conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЦОР темам дисциплины")
+                                                  verbose_name="ЦОР рекомендован в качестве обеспечения дисциплины", blank=True)
+    conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЦОР темам дисциплины", blank=True)
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
 
     # Fields
@@ -255,7 +255,7 @@ class DigitalResource(BaseModel):
         verbose_name_plural = u"Паспорта ЦОР"
 
     def __str__(self):
-        return str(self.pk)
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_DigitalResource_detail", args=(self.pk,))
@@ -268,7 +268,12 @@ class Source(BaseModel):
     link_name = models.CharField("Наименование файла", max_length=150, null=True, blank=True)
     URL = models.URLField("Ссылка на файл", null=True, blank=True)
     file = models.FileField(upload_to="upload/files", null=True, blank=True)
-    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЦОР")
+    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЦОР",
+                                         on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = u"Источник"
+        verbose_name_plural = u"Источники"
 
 
 class DigitalResourceCompetence(BaseModel):
@@ -296,7 +301,7 @@ class Competence(BaseModel):
         verbose_name_plural = u"Компетенции"
 
     def __str__(self):
-        return str(self.pk)
+        return f"{self.code} {self.title}"
 
     def get_absolute_url(self):
         return reverse("repository_Competence_detail", args=(self.pk,))
@@ -310,7 +315,7 @@ class Platform(BaseModel):
     title = models.CharField("Наимаенование", max_length=150)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
     url = models.URLField("Ссылка")
-    logo = models.ImageField("Логотп", upload_to="upload/images/", null=True, blank=True)
+    logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
     contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
 
     class Meta:
@@ -318,7 +323,7 @@ class Platform(BaseModel):
         verbose_name_plural = u"Платформы"
 
     def __str__(self):
-        return str(self.pk)
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_Platform_detail", args=(self.pk,))
@@ -337,7 +342,7 @@ class Language(BaseModel):
         verbose_name_plural = u"Языки ресурсов"
 
     def __str__(self):
-        return str(self.pk)
+        return self.code
 
     def get_absolute_url(self):
         return reverse("repository_Language_detail", args=(self.pk,))
@@ -355,7 +360,7 @@ class SubjectTag(BaseModel):
         verbose_name_plural = u"Тэги дисциплин"
 
     def __str__(self):
-        return str(self.pk)
+        return self.tag
 
     def get_absolute_url(self):
         return reverse("repository_SubjectTag_detail", args=(self.pk,))
@@ -399,7 +404,7 @@ class EduProgramTag(BaseModel):
         verbose_name_plural = u"Тэги образовательных программ"
 
     def __str__(self):
-        return str(self.pk)
+        return self.tag
 
     def get_absolute_url(self):
         return reverse("repository_EduProgramTag_detail", args=(self.pk,))
@@ -420,7 +425,7 @@ class SubjectTheme(BaseModel):
         verbose_name_plural = u"Темы дисциплин"
 
     def __str__(self):
-        return str(self.pk)
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_SubjectTheme_detail", args=(self.pk,))
@@ -440,7 +445,7 @@ class ThematicPlan(BaseModel):
         verbose_name_plural = u"Тематические планы"
 
     def __str__(self):
-        return str(self.pk)
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_ThematicPlan_detail", args=(self.pk,))

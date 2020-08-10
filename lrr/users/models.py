@@ -17,25 +17,25 @@ class User(AbstractUser):
 
 class Person(models.Model):
     # Relationships
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
     # Fields
     location = models.CharField("Адрес проживания", max_length=150, null=True, blank=True)
     date_birthday = models.DateTimeField("Дата рождения", null=True, blank=True)
     city = models.CharField("Город", max_length=100, null=True, blank=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    middle_name = models.CharField("Фамилия", max_length=100)
+    middle_name = models.CharField("Отчество", max_length=100)
     country = models.CharField("Страна", max_length=100, null=True, blank=True)
     first_name = models.CharField("Имя", max_length=45)
     avatar = models.ImageField("Изображение профиля", upload_to="upload/images/", null=True, blank=True)
-    last_name = models.CharField("Отчество", max_length=100)
+    last_name = models.CharField("Фамилия", max_length=100)
 
     class Meta:
         verbose_name = u"Профиль"
         verbose_name_plural = u"Профили"
 
     def __str__(self):
-        return str(self.pk)
+        return f"{self.last_name} {self.first_name}"
 
     def get_absolute_url(self):
         return reverse("repository_Person_detail", args=(self.pk,))

@@ -156,8 +156,28 @@ class DigitalResourceAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
+@admin.register(models.DigitalResource)
 class DigitalResourceAdmin(admin.ModelAdmin):
     form = DigitalResourceAdminForm
+    fields = [
+        "title",
+        "type",
+        "source_data",
+        "platform",
+        "language",
+        "ketwords",
+        "description",
+        "authors",
+        "copyright_holder",
+        "subjects_tags",
+        "edu_programs_tags",
+        "status_cor",
+        "owner",
+        "provided_disciplines",
+        "conformity_theme",
+        "created",
+        "last_updated",
+    ]
     list_display = [
         "title",
         "type",

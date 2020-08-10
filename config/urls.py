@@ -10,6 +10,7 @@ from rest_framework_swagger.views import get_swagger_view
 
 from lrr.repository.views import DigitalResourceListView
 
+
 schema_view = get_swagger_view(title='LRR API')
 
 urlpatterns = [
@@ -32,7 +33,7 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
-    path("api/", include("config.api_router")),
+    path("api/v0/", include("config.api_router_v0")),
 
     # Swagger
     path('api_docs/', schema_view),

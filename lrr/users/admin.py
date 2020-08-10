@@ -27,15 +27,16 @@ class PersonAdminForm(form.ModelForm):
 class PersonAdmin(admin.ModelAdmin):
     form = PersonAdminForm
     list_display = [
+        "last_name",
+        "first_name",
+        "middle_name",
+        "avatar",
         "location",
         "date_birthday",
         "city",
-        "created",
-        "middle_name",
         "country",
-        "first_name",
-        "avatar",
-        "last_name",
+        "created",
+
     ]
     readonly_fields = [
         "created",

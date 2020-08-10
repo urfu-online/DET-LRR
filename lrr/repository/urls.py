@@ -4,28 +4,7 @@ from rest_framework import routers
 from . import api
 from . import views
 
-router = routers.DefaultRouter()
-router.register("DRStatus", api.DRStatusViewSet)
-router.register("ExpertiseStatus", api.ExpertiseStatusViewSet)
-router.register("Subject", api.SubjectViewSet)
-router.register("Organization", api.OrganizationViewSet)
-router.register("EduProgram", api.EduProgramViewSet)
-router.register("ProvidingDiscipline", api.ProvidingDisciplineViewSet)
-router.register("ResultEdu", api.ResultEduViewSet)
-router.register("DigitalResource", api.DigitalResourceViewSet)
-router.register("Competence", api.CompetenceViewSet)
-router.register("Platform", api.PlatformViewSet)
-router.register("Language", api.LanguageViewSet)
-router.register("SubjectTag", api.SubjectTagViewSet)
-# router.register("Student", api.StudentViewSet)
-router.register("ConformityTheme", api.ConformityThemeViewSet)
-router.register("EduProgramTag", api.EduProgramTagViewSet)
-router.register("SubjectTheme", api.SubjectThemeViewSet)
-router.register("ThematicPlan", api.ThematicPlanViewSet)
-# router.register("Person", api.PersonViewSet)
-
 urlpatterns = (
-    path("api/v1/", include(router.urls)),
     path("repository/DRStatus/", views.DRStatusListView.as_view(), name="repository_DRStatus_list"),
     path("repository/DRStatus/create/", views.DRStatusCreateView.as_view(), name="repository_DRStatus_create"),
     path("repository/DRStatus/detail/<int:pk>/", views.DRStatusDetailView.as_view(), name="repository_DRStatus_detail"),
