@@ -132,7 +132,6 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
             "source_data",
             "description",
             "language",
-            "language",
             "ketwords",
             "platform",
             "copyright_holder",
