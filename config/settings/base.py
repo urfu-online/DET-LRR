@@ -1,9 +1,8 @@
 """
 Base settings to build other settings files upon.
 """
-from pathlib import Path
-
 import environ
+from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # lrr/
@@ -308,7 +307,11 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    "DATETIME_INPUT_FORMATS": [
+        "%d-%m-%Y"
+    ]
 }
+
 # Your stuff...
 # ------------------------------------------------------------------------------

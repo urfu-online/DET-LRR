@@ -75,13 +75,9 @@ class OrganizationAdminForm(forms.ModelForm):
 class OrganizationAdmin(admin.ModelAdmin):
     form = OrganizationAdminForm
     list_display = [
-        "last_updated",
-        "description",
-        "logo",
-        "contacts",
         "title",
-        "created",
         "url",
+        "id",
     ]
     readonly_fields = [
         "last_updated",
@@ -260,12 +256,9 @@ class PlatformAdminForm(forms.ModelForm):
 class PlatformAdmin(admin.ModelAdmin):
     form = PlatformAdminForm
     list_display = [
-        "created",
-        "url",
-        "logo",
-        "description",
-        "contacts",
         "title",
+        "url",
+        "id",
     ]
     readonly_fields = [
         "created"

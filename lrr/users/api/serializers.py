@@ -29,13 +29,11 @@ class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Person
         fields = [
+            "first_name",
+            "middle_name",
+            "last_name",
             "location",
             "date_birthday",
             "city",
-            "created",
-            "middle_name",
             "country",
-            "first_name",
-            "avatar",
-            "last_name",
         ]

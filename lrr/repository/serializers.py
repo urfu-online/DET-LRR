@@ -1,7 +1,12 @@
+import logging
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 from rest_framework import serializers
 
-from . import models
 from lrr.users.models import Person
+from . import models
+
+logger = logging.getLogger(__name__)
 
 from lrr.users.api.serializers import PersonSerializer
 
@@ -108,7 +113,6 @@ class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Language
         fields = [
-            "id",
             "code",
             "title",
             "created",
@@ -127,6 +131,7 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
             "type",
             "source_data",
             "description",
+            "language",
             "language",
             "ketwords",
             "platform",
@@ -152,14 +157,14 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
         # Ищем, если не нашли, то создаем зависимые объекты
         subject_tags_data = validated_data.pop('subjects_tags')
         subjects_tags = []
-        for subject_tag in subjects_tags:
+        for subject_tag in subject_tags_data:
             # Сделать поиск по персонам. Не создавать новых, если они есть
             subjects_tags.append(models.SubjectTag.objects.create(**subject_tag))
 
         # Ищем, если не нашли, то создаем зависимые объекты
         edu_programs_tags_data = validated_data.pop('edu_programs_tags')
         edu_programs_tags = []
-        for edu_programs_tag in edu_programs_tags:
+        for edu_programs_tag in edu_programs_tags_data:
             # Сделать поиск по персонам. Не создавать новых, если они есть
             edu_programs_tags.append(models.EduProgramTag.objects.create(**edu_programs_tag))
 
@@ -167,6 +172,7 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
         dr = models.DigitalResource.objects.create(**validated_data)
         dr.authors.set(authors)
         dr.subjects_tags.set(subjects_tags)
+        dr.edu_programs_tags.set(edu_programs_tags)
         return dr
 
 

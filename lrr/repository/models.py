@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import uuid
-
 from django.db import models as models
 from django.urls import reverse
 
@@ -18,9 +17,9 @@ class BaseModel(models.Model):
 
 class DRStatus(BaseModel):
     # quality_category
-    INNER = '0'
-    OUTER = '1'
-    OUTSIDE = '2'
+    INNER = 'INNER'
+    OUTER = 'OUTER'
+    OUTSIDE = 'OUTSIDE'
 
     QUALITY_CATEGORIES = [
         (INNER, 'внутренний'),
@@ -29,9 +28,9 @@ class DRStatus(BaseModel):
     ]
 
     # interactive_category
-    NOT_INTERACTIVE = '0'
-    WITH_TEACHER_SUPPORT = '1'
-    AUTO = '2'
+    NOT_INTERACTIVE = 'NOT_INTERACTIVE'
+    WITH_TEACHER_SUPPORT = 'WITH_TEACHER_SUPPORT'
+    AUTO = 'AUTO'
 
     INTERACTIVE_CATEGORIES = [
         (NOT_INTERACTIVE, 'не интерактивный'),
@@ -64,11 +63,11 @@ class DRStatus(BaseModel):
 
 class ExpertiseStatus(BaseModel):
     # status
-    NO_INIT = '0'
-    SUB_APP = '1'
-    ON_EXPERTISE = '2'
-    ON_REVISION = '3'
-    ASSIGNED_STATUS = '4'
+    NO_INIT = 'NO_INIT'
+    SUB_APP = 'SUB_APP'
+    ON_EXPERTISE = 'ON_EXPERTISE'
+    ON_REVISION = 'ON_REVISION'
+    ASSIGNED_STATUS = 'ASSIGNED_STATUS'
 
     STATUS_CHOICES = [
         (NO_INIT, 'не инициирована'),
@@ -206,8 +205,8 @@ class ResultEdu(BaseModel):
 
 class DigitalResource(BaseModel):
     # source_data
-    MANUAL = '0'
-    IMPORT = '1'
+    MANUAL = 'MANUAL'
+    IMPORT = 'IMPORT'
 
     SOURCES = [
         (MANUAL, 'вручную'),
@@ -215,10 +214,10 @@ class DigitalResource(BaseModel):
     ]
 
     # type
-    OK = '0'
-    EUK = '1'
-    TEXT_EOR = '2'
-    MULTIMEDIA_EOR = '3'
+    OK = 'OK'
+    EUK = 'EUK'
+    TEXT_EOR = 'TEXT_EOR'
+    MULTIMEDIA_EOR = 'MULTIMEDIA_EOR'
 
     RESOURCE_TYPE = [
         (OK, 'Онлайн-курс'),
@@ -228,6 +227,7 @@ class DigitalResource(BaseModel):
     ]
 
     # Relationships
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
@@ -332,10 +332,14 @@ class Platform(BaseModel):
         return reverse("repository_Platform_update", args=(self.pk,))
 
 
-class Language(BaseModel):
+class Language(models.Model):
     # Fields
+
     title = models.CharField("Наименование", max_length=80)
-    code = models.CharField("Код языка", max_length=4)
+    code = models.CharField("Код языка", max_length=4, primary_key=True)
+
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
         verbose_name = u"Язык ресура"
@@ -345,10 +349,10 @@ class Language(BaseModel):
         return self.code
 
     def get_absolute_url(self):
-        return reverse("repository_Language_detail", args=(self.pk,))
+        return reverse("repository_Language_detail", args=(self.code,))
 
     def get_update_url(self):
-        return reverse("repository_Language_update", args=(self.pk,))
+        return reverse("repository_Language_update", args=(self.code,))
 
 
 class SubjectTag(BaseModel):
