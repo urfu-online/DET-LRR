@@ -256,10 +256,10 @@ class DigitalResource(BaseModel):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("repository_DigitalResource_detail", args=(self.pk,))
+        return reverse("repository:repository_DigitalResource_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_DigitalResource_update", args=(self.pk,))
+        return reverse("repository:repository_DigitalResource_update", args=(self.pk,))
 
 
 class Source(BaseModel):
