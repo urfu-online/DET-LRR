@@ -2,15 +2,14 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
+
 <p>
     <a class="btn btn-light" href="{% url 'repository_DigitalResource_list' %}">
     DigitalResource Listing
     </a>
 </p>
-    
+
 <table class="table">
-    <tr><td>id</td><td>{{ object.id }}</td></tr>
     <tr><td>title</td><td>{{ object.title }}</td></tr>
     <tr><td>created</td><td>{{ object.created }}</td></tr>
     <tr><td>type</td><td>{{ object.type }}</td></tr>

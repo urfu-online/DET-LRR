@@ -16,7 +16,7 @@ class DRStatusSerializer(serializers.ModelSerializer):
         model = models.DRStatus
         fields = [
             "id",
-            "created",
+            "expertise_status",
             "quality_category",
             "interactive_category",
         ]
@@ -27,10 +27,14 @@ class SubjectTagSerializer(serializers.ModelSerializer):
         model = models.SubjectTag
         fields = [
             "id",
-            "created",
-            "last_updated",
         ]
 
+class EduProgramTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.EduProgramTag
+        fields = [
+            "id"
+        ]
 
 class ExpertiseStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -78,11 +82,9 @@ class EduProgramSerializer(serializers.ModelSerializer):
         model = models.EduProgram
         fields = [
             "id",
-            "description",
-            "last_updated",
-            "created",
-            "short_description",
             "title",
+            "description",
+            "short_description",
         ]
 
 
@@ -121,7 +123,9 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 class DigitalResourceSerializer(serializers.ModelSerializer):
     authors = PersonSerializer(many=True, read_only=False)
+    owner = PersonSerializer(many=False, read_only=False)
     subjects_tags = SubjectTagSerializer(many=True, read_only=False)
+    edu_programs_tags = EduProgramTagSerializer(many=True, read_only=False)
 
     class Meta:
         model = models.DigitalResource
@@ -219,16 +223,6 @@ class ConformityThemeSerializer(serializers.ModelSerializer):
             "id",
             "practice",
             "theory",
-            "created",
-            "last_updated",
-        ]
-
-
-class EduProgramTagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.EduProgramTag
-        fields = [
-            "id",
             "created",
             "last_updated",
         ]

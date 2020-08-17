@@ -13,14 +13,13 @@ class DRStatusAdminForm(forms.ModelForm):
 class DRStatusAdmin(admin.ModelAdmin):
     form = DRStatusAdminForm
     list_display = [
+        "expertise_status",
         "quality_category",
-        "created",
         "interactive_category",
+        "created",
     ]
     readonly_fields = [
         "created",
-        "quality_category",
-        "interactive_category",
     ]
 
 
@@ -33,11 +32,10 @@ class ExpertiseStatusAdminForm(forms.ModelForm):
 class ExpertiseStatusAdmin(admin.ModelAdmin):
     form = ExpertiseStatusAdminForm
     list_display = [
-        "last_updated",
         "end_date",
+        "status",
         "accepted_status",
         "created",
-        "last_updated",
     ]
     readonly_fields = [
         "last_updated",
@@ -53,12 +51,11 @@ class SubjectAdminForm(forms.ModelForm):
 
 class SubjectAdmin(admin.ModelAdmin):
     form = SubjectAdminForm
+    search_fields = ['title']
     list_display = [
-        "description",
-        "created",
         "title",
-        "last_updated",
         "labor",
+        "created",
     ]
     readonly_fields = [
         "created",
@@ -94,12 +91,10 @@ class EduProgramAdminForm(forms.ModelForm):
 
 class EduProgramAdmin(admin.ModelAdmin):
     form = EduProgramAdminForm
+    search_fields = ["title"]
     list_display = [
-        "description",
-        "last_updated",
-        "created",
-        "short_description",
         "title",
+        "created",
     ]
     readonly_fields = [
         "last_updated",
@@ -115,14 +110,33 @@ class ProvidingDisciplineAdminForm(forms.ModelForm):
 
 class ProvidingDisciplineAdmin(admin.ModelAdmin):
     form = ProvidingDisciplineAdminForm
+    autocomplete_fields = ["edu_program", "subject"]
     list_display = [
-        "rate",
-        "created",
-        "last_updated",
+        "edu_program",
+        "subject",
+        "rate"
     ]
     readonly_fields = [
         "created",
         "last_updated",
+    ]
+
+
+class DigitalResourceCompetenceForm(forms.ModelForm):
+    class Meta:
+        model = models.DigitalResourceCompetence
+        fields = "__all__"
+
+
+class DigitalResourceCompetenceAdmin(admin.ModelAdmin):
+    form = DigitalResourceCompetenceForm
+    list_display = [
+        "digital_resource",
+        "competence"
+    ]
+    readonly_fields = [
+        "last_updated",
+        "created",
     ]
 
 
@@ -136,9 +150,7 @@ class ResultEduAdmin(admin.ModelAdmin):
     form = ResultEduAdminForm
     list_display = [
         "title",
-        "last_updated",
-        "created",
-        "description",
+        "digital_resource_competence"
     ]
     readonly_fields = [
         "last_updated",
@@ -177,11 +189,10 @@ class DigitalResourceAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "type",
+        "status_cor",
         "source_data",
-        "ketwords",
-        "description",
+        "copyright_holder",
         "created",
-        "last_updated",
     ]
     readonly_fields = [
         "id",
@@ -238,7 +249,6 @@ class CompetenceAdminForm(forms.ModelForm):
 class CompetenceAdmin(admin.ModelAdmin):
     form = CompetenceAdminForm
     list_display = [
-        "created",
         "title",
         "code",
     ]
@@ -348,13 +358,12 @@ class SubjectThemeAdminForm(forms.ModelForm):
 class SubjectThemeAdmin(admin.ModelAdmin):
     form = SubjectThemeAdminForm
     list_display = [
-        "description",
-        "created",
         "title",
+        "thematic_plan",
+        "created",
     ]
     readonly_fields = [
         "created",
-        "title",
     ]
 
 
@@ -414,3 +423,4 @@ admin.site.register(models.ConformityTheme, ConformityThemeAdmin)
 admin.site.register(models.EduProgramTag, EduProgramTagAdmin)
 admin.site.register(models.SubjectTheme, SubjectThemeAdmin)
 admin.site.register(models.ThematicPlan, ThematicPlanAdmin)
+admin.site.register(models.DigitalResourceCompetence, DigitalResourceCompetenceAdmin)

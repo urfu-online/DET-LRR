@@ -51,8 +51,8 @@ class DRStatus(BaseModel):
         verbose_name = u"Статус ЦОР"
         verbose_name_plural = u"Статусы ЦОР"
 
-    def __str__(self):
-        return str(self.pk)
+    def __str__ (self):
+        return "{} {} {}".format(self.expertise_status,self.get_quality_category_display(),self.get_interactive_category_display())
 
     def get_absolute_url(self):
         return reverse("repository_Status_COR_detail", args=(self.pk,))
@@ -88,7 +88,7 @@ class ExpertiseStatus(BaseModel):
         verbose_name_plural = u"Статусы экспертиз"
 
     def __str__(self):
-        return str(self.pk)
+        return self.get_status_display()
 
     def get_absolute_url(self):
         return reverse("repository_Expertise_status_detail", args=(self.pk,))
@@ -108,7 +108,7 @@ class Subject(BaseModel):
         verbose_name_plural = u"Дисциплины"
 
     def __str__(self):
-        return str(self.pk)
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_Subject_detail", args=(self.pk,))
@@ -150,7 +150,7 @@ class EduProgram(BaseModel):
         verbose_name_plural = u"Образовательные программы"
 
     def __str__(self):
-        return str(self.pk)
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_EduProgram_detail", args=(self.pk,))
@@ -173,7 +173,7 @@ class ProvidingDiscipline(BaseModel):
         verbose_name_plural = u"Рекомендации ЦОР в качестве обеспечения дисциплин"
 
     def __str__(self):
-        return str(self.pk)
+        return f"{self.edu_program.title} {self.subject.title}"
 
     def get_absolute_url(self):
         return reverse("repository_Providing_discipline_detail", args=(self.pk,))
@@ -185,8 +185,8 @@ class ProvidingDiscipline(BaseModel):
 class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
-    description = models.TextField("Описание", max_length=500)
-    digital_resource_competence = models.ForeignKey("repository.DigitalResourceCompetence", verbose_name="Компетенции",
+    description = models.TextField("Описание", max_length=500, blank=True)
+    digital_resource_competence = models.ForeignKey("repository.DigitalResourceCompetence", verbose_name="Компетенция",
                                                     on_delete=models.CASCADE)
 
     class Meta:
@@ -194,7 +194,7 @@ class ResultEdu(BaseModel):
         verbose_name_plural = u"Образовательные результаты"
 
     def __str__(self):
-        return str(self.pk)
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_ResultEdu_detail", args=(self.pk,))
@@ -227,7 +227,6 @@ class DigitalResource(BaseModel):
     ]
 
     # Relationships
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
@@ -243,7 +242,6 @@ class DigitalResource(BaseModel):
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
 
     # Fields
-    id = models.UUIDField("ID ресурса", primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField("Наименование ресурса", max_length=150)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
@@ -281,8 +279,12 @@ class DigitalResourceCompetence(BaseModel):
                                          verbose_name="Паспорт ЦОР")
     competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT, verbose_name="Компетенция")
 
+    class Meta:
+        verbose_name = u"Паспорт ЦОР / Компетенция"
+        verbose_name_plural = u"Паспорт ЦОР / Компетенции"
+
     def __str__(self):
-        return str(self.pk)
+        return "{}".format(self.competence)
 
     def get_absolute_url(self):
         return reverse("repository_DigitalResourceCompetence_detail", args=(self.pk,))
@@ -364,7 +366,7 @@ class SubjectTag(BaseModel):
         verbose_name_plural = u"Тэги дисциплин"
 
     def __str__(self):
-        return self.tag
+        return str(self.tag)
 
     def get_absolute_url(self):
         return reverse("repository_SubjectTag_detail", args=(self.pk,))
@@ -377,7 +379,7 @@ class ConformityTheme(BaseModel):
     # Relationships
     theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.CASCADE, verbose_name="Тема дисциплины")
     providing_discipline = models.ForeignKey("repository.ProvidingDiscipline", on_delete=models.CASCADE,
-                                             verbose_name="")  # TODO: Должно ли это быть тут ?
+                                             verbose_name="Рекомендация ЦОР в качестве обеспечения дисциплины")  # TODO: Должно ли это быть тут ?
 
     # Fields
     practice = models.NullBooleanField("Практика")
@@ -390,7 +392,7 @@ class ConformityTheme(BaseModel):
         verbose_name_plural = u"Соответствия ЦОР темам дисциплин"
 
     def __str__(self):
-        return str(self.pk)
+        return f"{self.theme.title} {self.providing_discipline}"
 
     def get_absolute_url(self):
         return reverse("repository_ConformityTheme_detail", args=(self.pk,))
@@ -408,7 +410,7 @@ class EduProgramTag(BaseModel):
         verbose_name_plural = u"Тэги образовательных программ"
 
     def __str__(self):
-        return self.tag
+        return str(self.tag)
 
     def get_absolute_url(self):
         return reverse("repository_EduProgramTag_detail", args=(self.pk,))

@@ -360,7 +360,6 @@ class ThematicPlanUpdateView(generic.UpdateView):
     form_class = forms.ThematicPlanForm
     pk_url_kwarg = "pk"
 
-
 # class PersonListView(generic.ListView):
 #     model = models.Person
 #     form_class = forms.PersonForm
