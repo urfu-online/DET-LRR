@@ -24,3 +24,4 @@ django-admin-interface==0.12.2
 django-cors-headers==3.4.0
 django-rest-swagger
 django-polymorphic
+django-schema-graph
