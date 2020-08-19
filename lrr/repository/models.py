@@ -246,7 +246,7 @@ class DigitalResource(BaseModel):
     title = models.CharField("Наименование ресурса", max_length=150)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
-    ketwords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
+    keywords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
 
     class Meta:
