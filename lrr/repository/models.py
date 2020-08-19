@@ -121,6 +121,7 @@ class Organization(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    url_logo = models.URLField("Ссылка на логотип", blank=True, null=True)
     logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
     contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
     url = models.URLField("URL", null=True, blank=True)
@@ -186,8 +187,7 @@ class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, blank=True)
-    digital_resource_competence = models.ForeignKey("repository.DigitalResourceCompetence", verbose_name="Компетенция",
-                                                    on_delete=models.CASCADE)
+    competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция",on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = u"Образовательный результат"
@@ -240,6 +240,7 @@ class DigitalResource(BaseModel):
                                                   verbose_name="ЦОР рекомендован в качестве обеспечения дисциплины", blank=True)
     conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЦОР темам дисциплины", blank=True)
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
+    result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
 
     # Fields
     title = models.CharField("Наименование ресурса", max_length=150)
@@ -274,23 +275,23 @@ class Source(BaseModel):
         verbose_name_plural = u"Источники"
 
 
-class DigitalResourceCompetence(BaseModel):
-    digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE,
-                                         verbose_name="Паспорт ЦОР")
-    competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT, verbose_name="Компетенция")
-
-    class Meta:
-        verbose_name = u"Паспорт ЦОР / Компетенция"
-        verbose_name_plural = u"Паспорт ЦОР / Компетенции"
-
-    def __str__(self):
-        return "{}".format(self.competence)
-
-    def get_absolute_url(self):
-        return reverse("repository_DigitalResourceCompetence_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
+# class DigitalResourceCompetence(BaseModel):
+#     digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE,
+#                                          verbose_name="Паспорт ЦОР")
+#     competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT, verbose_name="Компетенция")
+#
+#     class Meta:
+#         verbose_name = u"Паспорт ЦОР / Компетенция"
+#         verbose_name_plural = u"Паспорт ЦОР / Компетенции"
+#
+#     def __str__(self):
+#         return "{}".format(self.competence)
+#
+#     def get_absolute_url(self):
+#         return reverse("repository_DigitalResourceCompetence_detail", args=(self.pk,))
+#
+#     def get_update_url(self):
+#         return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
 
 
 class Competence(BaseModel):
@@ -317,6 +318,7 @@ class Platform(BaseModel):
     title = models.CharField("Наимаенование", max_length=150)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
     url = models.URLField("Ссылка")
+    url_logo = models.URLField("Ссылка на логотип", null=True, blank=True)
     logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
     contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
 

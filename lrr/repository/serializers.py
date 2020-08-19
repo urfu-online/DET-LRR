@@ -21,19 +21,56 @@ class DRStatusSerializer(serializers.ModelSerializer):
             "interactive_category",
         ]
 
+class OrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Organization
+        fields = [
+            "id",
+            "title",
+            "description",
+            "contacts",
+            "url",
+            "url_logo"
+        ]
+
+
+class EduProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.EduProgram
+        fields = [
+            "title",
+            "description",
+            "short_description",
+        ]
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Subject
+        fields = [
+            "title",
+            "description",
+            "labor"
+        ]
+
 
 class SubjectTagSerializer(serializers.ModelSerializer):
+    tag = SubjectSerializer(many=False, read_only=True)
+
     class Meta:
         model = models.SubjectTag
         fields = [
             "id",
+            "tag",
         ]
 
 class EduProgramTagSerializer(serializers.ModelSerializer):
+    tag = EduProgramSerializer(many=False, read_only=True)
+
     class Meta:
         model = models.EduProgramTag
         fields = [
-            "id"
+            "id",
+            "tag"
         ]
 
 class ExpertiseStatusSerializer(serializers.ModelSerializer):
@@ -41,11 +78,9 @@ class ExpertiseStatusSerializer(serializers.ModelSerializer):
         model = models.ExpertiseStatus
         fields = [
             "id",
-            "last_updated",
             "end_date",
             "status",
             "accepted_status",
-            "created",
         ]
 
 
@@ -54,39 +89,10 @@ class SubjectSerializer(serializers.ModelSerializer):
         model = models.Subject
         fields = [
             "id",
-            "description",
-            "created",
             "title",
-            "last_updated",
+            "description",
             "labor",
         ]
-
-
-class OrganizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Organization
-        fields = [
-            "id",
-            "last_updated",
-            "description",
-            "logo",
-            "contacts",
-            "title",
-            "created",
-            "url",
-        ]
-
-
-class EduProgramSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.EduProgram
-        fields = [
-            "id",
-            "title",
-            "description",
-            "short_description",
-        ]
-
 
 class ProvidingDisciplineSerializer(serializers.ModelSerializer):
     class Meta:
@@ -94,8 +100,6 @@ class ProvidingDisciplineSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "rate",
-            "created",
-            "last_updated",
         ]
 
 
@@ -103,11 +107,9 @@ class ResultEduSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ResultEdu
         fields = [
-            "id",
             "title",
-            "last_updated",
-            "created",
             "description",
+            "competence"
         ]
 
 
@@ -117,15 +119,23 @@ class LanguageSerializer(serializers.ModelSerializer):
         fields = [
             "code",
             "title",
-            "created",
         ]
 
+
+# class DigitalResourceCompetenceSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.DigitalResourceCompetence
+#         fields = [
+#             "digital_resource",
+#             "competence"
+#         ]
 
 class DigitalResourceSerializer(serializers.ModelSerializer):
     authors = PersonSerializer(many=True, read_only=False)
     owner = PersonSerializer(many=False, read_only=False)
     subjects_tags = SubjectTagSerializer(many=True, read_only=False)
     edu_programs_tags = EduProgramTagSerializer(many=True, read_only=False)
+    result_edu = ResultEduSerializer(many=True, read_only=False)
 
     class Meta:
         model = models.DigitalResource
@@ -144,6 +154,7 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
             "edu_programs_tags",
             "status_cor",
             "owner",
+            "result_edu",
 
             "last_updated",
             "created",
@@ -184,7 +195,6 @@ class CompetenceSerializer(serializers.ModelSerializer):
         model = models.Competence
         fields = [
             "id",
-            "created",
             "title",
             "code",
         ]
@@ -195,12 +205,11 @@ class PlatformSerializer(serializers.ModelSerializer):
         model = models.Platform
         fields = [
             "id",
-            "created",
+            "title",
             "url",
-            "logo",
+            "url_logo",
             "description",
             "contacts",
-            "title",
         ]
 
 
@@ -223,8 +232,6 @@ class ConformityThemeSerializer(serializers.ModelSerializer):
             "id",
             "practice",
             "theory",
-            "created",
-            "last_updated",
         ]
 
 
@@ -233,9 +240,8 @@ class SubjectThemeSerializer(serializers.ModelSerializer):
         model = models.SubjectTheme
         fields = [
             "id",
-            "description",
-            "created",
             "title",
+            "description",
         ]
 
 
@@ -244,7 +250,6 @@ class ThematicPlanSerializer(serializers.ModelSerializer):
         model = models.ThematicPlan
         fields = [
             "id",
-            "created",
             "title",
         ]
 

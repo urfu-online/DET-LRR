@@ -122,22 +122,22 @@ class ProvidingDisciplineAdmin(admin.ModelAdmin):
     ]
 
 
-class DigitalResourceCompetenceForm(forms.ModelForm):
-    class Meta:
-        model = models.DigitalResourceCompetence
-        fields = "__all__"
-
-
-class DigitalResourceCompetenceAdmin(admin.ModelAdmin):
-    form = DigitalResourceCompetenceForm
-    list_display = [
-        "digital_resource",
-        "competence"
-    ]
-    readonly_fields = [
-        "last_updated",
-        "created",
-    ]
+# class DigitalResourceCompetenceForm(forms.ModelForm):
+#     class Meta:
+#         model = models.DigitalResourceCompetence
+#         fields = "__all__"
+#
+#
+# class DigitalResourceCompetenceAdmin(admin.ModelAdmin):
+#     form = DigitalResourceCompetenceForm
+#     list_display = [
+#         "digital_resource",
+#         "competence"
+#     ]
+#     readonly_fields = [
+#         "last_updated",
+#         "created",
+#     ]
 
 
 class ResultEduAdminForm(forms.ModelForm):
@@ -150,7 +150,7 @@ class ResultEduAdmin(admin.ModelAdmin):
     form = ResultEduAdminForm
     list_display = [
         "title",
-        "digital_resource_competence"
+        "competence"
     ]
     readonly_fields = [
         "last_updated",
@@ -183,6 +183,8 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         "owner",
         "provided_disciplines",
         "conformity_theme",
+        "result_edu",
+
         "created",
         "last_updated",
     ]
@@ -302,8 +304,8 @@ class SubjectTagAdminForm(forms.ModelForm):
 class SubjectTagAdmin(admin.ModelAdmin):
     form = SubjectTagAdminForm
     list_display = [
+        "tag",
         "created",
-        "last_updated",
     ]
     readonly_fields = [
         "created",
@@ -340,8 +342,8 @@ class EduProgramTagAdminForm(forms.ModelForm):
 class EduProgramTagAdmin(admin.ModelAdmin):
     form = EduProgramTagAdminForm
     list_display = [
+        "tag",
         "created",
-        "last_updated",
     ]
     readonly_fields = [
         "created",
@@ -423,4 +425,3 @@ admin.site.register(models.ConformityTheme, ConformityThemeAdmin)
 admin.site.register(models.EduProgramTag, EduProgramTagAdmin)
 admin.site.register(models.SubjectTheme, SubjectThemeAdmin)
 admin.site.register(models.ThematicPlan, ThematicPlanAdmin)
-admin.site.register(models.DigitalResourceCompetence, DigitalResourceCompetenceAdmin)
