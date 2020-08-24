@@ -146,7 +146,7 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
             "source_data",
             "description",
             "language",
-            "ketwords",
+            "keywords",
             "platform",
             "copyright_holder",
             "authors",
@@ -278,7 +278,7 @@ class ThematicPlanSerializer(serializers.ModelSerializer):
 #    "source_data":"0",
 #    "description":"",
 #    "language":"bc56d643-04d7-480c-800c-4c20339429f1",
-#    "ketwords":null,
+#    "keywords":null,
 #    "platform":"b373e01c-e82e-44f8-a3cd-2440929c8700",
 #    "copyright_holder":"1b0fab87-da04-463a-aac8-4c10f1de392f",
 #    "authors":[

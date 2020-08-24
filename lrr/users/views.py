@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
+from django.shortcuts import get_object_or_404
 
 from lrr.users import forms
 from lrr.users import models
@@ -13,9 +14,18 @@ User = get_user_model()
 
 class UserDetailView(LoginRequiredMixin, DetailView):
 
-    model = User
+    model = models.User
     slug_field = "username"
     slug_url_kwarg = "username"
+
+    def get_person(self):
+        return get_object_or_404(models.Person, user__username=self.kwargs['username'])
+
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        context['person'] = get_object_or_404(models.Person, user__username=self.kwargs['username'])
+        # context['person'] = models.Person.objects.filter(user__username__iexact=self.kwargs.get('username'))
+        return context
 
 
 user_detail_view = UserDetailView.as_view()
@@ -63,15 +73,15 @@ user_redirect_view = UserRedirectView.as_view()
 #     form_class = forms.StudentForm
 
 
-class StudentDetailView(DetailView):
-    model = models.Student
-    form_class = forms.StudentForm
-
-
-class StudentUpdateView(UpdateView):
-    model = models.Student
-    form_class = forms.StudentForm
-    pk_url_kwarg = "pk"
+# class StudentDetailView(DetailView):
+#     model = models.Student
+#     form_class = forms.StudentForm
+#
+#
+# class StudentUpdateView(UpdateView):
+#     model = models.Student
+#     form_class = forms.StudentForm
+#     pk_url_kwarg = "pk"
 
 
 
@@ -85,12 +95,12 @@ class StudentUpdateView(UpdateView):
 #     form_class = forms.PersonForm
 
 
-class PersonDetailView(DetailView):
-    model = models.Person
-    form_class = forms.PersonForm
-
-
-class PersonUpdateView(UpdateView):
-    model = models.Person
-    form_class = forms.PersonForm
-    pk_url_kwarg = "pk"
+# class PersonDetailView(DetailView):
+#     model = models.Person
+#     form_class = forms.PersonForm
+#
+#
+# class PersonUpdateView(UpdateView):
+#     model = models.Person
+#     form_class = forms.PersonForm
+#     pk_url_kwarg = "pk"

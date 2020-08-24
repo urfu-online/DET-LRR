@@ -173,7 +173,7 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         "source_data",
         "platform",
         "language",
-        "ketwords",
+        "keywords",
         "description",
         "authors",
         "copyright_holder",

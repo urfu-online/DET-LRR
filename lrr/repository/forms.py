@@ -81,7 +81,7 @@ class DigitalResourceForm(forms.ModelForm):
             "title",
             "type",
             "source_data",
-            "ketwords",
+            "keywords",
             "description",
             "edu_programs_tags",
             "authors",
