@@ -159,6 +159,7 @@ class DigitalResourceListView(generic.ListView):
 class DigitalResourceCreateView(generic.CreateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
+    permission_class=[]
 
 
 class DigitalResourceDetailView(generic.DetailView):
@@ -379,3 +380,7 @@ class ThematicPlanUpdateView(generic.UpdateView):
 #     model = models.Person
 #     form_class = forms.PersonForm
 #     pk_url_kwarg = "pk"
+from django.shortcuts import render
+def WorkPlanView(request):
+    thematic_plan = models.ThematicPlan.objects.all()
+    return render(request, 'pages/work_plan.html', {'object': thematic_plan})

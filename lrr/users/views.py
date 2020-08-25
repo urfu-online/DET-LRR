@@ -24,6 +24,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
         context['person'] = get_object_or_404(models.Person, user__username=self.kwargs['username'])
+        context['student'] = get_object_or_404(models.Student, person=context['person'])
         # context['person'] = models.Person.objects.filter(user__username__iexact=self.kwargs.get('username'))
         return context
 
@@ -33,14 +34,23 @@ user_detail_view = UserDetailView.as_view()
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
 
-    model = User
-    fields = ["name"]
+    model = models.Person
+    fields = [
+        "last_name",
+        "first_name",
+        "middle_name",
+        "country",
+        "location",
+        "city",
+        "date_birthday",
+        "avatar",
+    ]
 
     def get_success_url(self):
         return reverse("users:detail", kwargs={"username": self.request.user.username})
 
     def get_object(self):
-        return User.objects.get(username=self.request.user.username)
+        return models.Person.objects.get(user__username=self.request.user.username)
 
     def form_valid(self, form):
         messages.add_message(

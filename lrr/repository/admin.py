@@ -322,10 +322,11 @@ class ConformityThemeAdminForm(forms.ModelForm):
 class ConformityThemeAdmin(admin.ModelAdmin):
     form = ConformityThemeAdminForm
     list_display = [
+        "theme",
+        "providing_discipline",
         "practice",
         "theory",
-        "created",
-        "last_updated",
+
     ]
     readonly_fields = [
         "created",
@@ -362,7 +363,6 @@ class SubjectThemeAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "thematic_plan",
-        "created",
     ]
     readonly_fields = [
         "created",
@@ -378,8 +378,9 @@ class ThematicPlanAdminForm(forms.ModelForm):
 class ThematicPlanAdmin(admin.ModelAdmin):
     form = ThematicPlanAdminForm
     list_display = [
-        "created",
         "title",
+        "subject",
+        "edu_programs"
     ]
     readonly_fields = [
         "created",

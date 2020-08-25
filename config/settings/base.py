@@ -81,6 +81,7 @@ LOCAL_APPS = [
     "lrr.apps.LRRAdminConfig",
     "lrr.users.apps.UsersConfig",
     'lrr.repository.apps.RepositoryConfig',
+    'lrr.templatetags.user_tags'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -179,6 +180,9 @@ TEMPLATES = [
                 "django.template.loaders.filesystem.Loader",
                 "django.template.loaders.app_directories.Loader",
             ],
+            'libraries': {
+                'user_tags':'lrr.templatetags.user_tags'
+            },
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
                 "django.template.context_processors.debug",

@@ -10,10 +10,12 @@
     <div class="col-sm-12">
 
       <h2>{{ object.username }}</h2>
-    {{ person }}
-      {% if object.name %}
-        <p>{{ object.name }}</p>
-      {% endif %}
+      <p>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p>
+      <p>Страна: {{ person.country }}</p>
+      <p>Город: {{ person.city }}</p>
+      <p>Адрес проживания: {{ person.location }}</p>
+      <p>Дата рождения: {{ person.date_birthday }}</p>
+      <p>Академическая группа: {{ student.academic_group }}</p>
     </div>
   </div>
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      {% for obj in object %}
+        {{ obj }}
+      {% endfor %}
+{#      <h2>{{ object.username }}</h2>#}
+{#      <p>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p>#}
+{#      <p>Страна: {{ person.country }}</p>#}
+{#      <p>Город: {{ person.city }}</p>#}
+{#      <p>Адрес проживания: {{ person.location }}</p>#}
+{#      <p>Дата рождения: {{ person.date_birthday }}</p>#}
+{#      <p>Академическая группа: {{ student.academic_group }}</p>#}
+    </div>
+  </div>
+
+</div>
+{% endblock content %}
