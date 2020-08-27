@@ -30,32 +30,40 @@
     {% include "socialaccount/snippets/login_extra.html" %}
 
   {% else %}
-    <p>{% blocktrans %}If you have not created an account yet, then please
-      <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+{#    <p>{% blocktrans %}If you have not created an account yet, then please#}
+{#      <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>#}
   {% endif %}
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
 
-  <form class="ui large form" method="POST" action="{% url 'account_login' %}">
-    {% csrf_token %}
-    <div class="ui stacked segment">
-      <div class="field">
-        <div class="ui left icon input">
-          <i class="user icon"></i>
-          {{ form.login }}
+
+      <form class="ui large form" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              {{ form.login }}
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              {{ form.password }}
+            </div>
+          </div>
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+          <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+          <button class="ui fluid large secondary submit button" style="margin-top:1em;"
+                  type="submit">{% trans "Sign In" %}</button>
         </div>
+      </form>
+      <div class="ui message">
+        {% trans "Первый раз здесь ?" %}<a href="{{ signup_url }}"> {% trans "Sign Up" %}</a>
       </div>
-      <div class="field">
-        <div class="ui left icon input">
-          <i class="lock icon"></i>
-          {{ form.password }}
-        </div>
-      </div>
-      {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-      {% endif %}
-      <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-      <button class="ui fluid large secondary submit button" style="margin-top:1em;" type="submit">{% trans "Sign In" %}</button>
     </div>
-  </form>
-
+  </div>
 {% endblock %}
 
