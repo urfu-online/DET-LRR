@@ -47,9 +47,9 @@ class Person(models.Model):
 class Student(models.Model):
     # Relationships
     person = models.ForeignKey("users.Person", on_delete=models.CASCADE)
+    academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
+                                       verbose_name="Номер академической группы")
 
-    # Fields
-    academic_group = models.CharField("Академическая группа", max_length=30)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
     class Meta:
@@ -64,3 +64,20 @@ class Student(models.Model):
 
     def get_update_url(self):
         return reverse("repository_Student_update", args=(self.pk,))
+
+
+class AcademicGroup(models.Model):
+    number = models.CharField("Номер академической группы", max_length=30)
+
+    class Meta:
+        verbose_name = u"Академическая группа"
+        verbose_name_plural = u"Академические группы"
+
+    def __str__(self):
+        return self.number
+
+    def get_absolute_url(self):
+        return reverse("repository_AcademicGroup_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_AcademicGroup_update", args=(self.pk,))

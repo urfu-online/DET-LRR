@@ -30,12 +30,10 @@ class PersonAdmin(admin.ModelAdmin):
         "last_name",
         "first_name",
         "middle_name",
-        "avatar",
         "location",
         "date_birthday",
         "city",
         "country",
-        "created",
 
     ]
     readonly_fields = [
@@ -52,13 +50,27 @@ class StudentAdminForm(form.ModelForm):
 class StudentAdmin(admin.ModelAdmin):
     form = StudentAdminForm
     list_display = [
+        "person",
         "academic_group",
-        "created",
     ]
     readonly_fields = [
         "created",
     ]
 
 
+class AcademicGroupAdminForm(form.ModelForm):
+    class Meta:
+        model = models.AcademicGroup
+        fields = "__all__"
+
+
+class AcademicGroupAdmin(admin.ModelAdmin):
+    form = AcademicGroupAdminForm
+    list_display = [
+        "number",
+    ]
+
+
+admin.site.register(models.AcademicGroup, AcademicGroupAdmin)
 admin.site.register(models.Student, StudentAdmin)
 admin.site.register(models.Person, PersonAdmin)
