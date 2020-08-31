@@ -56,8 +56,24 @@
   </form>
   <script>
     $('#standard_calendar').calendar({
-      ampm:false,
-      type: 'date'
+      monthFirst: false,
+      type: 'date',
+      text: {
+        days: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'],
+        months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+        today: 'Сегодня',
+        now: 'Сейчас',
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return '';
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return day + '.' + month + '.' + year;
+        }
+      }
     });
   </script>
 {% endblock %}

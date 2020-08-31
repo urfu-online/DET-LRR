@@ -9,11 +9,16 @@ from django.shortcuts import get_object_or_404
 from lrr.users import forms
 from lrr.users import models
 
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 User = get_user_model()
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
-
     model = models.User
     slug_field = "username"
     slug_url_kwarg = "username"
@@ -33,7 +38,6 @@ user_detail_view = UserDetailView.as_view()
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-
     model = models.Person
     fields = [
         "last_name",
@@ -50,11 +54,11 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return reverse("users:detail", kwargs={"username": self.request.user.username})
 
     def get_object(self):
-        return models.Person.objects.get(user__username=self.request.user.username)
+        return get_object_or_404(models.Person, user__username=self.request.user.username)
 
     def form_valid(self, form):
         messages.add_message(
-            self.request, messages.INFO, _("Infos successfully updated")
+            self.request, messages.INFO, _("Информация успешно обновлена")
         )
         return super().form_valid(form)
 
@@ -63,7 +67,6 @@ user_update_view = UserUpdateView.as_view()
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):
-
     permanent = False
 
     def get_redirect_url(self):
@@ -71,7 +74,6 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
-
 
 # class StudentListView(ListView):
 #     model = models.Student
@@ -92,7 +94,6 @@ user_redirect_view = UserRedirectView.as_view()
 #     model = models.Student
 #     form_class = forms.StudentForm
 #     pk_url_kwarg = "pk"
-
 
 
 # class PersonListView(ListView):
