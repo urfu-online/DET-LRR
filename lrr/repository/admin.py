@@ -387,28 +387,21 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     ]
 
 
-# class PersonAdminForm(forms.ModelForm):
-#     class Meta:
-#         model = models.Person
-#         fields = "__all__"
+class WorkPlanAcademicGroupForm(forms.ModelForm):
+    class Meta:
+        model = models.WorkPlanAcademicGroup
+        fields = "__all__"
 
 
-# class PersonAdmin(admin.ModelAdmin):
-#     form = PersonAdminForm
-#     list_display = [
-#         "location",
-#         "date_birthday",
-#         "city",
-#         "created",
-#         "middle_name",
-#         "country",
-#         "first_name",
-#         "avatar",
-#         "last_name",
-#     ]
-#     readonly_fields = [
-#         "created",
-#     ]
+class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
+    form = WorkPlanAcademicGroupForm
+    list_display = [
+        "digital_resource",
+        "academic_group",
+    ]
+    readonly_fields = [
+        "created",
+    ]
 
 
 admin.site.register(models.DRStatus, DRStatusAdmin)
@@ -426,3 +419,4 @@ admin.site.register(models.ConformityTheme, ConformityThemeAdmin)
 admin.site.register(models.EduProgramTag, EduProgramTagAdmin)
 admin.site.register(models.SubjectTheme, SubjectThemeAdmin)
 admin.site.register(models.ThematicPlan, ThematicPlanAdmin)
+admin.site.register(models.WorkPlanAcademicGroup, WorkPlanAcademicGroupAdmin)

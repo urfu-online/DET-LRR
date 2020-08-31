@@ -2,6 +2,7 @@ from django.views import generic
 
 from . import forms
 from . import models
+from lrr.users.models import User, Person, Student, AcademicGroup
 
 
 class DRStatusListView(generic.ListView):
@@ -159,7 +160,7 @@ class DigitalResourceListView(generic.ListView):
 class DigitalResourceCreateView(generic.CreateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
-    permission_class=[]
+    permission_class = []
 
 
 class DigitalResourceDetailView(generic.DetailView):
@@ -361,6 +362,7 @@ class ThematicPlanUpdateView(generic.UpdateView):
     form_class = forms.ThematicPlanForm
     pk_url_kwarg = "pk"
 
+
 # class PersonListView(generic.ListView):
 #     model = models.Person
 #     form_class = forms.PersonForm
@@ -380,7 +382,18 @@ class ThematicPlanUpdateView(generic.UpdateView):
 #     model = models.Person
 #     form_class = forms.PersonForm
 #     pk_url_kwarg = "pk"
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+
 def WorkPlanView(request):
-    thematic_plan = models.ThematicPlan.objects.all()
-    return render(request, 'pages/work_plan.html', {'object': thematic_plan})
+    academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
+    digital_resource = get_object_or_404(models.WorkPlanAcademicGroup, academic_group=academic_group).digital_resource
+    test = digital_resource.provided_disciplines.first().edu_program
+    # academic_group = []
+    # digital_resource = []
+    # thematic_plans = models.WorkPlanAcademicGroup.objects.all()
+    # for plan in thematic_plans:
+    #     academic_group.append(plan.academic_group)
+
+    return render(request, 'pages/work_plan.html',
+                  {'academic_group': academic_group, 'digital_resource': digital_resource, "test": test})

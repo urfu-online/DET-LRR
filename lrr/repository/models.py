@@ -51,8 +51,9 @@ class DRStatus(BaseModel):
         verbose_name = u"Статус ЦОР"
         verbose_name_plural = u"Статусы ЦОР"
 
-    def __str__ (self):
-        return "{} {} {}".format(self.expertise_status,self.get_quality_category_display(),self.get_interactive_category_display())
+    def __str__(self):
+        return "{} {} {}".format(self.expertise_status, self.get_quality_category_display(),
+                                 self.get_interactive_category_display())
 
     def get_absolute_url(self):
         return reverse("repository_Status_COR_detail", args=(self.pk,))
@@ -187,7 +188,8 @@ class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, blank=True)
-    competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, on_delete=models.PROTECT)
+    competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True,
+                                   on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = u"Образовательный результат"
@@ -231,14 +233,18 @@ class DigitalResource(BaseModel):
                                      related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
     subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЦОР", blank=True)
-    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЦОР", blank=True)
-    status_cor = models.ForeignKey("DRStatus", on_delete=models.CASCADE, verbose_name="Статус ЦОР", blank=True, null=True)
+    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЦОР",
+                                               blank=True)
+    status_cor = models.ForeignKey("DRStatus", on_delete=models.CASCADE, verbose_name="Статус ЦОР", blank=True,
+                                   null=True)
     owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
                               verbose_name="Владелец", blank=True, null=True)
     language = models.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
     provided_disciplines = models.ManyToManyField("ProvidingDiscipline",
-                                                  verbose_name="ЦОР рекомендован в качестве обеспечения дисциплины", blank=True)
-    conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЦОР темам дисциплины", blank=True)
+                                                  verbose_name="ЦОР рекомендован в качестве обеспечения дисциплины",
+                                                  blank=True)
+    conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЦОР темам дисциплины",
+                                              blank=True)
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
 
@@ -460,3 +466,23 @@ class ThematicPlan(BaseModel):
 
     def get_update_url(self):
         return reverse("repository_ThematicPlan_update", args=(self.pk,))
+
+
+class WorkPlanAcademicGroup(BaseModel):
+    digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE,
+                                         verbose_name="Ресурсное обеспечение")
+    academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
+                                       verbose_name="Академическая группа")
+
+    class Meta:
+        verbose_name = u"Ресурсное обеспечение академической группы"
+        verbose_name_plural = u"Ресурсное обеспечение академических групп"
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return reverse("repository_WorkPlanAcademicGroup_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
