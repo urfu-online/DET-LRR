@@ -398,6 +398,7 @@ class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
     list_display = [
         "digital_resource",
         "academic_group",
+        "semestr"
     ]
     readonly_fields = [
         "created",

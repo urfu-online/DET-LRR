@@ -473,6 +473,9 @@ class WorkPlanAcademicGroup(BaseModel):
                                          verbose_name="Ресурсное обеспечение")
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
                                        verbose_name="Академическая группа")
+    thematic_plan = models.ForeignKey("repository.ThematicPlan", verbose_name="Тематический план",
+                                      on_delete=models.PROTECT)
+    semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
 
     class Meta:
         verbose_name = u"Ресурсное обеспечение академической группы"

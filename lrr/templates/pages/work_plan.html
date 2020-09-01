@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 {% load static %}
+{% load user_tags %}
 {% block content %}
   <div class="container">
+    {% for item in obj_plan_next %}
+      {{ item.semestr }}
+  {% endfor %}
+    {% for item in obj_plan %}
+      <div class="ui segment">
+        <h4>Образовательная программа/Направление: {{ item.thematic_plan.edu_programs }}</h4>
+        <div class="ui two column stackable grid">
+          <div class="column">
+            <h4>Академическая группа: {{ academic_group }}</h4>
+          </div>
+          <div class="column">
+            <h4>Семестр: {{ item.semestr }}</h4>
+          </div>
+        </div>
+        {#        {% for obj in academic_group %}#}
+        {#          {{ obj }}#}
+        {#        {% endfor %}#}
 
-    <div class="row">
-      <div class="col-sm-12">
-{#        {% for obj in academic_group %}#}
-{#          {{ obj }}#}
-{#        {% endfor %}#}
-        {{ academic_group }}
-        {{ digital_resource }}
-        {{ test }}
         {#      <h2>{{ object.username }}</h2>#}
         {#      <p>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p>#}
         {#      <p>Страна: {{ person.country }}</p>#}
@@ -18,8 +28,44 @@
         {#      <p>Адрес проживания: {{ person.location }}</p>#}
         {#      <p>Дата рождения: {{ person.date_birthday }}</p>#}
         {#      <p>Академическая группа: {{ student.academic_group }}</p>#}
+
+        <table class="ui celled table">
+          <thead>
+          <tr>
+            <th>Дисциплина</th>
+            <th>Вид учебной<br/> деятельности/Часы</th>
+            <th>Технология реализации/<br/>Обеспечение дисциплины</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td data-label="Дисциплина">{{ item.thematic_plan.subject }}</td>
+            <td data-label="Вид учебной<br/> деятельности/Часы">{{ item.thematic_plan.subject.labor }}</td>
+            <td data-label="Технология реализации/<br/>Обеспечение дисциплины">
+              {% for tag in item.digital_resource.subjects_tags.all %}
+                  <div class="ui cards">
+                    <div class="card">
+                      <div class="content">
+                        <div class="header">{{ item.digital_resource.title }}</div>
+                        <div class="description">
+                          Тип ресура: {{ item.digital_resource.get_type_display }}
+                        </div>
+                      </div>
+                      <a class="ui bottom attached button" href="{{ item.digital_resource.get_absolute_url }}">
+                        <i class="sign in alternate icon"></i>
+                        Перейти к
+                        обеспечению
+                      </a>
+                    </div>
+                  </div>
+              {% endfor %}
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
+      <br/>
+    {% endfor %}
 
   </div>
 {% endblock content %}
