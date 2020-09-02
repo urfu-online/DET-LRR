@@ -74,7 +74,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "url",
-        "id",
+        "uuid",
     ]
     readonly_fields = [
         "last_updated",
