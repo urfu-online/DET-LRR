@@ -17,7 +17,8 @@ class User(AbstractUser):
 
 class Person(models.Model):
     # Relationships
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                             related_name='person')
 
     # Fields
     location = models.CharField("Адрес проживания", max_length=150, null=True, blank=True)

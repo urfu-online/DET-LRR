@@ -17,6 +17,7 @@
             <h4>Семестр: {{ item.semestr }}</h4>
           </div>
         </div>
+      <h4>ФИО: {{ request.user}} {{ person.first_name }} {{ person.middle_name }}</h4>
         {#        {% for obj in academic_group %}#}
         {#          {{ obj }}#}
         {#        {% endfor %}#}
@@ -33,15 +34,17 @@
           <thead>
           <tr>
             <th>Дисциплина</th>
-            <th>Вид учебной<br/> деятельности/Часы</th>
-            <th>Технология реализации/<br/>Обеспечение дисциплины</th>
+            <th>Цифровое обеспечение дисциплины, определенное преподавателем</th>
+            <th>Рекомендуемые цифровые ресурсы</th>
+            <th>Цифровые ресурсы, имеющиеся в каталоге</th>
           </tr>
           </thead>
           <tbody>
           <tr>
-            <td data-label="Дисциплина">{{ item.thematic_plan.subject }}</td>
-            <td data-label="Вид учебной<br/> деятельности/Часы">{{ item.thematic_plan.subject.labor }}</td>
-            <td data-label="Технология реализации/<br/>Обеспечение дисциплины">
+            <td data-label="Дисциплина">{{ item.thematic_plan.subject }} ({{ item.thematic_plan.subject.labor }} ч.)</td>
+            <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем"></td>
+            <td data-label="Рекомендуемые цифровые ресурсы"></td>
+            <td data-label="Цифровые ресурсы, имеющиеся в каталоге">
               {% for tag in item.digital_resource.subjects_tags.all %}
                   <div class="ui cards">
                     <div class="card">
