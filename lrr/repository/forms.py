@@ -166,5 +166,5 @@ class ThematicPlanForm(forms.ModelForm):
         fields = [
             "title",
             "subject",
-            "edu_programs",
+            "edu_program",
         ]

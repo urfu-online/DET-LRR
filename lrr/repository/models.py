@@ -7,7 +7,7 @@ from lrr.users.models import Person, Student
 
 
 class BaseModel(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
@@ -451,7 +451,7 @@ class SubjectTheme(BaseModel):
 class ThematicPlan(BaseModel):
     title = models.CharField("Наименование", max_length=50)
     subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Дисциплина")
-    edu_programs = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
+    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
                                      verbose_name="Образовательная программа")
 
     class Meta:
@@ -469,13 +469,14 @@ class ThematicPlan(BaseModel):
 
 
 class WorkPlanAcademicGroup(BaseModel):
-    digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE,
-                                         verbose_name="Ресурсное обеспечение")
+    digital_resource = models.ManyToManyField("repository.DigitalResource", verbose_name="Ресурсное обеспечение")
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
                                        verbose_name="Академическая группа")
-    thematic_plan = models.ForeignKey("repository.ThematicPlan", verbose_name="Тематический план",
-                                      on_delete=models.PROTECT)
+    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
+                                     verbose_name="Образовательная программа")
+    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Дисциплина")
     semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
+
 
     class Meta:
         verbose_name = u"Ресурсное обеспечение академической группы"

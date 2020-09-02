@@ -386,9 +386,9 @@ from django.shortcuts import render, get_object_or_404
 
 
 def WorkPlanView(request):
+    person = get_object_or_404(Person, user=request.user)
     academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
     obj_plan = models.WorkPlanAcademicGroup.objects.filter(academic_group=academic_group)
-    obj_plan_next = models.WorkPlanAcademicGroup.objects.filter(academic_group=academic_group).order_by('semestr')
     # obj_plan = get_object_or_404(models.WorkPlanAcademicGroup, academic_group=academic_group)
     # digital_resource = obj_plan.digital_resource
     # thematic_paln = obj_plan.thematic_paln
@@ -399,4 +399,4 @@ def WorkPlanView(request):
     #     academic_group.append(plan.academic_group)
 
     return render(request, 'pages/work_plan.html',
-                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'obj_plan_next': obj_plan_next})
+                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person})

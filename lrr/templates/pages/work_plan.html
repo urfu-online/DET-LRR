@@ -3,12 +3,9 @@
 {% load user_tags %}
 {% block content %}
   <div class="container">
-    {% for item in obj_plan_next %}
-      {{ item.semestr }}
-  {% endfor %}
     {% for item in obj_plan %}
       <div class="ui segment">
-        <h4>Образовательная программа/Направление: {{ item.thematic_plan.edu_programs }}</h4>
+        <h4>Образовательная программа/Направление: {{ item.edu_program }}</h4>
         <div class="ui two column stackable grid">
           <div class="column">
             <h4>Академическая группа: {{ academic_group }}</h4>
@@ -16,8 +13,11 @@
           <div class="column">
             <h4>Семестр: {{ item.semestr }}</h4>
           </div>
+          <div class="column">
+            <h4>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</h4>
+          </div>
         </div>
-      <h4>ФИО: {{ request.user}} {{ person.first_name }} {{ person.middle_name }}</h4>
+
         {#        {% for obj in academic_group %}#}
         {#          {{ obj }}#}
         {#        {% endfor %}#}
@@ -41,26 +41,50 @@
           </thead>
           <tbody>
           <tr>
-            <td data-label="Дисциплина">{{ item.thematic_plan.subject }} ({{ item.thematic_plan.subject.labor }} ч.)</td>
+            <td data-label="Дисциплина">{{ item.subject }} <br />({{ item.subject.labor }} ч.)</td>
             <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем"></td>
-            <td data-label="Рекомендуемые цифровые ресурсы"></td>
-            <td data-label="Цифровые ресурсы, имеющиеся в каталоге">
-              {% for tag in item.digital_resource.subjects_tags.all %}
-                  <div class="ui cards">
-                    <div class="card">
-                      <div class="content">
-                        <div class="header">{{ item.digital_resource.title }}</div>
-                        <div class="description">
-                          Тип ресура: {{ item.digital_resource.get_type_display }}
+            <td data-label="Рекомендуемые цифровые ресурсы">
+              {% for res in item.digital_resource.all %}
+                {% for dis in res.provided_disciplines.all %}
+                  {% if dis.subject == item.subject %}
+                    <div class="ui cards">
+                      <div class="card">
+                        <div class="content">
+                          <div class="header">{{ res.title }}</div>
+                          <div class="description">
+                            Тип ресура: {{ res.get_type_display }}
+                          </div>
                         </div>
+                        <a class="ui bottom attached button" href="{{ res.get_absolute_url }}">
+                          <i class="sign in alternate icon"></i>
+                          Перейти к
+                          обеспечению
+                        </a>
                       </div>
-                      <a class="ui bottom attached button" href="{{ item.digital_resource.get_absolute_url }}">
-                        <i class="sign in alternate icon"></i>
-                        Перейти к
-                        обеспечению
-                      </a>
                     </div>
-                  </div>
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+            </td>
+            <td data-label="Цифровые ресурсы, имеющиеся в каталоге">
+              {% for res in item.digital_resource.all %}
+                {% for tag in res.subjects_tags.all|in_tag:item.subject %}
+                    <div class="ui cards">
+                      <div class="card">
+                        <div class="content">
+                          <div class="header">{{ res.title }}</div>
+                          <div class="description">
+                            Тип ресура: {{ res.get_type_display }}
+                          </div>
+                        </div>
+                        <a class="ui bottom attached button" href="{{ res.get_absolute_url }}">
+                          <i class="sign in alternate icon"></i>
+                          Перейти к
+                          обеспечению
+                        </a>
+                      </div>
+                    </div>
+                {% endfor %}
               {% endfor %}
             </td>
           </tr>

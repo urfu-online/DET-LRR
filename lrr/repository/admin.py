@@ -74,7 +74,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "url",
-        "uuid",
+        "id",
     ]
     readonly_fields = [
         "last_updated",
@@ -197,7 +197,7 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         "created",
     ]
     readonly_fields = [
-        "uuid",
+        "id",
         "created",
         "last_updated",
     ]
@@ -270,7 +270,7 @@ class PlatformAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "url",
-        "uuid",
+        "id",
     ]
     readonly_fields = [
         "created"
@@ -380,7 +380,7 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "subject",
-        "edu_programs"
+        "edu_program"
     ]
     readonly_fields = [
         "created",
@@ -396,7 +396,7 @@ class WorkPlanAcademicGroupForm(forms.ModelForm):
 class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
     form = WorkPlanAcademicGroupForm
     list_display = [
-        "digital_resource",
+        "subject",
         "academic_group",
         "semestr"
     ]
