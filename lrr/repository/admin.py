@@ -197,7 +197,7 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         "created",
     ]
     readonly_fields = [
-        "id",
+        "uuid",
         "created",
         "last_updated",
     ]
@@ -270,7 +270,7 @@ class PlatformAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "url",
-        "id",
+        "uuid",
     ]
     readonly_fields = [
         "created"
