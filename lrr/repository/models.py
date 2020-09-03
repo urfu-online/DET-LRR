@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import uuid
+
 from django.db import models as models
 from django.urls import reverse
 
@@ -41,6 +42,12 @@ class DRStatus(BaseModel):
     # Relationships
     expertise_status = models.ForeignKey("repository.ExpertiseStatus", verbose_name="Статус экспертизы",
                                          on_delete=models.CASCADE)
+    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЦОР",
+                                         on_delete=models.CASCADE)
+    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
+                                    verbose_name="Утвержденная образовательная программа", blank=True, null=True)
+    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Утвержденная дисциплина",
+                                blank=True, null=True)
 
     # Fields
     quality_category = models.CharField("Категория качества", max_length=30, choices=QUALITY_CATEGORIES, blank=True)
@@ -235,8 +242,6 @@ class DigitalResource(BaseModel):
     subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЦОР", blank=True)
     edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЦОР",
                                                blank=True)
-    status_cor = models.ForeignKey("DRStatus", on_delete=models.CASCADE, verbose_name="Статус ЦОР", blank=True,
-                                   null=True)
     owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
                               verbose_name="Владелец", blank=True, null=True)
     language = models.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
@@ -248,12 +253,13 @@ class DigitalResource(BaseModel):
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
 
+
     # Fields
     title = models.CharField("Наименование ресурса", max_length=150)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
     keywords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
-    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    description = models.TextField("Описание", max_length=1024, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Паспорт ЦОР"
@@ -452,7 +458,7 @@ class ThematicPlan(BaseModel):
     title = models.CharField("Наименование", max_length=50)
     subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Дисциплина")
     edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
-                                     verbose_name="Образовательная программа")
+                                    verbose_name="Образовательная программа")
 
     class Meta:
         verbose_name = u"Тематический план"
@@ -473,8 +479,8 @@ class WorkPlanAcademicGroup(BaseModel):
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
                                        verbose_name="Академическая группа")
     edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
-                                     verbose_name="Образовательная программа")
-    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Дисциплина")
+                                    verbose_name="Образовательная программа")
+    subject = models.ManyToManyField("repository.Subject", verbose_name="Дисциплины")
     semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
 
 

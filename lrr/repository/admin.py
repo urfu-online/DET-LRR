@@ -13,6 +13,7 @@ class DRStatusAdminForm(forms.ModelForm):
 class DRStatusAdmin(admin.ModelAdmin):
     form = DRStatusAdminForm
     list_display = [
+        "digital_resource",
         "expertise_status",
         "quality_category",
         "interactive_category",
@@ -179,7 +180,6 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         "copyright_holder",
         "subjects_tags",
         "edu_programs_tags",
-        "status_cor",
         "owner",
         "provided_disciplines",
         "conformity_theme",
@@ -191,7 +191,6 @@ class DigitalResourceAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "type",
-        "status_cor",
         "source_data",
         "copyright_holder",
         "created",
@@ -396,7 +395,6 @@ class WorkPlanAcademicGroupForm(forms.ModelForm):
 class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
     form = WorkPlanAcademicGroupForm
     list_display = [
-        "subject",
         "academic_group",
         "semestr"
     ]

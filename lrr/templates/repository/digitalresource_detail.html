@@ -1,30 +1,53 @@
-
 {% extends "base.html" %}
 {% load static %}
+{% load user_tags %}
 {% block content %}
 
-<p>
-    <a class="btn btn-light" href="{% url 'repository:repository_digitalresource_list' %}">
-    DigitalResource Listing
-    </a>
-</p>
-<div class="ui segment">
-  <div class="ui two column stackable grid">
-    <div class="column">
+  {#  <p>#}
+  {#    <a class="btn btn-light" href="{% url 'repository:repository_digitalresource_list' %}">#}
+  {#      DigitalResource Listing#}
+  {#    </a>#}
+  {#  </p>#}
+  {% if request.user|has_group:"student" %}
+    <div class="ui segment">
+      <h3>{{ object.title }}</h3>
+      <div class="ui two column stackable grid">
+        {% for state in status.all %}
+          <div class="column">
+            Направление/ОП: {{ state.edu_program }}
+          </div>
+          <div class="column">
+            Дисциплина: {{ state.subject }}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="ui two column stackable grid">
+        <div class="column">
+          Авторы:
+        </div>
+        <div class="column">
+          {% for obj in object.authors.all %}<br/> {{ obj }} {% endfor %}
+        </div>
+      </div>
+      <div class="ui two column stackable grid">
+        <div class="column">
+          Компетенции/РО:
+        </div>
+        <div class="column">
+          {% for obj in object.result_edu.all %}<br/> {{ obj }} {% endfor %}
+        </div>
+      </div>
+      <div class="ui two column stackable grid">
+        <div class="column">
+          Описание:
+        </div>
+        <div class="column">
+          {{ object.description }}
+        </div>
+      </div>
     </div>
-    <div class="column">
-    </div>
-  </div>
-</div>
-<table class="table">
-    <tr><td>title</td><td>{{ object.title }}</td></tr>
-    <tr><td>created</td><td>{{ object.created }}</td></tr>
-    <tr><td>type</td><td>{{ object.type }}</td></tr>
-    <tr><td>source_data</td><td>{{ object.source_data }}</td></tr>
-    <tr><td>last_updated</td><td>{{ object.last_updated }}</td></tr>
-    <tr><td>keywords</td><td>{{ object.keywords }}</td></tr>
-    <tr><td>description</td><td>{{ object.description }}</td></tr>
-</table>
-<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
-
+  {% endif %}
+  {% if request.user.is_superuser %}
+    <a class="ui button basic secondary" href="{{ object.get_update_url }}"><i class="pen icon"></i>Редактировать</a>
+  {% endif %}
 {% endblock %}

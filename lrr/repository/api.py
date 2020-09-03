@@ -60,12 +60,30 @@ class ResultEduViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 class DigitalResourceViewSet(viewsets.ModelViewSet):
     """ViewSet for the DigitalResource class"""
 
     queryset = models.DigitalResource.objects.all()
     serializer_class = serializers.DigitalResourceSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer(self, *args, **kwargs):
+        """ if an array is passed, set serializer to many """
+        if isinstance(kwargs.get('data', {}), list):
+            kwargs['many'] = True
+        return super(DigitalResourceViewSet, self).get_serializer(*args, **kwargs)
+
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class CompetenceViewSet(viewsets.ModelViewSet):
@@ -138,7 +156,6 @@ class ThematicPlanViewSet(viewsets.ModelViewSet):
     queryset = models.ThematicPlan.objects.all()
     serializer_class = serializers.ThematicPlanSerializer
     permission_classes = [permissions.IsAuthenticated]
-
 
 # class PersonViewSet(viewsets.ModelViewSet):
 #     """ViewSet for the Person class"""

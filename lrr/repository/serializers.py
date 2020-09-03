@@ -1,6 +1,5 @@
 import logging
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse
+
 from rest_framework import serializers
 
 from lrr.users.models import Person
@@ -20,6 +19,7 @@ class DRStatusSerializer(serializers.ModelSerializer):
             "quality_category",
             "interactive_category",
         ]
+
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,6 +43,7 @@ class EduProgramSerializer(serializers.ModelSerializer):
             "short_description",
         ]
 
+
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
@@ -63,6 +64,7 @@ class SubjectTagSerializer(serializers.ModelSerializer):
             "tag",
         ]
 
+
 class EduProgramTagSerializer(serializers.ModelSerializer):
     tag = EduProgramSerializer(many=False, read_only=True)
 
@@ -72,6 +74,7 @@ class EduProgramTagSerializer(serializers.ModelSerializer):
             "id",
             "tag"
         ]
+
 
 class ExpertiseStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -93,6 +96,7 @@ class SubjectSerializer(serializers.ModelSerializer):
             "description",
             "labor",
         ]
+
 
 class ProvidingDisciplineSerializer(serializers.ModelSerializer):
     class Meta:
@@ -130,9 +134,10 @@ class LanguageSerializer(serializers.ModelSerializer):
 #             "competence"
 #         ]
 
+
 class DigitalResourceSerializer(serializers.ModelSerializer):
     authors = PersonSerializer(many=True, read_only=False)
-    owner = PersonSerializer(many=False, read_only=False)
+    # owner = PersonSerializer(many=False, read_only=False)
     subjects_tags = SubjectTagSerializer(many=True, read_only=False)
     edu_programs_tags = EduProgramTagSerializer(many=True, read_only=False)
     result_edu = ResultEduSerializer(many=True, read_only=False)
@@ -152,8 +157,7 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
             "authors",
             "subjects_tags",
             "edu_programs_tags",
-            "status_cor",
-            "owner",
+            # "owner",
             "result_edu",
 
             "last_updated",
@@ -162,6 +166,7 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Ищем, если не нашли, то создаем зависимые объекты
+        logger.warning(validated_data)
         authors_data = validated_data.pop('authors')
         authors = []
         for author_data in authors_data:
@@ -182,11 +187,17 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
             # Сделать поиск по персонам. Не создавать новых, если они есть
             edu_programs_tags.append(models.EduProgramTag.objects.create(**edu_programs_tag))
 
+        results_edu_data = validated_data.pop('result_edu')
+        results_edu = []
+        for result_edu_data in results_edu_data:
+            results_edu.append(models.ResultEdu.objects.create(**result_edu_data))
+
         # Создаем объект DR
         dr = models.DigitalResource.objects.create(**validated_data)
         dr.authors.set(authors)
         dr.subjects_tags.set(subjects_tags)
         dr.edu_programs_tags.set(edu_programs_tags)
+        dr.result_edu.set(results_edu)
         return dr
 
 

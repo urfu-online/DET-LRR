@@ -1,8 +1,8 @@
 from django.views import generic
 
+from lrr.users.models import Person, Student
 from . import forms
 from . import models
-from lrr.users.models import User, Person, Student, AcademicGroup
 
 
 class DRStatusListView(generic.ListView):
@@ -166,6 +166,11 @@ class DigitalResourceCreateView(generic.CreateView):
 class DigitalResourceDetailView(generic.DetailView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
+
+    def get_context_data(self, **kwargs):
+        context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
+        context['status'] = models.DRStatus.objects.filter(digital_resource=self.object)
+        return context
 
 
 class DigitalResourceUpdateView(generic.UpdateView):
@@ -383,12 +388,18 @@ class ThematicPlanUpdateView(generic.UpdateView):
 #     form_class = forms.PersonForm
 #     pk_url_kwarg = "pk"
 from django.shortcuts import render, get_object_or_404
+import logging
 
+logger = logging.getLogger(__name__)
 
 def WorkPlanView(request):
     person = get_object_or_404(Person, user=request.user)
     academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
     obj_plan = models.WorkPlanAcademicGroup.objects.filter(academic_group=academic_group)
+    status = []
+    for i in obj_plan:
+        for k in i.digital_resource.all():
+            status.append(models.DRStatus.objects.get(digital_resource=k))
     # obj_plan = get_object_or_404(models.WorkPlanAcademicGroup, academic_group=academic_group)
     # digital_resource = obj_plan.digital_resource
     # thematic_paln = obj_plan.thematic_paln
@@ -399,4 +410,4 @@ def WorkPlanView(request):
     #     academic_group.append(plan.academic_group)
 
     return render(request, 'pages/work_plan.html',
-                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person})
+                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person, 'status': status})

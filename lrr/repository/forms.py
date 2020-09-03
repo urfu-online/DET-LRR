@@ -7,9 +7,12 @@ class DRStatusForm(forms.ModelForm):
     class Meta:
         model = models.DRStatus
         fields = [
+            "digital_resource",
             "quality_category",
             "interactive_category",
             "expertise_status",
+            "edu_program",
+            "subject"
         ]
 
 
@@ -87,7 +90,6 @@ class DigitalResourceForm(forms.ModelForm):
             "authors",
             "copyright_holder",
             "subjects_tags",
-            "status_cor",
             "owner",
             "language",
             "provided_disciplines",

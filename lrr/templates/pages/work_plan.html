@@ -40,54 +40,62 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td data-label="Дисциплина">{{ item.subject }} <br />({{ item.subject.labor }} ч.)</td>
-            <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем"></td>
-            <td data-label="Рекомендуемые цифровые ресурсы">
-              {% for res in item.digital_resource.all %}
-                {% for dis in res.provided_disciplines.all %}
-                  {% if dis.subject == item.subject %}
-                    <div class="ui cards">
-                      <div class="card">
-                        <div class="content">
-                          <div class="header">{{ res.title }}</div>
-                          <div class="description">
-                            Тип ресура: {{ res.get_type_display }}
+          {% for sub in item.subject.all %}
+            <tr>
+              <td data-label="Дисциплина">{{ sub }} <br/>({{ sub.labor }} ч.)</td>
+              <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем"></td>
+              <td data-label="Рекомендуемые цифровые ресурсы">
+                {% for res in item.digital_resource.all %}
+                  {% for dis in res.provided_disciplines.all %}
+                    {% for state in status %}
+                      {% if dis.subject == sub and dis.edu_program == item.edu_program and state.expertise_status.accepted_status and state.digital_resource == res %}
+                        <div class="ui cards">
+                          <div class="card">
+                            <div class="content">
+                              <div class="header">{{ res.title }}</div>
+                              <div class="description">
+                                Тип ресура: {{ res.get_type_display }}
+                              </div>
+                            </div>
+                            <a class="ui bottom attached button" href="{{ res.get_absolute_url }}">
+                              <i class="sign in alternate icon"></i>
+                              Перейти к
+                              обеспечению
+                            </a>
                           </div>
                         </div>
-                        <a class="ui bottom attached button" href="{{ res.get_absolute_url }}">
-                          <i class="sign in alternate icon"></i>
-                          Перейти к
-                          обеспечению
-                        </a>
-                      </div>
-                    </div>
-                  {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endfor %}
                 {% endfor %}
-              {% endfor %}
-            </td>
-            <td data-label="Цифровые ресурсы, имеющиеся в каталоге">
-              {% for res in item.digital_resource.all %}
-                {% for tag in res.subjects_tags.all|in_tag:item.subject %}
-                    <div class="ui cards">
-                      <div class="card">
-                        <div class="content">
-                          <div class="header">{{ res.title }}</div>
-                          <div class="description">
-                            Тип ресура: {{ res.get_type_display }}
+              </td>
+              <td data-label="Цифровые ресурсы, имеющиеся в каталоге">
+                {% for res in item.digital_resource.all %}
+                  {% for sub_tag in res.subjects_tags.all %}
+                    {% for edu_tag in res.edu_programs_tags.all %}
+                      {% if sub == sub_tag.tag and item.edu_program == edu_tag.tag %}
+                        <div class="ui cards">
+                          <div class="card">
+                            <div class="content">
+                              <div class="header">{{ res.title }}</div>
+                              <div class="description">
+                                Тип ресура: {{ res.get_type_display }}
+                              </div>
+                            </div>
+                            <a class="ui bottom attached button" href="{{ res.get_absolute_url }}">
+                              <i class="sign in alternate icon"></i>
+                              Перейти к
+                              обеспечению
+                            </a>
                           </div>
                         </div>
-                        <a class="ui bottom attached button" href="{{ res.get_absolute_url }}">
-                          <i class="sign in alternate icon"></i>
-                          Перейти к
-                          обеспечению
-                        </a>
-                      </div>
-                    </div>
+                      {% endif %}
+                    {% endfor %}
+                  {% endfor %}
                 {% endfor %}
-              {% endfor %}
-            </td>
-          </tr>
+              </td>
+            </tr>
+          {% endfor %}
           </tbody>
         </table>
       </div>
