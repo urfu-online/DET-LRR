@@ -77,5 +77,6 @@ urlpatterns = (
     # path("repository/Person/create/", views.PersonCreateView.as_view(), name="repository_Person_create"),
     # path("repository/Person/detail/<int:pk>/", views.PersonDetailView.as_view(), name="repository_Person_detail"),
     # path("repository/Person/update/<int:pk>/", views.PersonUpdateView.as_view(), name="repository_Person_update"),
-    path("WorkPlan/", views.WorkPlanView, name="repository_WorkPlan")
+    path("WorkPlan/", views.WorkPlanView, name="repository_WorkPlan"),
+    path("resource/", views.ResourceListView, name="repository_Resource"),
 )

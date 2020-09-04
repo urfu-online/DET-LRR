@@ -1,8 +1,38 @@
-
 {% extends "base.html" %}
 {% block content %}
-{% for object in object_list %}
-  <div class="m-2"><a href="{{object.get_absolute_url}}">{{object}}</a></div>
-{% endfor %}
-<div><a class="btn btn-primary" href="{% url 'repository:repository_DigitalResource_create' %}">Create a new DigitalResource</a></div>
+  <div class="ui container">
+    <h2>Список паспортов цифровых образовательных ресурсов</h2>
+    <div class="ui three column doubling grid container">
+      {% for object in object_list %}
+        <div class="column">
+          <div class="ui cards" style="min-height: 15em !important;">
+            <a class="ui link card" href="{{ object.get_absolute_url }}">
+              <div class="content">
+                <div class="header">{{ object.title }}</div>
+                <div class="meta">
+                  <span class="category">Тип ресура: {{ object.get_type_display }}</span>
+                </div>
+                <div class="description">
+                  Платформа: {{ object.platform }}
+                </div>
+              </div>
+              <div class="extra content">
+                <div class="right floated author">
+                  <i class="graduation cap icon"></i>
+                  {{ object.copyright_holder }}
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% if request.user.is_superuser %}
+      <div class="ui container" style="margin-top: 1em;">
+        <a class="ui button secondary" href="{% url 'repository:repository_DigitalResource_create' %}">
+          <i class="plus icon"></i>Добавить паспорт ЦОР
+        </a>
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}

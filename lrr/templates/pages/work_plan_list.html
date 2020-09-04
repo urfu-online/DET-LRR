@@ -2,7 +2,7 @@
 {% load static %}
 {% load user_tags %}
 {% block content %}
-  <div class="container">
+  <div class="ui container">
     {% for item in obj_plan %}
       <div class="ui segment">
         <h4>Образовательная программа/Направление: {{ item.edu_program }}</h4>
@@ -50,19 +50,23 @@
                     {% for state in status %}
                       {% if dis.subject == sub and dis.edu_program == item.edu_program and state.expertise_status.accepted_status and state.digital_resource == res %}
                         <div class="ui cards">
-                          <div class="card">
+                          <a class="ui link card" href="{{ res.get_absolute_url }}">
                             <div class="content">
                               <div class="header">{{ res.title }}</div>
+                              <div class="meta">
+                                <span class="category">Тип ресура: {{ res.get_type_display }}</span>
+                              </div>
                               <div class="description">
-                                Тип ресура: {{ res.get_type_display }}
+                                Платформа: {{ res.platform }}
                               </div>
                             </div>
-                            <a class="ui bottom attached button" href="{{ res.get_absolute_url }}">
-                              <i class="sign in alternate icon"></i>
-                              Перейти к
-                              обеспечению
-                            </a>
-                          </div>
+                            <div class="extra content">
+                              <div class="right floated author">
+                                <i class="graduation cap icon"></i>
+                                {{ res.copyright_holder }}
+                              </div>
+                            </div>
+                          </a>
                         </div>
                       {% endif %}
                     {% endfor %}
@@ -74,21 +78,23 @@
                   {% for sub_tag in res.subjects_tags.all %}
                     {% for edu_tag in res.edu_programs_tags.all %}
                       {% if sub == sub_tag.tag and item.edu_program == edu_tag.tag %}
-                        <div class="ui cards">
-                          <div class="card">
-                            <div class="content">
-                              <div class="header">{{ res.title }}</div>
-                              <div class="description">
-                                Тип ресура: {{ res.get_type_display }}
-                              </div>
+                        <a class="ui link card" href="{{ res.get_absolute_url }}">
+                          <div class="content">
+                            <div class="header">{{ res.title }}</div>
+                            <div class="meta">
+                              <span class="category">Тип ресура: {{ res.get_type_display }}</span>
                             </div>
-                            <a class="ui bottom attached button" href="{{ res.get_absolute_url }}">
-                              <i class="sign in alternate icon"></i>
-                              Перейти к
-                              обеспечению
-                            </a>
+                            <div class="description">
+                              Платформа: {{ res.platform }}
+                            </div>
                           </div>
-                        </div>
+                          <div class="extra content">
+                            <div class="right floated author">
+                              <i class="graduation cap icon"></i>
+                              {{ res.copyright_holder }}
+                            </div>
+                          </div>
+                        </a>
                       {% endif %}
                     {% endfor %}
                   {% endfor %}

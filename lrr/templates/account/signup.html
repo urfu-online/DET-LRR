@@ -26,6 +26,24 @@
               {{ form.username }}
             </div>
           </div>
+{#          <div class="field">#}
+{#            <div class="ui left icon input">#}
+{#              <i class="user icon"></i>#}
+{#              {{ form.first_name }}#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="field">#}
+{#            <div class="ui left icon input">#}
+{#              <i class="user icon"></i>#}
+{#              {{ form.last_name }}#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="field">#}
+{#            <div class="ui left icon input">#}
+{#              <i class="user icon"></i>#}
+{#              {{ form.middle_name }}#}
+{#            </div>#}
+{#          </div>#}
           <div class="field">
             <div class="ui left icon input">
               <i class="lock icon"></i>
@@ -41,7 +59,8 @@
           {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
           {% endif %}
-          <button class="ui fluid large secondary submit button" style="margin-top:1em;" type="submit">{% trans "Sign Up" %}</button>
+          <button class="ui fluid large secondary submit button" style="margin-top:1em;"
+                  type="submit">{% trans "Sign Up" %}</button>
         </div>
       </form>
     </div>

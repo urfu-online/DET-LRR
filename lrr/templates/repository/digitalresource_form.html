@@ -2,52 +2,75 @@
 {% load static %}
 {% block content %}
 
-  <p>
-    <a class="btn btn-light" href="{% url 'repository:repository_digitalresource_list' %}">
-      DigitalResource Listing
-    </a>
-  </p>
-
-  <form method="post">
-    {% csrf_token %}
-    {{ form.errors }}
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label" for="id">id: </label>
-      <input class="form-control col-sm-10" id="id" type="text" name="id" value="{{ object.id }}" disabled>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label" for="title">title: </label>
-      <input class="form-control col-sm-10" id="title" type="text" name="title" value="{{ object.title }}">
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label" for="created">created: </label>
-      <input class="form-control col-sm-10" id="created" type="datetime-local" name="created"
-             value="{{ object.created }}" disabled>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label" for="type">type: </label>
-      <input class="form-control col-sm-10" id="type" type="text" name="type" value="{{ object.type }}">
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label" for="source_data">source_data: </label>
-      <input class="form-control col-sm-10" id="source_data" type="text" name="source_data"
-             value="{{ object.source_data }}">
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label" for="last_updated">last_updated: </label>
-      <input class="form-control col-sm-10" id="last_updated" type="datetime-local" name="last_updated"
-             value="{{ object.last_updated }}" disabled>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label" for="keywords">keywords: </label>
-      <input class="form-control col-sm-10" id="keywords" type="text" name="keywords" value="{{ object.keywords }}">
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-2 col-form-label" for="description">description: </label>
-      <input class="form-control col-sm-10" id="description" type="text" name="description"
-             value="{{ object.description }}">
-    </div>
-    <input type="submit" value="Save" class="btn btn-primary">
-  </form>
-
+  <div class="ui container">
+    <form class="ui form segment" method="post">
+      {% csrf_token %}
+      {{ form.errors }}
+      <div class="four fields">
+        <div class="field">
+          <label>{{ form.title.label }}</label>
+          {{ form.title }}
+        </div>
+        <div class="field">
+          <label>{{ form.type.label }}</label>
+          {{ form.type }}
+        </div>
+        <div class="field">
+          <label>{{ form.source_data.label }}</label>
+          {{ form.source_data }}
+        </div>
+        <div class="field">
+          <label>{{ form.language.label }}</label>
+          {{ form.language }}
+        </div>
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <label>{{ form.owner.label }}</label>
+          {{ form.owner }}
+        </div>
+        <div class="field">
+          <label>{{ form.copyright_holder.label }}</label>
+          {{ form.copyright_holder }}
+        </div>
+        <div class="field">
+          <label>{{ form.platform.label }}</label>
+          {{ form.platform }}
+        </div>
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <label>{{ form.subjects_tags.label }}</label>
+          {{ form.subjects_tags }}
+        </div>
+        <div class="field">
+          <label>{{ form.edu_programs_tags.label }}</label>
+          {{ form.edu_programs_tags }}
+        </div>
+        <div class="field">
+          <label>{{ form.authors.label }}</label>
+          {{ form.authors }}
+        </div>
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <label>{{ form.provided_disciplines.label }}</label>
+          {{ form.provided_disciplines }}
+        </div>
+        <div class="field">
+          <label>{{ form.result_edu.label }}</label>
+          {{ form.result_edu }}
+        </div>
+        <div class="field">
+          <label>{{ form.authors.label }}</label>
+          {{ form.authors }}
+        </div>
+      </div>
+      <div class="field">
+        <label>{{ form.description.label }}</label>
+        {{ form.description }}
+      </div>
+      <input type="submit" value="Сохранить" class="ui button secondary">
+    </form>
+  </div>
 {% endblock %}

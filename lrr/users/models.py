@@ -4,6 +4,7 @@ from django.db import models as models
 from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.db.models.signals import post_save
 
 
 class User(AbstractUser):
@@ -43,6 +44,17 @@ class Person(models.Model):
 
     def get_update_url(self):
         return reverse("repository_Person_update", args=(self.pk,))
+
+#     def save(self, *args, **kwargs):
+#         super().save(*args, **kwargs)
+#
+# def person_receiver(sender, instance, created, *args, **kwargs):
+#     if created:
+#         person = Person.objects.create(user=instance)
+#     else:
+#         instance.person.save()
+#
+# post_save.connect(person_receiver, sender=settings.AUTH_USER_MODEL)
 
 
 class Student(models.Model):

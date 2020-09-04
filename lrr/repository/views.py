@@ -392,6 +392,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def WorkPlanView(request):
     person = get_object_or_404(Person, user=request.user)
     academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
@@ -409,5 +410,12 @@ def WorkPlanView(request):
     # for plan in thematic_plans:
     #     academic_group.append(plan.academic_group)
 
-    return render(request, 'pages/work_plan.html',
+    return render(request, 'pages/work_plan_list.html',
                   {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person, 'status': status})
+
+
+def ResourceListView(request):
+    person = get_object_or_404(Person, user=request.user)
+    my_resource = models.DigitalResource.objects.filter(owner=person)
+    # status = models.DRStatus.objects.filter(digital_resource=for i in
+    return render(request, 'pages/resource_list.html', {'my_resource': my_resource})

@@ -300,6 +300,8 @@ ACCOUNT_ADAPTER = "lrr.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "lrr.users.adapters.SocialAccountAdapter"
 
+# ACCOUNT_SIGNUP_FORM_CLASS = 'lrr.users.forms.SignupForm'
+
 # django-rest-framework
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/

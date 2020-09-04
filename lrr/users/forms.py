@@ -55,3 +55,24 @@ class PersonForm(form.ModelForm):
             "last_name",
             "user",
         ]
+
+
+# class SignupForm(form.Form):
+#     class Meta:
+#         model = models.Person
+#         fields = [
+#             "middle_name",
+#             "first_name",
+#             "last_name",
+#             "user",
+#         ]
+#
+#     first_name = form.CharField(max_length=100, label='Имя')
+#     last_name = form.CharField(max_length=100, label='Фамилия')
+#     middle_name = form.CharField(max_length=100, label='Отчество')
+#
+#     def signup(self, request, user):
+#         user.person.first_name = self.cleaned_data['first_name']
+#         user.person.last_name = self.cleaned_data['last_name']
+#         user.person.middle_name = self.cleaned_data['middle_name']
+#         user.person.save()

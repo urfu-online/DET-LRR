@@ -36,8 +36,7 @@
 
 </head>
 
-<body>
-
+<body class="back">
 <div class="ui fixed inverted menu">
   <div class="ui container">
     <a href="{% url 'home' %}" class="header item">
@@ -55,10 +54,26 @@
       <a class="item"
          href="{% url 'repository:repository_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>
     {% endif %}
+    {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
+      <div class="ui simple dropdown item">Сотруднику<i class="dropdown icon"></i>
+        <div class="menu">
+          {% if request.user|has_group:"expert" %}
+            <a class="item" href="">Экспертизы ЦОР</a>
+          {% endif %}
+          {% if request.user|has_group:"staff" %}
+            <a class="item" href="">Компоновка рабочего плана</a>
+          {% endif %}
+          {% if request.user|has_group:"teacher" %}
+            <a class="item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЦОР</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
     {% if request.user.is_authenticated %}
       <div class="ui menu inverted right ">
         <div class="item">
-          <a class="ui inverted button" href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>
+          <a class="ui inverted button"
+             href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>
         </div>
         <div class="item">
           <a class="ui inverted button" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
@@ -133,7 +148,8 @@
 {#</div>#}
 
 
-<div class="ui main container">
+<div class="ui ">
+  <div class="ui container" style="padding-bottom: 5em"></div>
   {% if messages %}
     {% for message in messages %}
       <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
@@ -147,36 +163,57 @@
     <p>Use this document as a way to quick start any new project.</p>
   {% endblock content %}
 </div> <!-- /container -->
+<div class="ui inverted vertical footer segment form-page">
+  <div class="ui container">
+    <div class="ui stackable inverted divided equal height stackable grid">
+      <div class="three wide column">
+        <p><i class="copyright outline icon"></i>ФГАОУ ВО «УрФУ имени первого Президента России Б.Н.Ельцина»</p>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui inverted header">Техническая поддержка:</h4>
+        <div class="ui inverted link list">
+          <p class="item">openedu@urfu.ru</p>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <h4 class="ui inverted header">Мы в социальных сетях:</h4>
+        <div class="ui inverted link list">
+          <a href="https://vk.com/openedu" class="item">Вконтакте</a>
+          <a href="https://www.instagram.com/urfu.ru/?hl=ru" class="item">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-{% block modal %}{% endblock modal %}
+  {% block modal %}{% endblock modal %}
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-{% block javascript %}
+  <!-- Le javascript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  {% block javascript %}
 
-  <!-- Bootstrap JS and its dependencies-->
+    <!-- Bootstrap JS and its dependencies-->
 
-  {#  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"#}
-  {#          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"#}
-  {#          crossorigin="anonymous"></script>#}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-          crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-          crossorigin="anonymous"></script>
-
-
-  <!-- Your stuff: Third-party javascript libraries go here -->
+    {#  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"#}
+    {#          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"#}
+    {#          crossorigin="anonymous"></script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 
 
-  <!-- place project specific Javascript in this file -->
-
-  <script src="{% static 'js/project.js' %}"></script>
+    <!-- Your stuff: Third-party javascript libraries go here -->
 
 
-{% endblock javascript %}
+    <!-- place project specific Javascript in this file -->
+
+    <script src="{% static 'js/project.js' %}"></script>
+
+
+  {% endblock javascript %}
 </body>
 </html>
 
