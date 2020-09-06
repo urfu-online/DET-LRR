@@ -28,6 +28,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
+        # TODO: Если юзер - стафф, то не проверяем его на студента. Лучше сделать группу для стаффа
         context['person'] = get_object_or_404(models.Person, user__username=self.kwargs['username'])
         context['student'] = get_object_or_404(models.Student, person=context['person'])
         # context['person'] = models.Person.objects.filter(user__username__iexact=self.kwargs.get('username'))
