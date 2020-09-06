@@ -3,6 +3,8 @@ from django.contrib.auth import forms, get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from allauth.account.forms import SignupForm
+
 from lrr.users import models
 
 User = get_user_model()
@@ -13,33 +15,16 @@ class UserChangeForm(forms.UserChangeForm):
         model = models.Person
 
 
-class UserCreationForm(forms.UserCreationForm):
-    error_message = forms.UserCreationForm.error_messages.update(
-        {"duplicate_username": _("This username has already been taken.")}
-    )
+class UserSignupForm(SignupForm):
+    def save(self, request):
+        # Ensure you call the parent class's save.
+        # .save() returns a User object.
+        user = super(SignupForm, self).save(request)
 
-    class Meta(forms.UserCreationForm.Meta):
-        model = User
+        # Add your own processing here.
 
-    def clean_username(self):
-        username = self.cleaned_data["username"]
-
-        try:
-            User.objects.get(username=username)
-        except User.DoesNotExist:
-            return username
-
-        raise ValidationError(self.error_messages["duplicate_username"])
-
-    # def clean_username(self):
-    #     username = self.cleaned_data["username"]
-    #
-    #     try:
-    #         User.objects.get(username=username)
-    #     except User.DoesNotExist:
-    #         return username
-
-        # raise ValidationError(self.error_messages["duplicate_username"])
+        # You must return the original result.
+        return user
 
 
 class StudentForm(form.ModelForm):
@@ -65,7 +50,6 @@ class PersonForm(form.ModelForm):
             "last_name",
             "user",
         ]
-
 
 # class SignupForm(form.Form):
 #     class Meta:
