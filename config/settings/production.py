@@ -169,3 +169,4 @@ sentry_sdk.init(
 # ------------------------------------------------------------------------------
 
 INSTALLED_APPS += ["schema_graph", ]
+INSTALLED_APPS += ["django_extensions"]  # noqa F405
