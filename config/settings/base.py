@@ -20,7 +20,7 @@ DEVELOPMENT = True
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG", False)
+DEBUG = env.bool("w", False)
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -184,7 +184,7 @@ TEMPLATES = [
                 "django.template.loaders.app_directories.Loader",
             ],
             'libraries': {
-                'user_tags':'lrr.templatetags.user_tags'
+                'user_tags': 'lrr.templatetags.user_tags'
             },
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
@@ -320,9 +320,11 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     "DATETIME_INPUT_FORMATS": [
-        "%d-%m-%Y"
+        "iso-8601"
     ]
 }
 
+DATETIME_INPUT_FORMATS = ["iso-8601"]
+DATE_INPUT_FORMATS = ["iso-8601"]
 # Your stuff...
 # ------------------------------------------------------------------------------

@@ -1,10 +1,29 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load tz %}
+
 
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
+  {% localtime on %}
   <div class="ui container">
+
+  {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
     <form class="ui form segment" method="post" action="{% url 'users:update' %}">
       {% csrf_token %}
       <h2>Пользователь: {{ user.username }}</h2>
@@ -37,6 +56,7 @@
         </div>
       </div>
       <div class="field">
+
         <label>{{ form.date_birthday.label }}</label>
         <div class="ui calendar" id="standard_calendar">
           <div class="ui input left icon">
@@ -70,12 +90,10 @@
       formatter: {
         date: function (date, settings) {
           if (!date) return '';
-          var day = date.getDate();
-          var month = date.getMonth() + 1;
-          var year = date.getFullYear();
-          return day + '.' + month + '.' + year;
+          return date.toISOString()
         }
       }
     });
   </script>
+  {% endlocaltime %}
 {% endblock %}

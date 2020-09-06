@@ -5,7 +5,7 @@ from lrr.users.api.views import StudentViewSet, PersonViewSet
 from lrr.users.views import (
     user_detail_view,
     user_redirect_view,
-    user_update_view,
+    UserProfileUpdateView,
     # PersonDetailView,
     # PersonUpdateView,
     # StudentDetailView,
@@ -20,7 +20,7 @@ router = routers.DefaultRouter()
 app_name = "users"
 urlpatterns = [
     path("~redirect/", view=user_redirect_view, name="redirect"),
-    path("~update/", view=user_update_view, name="update"),
+    path("~update/", view=UserProfileUpdateView.as_view(), name="update"),
     path("<str:username>/", view=user_detail_view, name="detail"),
     # path("Student/detail/<int:pk>/", StudentDetailView.as_view(), name="Student_detail"),
     # path("Student/update/<int:pk>/", StudentUpdateView.as_view(), name="Student_update"),

@@ -38,16 +38,7 @@ user_detail_view = UserDetailView.as_view()
 
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Person
-    fields = [
-        "last_name",
-        "first_name",
-        "middle_name",
-        "country",
-        "location",
-        "city",
-        "date_birthday",
-        "avatar",
-    ]
+    form_class = forms.PersonForm
 
     def get_success_url(self):
         return reverse("users:detail", kwargs={"username": self.request.user.username})
@@ -56,13 +47,13 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
         return models.Person.get_or_create(user=self.request.user)
 
     def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
         messages.add_message(
             self.request, messages.INFO, _("Информация успешно обновлена")
         )
         return super().form_valid(form)
-
-
-user_update_view = UserUpdateView.as_view()
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):

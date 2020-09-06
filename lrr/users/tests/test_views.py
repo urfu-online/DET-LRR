@@ -7,14 +7,14 @@ from lrr.users.models import User
 from lrr.users.tests.factories import UserFactory
 from lrr.users.views import (
     UserRedirectView,
-    UserUpdateView,
+    UserProfileUpdateView,
     user_detail_view,
 )
 
 pytestmark = pytest.mark.django_db
 
 
-class TestUserUpdateView:
+class TestUserProfileUpdateView:
     """
     TODO:
         extracting view initialization code as class-scoped fixture
@@ -24,7 +24,7 @@ class TestUserUpdateView:
     """
 
     def test_get_success_url(self, user: User, rf: RequestFactory):
-        view = UserUpdateView()
+        view = UserProfileUpdateView()
         request = rf.get("/fake-url/")
         request.user = user
 
@@ -33,7 +33,7 @@ class TestUserUpdateView:
         assert view.get_success_url() == f"/users/{user.username}/"
 
     def test_get_object(self, user: User, rf: RequestFactory):
-        view = UserUpdateView()
+        view = UserProfileUpdateView()
         request = rf.get("/fake-url/")
         request.user = user
 
@@ -44,7 +44,7 @@ class TestUserUpdateView:
 
 class TestUserRedirectView:
     def test_get_redirect_url(self, user: User, rf: RequestFactory):
-        view = UserRedirectView()
+        view = UserProfileUpdateView()
         request = rf.get("/fake-url")
         request.user = user
 
