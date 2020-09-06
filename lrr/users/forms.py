@@ -31,6 +31,16 @@ class UserCreationForm(forms.UserCreationForm):
 
         raise ValidationError(self.error_messages["duplicate_username"])
 
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+
+        try:
+            User.objects.get(username=username)
+        except User.DoesNotExist:
+            return username
+
+        raise ValidationError(self.error_messages["duplicate_username"])
+
 
 class StudentForm(form.ModelForm):
     class Meta:
