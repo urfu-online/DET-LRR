@@ -55,7 +55,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return reverse("users:detail", kwargs={"username": self.request.user.username})
 
     def get_object(self):
+        # TODO: Заменить get_object_or_404 на get_or_create, создав в модели Person classmethod
         return get_object_or_404(models.Person, user__username=self.request.user.username)
+
 
     def form_valid(self, form):
         messages.add_message(

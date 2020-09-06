@@ -26,11 +26,11 @@ class Person(models.Model):
     date_birthday = models.DateTimeField("Дата рождения", null=True, blank=True)
     city = models.CharField("Город", max_length=100, null=True, blank=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    middle_name = models.CharField("Отчество", max_length=100)
+    middle_name = models.CharField("Отчество", max_length=100, null=True, blank=True)
     country = models.CharField("Страна", max_length=100, null=True, blank=True)
-    first_name = models.CharField("Имя", max_length=45)
+    first_name = models.CharField("Имя", max_length=45, null=True, blank=True)
     avatar = models.ImageField("Изображение профиля", upload_to="upload/images/", null=True, blank=True)
-    last_name = models.CharField("Фамилия", max_length=100)
+    last_name = models.CharField("Фамилия", max_length=100, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Профиль"
@@ -44,6 +44,19 @@ class Person(models.Model):
 
     def get_update_url(self):
         return reverse("repository_Person_update", args=(self.pk,))
+
+    @classmethod
+    def get_or_create(cls, user):
+        try:
+            obj = cls.objects.get(user=user)
+        except cls.DoesNotExist:
+            obj = cls(user=user)
+            obj.save()
+
+        return obj
+
+
+# TODO: add reciever
 
 #     def save(self, *args, **kwargs):
 #         super().save(*args, **kwargs)
