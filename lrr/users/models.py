@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 
+from django.core.exceptions import MultipleObjectsReturned
+
 
 class User(AbstractUser):
     # First Name and Last Name do not cover name patterns
@@ -14,6 +16,13 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
+
+    def get_person(self):
+        person = Person.objects.filter(user=self)
+        try:
+            return person.first()
+        except MultipleObjectsReturned:
+            raise person
 
 
 class Person(models.Model):

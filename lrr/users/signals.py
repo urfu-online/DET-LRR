@@ -5,11 +5,11 @@ from .models import User, Person, Student
 
 
 @receiver(user_signed_up, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Person.objects.create(user=instance)
+def create_profile(*args, **kwargs):
+    Person.objects.create(user=kwargs['user'])
 
 
 @receiver(user_signed_up, sender=User)
-def save_profile(sender, instance, **kwargs):
-    instance.person.save()
+def save_profile(*args, **kwargs):
+    person = kwargs["user"].get_person()
+    person.save()

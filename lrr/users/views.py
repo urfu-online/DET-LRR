@@ -19,26 +19,24 @@ User = get_user_model()
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
-    model = models.User
+    model = User
     slug_field = "username"
     slug_url_kwarg = "username"
 
-    def get_person(self):
-        return get_object_or_404(models.Person, user__username=self.kwargs['username'])
+    def get_person(self, request):
+        return request.user.get_person()
 
-    def get_context_data(self, request, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
-        # TODO: Если юзер - стафф, то не проверяем его на студента. Лучше сделать группу для стаффа
-        context['person'] = models.Person.get_or_create(user=request.user)
-        #context['student'] = get_object_or_404(models.Student, person=context['person'])
-        # context['person'] = models.Person.objects.filter(user__username__iexact=self.kwargs.get('username'))
+        context['person'] = models.Person.get_or_create(user=self.request.user)
+        # context['student'] = get_object_or_404(models.Student, person=context['person'])
         return context
 
 
 user_detail_view = UserDetailView.as_view()
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Person
     fields = [
         "last_name",
@@ -54,8 +52,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse("users:detail", kwargs={"username": self.request.user.username})
 
-    def get_object(self):
-        # TODO: Заменить get_object_or_404 на get_or_create, создав в модели Person classmethod
+    def get_object(self, queryset=""):
         return models.Person.get_or_create(user=self.request.user)
 
     def form_valid(self, form):
