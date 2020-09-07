@@ -419,3 +419,9 @@ def ResourceListView(request):
     my_resource = models.DigitalResource.objects.filter(owner=person)
     # status = models.DRStatus.objects.filter(digital_resource=for i in
     return render(request, 'pages/resource_list.html', {'my_resource': my_resource})
+
+
+def ExpertiseListView(request):
+    status = models.DRStatus.objects.all()
+    # status = models.DRStatus.objects.filter(digital_resource=for i in
+    return render(request, 'pages/expert_list.html', {'status': status})

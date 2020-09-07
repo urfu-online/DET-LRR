@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <p>
+    <a class="ui basic button" href="{% url 'repository:repository_Expertise' %}">
+      Назад
+    </a>
+  </p>
+  <div class="ui two column doubling stackable grid" style="padding-left:5em; padding-right:5em">
+    <div class="column">
+      <div class="ui segment container">
+        <table class="table">
+          <tr>
+            <td>created</td>
+            <td>{{ object.created }}</td>
+          </tr>
+          <tr>
+            <td>quality_category</td>
+            <td>{{ object.quality_category }}</td>
+          </tr>
+          <tr>
+            <td>interactive_category</td>
+            <td>{{ object.interactive_category }}</td>
+          </tr>
+        </table>
+        <a class="btn btn-primary" href="{{ object.get_update_url }}">Edit</a>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui segment column container">
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

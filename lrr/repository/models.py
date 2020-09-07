@@ -63,10 +63,10 @@ class DRStatus(BaseModel):
                                  self.get_interactive_category_display())
 
     def get_absolute_url(self):
-        return reverse("repository_Status_COR_detail", args=(self.pk,))
+        return reverse("repository:repository_DRStatus_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_Status_COR_update", args=(self.pk,))
+        return reverse("repository:repository_DRStatus_update", args=(self.pk,))
 
 
 class ExpertiseStatus(BaseModel):

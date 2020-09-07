@@ -7,8 +7,8 @@ from . import views
 urlpatterns = (
     path("DRStatus/", views.DRStatusListView.as_view(), name="repository_DRStatus_list"),
     path("DRStatus/create/", views.DRStatusCreateView.as_view(), name="repository_DRStatus_create"),
-    path("DRStatus/detail/<int:pk>/", views.DRStatusDetailView.as_view(), name="repository_DRStatus_detail"),
-    path("DRStatus/update/<int:pk>/", views.DRStatusUpdateView.as_view(), name="repository_DRStatus_update"),
+    path("DRStatus/detail/<uuid:pk>/", views.DRStatusDetailView.as_view(), name="repository_DRStatus_detail"),
+    path("DRStatus/update/<uuid:pk>/", views.DRStatusUpdateView.as_view(), name="repository_DRStatus_update"),
     path("ExpertiseStatus/", views.ExpertiseStatusListView.as_view(), name="repository_ExpertiseStatus_list"),
     path("ExpertiseStatus/create/", views.ExpertiseStatusCreateView.as_view(), name="repository_ExpertiseStatus_create"),
     path("repository/ExpertiseStatus/detail/<int:pk>/", views.ExpertiseStatusDetailView.as_view(), name="repository_ExpertiseStatus_detail"),
@@ -79,4 +79,5 @@ urlpatterns = (
     # path("repository/Person/update/<int:pk>/", views.PersonUpdateView.as_view(), name="repository_Person_update"),
     path("WorkPlan/", views.WorkPlanView, name="repository_WorkPlan"),
     path("resource/", views.ResourceListView, name="repository_Resource"),
+    path("expertises/", views.ExpertiseListView, name="repository_Expertise"),
 )

@@ -3,59 +3,39 @@
 {% load user_tags %}
 {% block content %}
   <div class="ui two column doubling grid" style="padding-left: 10em; padding-right: 10em;">
-  <div class="ui segment three column doubling grid">
-    <h2>Мои ресурсы</h2>
-    <div class="ui relaxed divided items">
-      {% for object in my_resource %}
-        <div class="item">
-          <div class="content">
-            <div class="header">{{ object.title }}</div>
-            <div class="meta">
-              <span class="category">Тип ресура: {{ object.get_type_display }}</span>
-            </div>
-            <div class="description">
-              {{ object.description }}
-            </div>
-            <div class="extra">
-              <div class="left floated author">
-                <i class="graduation cap icon"></i>
-                {{ object.copyright_holder }}
+    <div class="ui segment three column doubling grid">
+      <div class="ui grid ">
+        <div class="eleven wide column "><h2>Мои ресурсы</h2></div>
+        <div class="five wide column ">
+          <a class="ui  button " href="{% url 'repository:repository_DigitalResource_create' %}">
+            <i class="plus icon"></i>Добавить ресурс</a>
+        </div>
+      </div>
+      <div class="ui relaxed divided items">
+        {% for object in my_resource %}
+          <div class="item">
+            <div class="content">
+              <div class="header">{{ object.title }}</div>
+              <div class="meta">
+                <span class="category">Тип ресура: {{ object.get_type_display }}</span>
               </div>
-              <div class="right floated author">
-              <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>
-              <a class="ui button mini" href="{{ object.get_update_url }}"><i class="pen icon"></i>Редактировать</a>
+              <div class="description">
+                {{ object.description }}
+              </div>
+              <div class="extra">
+                <div class="left floated author">
+                  <i class="graduation cap icon"></i>
+                  {{ object.copyright_holder }}
+                </div>
+                <div class="right floated author">
+                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>
+                  <a class="ui button mini" href="{{ object.get_update_url }}"><i class="pen icon"></i>Редактировать</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-
-        {#        <div class="column">#}
-        {#          <div class="ui cards" style="min-height: 17em !important;">#}
-        {#            <div class="ui card">#}
-        {#              <div class="content">#}
-        {#                <div class="header">{{ object.title }}</div>#}
-        {#                <div class="meta">#}
-        {#                  <span class="category">Тип ресура: {{ object.get_type_display }}</span>#}
-        {#                </div>#}
-        {#                <div class="description">#}
-        {#                  Платформа: {{ object.platform }}#}
-        {#                </div>#}
-        {#              </div>#}
-        {#              <div class="extra content">#}
-        {#                <div class="right floated author">#}
-        {#                  <i class="graduation cap icon"></i>#}
-        {#                  {{ object.copyright_holder }}#}
-        {#                </div>#}
-        {#              </div>#}
-        {#              <div class="ui two bottom attached buttons">#}
-        {#                <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>#}
-        {#                <a class="ui button mini" href="{{ object.get_update_url }}"><i class="pen icon"></i>Редактировать</a>#}
-        {#              </div>#}
-        {#            </div>#}
-        {#          </div>#}
-        {#        </div>#}
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
   </div>
 {% endblock content %}

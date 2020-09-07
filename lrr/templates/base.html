@@ -58,7 +58,7 @@
       <div class="ui simple dropdown item">Сотруднику<i class="dropdown icon"></i>
         <div class="menu">
           {% if request.user|has_group:"expert" %}
-            <a class="item" href="">Экспертизы ЦОР</a>
+            <a class="item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЦОР</a>
           {% endif %}
           {% if request.user|has_group:"staff" %}
             <a class="item" href="">Компоновка рабочего плана</a>
