@@ -9,20 +9,27 @@
   <div class="ui two column doubling stackable grid" style="padding-left:5em; padding-right:5em">
     <div class="column">
       <div class="ui segment container">
-        <table class="table">
-          <tr>
-            <td>created</td>
-            <td>{{ object.created }}</td>
-          </tr>
-          <tr>
-            <td>quality_category</td>
-            <td>{{ object.quality_category }}</td>
-          </tr>
-          <tr>
-            <td>interactive_category</td>
-            <td>{{ object.interactive_category }}</td>
-          </tr>
-        </table>
+        <h3>Статус экспертизы</h3>
+        <div class="ui relaxed divided list">
+          <div class="item">
+            <div class="content">
+              <p class="header">Название ресурса</p>
+              <div class="description">{{ object.quality_category }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header"></p>
+              <div class="description">{{ object.created }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Создано</p>
+              <div class="description">{{ object.created }}</div>
+            </div>
+          </div>
+        </div>
         <a class="btn btn-primary" href="{{ object.get_update_url }}">Edit</a>
       </div>
     </div>
