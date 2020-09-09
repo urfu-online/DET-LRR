@@ -3,7 +3,7 @@
 {% block content %}
   <p>
     <a class="ui basic button" href="{% url 'repository:repository_Expertise' %}">
-      Назад
+      Вернуться назад
     </a>
   </p>
   <div class="ui two column doubling stackable grid" style="padding-left:5em; padding-right:5em">
@@ -13,29 +13,170 @@
         <div class="ui relaxed divided list">
           <div class="item">
             <div class="content">
-              <p class="header">Название ресурса</p>
-              <div class="description">{{ object.quality_category }}</div>
+              <p class="header">Категория качества</p>
+              <div class="description">{{ object.get_quality_category_display }}</div>
             </div>
           </div>
           <div class="item">
             <div class="content">
-              <p class="header"></p>
-              <div class="description">{{ object.created }}</div>
+              <p class="header">Категория интерактивности</p>
+              <div class="description">{{ object.get_interactive_category_display }}</div>
             </div>
           </div>
           <div class="item">
             <div class="content">
-              <p class="header">Создано</p>
-              <div class="description">{{ object.created }}</div>
+              <p class="header">Состояние экспертизы</p>
+              <div class="description">{{ object.expertise_status.get_status_display }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Утверждено (присвоен статус)</p>
+              <div class="description">
+                {% if object.expertise_status.accepted_status %}
+                  <i class="check circle outline icon"></i>
+                {% else %}
+                  <i class="circle outline icon"></i>
+                {% endif %}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Срок действия до</p>
+              <div class="description">{{ object.expertise_status.end_date }}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="right floated content">
+              <a class="ui button" href="{{ object.get_update_url }}">Обновить</a>
+            </div>
+            <div class="content">
             </div>
           </div>
         </div>
-        <a class="btn btn-primary" href="{{ object.get_update_url }}">Edit</a>
       </div>
     </div>
     <div class="column">
       <div class="ui segment column container">
-
+        <h3>Паспорт ЦОР: {{ object.digital_resource.title }}</h3>
+        <div class="ui relaxed divided list">
+          <div class="item">
+            <div class="content">
+              <p class="header">Тип ресурса</p>
+              <div class="description">
+                {{ object.digital_resource.get_type_display }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Платформа</p>
+              <div class="description">
+                {{ object.digital_resource.platform }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Язык ресурса</p>
+              <div class="description">
+                {{ object.digital_resource.language.title }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Правообладатель</p>
+              <div class="description">
+                {{ object.digital_resource.copyright_holder }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">ЦОР рекомендован в качестве обеспечения дисциплины</p>
+              <div class="description">
+                {% for obj in object.digital_resource.provided_disciplines.all %}
+                  <table class="ui compact table">
+                    <thead>
+                    <tr>
+                      <th>Образовательная программа</th>
+                      <th>Дисциплина</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td data-label="Образовательная программа">{{ obj.edu_program }}</td>
+                      <td data-label="Дисциплина">{{ obj.subject }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Соответствие ЦОР темам дисциплины</p>
+              <div class="description">
+                {% for obj in object.digital_resource.conformity_theme.all %}
+                  <table class="ui compact table">
+                    <thead>
+                    <tr>
+                      <th>Тема дисциплины</th>
+                      <th>Практика</th>
+                      <th>Теория</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td data-label="Тема дисциплины">{{ obj.theme }}</td>
+                      <td data-label="Практика">
+                        {% if obj.practice %}
+                          <i class="check circle outline icon"></i>
+                        {% else %}
+                          <i class="circle outline icon"></i>
+                        {% endif %}
+                      </td>
+                      <td data-label="Теория">
+                        {% if obj.theory %}
+                          <i class="check circle outline icon"></i>
+                        {% else %}
+                          <i class="circle outline icon"></i>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Авторы</p>
+              <div class="description">
+                {% for obj in object.digital_resource.authors.all %}{{ obj }}<br/>{% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Образовательный результат</p>
+              <div class="description">
+                {% for obj in object.digital_resource.result_edu.all %}{{ obj }}<br/> {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Описание</p>
+              <div class="description">
+                {{ object.digital_resource.description }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

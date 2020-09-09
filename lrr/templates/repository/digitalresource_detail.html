@@ -10,6 +10,181 @@
   {#  </p>#}
   <div class="ui container">
     {% if request.user.is_authenticated %}
+      <div class="ui segment column container">
+        <h3>Паспорт ЦОР: {{ object.title }}</h3>
+        <div class="ui relaxed divided list">
+          <div class="item">
+            <div class="content">
+              <p class="header">Направление/ОП</p>
+              <div class="description">
+                {% for state in status.all %}{{ state.edu_program }}{% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Дисциплина</p>
+              <div class="description">
+                {% for state in status.all %}{{ state.subject }}{% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Тип ресурса</p>
+              <div class="description">
+                {{ object.get_type_display }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Платформа</p>
+              <div class="description">
+                {{ object.platform }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Язык ресурса</p>
+              <div class="description">
+                {{ object.language.title }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Правообладатель</p>
+              <div class="description">
+                {{ object.copyright_holder }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">ЦОР рекомендован в качестве обеспечения дисциплины</p>
+              <div class="description">
+                {% for obj in object.provided_disciplines.all %}
+                  <table class="ui compact table">
+                    <thead>
+                    <tr>
+                      <th>Образовательная программа</th>
+                      <th>Дисциплина</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td data-label="Образовательная программа">{{ obj.edu_program }}</td>
+                      <td data-label="Дисциплина">{{ obj.subject }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Соответствие ЦОР темам дисциплины</p>
+              <div class="description">
+                {% for obj in object.conformity_theme.all %}
+                  <table class="ui compact table">
+                    <thead>
+                    <tr>
+                      <th>Тема дисциплины</th>
+                      <th>Практика</th>
+                      <th>Теория</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td data-label="Тема дисциплины">{{ obj.theme }}</td>
+                      <td data-label="Практика">
+                        {% if obj.practice %}
+                          <i class="check circle outline icon"></i>
+                        {% else %}
+                          <i class="circle outline icon"></i>
+                        {% endif %}
+                      </td>
+                      <td data-label="Теория">
+                        {% if obj.theory %}
+                          <i class="check circle outline icon"></i>
+                        {% else %}
+                          <i class="circle outline icon"></i>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Авторы</p>
+              <div class="description">
+                {% for obj in object.digital_resource.authors.all %}{{ obj }}<br/>{% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Образовательный результат</p>
+              <div class="description">
+                {% for obj in object.result_edu.all %}{{ obj }}<br/> {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Описание</p>
+              <div class="description">
+                {{ object.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui segment">
+        <h3>{{ object.title }}</h3>
+        <div class="ui two column stackable grid">
+          {% for state in status.all %}
+            <div class="column">
+              Направление/ОП: {{ state.edu_program }}
+            </div>
+            <div class="column">
+              Дисциплина: {{ state.subject }}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="ui two column stackable grid">
+          <div class="column">
+            Авторы:
+          </div>
+          <div class="column">
+            {% for obj in object.authors.all %}<br/> {{ obj }} {% endfor %}
+          </div>
+        </div>
+        <div class="ui two column stackable grid">
+          <div class="column">
+            Компетенции/РО:
+          </div>
+          <div class="column">
+            {% for obj in object.result_edu.all %}<br/> {{ obj }} {% endfor %}
+          </div>
+        </div>
+        <div class="ui two column stackable grid">
+          <div class="column">
+            Описание:
+          </div>
+          <div class="column">
+            {{ object.description }}
+          </div>
+        </div>
+      </div>
       <div class="ui segment">
         <h3>{{ object.title }}</h3>
         <div class="ui two column stackable grid">

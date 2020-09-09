@@ -37,133 +37,135 @@
 </head>
 
 <body class="back">
-<div class="ui fixed inverted menu">
-  <div class="ui container">
-    <a href="{% url 'home' %}" class="header item">
-      Репозиторий ЦОР
-    </a>
-    {% if request.user.is_superuser %}
-      <div class="ui simple dropdown item">Администрирование<i class="dropdown icon"></i>
-        <div class="menu">
-          <a class="item" href="{% url 'admin:index' %}">Административная панель</a>
-          <a class="item" href="/schema/" target="_blank">Схема модели данных</a>
+<div class="wrapper">
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <a href="{% url 'home' %}" class="header item">
+        Репозиторий ЦОР
+      </a>
+      {% if request.user.is_superuser %}
+        <div class="ui simple dropdown item">Администрирование<i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item" href="{% url 'admin:index' %}">Административная панель</a>
+            <a class="item" href="/schema/" target="_blank">Схема модели данных</a>
+          </div>
         </div>
-      </div>
-    {% endif %}
-    {% if request.user|has_group:"student" %}
-      <a class="item"
-         href="{% url 'repository:repository_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>
-    {% endif %}
-    {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
-      <div class="ui simple dropdown item">Сотруднику<i class="dropdown icon"></i>
-        <div class="menu">
-          {% if request.user|has_group:"expert" %}
-            <a class="item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЦОР</a>
-          {% endif %}
-          {% if request.user|has_group:"staff" %}
-            <a class="item" href="">Компоновка рабочего плана</a>
-          {% endif %}
-          {% if request.user|has_group:"teacher" %}
-            <a class="item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЦОР</a>
-          {% endif %}
+      {% endif %}
+      {% if request.user|has_group:"student" %}
+        <a class="item"
+           href="{% url 'repository:repository_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>
+      {% endif %}
+      {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
+        <div class="ui simple dropdown item">Сотруднику<i class="dropdown icon"></i>
+          <div class="menu">
+            {% if request.user|has_group:"expert" %}
+              <a class="item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЦОР</a>
+            {% endif %}
+            {% if request.user|has_group:"staff" %}
+              <a class="item" href="">Компоновка рабочего плана</a>
+            {% endif %}
+            {% if request.user|has_group:"teacher" %}
+              <a class="item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЦОР</a>
+            {% endif %}
+          </div>
         </div>
-      </div>
-    {% endif %}
-    {% if request.user.is_authenticated %}
-      <div class="ui menu inverted right ">
-        <div class="item">
-          <a class="ui inverted button"
-             href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>
+      {% endif %}
+      {% if request.user.is_authenticated %}
+        <div class="ui menu inverted right ">
+          <div class="item">
+            <a class="ui inverted button"
+               href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>
+          </div>
+          <div class="item">
+            <a class="ui inverted button" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+          </div>
         </div>
-        <div class="item">
-          <a class="ui inverted button" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+      {% else %}
+        <div class="ui menu inverted right ">
+          <div class="item">
+            <a id="sign-up-link" class="ui inverted button" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+          </div>
+          <div class="item">
+            <a id="log-in-link" class="ui inverted button" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+          </div>
         </div>
-      </div>
-    {% else %}
-      <div class="ui menu inverted right ">
-        <div class="item">
-          <a id="sign-up-link" class="ui inverted button" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
-        </div>
-        <div class="item">
-          <a id="log-in-link" class="ui inverted button" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
-        </div>
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
   </div>
+
+
+  {#  <nav class="pf-c-page__header">#}
+  {#    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"#}
+  {#            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"#}
+  {#            aria-label="Toggle navigation">#}
+  {#      <span class="navbar-toggler-icon"></span>#}
+  {#    </button>#}
+  {#    <a class="navbar-brand" href="{% url 'home' %}">Репозиторий ЦОР</a>#}
+  {##}
+  {#    <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
+  {#      <ul class="navbar-nav mr-auto">#}
+  {#        <li class="nav-item active">#}
+  {#          <a class="nav-link" href="{% url 'home' %}">Главная<span class="sr-only">(current)</span></a>#}
+  {#        </li>#}
+  {#        {% if request.user.is_superuser %}#}
+  {#          <div class="pf-c-page__header-nav">Test</div>#}
+  {#          <li class="nav-item">#}
+  {#            <a class="nav-link" href="{% url 'admin:index' %}">Административная панель</a>#}
+  {#          </li>#}
+  {#          <li class="nav-item">#}
+  {#            <a class="nav-link" href="/schema/" target="_blank">Схема</a>#}
+  {#          </li>#}
+  {#        {% endif %}#}
+  {#        {% if request.user.is_authenticated %}#}
+  {#          {% if request.user|has_group:"student" %}#}
+  {#            <li class="nav-item">#}
+  {# URL provided by django-allauth/account/urls.py #}
+  {#              <a class="nav-link"#}
+  {#                 href="{% url 'repository:repository_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>#}
+  {#            </li>#}
+  {#          {% endif %}#}
+  {#          <li class="nav-item">#}
+  {# URL provided by django-allauth/account/urls.py #}
+  {#            <a class="nav-link" href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>#}
+  {#          </li>#}
+  {#          <li class="nav-item">#}
+  {# URL provided by django-allauth/account/urls.py #}
+  {#            <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>#}
+  {#          </li>#}
+  {#        {% else %}#}
+  {#          <li class="nav-item">#}
+  {# URL provided by django-allauth/account/urls.py #}
+  {#            <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>#}
+  {#          </li>#}
+  {#          <li class="nav-item">#}
+  {# URL provided by django-allauth/account/urls.py #}
+  {#            <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>#}
+  {#          </li>#}
+  {#        {% endif %}#}
+  {#      </ul>#}
+  {#    </div>#}
+  {#  </nav>#}
+  {##}
+  {#</div>#}
+
+
+  <div class="ui ">
+    <div class="ui container" style="padding-bottom: 5em"></div>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% block content %}
+      <p>Use this document as a way to quick start any new project.</p>
+    {% endblock content %}
+  </div> <!-- /container -->
 </div>
-
-
-{#  <nav class="pf-c-page__header">#}
-{#    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"#}
-{#            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"#}
-{#            aria-label="Toggle navigation">#}
-{#      <span class="navbar-toggler-icon"></span>#}
-{#    </button>#}
-{#    <a class="navbar-brand" href="{% url 'home' %}">Репозиторий ЦОР</a>#}
-{##}
-{#    <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
-{#      <ul class="navbar-nav mr-auto">#}
-{#        <li class="nav-item active">#}
-{#          <a class="nav-link" href="{% url 'home' %}">Главная<span class="sr-only">(current)</span></a>#}
-{#        </li>#}
-{#        {% if request.user.is_superuser %}#}
-{#          <div class="pf-c-page__header-nav">Test</div>#}
-{#          <li class="nav-item">#}
-{#            <a class="nav-link" href="{% url 'admin:index' %}">Административная панель</a>#}
-{#          </li>#}
-{#          <li class="nav-item">#}
-{#            <a class="nav-link" href="/schema/" target="_blank">Схема</a>#}
-{#          </li>#}
-{#        {% endif %}#}
-{#        {% if request.user.is_authenticated %}#}
-{#          {% if request.user|has_group:"student" %}#}
-{#            <li class="nav-item">#}
-{# URL provided by django-allauth/account/urls.py #}
-{#              <a class="nav-link"#}
-{#                 href="{% url 'repository:repository_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>#}
-{#            </li>#}
-{#          {% endif %}#}
-{#          <li class="nav-item">#}
-{# URL provided by django-allauth/account/urls.py #}
-{#            <a class="nav-link" href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>#}
-{#          </li>#}
-{#          <li class="nav-item">#}
-{# URL provided by django-allauth/account/urls.py #}
-{#            <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>#}
-{#          </li>#}
-{#        {% else %}#}
-{#          <li class="nav-item">#}
-{# URL provided by django-allauth/account/urls.py #}
-{#            <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>#}
-{#          </li>#}
-{#          <li class="nav-item">#}
-{# URL provided by django-allauth/account/urls.py #}
-{#            <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>#}
-{#          </li>#}
-{#        {% endif %}#}
-{#      </ul>#}
-{#    </div>#}
-{#  </nav>#}
-{##}
-{#</div>#}
-
-
-<div class="ui ">
-  <div class="ui container" style="padding-bottom: 5em"></div>
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-      </div>
-    {% endfor %}
-  {% endif %}
-
-  {% block content %}
-    <p>Use this document as a way to quick start any new project.</p>
-  {% endblock content %}
-</div> <!-- /container -->
-<div class="ui inverted vertical footer segment form-page">
+<footer class="form-page">
   <div class="ui container">
     <div class="ui stackable inverted divided equal height stackable grid">
       <div class="three wide column">
