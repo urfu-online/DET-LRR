@@ -72,7 +72,23 @@
             <div class="content">
               <p class="header">Платформа</p>
               <div class="description">
-                {{ object.digital_resource.platform }}
+                Наимаенование: {{ object.digital_resource.platform.title }}<br/>
+                Ссылка на платформу: {{ object.digital_resource.platform.url }}<br/>
+                {% if object.digital_resource.platform.contacts == "" %}
+                  Контакты: Отсутствует<br/>
+                {% else %}
+                  Контакты: {{ object.digital_resource.platform.contacts }}<br/>
+                {% endif %}
+                {% if object.digital_resource.platform.url_logo == None %}
+                  Ссылка на логотип: Отсутствует<br/>
+                {% else %}
+                  Ссылка на логотип: {{ object.digital_resource.platform.url_logo }}<br/>
+                {% endif %}
+                {% if object.digital_resource.platform.description == "" %}
+                  Описание: Отсутствует<br/>
+                {% else %}
+                  Описание: {{ object.digital_resource.platform.description }}<br/>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -80,7 +96,8 @@
             <div class="content">
               <p class="header">Язык ресурса</p>
               <div class="description">
-                {{ object.digital_resource.language.title }}
+                Наименование языка: {{ object.digital_resource.language.title }}<br/>
+                Код языка: {{ object.digital_resource.language.code }}<br/>
               </div>
             </div>
           </div>
@@ -88,7 +105,23 @@
             <div class="content">
               <p class="header">Правообладатель</p>
               <div class="description">
-                {{ object.digital_resource.copyright_holder }}
+                Наимаенование: {{ object.digital_resource.copyright_holder.title }}<br/>
+                Ссылка на организацию: {{ object.digital_resource.copyright_holder.url }}<br/>
+                {% if object.digital_resource.copyright_holder.contacts == "" %}
+                  Контакты: Отсутствует<br/>
+                {% else %}
+                  Контакты: {{ object.digital_resource.copyright_holder.contacts }}<br/>
+                {% endif %}
+                {% if object.digital_resource.copyright_holder.url_logo == None %}
+                  Ссылка на логотип: Отсутствует<br/>
+                {% else %}
+                  Ссылка на логотип: {{ object.digital_resource.copyright_holder.url_logo }}<br/>
+                {% endif %}
+                {% if object.digital_resource.copyright_holder.description == "" %}
+                  Описание: Отсутствует<br/>
+                {% else %}
+                  Описание: {{ object.digital_resource.copyright_holder.description }}<br/>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -164,7 +197,24 @@
             <div class="content">
               <p class="header">Образовательный результат</p>
               <div class="description">
-                {% for obj in object.digital_resource.result_edu.all %}{{ obj }}<br/> {% endfor %}
+                {% for obj in object.digital_resource.result_edu.all %}
+                  Наимаенование: {{ obj.title }}<br/>
+                  {% if obj.description == "" %}
+                    Описание: Отсутствует<br/>
+                  {% else %}
+                    Описание: {{ obj.description }}<br/>
+                  {% endif %}
+                  {% if obj.competence.title == "" %}
+                    Наименование компетенции: Отсутствует<br/>
+                  {% else %}
+                    Наименование компетенции: {{ obj.competence.title }}<br/>
+                  {% endif %}
+                  {% if obj.competence.code == "" %}
+                    Код компетенции: Отсутствует<br/>
+                  {% else %}
+                    Код компетенции: {{ obj.competence.code }}<br/>
+                  {% endif %}<br/>
+                {% endfor %}
               </div>
             </div>
           </div>

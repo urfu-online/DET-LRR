@@ -37,7 +37,7 @@
 </head>
 
 <body class="back">
-<div class="wrapper">
+<div class="wrapper" id="wrap">
   <div class="ui fixed inverted menu">
     <div class="ui container">
       <a href="{% url 'home' %}" class="header item">
@@ -149,7 +149,7 @@
   {#</div>#}
 
 
-  <div class="ui ">
+  <div class="ui " id="main">
     <div class="ui container" style="padding-bottom: 5em"></div>
     {% if messages %}
       {% for message in messages %}
@@ -165,27 +165,28 @@
     {% endblock content %}
   </div> <!-- /container -->
 </div>
-<footer class="form-page">
-  <div class="ui container">
-    <div class="ui stackable inverted divided equal height stackable grid">
-      <div class="three wide column">
-        <p><i class="copyright outline icon"></i>ФГАОУ ВО «УрФУ имени первого Президента России Б.Н.Ельцина»</p>
-      </div>
-      <div class="three wide column">
-        <h4 class="ui inverted header">Техническая поддержка:</h4>
-        <div class="ui inverted link list">
-          <p class="item">openedu@urfu.ru</p>
-        </div>
-      </div>
-      <div class="seven wide column">
-        <h4 class="ui inverted header">Мы в социальных сетях:</h4>
-        <div class="ui inverted link list">
-          <a href="https://vk.com/openedu" class="item">Вконтакте</a>
-          <a href="https://www.instagram.com/urfu.ru/?hl=ru" class="item">Instagram</a>
-        </div>
-      </div>
-    </div>
-  </div>
+{#<footer class="ui inverted segment">#}
+{#  <div class="ui container">#}
+{#    <div class="ui stackable inverted divided equal height stackable grid">#}
+{#      <div class="three wide column">#}
+{#        <p><i class="copyright outline icon"></i>ФГАОУ ВО «УрФУ имени первого Президента России Б.Н.Ельцина»</p>#}
+{#      </div>#}
+{#      <div class="three wide column">#}
+{#        <h4 class="ui inverted header">Техническая поддержка:</h4>#}
+{#        <div class="ui inverted link list">#}
+{#          <p class="item">openedu@urfu.ru</p>#}
+{#        </div>#}
+{#      </div>#}
+{#      <div class="seven wide column">#}
+{#        <h4 class="ui inverted header">Мы в социальных сетях:</h4>#}
+{#        <div class="ui inverted link list">#}
+{#          <a href="https://vk.com/openedu" class="item">Вконтакте</a>#}
+{#          <a href="https://www.instagram.com/urfu.ru/?hl=ru" class="item">Instagram</a>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</footer>#}
 
   {% block modal %}{% endblock modal %}
 

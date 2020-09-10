@@ -61,6 +61,7 @@
               </div>
             </div>
           </div>
+        {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" or request.user.is_superuser %}
           <div class="item">
             <div class="content">
               <p class="header">ЦОР рекомендован в качестве обеспечения дисциплины</p>
@@ -121,6 +122,7 @@
               </div>
             </div>
           </div>
+          {% endif %}
           <div class="item">
             <div class="content">
               <p class="header">Авторы</p>
@@ -148,80 +150,7 @@
         </div>
       </div>
 
-      <div class="ui segment">
-        <h3>{{ object.title }}</h3>
-        <div class="ui two column stackable grid">
-          {% for state in status.all %}
-            <div class="column">
-              Направление/ОП: {{ state.edu_program }}
-            </div>
-            <div class="column">
-              Дисциплина: {{ state.subject }}
-            </div>
-          {% endfor %}
-        </div>
-        <div class="ui two column stackable grid">
-          <div class="column">
-            Авторы:
-          </div>
-          <div class="column">
-            {% for obj in object.authors.all %}<br/> {{ obj }} {% endfor %}
-          </div>
-        </div>
-        <div class="ui two column stackable grid">
-          <div class="column">
-            Компетенции/РО:
-          </div>
-          <div class="column">
-            {% for obj in object.result_edu.all %}<br/> {{ obj }} {% endfor %}
-          </div>
-        </div>
-        <div class="ui two column stackable grid">
-          <div class="column">
-            Описание:
-          </div>
-          <div class="column">
-            {{ object.description }}
-          </div>
-        </div>
-      </div>
-      <div class="ui segment">
-        <h3>{{ object.title }}</h3>
-        <div class="ui two column stackable grid">
-          {% for state in status.all %}
-            <div class="column">
-              Направление/ОП: {{ state.edu_program }}
-            </div>
-            <div class="column">
-              Дисциплина: {{ state.subject }}
-            </div>
-          {% endfor %}
-        </div>
-        <div class="ui two column stackable grid">
-          <div class="column">
-            Авторы:
-          </div>
-          <div class="column">
-            {% for obj in object.authors.all %}<br/> {{ obj }} {% endfor %}
-          </div>
-        </div>
-        <div class="ui two column stackable grid">
-          <div class="column">
-            Компетенции/РО:
-          </div>
-          <div class="column">
-            {% for obj in object.result_edu.all %}<br/> {{ obj }} {% endfor %}
-          </div>
-        </div>
-        <div class="ui two column stackable grid">
-          <div class="column">
-            Описание:
-          </div>
-          <div class="column">
-            {{ object.description }}
-          </div>
-        </div>
-      </div>
+
     {% endif %}
     {% if request.user.is_superuser %}
       <a class="ui button basic secondary" href="{{ object.get_update_url }}"><i class="pen icon"></i>Редактировать</a>
