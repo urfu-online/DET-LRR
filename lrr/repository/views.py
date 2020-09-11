@@ -4,6 +4,11 @@ from lrr.users.models import Person, Student
 from . import forms
 from . import models
 
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 
 class DRStatusListView(generic.ListView):
     model = models.DRStatus
@@ -45,6 +50,12 @@ class ExpertiseStatusUpdateView(generic.UpdateView):
     model = models.ExpertiseStatus
     form_class = forms.ExpertiseStatusForm
     pk_url_kwarg = "pk"
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpertiseStatusUpdateView, self).get_context_data(**kwargs)
+        drstatus = get_object_or_404(models.DRStatus, expertise_status=self.get_object())
+        context['digital_resource'] = drstatus.digital_resource
+        return context
 
 
 class SubjectListView(generic.ListView):

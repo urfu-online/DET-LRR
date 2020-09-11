@@ -1,30 +1,270 @@
-
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-
-<p>
-    <a class="btn btn-light" href="{% url 'repository:repository_DRStatus_list' %}">
-    Status_COR Listing
+  <p>
+    <a class="ui basic button" href="{% url 'repository:repository_DRStatus_list' %}">
+      Вернуться к списку статусов
     </a>
-</p>
+    <a class="ui basic button" href="{{ request.META.HTTP_REFERER }}">
+      Вернуться назад
+    </a>
+  </p>
+  <div class="ui two column doubling stackable grid" style="padding-left:5em; padding-right:5em">
+    <div class="column">
+      <div class="ui segment container">
+        <h3>Статус ЦОР</h3>
+        <form class="ui form" method="post">
+          {% csrf_token %}
+          {{ form.errors }}
+          <div class="fields">
+            <div class="field">
+              <label>{{ form.quality_category.label }}</label>
+              {{ form.quality_category }}
+            </div>
+            <div class="field">
+              <label>{{ form.interactive_category.label }}</label>
+              {{ form.interactive_category }}
+            </div>
+            <div class="field">
+              <label>{{ form.expertise_status.status.label }}</label>
+              {{ form.expertise_status.status }}
+            </div>
+            <div class="field">
+              <label>{{ form.expertise_status.end_date.label }}</label>
+              {{ form.expertise_status.end_date }}
+            </div>
+            <div class="field">
+              <label>{{ form.expertise_status.accepted_status.label }}</label>
+              {{ form.expertise_status.accepted_status }}
+            </div>
+          </div>
+          <div class="right floated content">
+            <input type="submit" value="Сохранить" class="ui button">
+          </div>
+        </form>
+        <div class="content">
+        </div>
+        {#    <div class="ui relaxed divided list">#}
+        {#          <div class="item">#}
+        {#            <div class="content">#}
+        {#              <p class="header">Категория качества</p>#}
+        {#              <div class="description">{{ object.get_quality_category_display }}</div>#}
+        {#            </div>#}
+        {#          </div>#}
+        {#          <div class="item">#}
+        {#            <div class="content">#}
+        {#              <p class="header">Категория интерактивности</p>#}
+        {#              <div class="description">{{ object.get_interactive_category_display }}</div>#}
+        {#            </div>#}
+        {#          </div>#}
+        {#          <div class="item">#}
+        {#            <div class="content">#}
+        {#              <p class="header">Состояние экспертизы</p>#}
+        {#              <div class="description">{{ object.expertise_status.get_status_display }}</div>#}
+        {#            </div>#}
+        {#          </div>#}
+        {#          <div class="item">#}
+        {#            <div class="content">#}
+        {#              <p class="header">Утверждено (присвоен статус)</p>#}
+        {#              <div class="description">#}
+        {#                {% if object.expertise_status.accepted_status %}#}
+        {#                  <i class="check circle outline icon"></i>#}
+        {#                {% else %}#}
+        {#                  <i class="circle outline icon"></i>#}
+        {#                {% endif %}</div>#}
+        {#            </div>#}
+        {#          </div>#}
+        {#          <div class="item">#}
+        {#            <div class="content">#}
+        {#              <p class="header">Срок действия до</p>#}
+        {#              <div class="description">{{ object.expertise_status.end_date }}</div>#}
+        {#            </div>#}
+        {#          </div>#}
+        {#          <div class="item">#}
+        {#            <div class="right floated content">#}
+        {#              <a class="ui button" href="{{ object.get_update_url }}">Обновить</a>#}
+        {#            </div>#}
+        {#            <div class="content">#}
+        {#            </div>#}
+        {#          </div>#}
+        {#    </div>#}
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui segment column container">
+        <h3>Паспорт ЦОР: {{ object.digital_resource.title }}</h3>
+        <div class="ui relaxed divided list">
+          <div class="item">
+            <div class="content">
+              <p class="header">Тип ресурса</p>
+              <div class="description">
+                {{ object.digital_resource.get_type_display }}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Платформа</p>
+              <div class="description">
+                Наимаенование: {{ object.digital_resource.platform.title }}<br/>
+                Ссылка на платформу: {{ object.digital_resource.platform.url }}<br/>
+                {% if object.digital_resource.platform.contacts == "" %}
+                  Контакты: Отсутствует<br/>
+                {% else %}
+                  Контакты: {{ object.digital_resource.platform.contacts }}<br/>
+                {% endif %}
+                {% if object.digital_resource.platform.url_logo == None %}
+                  Ссылка на логотип: Отсутствует<br/>
+                {% else %}
+                  Ссылка на логотип: {{ object.digital_resource.platform.url_logo }}<br/>
+                {% endif %}
+                {% if object.digital_resource.platform.description == "" %}
+                  Описание: Отсутствует<br/>
+                {% else %}
+                  Описание: {{ object.digital_resource.platform.description }}<br/>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Язык ресурса</p>
+              <div class="description">
+                Наименование языка: {{ object.digital_resource.language.title }}<br/>
+                Код языка: {{ object.digital_resource.language.code }}<br/>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Правообладатель</p>
+              <div class="description">
+                Наимаенование: {{ object.digital_resource.copyright_holder.title }}<br/>
+                Ссылка на организацию: {{ object.digital_resource.copyright_holder.url }}<br/>
+                {% if object.digital_resource.copyright_holder.contacts == "" %}
+                  Контакты: Отсутствует<br/>
+                {% else %}
+                  Контакты: {{ object.digital_resource.copyright_holder.contacts }}<br/>
+                {% endif %}
+                {% if object.digital_resource.copyright_holder.url_logo == None %}
+                  Ссылка на логотип: Отсутствует<br/>
+                {% else %}
+                  Ссылка на логотип: {{ object.digital_resource.copyright_holder.url_logo }}<br/>
+                {% endif %}
+                {% if object.digital_resource.copyright_holder.description == "" %}
+                  Описание: Отсутствует<br/>
+                {% else %}
+                  Описание: {{ object.digital_resource.copyright_holder.description }}<br/>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">ЦОР рекомендован в качестве обеспечения дисциплины</p>
+              <div class="description">
+                {% for obj in object.digital_resource.provided_disciplines.all %}
+                  <table class="ui compact table">
+                    <thead>
+                    <tr>
+                      <th>Образовательная программа</th>
+                      <th>Дисциплина</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td data-label="Образовательная программа">{{ obj.edu_program }}</td>
+                      <td data-label="Дисциплина">{{ obj.subject }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Соответствие ЦОР темам дисциплины</p>
+              <div class="description">
+                {% for obj in object.digital_resource.conformity_theme.all %}
+                  <table class="ui compact table">
+                    <thead>
+                    <tr>
+                      <th>Тема дисциплины</th>
+                      <th>Практика</th>
+                      <th>Теория</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td data-label="Тема дисциплины">{{ obj.theme }}</td>
+                      <td data-label="Практика">
+                        {% if obj.practice %}
+                          <i class="check circle outline icon"></i>
+                        {% else %}
+                          <i class="circle outline icon"></i>
+                        {% endif %}
+                      </td>
+                      <td data-label="Теория">
+                        {% if obj.theory %}
+                          <i class="check circle outline icon"></i>
+                        {% else %}
+                          <i class="circle outline icon"></i>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Авторы</p>
+              <div class="description">
+                {% for obj in object.digital_resource.authors.all %}{{ obj }}<br/>{% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Образовательный результат</p>
+              <div class="description">
+                {% for obj in object.digital_resource.result_edu.all %}
+                  Наимаенование: {{ obj.title }}<br/>
+                  {% if obj.description == "" %}
+                    Описание: Отсутствует<br/>
+                  {% else %}
+                    Описание: {{ obj.description }}<br/>
+                  {% endif %}
+                  {% if obj.competence.title == "" %}
+                    Наименование компетенции: Отсутствует<br/>
+                  {% else %}
+                    Наименование компетенции: {{ obj.competence.title }}<br/>
+                  {% endif %}
+                  {% if obj.competence.code == "" %}
+                    Код компетенции: Отсутствует<br/>
+                  {% else %}
+                    Код компетенции: {{ obj.competence.code }}<br/>
+                  {% endif %}<br/>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content">
+              <p class="header">Описание</p>
+              <div class="description">
+                {{ object.digital_resource.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<form method="post">
-  {% csrf_token %}
-  {{form.errors}}
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="created">created: </label>
-  <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="quality_category">quality_category: </label>
-  <input class="form-control col-sm-10" id="quality_category" type="text" name="quality_category" value="{{ object.quality_category }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="interactive_category">interactive_category: </label>
-  <input class="form-control col-sm-10" id="interactive_category" type="text" name="interactive_category" value="{{ object.interactive_category }}">
-  </div>
-  <input type="submit" value="Save" class="btn btn-primary">
-</form>
+
 
 {% endblock %}

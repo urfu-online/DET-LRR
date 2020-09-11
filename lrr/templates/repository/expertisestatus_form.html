@@ -2,7 +2,10 @@
 {% load static %}
 {% block content %}
   <p>
-    <a class="ui basic button" href="{% url 'repository:repository_Expertise' %}">
+    <a class="ui basic button" href="{% url 'repository:repository_DRStatus_list' %}">
+      Вернуться к списку статусов
+    </a>
+    <a class="ui basic button" href="{{ request.META.HTTP_REFERER }}">
       Вернуться назад
     </a>
   </p>
@@ -10,69 +13,43 @@
     <div class="column">
       <div class="ui segment container">
         <h3>Статус ЦОР</h3>
-        <div class="ui relaxed divided list">
-          <div class="item">
-            <div class="content">
-              <p class="header">Категория качества</p>
-              <div class="description">{{ object.get_quality_category_display }}</div>
+        <form class="ui form" method="post">
+          {% csrf_token %}
+          {{ form.errors }}
+          <div class="fields">
+            <div class="field">
+              <label>{{ form.status.label }}</label>
+              {{ form.status }}
+            </div>
+            <div class="field">
+              <label>{{ form.end_date.label }}</label>
+              <div class="ui calendar" id="standard_calendar">
+                <div class="ui input left icon">
+                  <i class="calendar icon"></i>
+                  {{ form.end_date }}
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>{{ form.accepted_status.label }}</label>
+              {{ form.accepted_status }}
             </div>
           </div>
-          <div class="item">
-            <div class="content">
-              <p class="header">Категория интерактивности</p>
-              <div class="description">{{ object.get_interactive_category_display }}</div>
-            </div>
+          <div class="right floated content">
+            <input type="submit" value="Сохранить" class="ui button">
           </div>
-          <div class="item">
-            <div class="right floated content">
-              <a class="ui button" href="{{ object.get_update_url }}">Обновить статус ЦОР</a>
-            </div>
-            <div class="content">
-            </div>
-          </div>
-          <h3>Статус экспертизы</h3>
-          <div class="item">
-            <div class="content">
-              <p class="header">Состояние экспертизы</p>
-              <div class="description">{{ object.expertise_status.get_status_display }}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <p class="header">Утверждено (присвоен статус)</p>
-              <div class="description">
-                {% if object.expertise_status.accepted_status %}
-                  <i class="check circle outline icon"></i>
-                {% else %}
-                  <i class="circle outline icon"></i>
-                {% endif %}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="content">
-              <p class="header">Срок действия до</p>
-              <div class="description">{{ object.expertise_status.end_date }}</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="right floated content">
-              <a class="ui button" href="{{ object.expertise_status.get_update_url }}">Обновить статус экспертизы</a>
-            </div>
-            <div class="content">
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
     <div class="column">
       <div class="ui segment column container">
-        <h3>Паспорт ЦОР: {{ object.digital_resource.title }}</h3>
+        <h3>Паспорт ЦОР: {{ digital_resource.title }}</h3>
         <div class="ui relaxed divided list">
           <div class="item">
             <div class="content">
               <p class="header">Тип ресурса</p>
               <div class="description">
-                {{ object.digital_resource.get_type_display }}
+                {{ digital_resource.get_type_display }}
               </div>
             </div>
           </div>
@@ -80,22 +57,22 @@
             <div class="content">
               <p class="header">Платформа</p>
               <div class="description">
-                Наимаенование: {{ object.digital_resource.platform.title }}<br/>
-                Ссылка на платформу: {{ object.digital_resource.platform.url }}<br/>
-                {% if object.digital_resource.platform.contacts == "" %}
+                Наимаенование: {{ digital_resource.platform.title }}<br/>
+                Ссылка на платформу: {{ digital_resource.platform.url }}<br/>
+                {% if digital_resource.platform.contacts == "" %}
                   Контакты: Отсутствует<br/>
                 {% else %}
-                  Контакты: {{ object.digital_resource.platform.contacts }}<br/>
+                  Контакты: {{ digital_resource.platform.contacts }}<br/>
                 {% endif %}
-                {% if object.digital_resource.platform.url_logo == None %}
+                {% if digital_resource.platform.url_logo == None %}
                   Ссылка на логотип: Отсутствует<br/>
                 {% else %}
-                  Ссылка на логотип: {{ object.digital_resource.platform.url_logo }}<br/>
+                  Ссылка на логотип: {{ digital_resource.platform.url_logo }}<br/>
                 {% endif %}
-                {% if object.digital_resource.platform.description == "" %}
+                {% if digital_resource.platform.description == "" %}
                   Описание: Отсутствует<br/>
                 {% else %}
-                  Описание: {{ object.digital_resource.platform.description }}<br/>
+                  Описание: {{ digital_resource.platform.description }}<br/>
                 {% endif %}
               </div>
             </div>
@@ -104,8 +81,8 @@
             <div class="content">
               <p class="header">Язык ресурса</p>
               <div class="description">
-                Наименование языка: {{ object.digital_resource.language.title }}<br/>
-                Код языка: {{ object.digital_resource.language.code }}<br/>
+                Наименование языка: {{ digital_resource.language.title }}<br/>
+                Код языка: {{ digital_resource.language.code }}<br/>
               </div>
             </div>
           </div>
@@ -113,22 +90,22 @@
             <div class="content">
               <p class="header">Правообладатель</p>
               <div class="description">
-                Наимаенование: {{ object.digital_resource.copyright_holder.title }}<br/>
-                Ссылка на организацию: {{ object.digital_resource.copyright_holder.url }}<br/>
-                {% if object.digital_resource.copyright_holder.contacts == "" %}
+                Наимаенование: {{ digital_resource.copyright_holder.title }}<br/>
+                Ссылка на организацию: {{ digital_resource.copyright_holder.url }}<br/>
+                {% if digital_resource.copyright_holder.contacts == "" %}
                   Контакты: Отсутствует<br/>
                 {% else %}
-                  Контакты: {{ object.digital_resource.copyright_holder.contacts }}<br/>
+                  Контакты: {{ digital_resource.copyright_holder.contacts }}<br/>
                 {% endif %}
-                {% if object.digital_resource.copyright_holder.url_logo == None %}
+                {% if digital_resource.copyright_holder.url_logo == None %}
                   Ссылка на логотип: Отсутствует<br/>
                 {% else %}
-                  Ссылка на логотип: {{ object.digital_resource.copyright_holder.url_logo }}<br/>
+                  Ссылка на логотип: {{ digital_resource.copyright_holder.url_logo }}<br/>
                 {% endif %}
-                {% if object.digital_resource.copyright_holder.description == "" %}
+                {% if digital_resource.copyright_holder.description == "" %}
                   Описание: Отсутствует<br/>
                 {% else %}
-                  Описание: {{ object.digital_resource.copyright_holder.description }}<br/>
+                  Описание: {{ digital_resource.copyright_holder.description }}<br/>
                 {% endif %}
               </div>
             </div>
@@ -137,7 +114,7 @@
             <div class="content">
               <p class="header">ЦОР рекомендован в качестве обеспечения дисциплины</p>
               <div class="description">
-                {% for obj in object.digital_resource.provided_disciplines.all %}
+                {% for obj in digital_resource.provided_disciplines.all %}
                   <table class="ui compact table">
                     <thead>
                     <tr>
@@ -160,7 +137,7 @@
             <div class="content">
               <p class="header">Соответствие ЦОР темам дисциплины</p>
               <div class="description">
-                {% for obj in object.digital_resource.conformity_theme.all %}
+                {% for obj in digital_resource.conformity_theme.all %}
                   <table class="ui compact table">
                     <thead>
                     <tr>
@@ -197,7 +174,7 @@
             <div class="content">
               <p class="header">Авторы</p>
               <div class="description">
-                {% for obj in object.digital_resource.authors.all %}{{ obj }}<br/>{% endfor %}
+                {% for obj in digital_resource.authors.all %}{{ obj }}<br/>{% endfor %}
               </div>
             </div>
           </div>
@@ -205,7 +182,7 @@
             <div class="content">
               <p class="header">Образовательный результат</p>
               <div class="description">
-                {% for obj in object.digital_resource.result_edu.all %}
+                {% for obj in digital_resource.result_edu.all %}
                   Наимаенование: {{ obj.title }}<br/>
                   {% if obj.description == "" %}
                     Описание: Отсутствует<br/>
@@ -230,7 +207,7 @@
             <div class="content">
               <p class="header">Описание</p>
               <div class="description">
-                {{ object.digital_resource.description }}
+                {{ digital_resource.description }}
               </div>
             </div>
           </div>
@@ -238,4 +215,33 @@
       </div>
     </div>
   </div>
+
+
+  <script>
+    $('#standard_calendar').calendar({
+      monthFirst: false,
+      {#type: 'date',#}
+      ampm: false,
+      text: {
+        days: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'],
+        months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+        today: 'Сегодня',
+        now: 'Сейчас',
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return '';
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          var hour = date.getHours();
+          var min = date.getMinutes();
+          var sec = date.getSeconds();
+          return day + '.' + month + '.' + year + ' ' + hour + ':' + min + ':' + sec;
+        }
+      }
+    });
+  </script>
+
 {% endblock %}

@@ -99,10 +99,10 @@ class ExpertiseStatus(BaseModel):
         return self.get_status_display()
 
     def get_absolute_url(self):
-        return reverse("repository_Expertise_status_detail", args=(self.pk,))
+        return reverse("repository:repository_ExpertiseStatus_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_Expertise_status_update", args=(self.pk,))
+        return reverse("repository:repository_ExpertiseStatus_update", args=(self.pk,))
 
 
 class Subject(BaseModel):
