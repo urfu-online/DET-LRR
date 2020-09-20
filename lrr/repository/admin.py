@@ -279,7 +279,11 @@ class PlatformAdmin(admin.ModelAdmin):
 class LanguageAdminForm(forms.ModelForm):
     class Meta:
         model = models.Language
-        fields = "__all__"
+        list_display = [
+            "title",
+            "code",
+            "pk",
+        ]
 
 
 class LanguageAdmin(admin.ModelAdmin):
