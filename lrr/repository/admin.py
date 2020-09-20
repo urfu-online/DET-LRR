@@ -279,11 +279,7 @@ class PlatformAdmin(admin.ModelAdmin):
 class LanguageAdminForm(forms.ModelForm):
     class Meta:
         model = models.Language
-        list_display = [
-            "title",
-            "code",
-            "pk",
-        ]
+        fields = "__all__"
 
 
 class LanguageAdmin(admin.ModelAdmin):
@@ -292,6 +288,7 @@ class LanguageAdmin(admin.ModelAdmin):
         "code",
         "title",
         "created",
+        "pk"
     ]
     readonly_fields = [
         "created",
