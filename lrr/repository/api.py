@@ -108,7 +108,6 @@ class LanguageViewSet(viewsets.ModelViewSet):
     queryset = models.Language.objects.all()
     serializer_class = serializers.LanguageSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'code'
 
 
 class SubjectTagViewSet(viewsets.ModelViewSet):

@@ -117,7 +117,7 @@ class ResultEduSerializer(serializers.ModelSerializer):
         ]
 
 
-class LanguageSerializer(serializers.Serializer):
+class LanguageSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=80)
     code = serializers.CharField(max_length=4)
 
