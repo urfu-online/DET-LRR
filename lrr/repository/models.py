@@ -255,7 +255,7 @@ class DigitalResource(BaseModel):
 
 
     # Fields
-    title = models.CharField("Наименование ресурса", max_length=150)
+    title = models.CharField("Наименование ресурса", max_length=300)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
     keywords = models.CharField("Ключевые слова", max_length=2024, null=True, blank=True)
