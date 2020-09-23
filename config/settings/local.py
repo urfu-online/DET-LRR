@@ -1,7 +1,7 @@
+from django.contrib import admin
+
 from .base import *  # noqa
 from .base import env
-
-from django.contrib import admin
 
 # GENERAL
 # ------------------------------------------------------------------------------

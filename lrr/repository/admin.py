@@ -288,6 +288,7 @@ class LanguageAdmin(admin.ModelAdmin):
         "code",
         "title",
         "created",
+        "pk"
     ]
     readonly_fields = [
         "created",

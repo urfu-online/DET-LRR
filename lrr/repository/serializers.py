@@ -127,6 +127,9 @@ class ResultEduSerializer(serializers.ModelSerializer):
 
 
 class LanguageSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(max_length=80)
+    code = serializers.CharField(max_length=4)
+
     class Meta:
         model = models.Language
         fields = [
