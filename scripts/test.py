@@ -87,7 +87,7 @@ for item in data_frame:
     # print(df2.values.tolist()[1][1])
     for e in soup.find_all('span'):
         if "title" in e.attrs:
-            df = df.append({'title': e.text, 'programs': df2.values.tolist()[1][0], 'conditions': df2.values.tolist()[1][1], 'owner': df2.values.tolist()[1][2], 'description': df2.values.tolist()[1][3]}, ignore_index=True)
+            df = df.append({'title': e.text, 'programs': df2.values.tolist()[1][0], 'description': '{} ; {}'.format(df2.values.tolist()[1][1], df2.values.tolist()[1][3])}, ignore_index=True)
     # except:
     #     SEQUENCE_TWO = 'card_{}'.format(item)
     #     driver = webdriver.Firefox()

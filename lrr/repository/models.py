@@ -258,8 +258,8 @@ class DigitalResource(BaseModel):
     title = models.CharField("Наименование ресурса", max_length=150)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
-    keywords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
-    description = models.TextField("Описание", max_length=1024, null=True, blank=True)
+    keywords = models.CharField("Ключевые слова", max_length=2024, null=True, blank=True)
+    description = models.TextField("Описание", max_length=2024, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Паспорт ЦОР"
