@@ -12,7 +12,6 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;6
 
 
 .navbar {
-  font-size: $font-size-sm;
   text-transform: uppercase;
   font-weight: 600;
 
@@ -51,12 +50,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;6
 // Buttons =====================================================================
 
 .btn {
-  font-size: $font-size-sm;
   text-transform: uppercase;
-
-  &-sm {
-    font-size: 10px;
-  }
 
   &-warning {
     &,
@@ -102,7 +96,8 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
+  font-weight: 400;
 }
 
 .text-secondary {
@@ -112,7 +107,6 @@ h1, h2, h3, h4, h5, h6 {
 // Tables ======================================================================
 
 th {
-  font-size: $font-size-sm;
   text-transform: uppercase;
 }
 
@@ -146,7 +140,6 @@ th {
 // Navs ========================================================================
 
 .dropdown-menu {
-  font-size: $font-size-sm;
   text-transform: none;
 }
 

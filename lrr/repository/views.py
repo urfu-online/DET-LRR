@@ -1,7 +1,5 @@
 from django.views import generic
 
-import django_filters
-
 from lrr.users.models import Person, Student
 from . import forms
 from . import models
