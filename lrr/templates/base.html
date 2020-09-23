@@ -105,7 +105,7 @@
 
 
 
-<div class="wrapper" id="wrap">
+
 
 
 
@@ -164,8 +164,7 @@
   {#</div>#}
 
 
-  <div class="ui " id="main">
-    <div class="ui container" style="padding-bottom: 5em"></div>
+  <div class="container-fluid">
     {% if messages %}
       {% for message in messages %}
         <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
@@ -179,7 +178,7 @@
       <p>Use this document as a way to quick start any new project.</p>
     {% endblock content %}
   </div> <!-- /container -->
-</div>
+
 {#<footer class="ui inverted segment">#}
 {#  <div class="ui container">#}
 {#    <div class="ui stackable inverted divided equal height stackable grid">#}
