@@ -216,10 +216,8 @@ class SourceAdminForm(forms.ModelForm):
 class SourceAdmin(admin.ModelAdmin):
     form = SourceAdminForm
     list_display = [
-        "link_name",
-        "URL",
-        "file",
         "digital_resource",
+        "URL",
     ]
 
 

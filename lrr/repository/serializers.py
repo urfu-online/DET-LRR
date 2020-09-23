@@ -10,6 +10,15 @@ logger = logging.getLogger(__name__)
 from lrr.users.api.serializers import PersonSerializer
 
 
+class SourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Source
+        fields = [
+            "id",
+            "URL",
+            "digital_resource",
+        ]
+
 class DRStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DRStatus

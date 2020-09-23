@@ -253,13 +253,12 @@ class DigitalResource(BaseModel):
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
 
-
     # Fields
-    title = models.CharField("Наименование ресурса", max_length=150)
+    title = models.CharField("Наименование ресурса", max_length=1024)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
-    keywords = models.CharField("Ключевые слова", max_length=100, null=True, blank=True)
-    description = models.TextField("Описание", max_length=1024, null=True, blank=True)
+    keywords = models.CharField("Ключевые слова", max_length=6024, null=True, blank=True)
+    description = models.TextField("Описание", max_length=6024, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Паспорт ЦОР"
@@ -273,6 +272,15 @@ class DigitalResource(BaseModel):
 
     def get_update_url(self):
         return reverse("repository:repository_DigitalResource_update", args=(self.pk,))
+
+    def get_url(self):
+        sources = Source.objects.filter(digital_resource=self)
+        if sources.count() == 1:
+            url = sources[0].URL
+        elif sources.count() == 0:
+            url = ""
+        elif sources.count() > 0:
+            url = sources[0].URL  # TODO: Придумать логику, возможно метод должен возвращать список урлов
 
 
 class Source(BaseModel):
@@ -482,7 +490,6 @@ class WorkPlanAcademicGroup(BaseModel):
                                     verbose_name="Образовательная программа")
     subject = models.ManyToManyField("repository.Subject", verbose_name="Дисциплины")
     semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
-
 
     class Meta:
         verbose_name = u"Ресурсное обеспечение академической группы"
