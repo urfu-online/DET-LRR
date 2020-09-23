@@ -168,6 +168,8 @@ class DigitalResourceListView(generic.ListView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
 
+ResourceListView = DigitalResourceListView
+
 
 class DigitalResourceCreateView(generic.CreateView):
     model = models.DigitalResource

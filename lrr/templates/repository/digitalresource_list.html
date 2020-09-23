@@ -1,57 +1,60 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="ui container">
-    <h2>Список паспортов цифровых образовательных ресурсов</h2>
-    <div class="ui three column doubling grid container">
+
+<header class="py-4 px-2">
+  <h1>Список паспортов цифровых образовательных ресурсов</h1>
+</header>
+
+    <div class="row">
       {% for object in page_obj %}
-        <div class="column">
-          <div class="ui cards" style="min-height: 15em !important;">
-            <a class="ui link card" href="{{ object.get_absolute_url }}">
-              <div class="content">
-                <div class="header">{{ object.title }}</div>
-                <div class="meta">
-                  <span class="category">Тип ресура: {{ object.get_type_display }}</span>
-                </div>
-                <div class="description">
-                  Платформа: {{ object.platform }}
-                </div>
-              </div>
-              <div class="extra content">
-                <div class="right floated author">
+        <div class="col-4 p-2">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ object.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Тип ресура: {{ object.get_type_display }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Платформа: {{ object.platform }}</h6>
+
                   <i class="graduation cap icon"></i>
                   {{ object.copyright_holder }}
-                </div>
-              </div>
-            </a>
-          </div>
+            </div>
+<div class="card-footer">
+            <a href="{{ object.get_url }}" class="card-link">К материалам</a>
+            <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>
+</div>
+
+        </div>
         </div>
       {% endfor %}
     </div>
 
-    <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-          <a href="?page=1">&laquo; first</a>
-          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-      <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-      {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-      {% endif %}
-    </span>
-    </div>
-
-    {% if request.user.is_superuser %}
-      <div class="ui container" style="margin-top: 1em;">
-        <a class="ui button secondary" href="{% url 'repository:repository_DigitalResource_create' %}">
-          <i class="plus icon"></i>Добавить паспорт ЦОР
-        </a>
-      </div>
+<nav>
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+       <a class="page-link" href="?page=1">&laquo; First</a>
+    </li>
+      <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
     {% endif %}
-  </div>
+
+{#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
+    <li class="page-item">
+      <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span class="sr-only">(current)</span></a>
+    </li>
+{#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
+
+   {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+    </li>
+      <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+    </li>
+  {% endif %}
+  </ul>
+</nav>
+
+
+
 {% endblock %}
