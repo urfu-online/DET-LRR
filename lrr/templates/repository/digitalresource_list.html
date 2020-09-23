@@ -3,7 +3,7 @@
   <div class="ui container">
     <h2>Список паспортов цифровых образовательных ресурсов</h2>
     <div class="ui three column doubling grid container">
-      {% for object in object_list %}
+      {% for object in page_obj %}
         <div class="column">
           <div class="ui cards" style="min-height: 15em !important;">
             <a class="ui link card" href="{{ object.get_absolute_url }}">
@@ -27,6 +27,25 @@
         </div>
       {% endfor %}
     </div>
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+      <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+    </div>
+
     {% if request.user.is_superuser %}
       <div class="ui container" style="margin-top: 1em;">
         <a class="ui button secondary" href="{% url 'repository:repository_DigitalResource_create' %}">
