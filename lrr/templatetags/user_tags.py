@@ -31,9 +31,6 @@ def in_tag(things, category):
     return things.filter(tag=category)
 
 
-register = template.Library()
-
-
 @register.simple_tag(takes_context=True)
 def param_replace(context, **kwargs):
     """
