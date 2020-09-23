@@ -1,8 +1,11 @@
 from django.views import generic
 
+import django_filters
+
 from lrr.users.models import Person, Student
 from . import forms
 from . import models
+from . import filters
 
 import logging
 
@@ -167,6 +170,14 @@ class DigitalResourceListView(generic.ListView):
     paginate_by = 12
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
+
+    def get_queryset(self):
+        qs = self.model.objects.all()
+        product_filtered_list = filters.DigitalResourceFilter(self.request.GET, queryset=qs)
+        return product_filtered_list.qs
+
+
+ResourceListView = DigitalResourceListView
 
 
 class DigitalResourceCreateView(generic.CreateView):
