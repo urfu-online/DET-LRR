@@ -30,6 +30,7 @@ router.register("ConformityTheme", repository_api.ConformityThemeViewSet)
 router.register("EduProgramTag", repository_api.EduProgramTagViewSet)
 router.register("SubjectTheme", repository_api.SubjectThemeViewSet)
 router.register("ThematicPlan", repository_api.ThematicPlanViewSet)
+router.register("Source", repository_api.SourceViewSet)
 # router.register("Person", repository_api.PersonViewSet)
 
 
