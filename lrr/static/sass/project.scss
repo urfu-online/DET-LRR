@@ -1,5 +1,16 @@
+.container {
+  padding-top: 40px!important;
+}
 
 
+
+@import "custom_bootstrap_vars";
+@import "bootstrap";
+
+@import "bootswatch";
+
+@import "navbar-fixed-left";
+//@import "navbar-fixed-right";
 
 
 // project specific CSS goes here
@@ -15,8 +26,7 @@ $mint-green: #d6e9c6;
 $black: #000;
 $pink: #f2dede;
 $dark-pink: #eed3d7;
-$red: red;
-
+$red: #b94a48;
 
 ////////////////////////////////
 		//Alerts//
@@ -36,12 +46,3 @@ $red: red;
   border-color: $dark-pink;
   color: $red;
 }
-.navbar {
-  background-color: #16697A;
-  color: #EDE7E3;
-
-  a {
-    color: #EDE7E3;
-  }
-}
-

@@ -1,6 +1,10 @@
 
+// Lux 4.5.2
+// Bootswatch
 
-
+//
+// Color system
+//
 
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
@@ -121,3 +125,5 @@ $pagination-disabled-border-color:  $pagination-border-color !default;
 $breadcrumb-bg:                     transparent !default;
 
 
+$navbar-sidebar-width: 232px;
+$navbar-sidebar-breakpoint: 'md';
