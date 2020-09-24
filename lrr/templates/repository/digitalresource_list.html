@@ -11,7 +11,7 @@
     <h1>Список паспортов цифровых образовательных ресурсов</h1>
   </header>
     <div class="row mb-3 px-3" id="accordion">
-      <button class="btn btn-primary mt-3" data-toggle="collapse" data-target="#filters" aria-expanded="false"
+      <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
               aria-controls="filters">
         Фильтры и поиск
       </button>
@@ -77,13 +77,14 @@
         {% for object in page_obj %}
           <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
             <div class="card h-100 shadow-1">
+            <div class="card-header pb-0">
+              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>
+                {{ object.copyright_holder }}
+              </p>
+              <p class="mb-2 text-muted">{{ object.get_type_display }}</p>
+            </div>
               <div class="card-body">
                 <h5 class="card-title">{{ object.title }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Тип ресура: {{ object.get_type_display }}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">Платформа: {{ object.platform }}</h6>
-
-                <i class="graduation cap icon"></i>
-                {{ object.copyright_holder }}
               </div>
               <div class="card-footer">
                 {% if object.get_url %}
