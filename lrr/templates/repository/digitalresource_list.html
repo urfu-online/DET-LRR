@@ -1,27 +1,31 @@
 {% extends "base.html" %}
 {% load user_tags %}
 {% block content %}
-
-  <header class="py-4 px-2">
+  <nav aria-label="breadcrumb">
+  <ol class="breadcrumb px-2 pb-0">
+    <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <li class="breadcrumb-item active" aria-current="page">Список ЦОР</li>
+  </ol>
+</nav>
+ <header class="pb-4 px-2">
     <h1>Список паспортов цифровых образовательных ресурсов</h1>
   </header>
-  <div class="col-12 mb-3">
     <div class="row mb-3 px-3" id="accordion">
-      <button class="btn btn-outline-info mt-3" data-toggle="collapse" data-target="#filters" aria-expanded="false"
+      <button class="btn btn-primary mt-3" data-toggle="collapse" data-target="#filters" aria-expanded="false"
               aria-controls="filters">
         Фильтры и поиск
       </button>
       <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
 
         <form action="" method="get">
-          <div class="form-row p-2">
-            <div class="form-group col-3 col-xl-2 col-md-6">
+          <div class="form-row p-2 align-items-end">
+            <div class="form-group col-12 col-xl-2 col-md-6">
               <label for="id_title__contains">Наименование</label>
               <input type="text" name="title__contains" class="form-control" value="" id="id_title__contains">
             </div>
-            <div class="form-group col-3 col-xl-2 col-md-6">
+            <div class="form-group col-12 col-xl-2 col-md-6">
               <label for="id_type">Тип ресурса</label>
-              <select name="type" class="form-control" id="id_type">
+              <select name="type" class="custom-select" id="id_type">
                 <option value="" selected="">---------</option>
                 <option value="OK">Онлайн-курс</option>
                 <option value="EUK">ЭУК</option>
@@ -30,9 +34,10 @@
               </select>
             </div>
 
-            <div class="form-group col-3 col-xl-2 col-md-6">
-              <label for="id_copyright_holder">Правообладатель</label> <select name="copyright_holder"
-                                                                               class="form-control"
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <label for="id_copyright_holder">Правообладатель</label>
+              <select name="copyright_holder"
+                                                                               class="custom-select"
                                                                                id="id_copyright_holder">
               <option value="" selected="">---------</option>
               <option value="1eaf6f4e-45ae-40f4-acf0-e0a41d944d50">УрФУ</option>
@@ -41,8 +46,9 @@
             </select>
             </div>
 
-            <div class="form-group col-3 col-xl-2 col-md-6">
-              <label for="id_platform">Платформа</label> <select name="platform" class="form-control" id="id_platform">
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <label for="id_platform">Платформа</label>
+              <select name="platform" class="custom-select" id="id_platform">
               <option value="" selected="">---------</option>
               <option value="0badb9d3-6d87-485b-839c-f41fa93897d5">Платформа Открытого образования УрФУ</option>
               <option value="10e187d4-3664-498c-8ff2-b14c7983d470">Система электронного обучения на платформе Гиперметод
@@ -50,15 +56,17 @@
             </select>
             </div>
 
-            <div class="form-group col-3 col-xl-2 col-md-6">
-              <label for="id_language">Язык ресурса:</label> <select name="language" class="form-control"
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <label for="id_language">Язык ресурса:</label> <select name="language"  class="custom-select"
                                                                      id="id_language">
               <option value="" selected="">---------</option>
               <option value="ru">ru</option>
             </select>
             </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+          <input class="btn btn-primary btn-block pt-3" type="submit">
           </div>
-          <input class="btn btn-outline-info" type="submit">
+          </div>
 
         </form>
       </div>
@@ -67,8 +75,8 @@
     <div class="row p-2">
       {% if page_obj|length != 0 %}
         {% for object in page_obj %}
-          <div class="col-4 p-2">
-            <div class="card h-100">
+          <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+            <div class="card h-100 shadow-1">
               <div class="card-body">
                 <h5 class="card-title">{{ object.title }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Тип ресура: {{ object.get_type_display }}</h6>
