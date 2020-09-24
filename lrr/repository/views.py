@@ -504,6 +504,6 @@ def statistics(request):
     for p in models.Platform.objects.all():
         count_by_platform[p.title] = models.DigitalResource.objects.filter(platform=p)
 
-    context[count_by_platform] = count_by_platform
+    context[p.title] = count_by_platform
 
     return render(request, "repository/report.html", context=context)
