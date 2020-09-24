@@ -263,6 +263,7 @@ class DigitalResource(BaseModel):
     class Meta:
         verbose_name = u"Паспорт ЦОР"
         verbose_name_plural = u"Паспорта ЦОР"
+        ordering = ["title"]
 
     def __str__(self):
         return self.title
@@ -274,18 +275,18 @@ class DigitalResource(BaseModel):
         return reverse("repository:repository_DigitalResource_update", args=(self.pk,))
 
     def get_url(self):
-        sources = Source.objects.filter(digital_resource=self)
+        sources = self.source_set.all()
         if sources.count() == 1:
-            url = sources[0].URL
+            return sources[0].URL
         elif sources.count() == 0:
-            url = ""
+            return ""
         elif sources.count() > 0:
-            url = sources[0].URL  # TODO: Придумать логику, возможно метод должен возвращать список урлов
+            return sources[0].URL  # TODO: Придумать логику, возможно метод должен возвращать список урлов
 
 
 class Source(BaseModel):
     link_name = models.CharField("Наименование файла", max_length=150, null=True, blank=True)
-    URL = models.URLField("Ссылка на файл", null=True, blank=True)
+    URL = models.URLField("Ссылка", null=True, blank=True)
     file = models.FileField(upload_to="upload/files", null=True, blank=True)
     digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЦОР",
                                          on_delete=models.CASCADE)
@@ -293,6 +294,16 @@ class Source(BaseModel):
     class Meta:
         verbose_name = u"Источник"
         verbose_name_plural = u"Источники"
+
+    def get_format(self):
+        if self.URL:
+            return "url"
+        elif self.file:
+            return "file"
+        else:
+            return None
+
+
 
 
 # class DigitalResourceCompetence(BaseModel):

@@ -80,4 +80,5 @@ urlpatterns = (
     path("WorkPlan/", views.WorkPlanView, name="repository_WorkPlan"),
     path("resource/", views.ResourceListView, name="repository_Resource"),
     path("expertises/", views.ExpertiseListView, name="repository_Expertise"),
+    path("statistics/", views.statistics, name="repository_statistics"),
 )

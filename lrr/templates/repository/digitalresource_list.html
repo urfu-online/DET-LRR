@@ -1,79 +1,143 @@
 {% extends "base.html" %}
+{% load user_tags %}
 {% block content %}
 
   <header class="py-4 px-2">
     <h1>Список паспортов цифровых образовательных ресурсов</h1>
   </header>
+  <div class="col-12 mb-3">
+    <div class="row mb-3 px-3" id="accordion">
+      <button class="btn btn-outline-info mt-3" data-toggle="collapse" data-target="#filters" aria-expanded="false"
+              aria-controls="filters">
+        Фильтры и поиск
+      </button>
+      <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
 
-  <div class="row">
-    <form action="" method="get">
-      {{ filterset.form.as_p }}
-      <input type="submit"/>
-    </form>
-    {% for object in page_obj %}
-      <div class="col-4 p-2">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">{{ object.title }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Тип ресура: {{ object.get_type_display }}</h6>
-            <h6 class="card-subtitle mb-2 text-muted">Платформа: {{ object.platform }}</h6>
+        <form action="" method="get">
+          <div class="form-row p-2">
+            <div class="form-group col-3 col-xl-2 col-md-6">
+              <label for="id_title__contains">Наименование</label>
+              <input type="text" name="title__contains" class="form-control" value="" id="id_title__contains">
+            </div>
+            <div class="form-group col-3 col-xl-2 col-md-6">
+              <label for="id_type">Тип ресурса</label>
+              <select name="type" class="form-control" id="id_type">
+                <option value="" selected="">---------</option>
+                <option value="OK">Онлайн-курс</option>
+                <option value="EUK">ЭУК</option>
+                <option value="TEXT_EOR">Текстовый электронный образовательный ресурс</option>
+                <option value="MULTIMEDIA_EOR">Мультимедийный электронный образовательный ресурс</option>
+              </select>
+            </div>
 
-            <i class="graduation cap icon"></i>
-            {{ object.copyright_holder }}
+            <div class="form-group col-3 col-xl-2 col-md-6">
+              <label for="id_copyright_holder">Правообладатель</label> <select name="copyright_holder"
+                                                                               class="form-control"
+                                                                               id="id_copyright_holder">
+              <option value="" selected="">---------</option>
+              <option value="1eaf6f4e-45ae-40f4-acf0-e0a41d944d50">УрФУ</option>
+              <option value="730555fe-c7f1-49fc-982f-347be329276b">УКСАП</option>
+              <option value="e7adc87f-473e-4300-839e-ab561a980613">КСПУ</option>
+            </select>
+            </div>
+
+            <div class="form-group col-3 col-xl-2 col-md-6">
+              <label for="id_platform">Платформа</label> <select name="platform" class="form-control" id="id_platform">
+              <option value="" selected="">---------</option>
+              <option value="0badb9d3-6d87-485b-839c-f41fa93897d5">Платформа Открытого образования УрФУ</option>
+              <option value="10e187d4-3664-498c-8ff2-b14c7983d470">Система электронного обучения на платформе Гиперметод
+              </option>
+            </select>
+            </div>
+
+            <div class="form-group col-3 col-xl-2 col-md-6">
+              <label for="id_language">Язык ресурса:</label> <select name="language" class="form-control"
+                                                                     id="id_language">
+              <option value="" selected="">---------</option>
+              <option value="ru">ru</option>
+            </select>
+            </div>
           </div>
-          <div class="card-footer">
-            <a href="{{ object.get_url }}" class="card-link">К материалам</a>
-            <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>
-          </div>
+          <input class="btn btn-outline-info" type="submit">
 
-        </div>
+        </form>
       </div>
-    {% endfor %}
+    </div>
+
+    <div class="row p-2">
+      {% if page_obj|length != 0 %}
+        {% for object in page_obj %}
+          <div class="col-4 p-2">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ object.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Тип ресура: {{ object.get_type_display }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Платформа: {{ object.platform }}</h6>
+
+                <i class="graduation cap icon"></i>
+                {{ object.copyright_holder }}
+              </div>
+              <div class="card-footer">
+                {% if object.get_url %}
+                  <a href="{{ object.get_url }}" class="card-link">К материалам</a>
+                {% else %}
+                  <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>
+                {% endif %}
+                <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>
+              </div>
+
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if page_obj|length != 0 %}
+      <nav>
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=1 %}">&laquo; Начало</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.previous_page_number %}"
+                 tabindex="-1">Назад</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="?page=1">&laquo; Начало</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="/" tabindex="-1">Назад</a>
+            </li>
+          {% endif %}
+
+          {#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
+          <li class="page-item">
+            <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span
+                    class="sr-only">(current)</span></a>
+          </li>
+          {#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
+
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+
+
   </div>
-
-  <nav>
-    <ul class="pagination justify-content-center">
-      {% if page_obj.has_previous %}
-        <li class="page-item">
-          <a class="page-link" href="?page=1">&laquo; First</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a class="page-link" href="?page=1">&laquo; First</a>
-        </li>
-        <li class="page-item disabled">
-          <a class="page-link" href="/" tabindex="-1">Previous</a>
-        </li>
-      {% endif %}
-
-      {#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
-      <li class="page-item">
-        <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span
-                class="sr-only">(current)</span></a>
-      </li>
-      {#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
-
-      {% if page_obj.has_next %}
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-        </li>
-        <li class="page-item disabled">
-          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
-
-
-
 {% endblock %}
