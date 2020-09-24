@@ -498,12 +498,15 @@ def ExpertiseListView(request):
 
 def statistics(request):
     context = dict()
-    dp_count = models.DigitalResource.objects.count()
+    dp_count = str(models.DigitalResource.objects.count())
+    context["dp_count"] = dp_count
 
-    count_by_platform = dict()
+    by_platform = dict()
     for p in models.Platform.objects.all():
-        count_by_platform[p.title] = models.DigitalResource.objects.filter(platform=p)
+        by_platform[p.title] = models.DigitalResource.objects.filter(platform=p).count()
 
-    context[p.title] = count_by_platform
+    context["by_platform"] = by_platform
+
+
 
     return render(request, "repository/report.html", context=context)
