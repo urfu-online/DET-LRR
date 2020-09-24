@@ -91,6 +91,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;6
 
 body {
   font-weight: 400;
+  font-size: 14px;
   letter-spacing: 1px;
 }
 
@@ -165,6 +166,7 @@ th {
 }
 
 .card {
+  border-radius: 0;
 
   &-title,
   &-header {
