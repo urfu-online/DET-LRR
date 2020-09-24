@@ -11,22 +11,7 @@
     <h1>Статистика</h1>
   </header>
   <div class="row p-2">
-
-{% for platform, count in by_platform.items %}
-
-    <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-      <div class="card h-100 shadow-1 p-2">
-        <div class="card h-100 text-center">
-         <div class="card-body">
-          <h5 class="display-1">{{count}}</h5>
-           <h5 class="">{{platform}}</h5>
-         </div>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-
-    <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
       <div class="card h-100 shadow-1 p-2">
         <div class="card h-100 text-center">
          <div class="card-body">
@@ -37,6 +22,23 @@
       </div>
     </div>
   </div>
+    <div class="row p-2">
+
+{% for platform, count in by_platform.items %}
+
+    <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+      <div class="card h-100 shadow-1 text-center">
+
+         <div class="card-body">
+          <h5 class="display-1">{{count}}</h5>
+           <h5 class="">Цифровых образовательных ресурсов. <br /  > {{platform}}</h5>
+         </div>
+
+      </div>
+    </div>
+    {% endfor %}
+
+ </div>
 
 
 {% endblock %}
