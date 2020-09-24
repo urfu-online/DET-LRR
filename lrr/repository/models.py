@@ -150,7 +150,7 @@ class Organization(BaseModel):
 
 class EduProgram(BaseModel):
     # Fields
-    title = models.CharField("Наименование", max_length=150)
+    title = models.CharField("Наименование", max_length=450)
     short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
     description = models.TextField("Описание", max_length=1024, null=True, blank=True)
 
