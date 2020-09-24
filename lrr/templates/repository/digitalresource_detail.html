@@ -2,12 +2,11 @@
 {% load static %}
 {% load user_tags %}
 {% block content %}
+<header class="py-4 px-2">
+  <h4>Паспорт цифрового образовательного ресурса</h4>
+  <h1>{{ object.title }}</h1>
+</header>
 
-  {#  <p>#}
-  {#    <a class="btn btn-light" href="{% url 'repository:repository_digitalresource_list' %}">#}
-  {#      DigitalResource Listing#}
-  {#    </a>#}
-  {#  </p>#}
   <div class="ui container">
     {% if request.user.is_authenticated %}
       <div class="ui segment column container">
