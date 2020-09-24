@@ -4,4 +4,82 @@
 @import "navbar-fixed-left";
 
 
+a.disabled {
+  color: gray;
+  pointer-events: none;
+}
 
+.work-plan {
+  .card-notify-uni {
+    position: absolute;
+    right: 3px;
+    top: 2px;
+    color: dimgray;
+    font-size: 13px;
+    width: 80px;
+    height: 20px;
+    text-align: right;
+  }
+
+  .card-notify-type {
+    position: absolute;
+    left: 3px;
+    top: 2px;
+    color: dimgray;
+    font-size: 13px;
+    width: 100px;
+    height: 20px;
+    text-align: left;
+  }
+
+  .card-header, .card-footer {
+    background: none !important;
+  }
+
+  .card-notify-go {
+    position: absolute;
+    left: 3px;
+    bottom: 0px;
+    font-size: 13px;
+    width: 130px;
+    height: 20px;
+    text-align: left;
+    padding: 2px;
+
+    a {
+      color: #115695;
+      //border: 1px solid #115695;
+    }
+
+    :hover {
+      background-color: ghostwhite;
+      font-weight: bold;
+
+    }
+  }
+
+  .card-notify-more {
+    position: absolute;
+    right: 3px;
+    bottom: 0px;
+    font-size: 13px;
+    width: 130px;
+    height: 20px;
+    text-align: right;
+    padding: 2px;
+
+    a {
+      color: #115695;
+      //border: 1px solid #115695;
+    }
+
+    :hover {
+      background-color: ghostwhite;
+      font-weight: bold;
+    }
+  }
+
+  td, th {
+    padding: .75rem !important;
+  }
+}

@@ -168,10 +168,18 @@ class ResultEduUpdateView(generic.UpdateView):
 class DigitalResourceFilter(django_filters.FilterSet):
     class Meta:
         model = models.DigitalResource
-        fields = {'title': ['contains']}
+        fields = {
+            'title': ['contains'],
+            'type': ['exact'],
+            'copyright_holder': ['exact'],
+            'platform': ['exact'],
+            'language': ['exact'],
+            'subjects_tags': ['exact'],
+        }
 
 
 class DigitalResourceListView(FilteredListView):
+    allow_empty = True
     paginate_by = 12
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
@@ -486,3 +494,16 @@ def ExpertiseListView(request):
     status = models.DRStatus.objects.all()
     # status = models.DRStatus.objects.filter(digital_resource=for i in
     return render(request, 'pages/expert_list.html', {'status': status})
+
+
+def statistics(request):
+    context = dict()
+    dp_count = models.DigitalResource.objects.count()
+
+    count_by_platform = dict()
+    for p in models.Platform.objects.all():
+        count_by_platform[p.title] = models.DigitalResource.objects.filter(platform=p)
+
+    context[count_by_platform] = count_by_platform
+
+    return render(request, "repository/report.html", context=context)
