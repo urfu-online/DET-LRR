@@ -84,3 +84,27 @@ a.disabled {
     padding: .75rem !important;
   }
 }
+
+
+.navbar-light .navbar-nav .nav-link {
+  color: #30364A;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #DC1A54;
+}
+
+.btn-primary:hover {
+    background: #DC1A54;
+}
+
+.page-link {
+  border-radius: 0px!important;
+}
+
+.card{
+  border: 1px solid #fff;
+}
+.card:hover{
+  border-color: lighten(#DC1A54, 30%);
+}

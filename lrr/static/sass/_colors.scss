@@ -129,7 +129,8 @@ $base-colors-palette: (
 }
 
 
-$shadow-color: black;
+//$shadow-color: black;
+$shadow-color: #30364A;
 $shadow-transition: box-shadow .28s cubic-bezier(.4, 0, .2, 1);
 $inset-shadow: 0 7px 9px -7px rgba($shadow-color, .7) inset;
 
