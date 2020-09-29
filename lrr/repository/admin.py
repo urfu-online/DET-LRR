@@ -4,14 +4,14 @@ from django.contrib import admin
 from . import models
 
 
-class DRStatusAdminForm(forms.ModelForm):
-    class Meta:
-        model = models.DRStatus
-        fields = "__all__"
+# class DRStatusAdminForm(forms.ModelForm):
+#     class Meta:
+#         model = models.DRStatus
+#         fields = "__all__"
 
 
-class DRStatusAdmin(admin.ModelAdmin):
-    form = DRStatusAdminForm
+class DRStatusInline(admin.TabularInline):
+    model = models.DRStatus
     list_display = [
         "digital_resource",
         "expertise_status",
@@ -21,6 +21,15 @@ class DRStatusAdmin(admin.ModelAdmin):
     ]
     readonly_fields = [
         "created",
+    ]
+    extra = 0
+    autocomplete_fields = [
+        "digital_resource",
+        "expertise_status",
+        "quality_category",
+        "interactive_category",
+        "subject",
+        "edu_program"
     ]
 
 
@@ -42,6 +51,9 @@ class ExpertiseStatusAdmin(admin.ModelAdmin):
         "last_updated",
         "created",
     ]
+    search_fields = ["end_date",
+                     "status",
+                     "accepted_status", ]
 
 
 class SubjectAdminForm(forms.ModelForm):
@@ -208,6 +220,7 @@ class DigitalResourceAdmin(admin.ModelAdmin):
     ]
     inlines = [
         SourceInline,
+        DRStatusInline
     ]
     # filter_horizontal = ["subjects_tags", ]
     autocomplete_fields = ["subjects_tags", "provided_disciplines", "copyright_holder", "edu_programs_tags", "platform",
@@ -408,7 +421,7 @@ class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
     autocomplete_fields = ["subject", "digital_resource"]
 
 
-admin.site.register(models.DRStatus, DRStatusAdmin)
+# admin.site.register(models.DRStatus, DRStatusAdmin)
 admin.site.register(models.ExpertiseStatus, ExpertiseStatusAdmin)
 admin.site.register(models.Subject, SubjectAdmin)
 admin.site.register(models.Organization, OrganizationAdmin)
