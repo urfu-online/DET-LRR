@@ -21,7 +21,7 @@ $green:   #4bbf73 ;
 $teal:    #20c997 ;
 $cyan:    #1f9bcf ;
 
-$primary:       $gray-900 ;
+$primary:       #30364A;
 $secondary:     $white ;
 $success:       $green ;
 $info:          $cyan ;
@@ -93,7 +93,6 @@ $input-line-height:                     1.5 ;
 
 $input-bg:                              $gray-200 ;
 $input-disabled-bg:                     $gray-300 ;
-
 $input-group-addon-bg:                  $gray-300 ;
 
 // Navbar
@@ -117,5 +116,14 @@ $pagination-disabled-border-color:  $pagination-border-color ;
 // Breadcrumbs
 
 $breadcrumb-bg:                     transparent ;
+
+
+$link-hover-color:                        #DC1A54;
+$dropdown-link-hover-color:         lighten(#DC1A54, 5%) ;
+$dropdown-link-hover-bg:             lighten(#DC1A54, 90%) ;
+
+$pagination-hover-color:           #DC1A54 ;
+$pagination-hover-bg:               $gray-200 ;
+
 
 

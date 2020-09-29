@@ -191,7 +191,21 @@ class DigitalResourceListView(FilteredListView):
     #     return product_filtered_list.qs
 
 
-ResourceListView = DigitalResourceListView
+class ResourceListView(FilteredListView):
+    allow_empty = True
+    paginate_by = 12
+    model = models.DigitalResource
+    form_class = forms.DigitalResourceForm
+    filterset_class = DigitalResourceFilter
+    template_name = "repository/digitalresource_list_owner.html"
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['my_resources'] = models.DigitalResource.objects.filter(
+            owner__user=self.request.user)
+        return context
 
 
 class DigitalResourceCreateView(generic.CreateView):
@@ -434,10 +448,10 @@ def WorkPlanView(request):
     person = get_object_or_404(Person, user=request.user)
     academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
     obj_plan = models.WorkPlanAcademicGroup.objects.filter(academic_group=academic_group)
-    status = []
-    for i in obj_plan:
-        for k in i.digital_resource.all():
-            status.append(models.DRStatus.objects.get(digital_resource=k))
+    # status = []
+    # for i in obj_plan:
+    #     for k in i.digital_resource.all():
+    #         status.append(models.DRStatus.objects.get(digital_resource=k))
     # obj_plan = get_object_or_404(models.WorkPlanAcademicGroup, academic_group=academic_group)
     # digital_resource = obj_plan.digital_resource
     # thematic_paln = obj_plan.thematic_paln
@@ -448,7 +462,8 @@ def WorkPlanView(request):
     #     academic_group.append(plan.academic_group)
 
     return render(request, 'pages/work_plan_list.html',
-                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person, 'status': status})
+                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person,  # 'status': status,
+                   'DR': obj_plan[0].digital_resource.first()})
 
 
 from django.http import Http404
@@ -506,7 +521,5 @@ def statistics(request):
         by_platform[p.title] = models.DigitalResource.objects.filter(platform=p).count()
 
     context["by_platform"] = by_platform
-
-
 
     return render(request, "repository/report.html", context=context)

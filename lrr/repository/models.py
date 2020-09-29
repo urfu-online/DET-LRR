@@ -107,7 +107,7 @@ class ExpertiseStatus(BaseModel):
 
 class Subject(BaseModel):
     # Fields
-    title = models.CharField("Наименование", max_length=100)
+    title = models.CharField("Наименование", max_length=255)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
     labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
 
@@ -123,6 +123,12 @@ class Subject(BaseModel):
 
     def get_update_url(self):
         return reverse("repository_Subject_update", args=(self.pk,))
+
+    def get_resources(self):
+        return DigitalResource.get_resources_by_subject(self)
+
+    def get_recommended_resources(self, edu_program):
+        return DigitalResource.get_recommended_resources_by_subject(self, edu_program)
 
 
 class Organization(BaseModel):
@@ -275,13 +281,31 @@ class DigitalResource(BaseModel):
         return reverse("repository:repository_DigitalResource_update", args=(self.pk,))
 
     def get_url(self):
-        sources = self.source_set.all()
-        if sources.count() == 1:
-            return sources[0].URL
-        elif sources.count() == 0:
+        source = self.source_set.first()
+        if source:
+            return source.URL
+        else:
             return ""
-        elif sources.count() > 0:
-            return sources[0].URL  # TODO: Придумать логику, возможно метод должен возвращать список урлов
+
+    @classmethod
+    def get_resources_by_subject(cls, subject):
+        if isinstance(subject, Subject):
+            tags = SubjectTag.get_by_subject(subject)
+            return cls.objects.filter(subjects_tags__in=tags)
+        else:
+            return None
+
+    @classmethod
+    def get_recommended_resources_by_subject(cls, subject, edu_program):
+        if isinstance(subject, Subject) and isinstance(edu_program, EduProgram):
+            return cls.objects.filter(provided_disciplines__subject=subject,
+                                      provided_disciplines__edu_program=edu_program,
+                                      drstatus__expertise_status__accepted_status=True)
+        else:
+            return None
+
+    def get_status(self):
+        return self.drstatus_set.all()
 
 
 class Source(BaseModel):
@@ -302,8 +326,6 @@ class Source(BaseModel):
             return "file"
         else:
             return None
-
-
 
 
 # class DigitalResourceCompetence(BaseModel):
@@ -346,7 +368,7 @@ class Competence(BaseModel):
 
 class Platform(BaseModel):
     # Fields
-    title = models.CharField("Наимаенование", max_length=150)
+    title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, null=True, blank=True)
     url = models.URLField("Ссылка")
     url_logo = models.URLField("Ссылка на логотип", null=True, blank=True)
@@ -406,6 +428,10 @@ class SubjectTag(BaseModel):
 
     def get_update_url(self):
         return reverse("repository_SubjectTag_update", args=(self.pk,))
+
+    @classmethod
+    def get_by_subject(cls, subject):
+        return cls.objects.filter(tag__title=subject.title)
 
 
 class ConformityTheme(BaseModel):
@@ -514,3 +540,6 @@ class WorkPlanAcademicGroup(BaseModel):
 
     def get_update_url(self):
         return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
+
+    def get_resources_by_subject(self):
+        return DigitalResource.get_resources_by_subject(self.subject)

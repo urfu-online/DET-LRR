@@ -1,17 +1,18 @@
 # -*- coding:utf-8 -*-
 from __future__ import unicode_literals
-
-# Stdlib imports
-
-# Core Django imports
 from django import template
 
-# Third-party app imports
-
-# Realative imports of the 'app-name' package
-
-
 register = template.Library()
+
+
+@register.inclusion_tag("repository/dr_cards.html")
+def get_resources(res, *args, **kwargs):
+    subject = kwargs.get('subject', None)
+    edu_program = kwargs.get('edu_program', None)
+    if subject and edu_program:
+        return {'objects': res.get_recommended_resources_by_subject(subject, edu_program)}
+    elif subject and not edu_program:
+        return {'objects': res.get_resources_by_subject(subject)}
 
 
 @register.filter('has_group')
@@ -23,7 +24,7 @@ def has_group(user, group_name):
         groups = user.groups.all().values_list('name', flat=True)
         return True if group_name in groups else False
     except:
-        groups = None
+        return None
 
 
 @register.filter('in_tag')

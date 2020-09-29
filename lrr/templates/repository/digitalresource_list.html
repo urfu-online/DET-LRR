@@ -11,7 +11,7 @@
     <h1>Список паспортов цифровых образовательных ресурсов</h1>
   </header>
     <div class="row mb-3 px-3" id="accordion">
-      <button class="btn btn-primary mt-3" data-toggle="collapse" data-target="#filters" aria-expanded="false"
+      <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
               aria-controls="filters">
         Фильтры и поиск
       </button>
@@ -50,6 +50,7 @@
               <label for="id_platform">Платформа</label>
               <select name="platform" class="custom-select" id="id_platform">
               <option value="" selected="">---------</option>
+              <option value="0ffadae4-0c03-4e20-b3b5-bb4b3da90d08">Портал электронного обучения</option>
               <option value="0badb9d3-6d87-485b-839c-f41fa93897d5">Платформа Открытого образования УрФУ</option>
               <option value="10e187d4-3664-498c-8ff2-b14c7983d470">Система электронного обучения на платформе Гиперметод
               </option>
@@ -60,7 +61,8 @@
               <label for="id_language">Язык ресурса:</label> <select name="language"  class="custom-select"
                                                                      id="id_language">
               <option value="" selected="">---------</option>
-              <option value="ru">ru</option>
+              <option value="ru">Русский</option>
+              <option value="en">Английский</option>
             </select>
             </div>
           <div class="form-group col-12 col-xl-2 col-md-6">
@@ -77,13 +79,14 @@
         {% for object in page_obj %}
           <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
             <div class="card h-100 shadow-1">
+            <div class="card-header pb-0">
+              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>
+                {{ object.copyright_holder }}
+              </p>
+              <p class="mb-2 text-muted">{{ object.get_type_display }}</p>
+            </div>
               <div class="card-body">
                 <h5 class="card-title">{{ object.title }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Тип ресура: {{ object.get_type_display }}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">Платформа: {{ object.platform }}</h6>
-
-                <i class="graduation cap icon"></i>
-                {{ object.copyright_holder }}
               </div>
               <div class="card-footer">
                 {% if object.get_url %}

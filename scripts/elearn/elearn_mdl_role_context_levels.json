@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "roleid": 1,
+    "contextlevel": 10
+  },
+  {
+    "id": 4,
+    "roleid": 2,
+    "contextlevel": 10
+  },
+  {
+    "id": 20,
+    "roleid": 9,
+    "contextlevel": 10
+  },
+  {
+    "id": 21,
+    "roleid": 9,
+    "contextlevel": 30
+  },
+  {
+    "id": 2,
+    "roleid": 1,
+    "contextlevel": 40
+  },
+  {
+    "id": 5,
+    "roleid": 2,
+    "contextlevel": 40
+  },
+  {
+    "id": 22,
+    "roleid": 9,
+    "contextlevel": 40
+  },
+  {
+    "id": 44,
+    "roleid": 11,
+    "contextlevel": 40
+  },
+  {
+    "id": 3,
+    "roleid": 1,
+    "contextlevel": 50
+  },
+  {
+    "id": 12,
+    "roleid": 3,
+    "contextlevel": 50
+  },
+  {
+    "id": 8,
+    "roleid": 4,
+    "contextlevel": 50
+  },
+  {
+    "id": 10,
+    "roleid": 5,
+    "contextlevel": 50
+  },
+  {
+    "id": 23,
+    "roleid": 9,
+    "contextlevel": 50
+  },
+  {
+    "id": 47,
+    "roleid": 12,
+    "contextlevel": 50
+  },
+  {
+    "id": 13,
+    "roleid": 3,
+    "contextlevel": 70
+  },
+  {
+    "id": 9,
+    "roleid": 4,
+    "contextlevel": 70
+  },
+  {
+    "id": 11,
+    "roleid": 5,
+    "contextlevel": 70
+  },
+  {
+    "id": 24,
+    "roleid": 9,
+    "contextlevel": 70
+  },
+  {
+    "id": 48,
+    "roleid": 12,
+    "contextlevel": 70
+  },
+  {
+    "id": 25,
+    "roleid": 9,
+    "contextlevel": 80
+  }
+]
