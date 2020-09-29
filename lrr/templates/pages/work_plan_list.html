@@ -25,8 +25,11 @@
         <tbody>
         {% for sub in item.subject.all %}
           <tr>
-            <td data-label="Дисциплина"><p class="font-weight-bold align-right">{{ sub }}<span
-                    class="d-block text-secondary">{{ sub.labor }} ч.</span></p></td>
+            <td data-label="Дисциплина"><p class="font-weight-bold align-right">{{ sub }}
+              {% if sub.labor != "None" %}
+                <span class="d-block text-secondary">{{ sub.labor }} ч.</span>
+              {% endif %}
+            </p></td>
             <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем"></td>
             <td data-label="Рекомендуемые цифровые ресурсы">
               {% get_resources DR subject=sub edu_program=item.edu_program %}
