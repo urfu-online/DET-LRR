@@ -428,7 +428,7 @@ class SubjectTag(BaseModel):
 
     @classmethod
     def get_by_subject(cls, subject):
-        return cls.objects.filter(tag=subject)
+        return cls.objects.filter(tag__title=subject.title)
 
 
 class ConformityTheme(BaseModel):
