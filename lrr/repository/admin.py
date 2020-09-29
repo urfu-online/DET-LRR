@@ -167,6 +167,7 @@ class DigitalResourceAdminForm(forms.ModelForm):
 
 class SourceInline(admin.TabularInline):
     model = models.Source
+    extra = 1
 
 
 @admin.register(models.DigitalResource)
