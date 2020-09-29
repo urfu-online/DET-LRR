@@ -404,6 +404,8 @@ class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
         "created",
     ]
 
+    autocomplete_fields = ["subject", "digital_resource"]
+
 
 admin.site.register(models.DRStatus, DRStatusAdmin)
 admin.site.register(models.ExpertiseStatus, ExpertiseStatusAdmin)
