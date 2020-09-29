@@ -3,125 +3,145 @@
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
-  <ol class="breadcrumb px-2 pb-0">
-    <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
-    <li class="breadcrumb-item"><a href="/">Список ЦОР</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Паспорт ЦОР: {{ object.title }}</li>
-  </ol>
-</nav>
-<header class="pb-4 px-2">
-  {% if request.user.is_superuser %}
-        <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i class="pen icon"></i>Редактировать</a>
-  {% endif %}
-  <h1>{{ object.title }} </h1>
-  <p>Паспорт цифрового образовательного ресурса</p>
-</header>
- {% if request.user.is_authenticated %}
-  <div class="row p-2">
-    <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-    <div class="card h-100 shadow-1">
-      <div class="card-body">
-      <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
-        <p> {{ object.description }}</p>
-        <hr>
-        <h6 class="card-subtitle mb-2 text-muted">Образовательный результат:</h6>
-        <h5 class="card-title"> {% for obj in object.result_edu.all %}{{ obj }}<br/> {% endfor %}</h5>
-        <hr>
-
-
-
-        {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" or request.user.is_superuser %}
-          <h6 class="card-subtitle mb-2 text-muted">ЦОР рекомендован в качестве обеспечения дисциплины</h6>
-                {% for obj in object.provided_disciplines.all %}
-                  <table class="ui compact table">
-                    <thead>
-                    <tr>
-                      <th>Образовательная программа</th>
-                      <th>Дисциплина</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td data-label="Образовательная программа">{{ obj.edu_program }}</td>
-                      <td data-label="Дисциплина">{{ obj.subject }}</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                {% endfor %}
-          <h6 class="card-subtitle mb-2 text-muted">Соответствие ЦОР темам дисциплины</h6>
-                {% for obj in object.conformity_theme.all %}
-                  <table class="ui compact table">
-                    <thead>
-                    <tr>
-                      <th>Тема дисциплины</th>
-                      <th>Практика</th>
-                      <th>Теория</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td data-label="Тема дисциплины">{{ obj.theme }}</td>
-                      <td data-label="Практика">
-                        {% if obj.practice %}
-                          <i class="check circle outline icon"></i>
-                        {% else %}
-                          <i class="circle outline icon"></i>
-                        {% endif %}
-                      </td>
-                      <td data-label="Теория">
-                        {% if obj.theory %}
-                          <i class="check circle outline icon"></i>
-                        {% else %}
-                          <i class="circle outline icon"></i>
-                        {% endif %}
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                {% endfor %}
-          {% endif %}
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-md-6 col-lg-5 col-xl-4 p-2">
-    <a href="{{ object.get_url }}"  class="btn btn-block btn-primary mb-3"><i
-              class="user graduate icon"></i> Перейти</a>
-    <div class="card shadow-1 mb-3">
-      <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">Авторы:</h6>
-        <h5 class="card-title">{% for obj in object.digital_resource.authors.all %}{{ obj }}<br/>{% endfor %}</h5>
-        <hr>
-        <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
-        <h5 class="card-title"> {{ object.get_type_display }}</h5>
-      </div>
-    </div>
-    <div class="card shadow-1">
-      <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">Формат ресурса:</h6>
-        <h5 class="card-title">  Online</h5>
-        <hr>
-        <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
-        <h5 class="card-title"> {{ object.get_type_display }}</h5>
-        <hr>
-        <h6 class="card-subtitle mb-2 text-muted">Платформа:</h6>
-        <h5 class="card-title"> {{ object.platform }}</h5>
-        <hr>
-        <h6 class="card-subtitle mb-2 text-muted">Язык ресурса:</h6>
-        <h5 class="card-title"> {{ object.language.title }}</h5>
-        <hr>
-        <h6 class="card-subtitle mb-2 text-muted">Правообладатель:</h6>
-        <h5 class="card-title"> {{ object.copyright_holder }}</h5>
-        <hr>
-        <h6 class="card-subtitle mb-2 text-muted">Направление/ОП:</h6>
-        <h5 class="card-title"> {% for state in status.all %}{{ state.edu_program }}{% endfor %}</h5>
-        <hr>
-        <h6 class="card-subtitle mb-2 text-muted">Дисциплина:</h6>
-        <h5 class="card-title"> {% for state in status.all %}{{ state.subject }}{% endfor %}</h5>
-      </div>
-    </div>
-  </div>
-  </div>
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">Список ЦОР</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Паспорт ЦОР: {{ object.title }}</li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    {% if request.user.is_superuser %}
+      <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i
+              class="pen icon"></i>Редактировать</a>
     {% endif %}
+    <h1>{{ object.title }} </h1>
+    <p>Паспорт цифрового образовательного ресурса</p>
+  </header>
+  {% if request.user.is_authenticated %}
+    <div class="row p-2">
+      <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
+        <div class="card h-100 shadow-1">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
+            <p> {{ object.description }}</p>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Образовательный результат:</h6>
+            <h5 class="card-title"></h5>
+              {% if object.result_edu.all %}
+                <ul class="list-unstyled">
+                  {% for object in object.result_edu.all %}
+                    {% include "repository/result_edu.html"  with object=object %}
+                  {% endfor %}
+                </ul>
+              {% endif %}
+
+            <hr>
+
+
+
+            {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" or request.user.is_superuser %}
+              <h6 class="card-subtitle mb-2 text-muted">ЦОР рекомендован в качестве обеспечения дисциплины</h6>
+              {% for obj in object.provided_disciplines.all %}
+                <table class="ui compact table">
+                  <thead>
+                  <tr>
+                    <th>Образовательная программа</th>
+                    <th>Дисциплина</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td data-label="Образовательная программа">{{ obj.edu_program }}</td>
+                    <td data-label="Дисциплина">{{ obj.subject }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              {% endfor %}
+              <h6 class="card-subtitle mb-2 text-muted">Соответствие ЦОР темам дисциплины</h6>
+              {% for obj in object.conformity_theme.all %}
+                <table class="ui compact table">
+                  <thead>
+                  <tr>
+                    <th>Тема дисциплины</th>
+                    <th>Практика</th>
+                    <th>Теория</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td data-label="Тема дисциплины">{{ obj.theme }}</td>
+                    <td data-label="Практика">
+                      {% if obj.practice %}
+                        <i class="check circle outline icon"></i>
+                      {% else %}
+                        <i class="circle outline icon"></i>
+                      {% endif %}
+                    </td>
+                    <td data-label="Теория">
+                      {% if obj.theory %}
+                        <i class="check circle outline icon"></i>
+                      {% else %}
+                        <i class="circle outline icon"></i>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-5 col-xl-4 p-2">
+        <a href="{{ object.get_url }}" class="btn btn-block btn-primary mb-3"><i
+                class="user graduate icon"></i> Перейти</a>
+        <div class="card shadow-1 mb-3">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Авторы:</h6>
+            <h5 class="card-title">{% for obj in object.authors.all %}
+              {% include "repository/author.html" with object=obj %}
+            {% endfor %}</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
+            <h5 class="card-title"> {{ object.get_type_display }}</h5>
+          </div>
+        </div>
+        <div class="card shadow-1">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Формат ресурса:</h6>
+            <h5 class="card-title"> Online</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
+            <h5 class="card-title"> {{ object.get_type_display }}</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Платформа:</h6>
+            <h5 class="card-title"> {{ object.platform }}</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Язык ресурса:</h6>
+            <h5 class="card-title"> {{ object.language.title }}</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Правообладатель:</h6>
+            <h5 class="card-title"> {{ object.copyright_holder }}</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Направление/ОП:</h6>
+            <h5 class="card-title"> {% for state in status.all %}{{ state.edu_program }}{% endfor %}</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Дисциплина:</h6>
+            <h5 class="card-title"> {% for state in status.all %}{{ state.subject }}{% endfor %}</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Теги:</h6>
+            <h5 class="card-title">
+              {% for tag in object.subjects_tags.all %}
+                {% include "repository/tag.html" with tag=tag %}
+              {% endfor %}
+            </h5>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
 
 {% endblock %}

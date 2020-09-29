@@ -191,7 +191,21 @@ class DigitalResourceListView(FilteredListView):
     #     return product_filtered_list.qs
 
 
-ResourceListView = DigitalResourceListView
+class ResourceListView(FilteredListView):
+    allow_empty = True
+    paginate_by = 12
+    model = models.DigitalResource
+    form_class = forms.DigitalResourceForm
+    filterset_class = DigitalResourceFilter
+    template_name = "repository/digitalresource_list_owner.html"
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['my_resources'] = models.DigitalResource.objects.filter(
+            owner__user=self.request.user)
+        return context
 
 
 class DigitalResourceCreateView(generic.CreateView):
@@ -448,7 +462,7 @@ def WorkPlanView(request):
     #     academic_group.append(plan.academic_group)
 
     return render(request, 'pages/work_plan_list.html',
-                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person, # 'status': status,
+                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person,  # 'status': status,
                    'DR': obj_plan[0].digital_resource.first()})
 
 

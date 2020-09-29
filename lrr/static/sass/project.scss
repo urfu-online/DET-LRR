@@ -95,16 +95,26 @@ a.disabled {
 }
 
 .btn-primary:hover {
-    background: #DC1A54;
+  background: #DC1A54;
 }
 
 .page-link {
-  border-radius: 0px!important;
+  border-radius: 0px !important;
 }
 
-.card{
+.card {
   border: 1px solid #fff;
 }
-.card:hover{
+
+.card:hover {
   border-color: lighten(#DC1A54, 30%);
+}
+
+hr.dotted {
+  border-top: 1px dotted #30364A;
+  width: 100%;
+}
+
+img.author {
+  height: 4rem;
 }

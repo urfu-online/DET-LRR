@@ -37,38 +37,27 @@
 </head>
 <body class="back">
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-left">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand mb-3" href="{% url 'home' %}">
-      <img class="d-none d-sm-none d-xs-none d-md-block d-lg-block d-xl-block" width="100%" src="{% static 'images/logo.png' %}" alt="Репозиторий ЦОР">
-      <span class="d-block d-sm-block d-xs-block d-md-none d-lg-none d-xl-none">Репозиторий ЦОР</span>
-    </a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand mb-3" href="{% url 'home' %}">
+    <img class="d-none d-sm-none d-xs-none d-md-block d-lg-block d-xl-block" width="100%"
+         src="{% static 'images/logo.png' %}" alt="Репозиторий ЦОР">
+    <span class="d-block d-sm-block d-xs-block d-md-none d-lg-none d-xl-none">Репозиторий ЦОР</span>
+  </a>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
         <li class="nav-item">
-          <a class="nav-link" href="/">{% trans "Список ЦОР" %}</a>
+          <a class="nav-link" href="/repository/resource">{% trans "Мои ЦОР" %}</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/repository/statistics/">{% trans "Статистика" %}</a>
-        </li>
-      {% if request.user.is_superuser %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Администрирование
-        </a>
-        <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'admin:index' %}">Административная панель</a>
-          <a class="dropdown-item" href="/schema/" target="_blank">Схема модели данных</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url 'repository:repository_DigitalResource_create' %}">+ Добавить паспорт ЦОР</a>
-        </div>
-      </li>
+
       {% endif %}
-        {% if request.user|has_group:"student" %}
+
+      {% if request.user|has_group:"student" %}
 
         <li class="nav-item">
           <a class="nav-link" href="{% url 'repository:repository_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>
@@ -77,56 +66,81 @@
 
       {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Сотруднику
-        </a>
-        <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-          {% if request.user|has_group:"expert" %}
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Сотруднику
+          </a>
+          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
+            {% if request.user|has_group:"expert" %}
               <a class="dropdown-item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЦОР</a>
             {% endif %}
             {% if request.user|has_group:"staff" %}
-              <a class="dropdown-item" href="">Компоновка рабочего плана</a>
+              <a class="dropdown-item" href="">Компановка рабочего плана</a>
             {% endif %}
             {% if request.user|has_group:"teacher" %}
               <a class="dropdown-item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЦОР</a>
             {% endif %}
-        </div>
-      </li>
+          </div>
+        </li>
       {% endif %}
-      {% if request.user.is_authenticated %}
+
+      {% if request.user.is_superuser %}
+        <hr class="dotted">
         <li class="nav-item">
-            <a class="nav-link"
-               href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>
+          <a class="nav-link" href="/">{% trans "Список ЦОР" %}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+          <a class="nav-link" href="/repository/statistics/">{% trans "Статистика" %}</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Администрирование
+          </a>
+          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'admin:index' %}">Административная панель</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'repository:repository_DigitalResource_create' %}">+ Добавить паспорт
+              ЦОР</a>
+          </div>
+        </li>
+      {% endif %}
+
+      {% if request.user.is_authenticated %}
+        <hr class="dotted">
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
         </li>
       {% else %}
         <li class="nav-item">
-            <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+          <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
         </li>
         <li class="nav-item">
-            <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+          <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
         </li>
       {% endif %}
-      </ul>
-    </div>
-  </nav>
+    </ul>
+  </div>
+</nav>
 
-  <div class="container-fluid">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                  aria-hidden="true">&times;</span></button>
-        </div>
-      {% endfor %}
-    {% endif %}
+<div class="container-fluid">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+      </div>
+    {% endfor %}
+  {% endif %}
 
-    {% block content %}
-      <p>Use this document as a way to quick start any new project.</p>
-    {% endblock content %}
-  </div> <!-- /container -->
+  {% block content %}
+    <p>Use this document as a way to quick start any new project.</p>
+  {% endblock content %}
+</div> <!-- /container -->
 
 {#<footer class="ui inverted segment">#}
 {#  <div class="ui container">#}
@@ -151,33 +165,33 @@
 {#  </div>#}
 {#</footer>#}
 
-  {% block modal %}{% endblock modal %}
+{% block modal %}{% endblock modal %}
 
-  <!-- Le javascript
-  ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  {% block javascript %}
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+{% block javascript %}
 
-    <!-- Bootstrap JS and its dependencies-->
+  <!-- Bootstrap JS and its dependencies-->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-              integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-              crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-
-
-    <!-- Your stuff: Third-party javascript libraries go here -->
-    <!-- place project specific Javascript in this file -->
-
-    <script src="{% static 'js/project.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
 
 
-  {% endblock javascript %}
+  <!-- Your stuff: Third-party javascript libraries go here -->
+  <!-- place project specific Javascript in this file -->
+
+  <script src="{% static 'js/project.js' %}"></script>
+
+
+{% endblock javascript %}
 </body>
 </html>
 

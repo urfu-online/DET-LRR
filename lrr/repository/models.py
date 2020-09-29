@@ -304,6 +304,9 @@ class DigitalResource(BaseModel):
         else:
             return None
 
+    def get_status(self):
+        return self.drstatus_set.all()
+
 
 class Source(BaseModel):
     link_name = models.CharField("Наименование файла", max_length=150, null=True, blank=True)
