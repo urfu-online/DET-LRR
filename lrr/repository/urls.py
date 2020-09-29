@@ -79,6 +79,7 @@ urlpatterns = (
     # path("repository/Person/update/<int:pk>/", views.PersonUpdateView.as_view(), name="repository_Person_update"),
     path("WorkPlan/", views.WorkPlanView, name="repository_WorkPlan"),
     path("resource/", views.ResourceListView.as_view(), name="repository_Resource"),
+    # path("search/", views.ResourceListView.as_view(), name="repository_Search"), # TODO: поиск ЦОР
     path("expertises/", views.ExpertiseListView, name="repository_Expertise"),
     path("statistics/", views.statistics, name="repository_statistics"),
 )

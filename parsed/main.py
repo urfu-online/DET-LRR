@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-max_id = 14043
+max_id = 20000
 denied = list()
 
 
