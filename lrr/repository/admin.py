@@ -26,8 +26,6 @@ class DRStatusInline(admin.TabularInline):
     autocomplete_fields = [
         "digital_resource",
         "expertise_status",
-        "quality_category",
-        "interactive_category",
         "subject",
         "edu_program"
     ]
