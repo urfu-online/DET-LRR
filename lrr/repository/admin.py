@@ -213,6 +213,7 @@ class DigitalResourceAdmin(admin.ModelAdmin):
     autocomplete_fields = ["subjects_tags", "provided_disciplines", "copyright_holder", "edu_programs_tags", "platform",
                            "language"]
     list_filter = ["platform"]
+    search_fields = ["title"]
 
 
 # class DigitalResourceChild(PolymorphicChildModelAdmin):
