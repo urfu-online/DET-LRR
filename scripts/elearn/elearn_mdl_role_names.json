@@ -1,0 +1,296 @@
+[
+  {
+    "id": 1,
+    "roleid": 3,
+    "contextid": 1855,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 2,
+    "roleid": 3,
+    "contextid": 2080,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 3,
+    "roleid": 3,
+    "contextid": 2123,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 4,
+    "roleid": 3,
+    "contextid": 2220,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 5,
+    "roleid": 3,
+    "contextid": 566,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 6,
+    "roleid": 3,
+    "contextid": 2978,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 7,
+    "roleid": 2,
+    "contextid": 12714,
+    "name": "Автор курса"
+  },
+  {
+    "id": 8,
+    "roleid": 1,
+    "contextid": 59282,
+    "name": "Менеджер"
+  },
+  {
+    "id": 9,
+    "roleid": 4,
+    "contextid": 95890,
+    "name": "Создатель курса"
+  },
+  {
+    "id": 10,
+    "roleid": 4,
+    "contextid": 79862,
+    "name": "преподаватель"
+  },
+  {
+    "id": 11,
+    "roleid": 1,
+    "contextid": 105645,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 12,
+    "roleid": 2,
+    "contextid": 105645,
+    "name": "Автор курса"
+  },
+  {
+    "id": 13,
+    "roleid": 3,
+    "contextid": 105645,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 14,
+    "roleid": 4,
+    "contextid": 105645,
+    "name": "Ассистент"
+  },
+  {
+    "id": 15,
+    "roleid": 5,
+    "contextid": 105645,
+    "name": "Участник курса"
+  },
+  {
+    "id": 16,
+    "roleid": 6,
+    "contextid": 105645,
+    "name": "Вольный слушатель"
+  },
+  {
+    "id": 17,
+    "roleid": 7,
+    "contextid": 105645,
+    "name": "Участник курса"
+  },
+  {
+    "id": 18,
+    "roleid": 8,
+    "contextid": 105645,
+    "name": "Участник курса"
+  },
+  {
+    "id": 19,
+    "roleid": 9,
+    "contextid": 105645,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 20,
+    "roleid": 11,
+    "contextid": 105645,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 21,
+    "roleid": 12,
+    "contextid": 105645,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 22,
+    "roleid": 4,
+    "contextid": 102531,
+    "name": "преподаватель"
+  },
+  {
+    "id": 23,
+    "roleid": 1,
+    "contextid": 119252,
+    "name": "Акбердина Виктория Викторовна"
+  },
+  {
+    "id": 24,
+    "roleid": 2,
+    "contextid": 119252,
+    "name": "Акбердина Виктория Викторовна"
+  },
+  {
+    "id": 25,
+    "roleid": 3,
+    "contextid": 119252,
+    "name": "Акбердина Виктория Викторовна"
+  },
+  {
+    "id": 26,
+    "roleid": 3,
+    "contextid": 122387,
+    "name": "Макаров Э.П."
+  },
+  {
+    "id": 28,
+    "roleid": 3,
+    "contextid": 145605,
+    "name": "ФИО"
+  },
+  {
+    "id": 29,
+    "roleid": 3,
+    "contextid": 241763,
+    "name": "Смородина Елена Анатольевна"
+  },
+  {
+    "id": 30,
+    "roleid": 3,
+    "contextid": 241787,
+    "name": "Смородина Елена Анатольевна"
+  },
+  {
+    "id": 31,
+    "roleid": 2,
+    "contextid": 223817,
+    "name": "Селезнева Ирина Станиславовна"
+  },
+  {
+    "id": 32,
+    "roleid": 3,
+    "contextid": 223817,
+    "name": "Селезнева Ирина Станиславовна"
+  },
+  {
+    "id": 33,
+    "roleid": 2,
+    "contextid": 235524,
+    "name": "Балдин Виктор Юрьевич"
+  },
+  {
+    "id": 34,
+    "roleid": 3,
+    "contextid": 235524,
+    "name": "Балдин Виктор Юрьевич"
+  },
+  {
+    "id": 35,
+    "roleid": 1,
+    "contextid": 270755,
+    "name": "Лаобань"
+  },
+  {
+    "id": 36,
+    "roleid": 2,
+    "contextid": 270755,
+    "name": "Чуаньцзаочжэ"
+  },
+  {
+    "id": 37,
+    "roleid": 3,
+    "contextid": 270755,
+    "name": "Лаоши"
+  },
+  {
+    "id": 38,
+    "roleid": 5,
+    "contextid": 270755,
+    "name": "Сюэшэн"
+  },
+  {
+    "id": 39,
+    "roleid": 6,
+    "contextid": 270755,
+    "name": "Кэжэнь лайлэ"
+  },
+  {
+    "id": 40,
+    "roleid": 5,
+    "contextid": 274872,
+    "name": "Слушатель"
+  },
+  {
+    "id": 41,
+    "roleid": 5,
+    "contextid": 244259,
+    "name": "Магистрант"
+  },
+  {
+    "id": 42,
+    "roleid": 3,
+    "contextid": 257367,
+    "name": "преподаватель"
+  },
+  {
+    "id": 43,
+    "roleid": 3,
+    "contextid": 419486,
+    "name": "Преподаватель"
+  },
+  {
+    "id": 44,
+    "roleid": 5,
+    "contextid": 419486,
+    "name": "Студент"
+  },
+  {
+    "id": 45,
+    "roleid": 3,
+    "contextid": 416909,
+    "name": "РЕДАКТОР"
+  },
+  {
+    "id": 46,
+    "roleid": 4,
+    "contextid": 416909,
+    "name": "Автор"
+  },
+  {
+    "id": 47,
+    "roleid": 5,
+    "contextid": 416909,
+    "name": "Слушатель"
+  },
+  {
+    "id": 48,
+    "roleid": 3,
+    "contextid": 99601,
+    "name": "Редактор"
+  },
+  {
+    "id": 49,
+    "roleid": 4,
+    "contextid": 99601,
+    "name": "Автор"
+  },
+  {
+    "id": 50,
+    "roleid": 5,
+    "contextid": 99601,
+    "name": "Слушатель"
+  }
+]

@@ -1,0 +1,2687 @@
+[
+  {
+    "id": 2,
+    "name": "rolesactive",
+    "value": "1"
+  },
+  {
+    "id": 3,
+    "name": "auth",
+    "value": "saml2"
+  },
+  {
+    "id": 4,
+    "name": "auth_pop3mailbox",
+    "value": "INBOX"
+  },
+  {
+    "id": 5,
+    "name": "enrol_plugins_enabled",
+    "value": "manual,guest,self,cohort"
+  },
+  {
+    "id": 6,
+    "name": "theme",
+    "value": "academi"
+  },
+  {
+    "id": 7,
+    "name": "filter_multilang_converted",
+    "value": "1"
+  },
+  {
+    "id": 8,
+    "name": "siteidentifier",
+    "value": "f2QHLa9LaPOqw20vVGTIGRwlrcka5Q7Nelearn.dit.urfu.ru"
+  },
+  {
+    "id": 9,
+    "name": "backup_version",
+    "value": "2018120300"
+  },
+  {
+    "id": 10,
+    "name": "backup_release",
+    "value": "3.6"
+  },
+  {
+    "id": 11,
+    "name": "mnet_dispatcher_mode",
+    "value": "off"
+  },
+  {
+    "id": 12,
+    "name": "sessiontimeout",
+    "value": "7200"
+  },
+  {
+    "id": 13,
+    "name": "stringfilters",
+    "value": ""
+  },
+  {
+    "id": 14,
+    "name": "filterall",
+    "value": "0"
+  },
+  {
+    "id": 15,
+    "name": "texteditors",
+    "value": "atto,tinymce,textarea"
+  },
+  {
+    "id": 17,
+    "name": "upgrade_extracreditweightsstepignored",
+    "value": "1"
+  },
+  {
+    "id": 18,
+    "name": "upgrade_calculatedgradeitemsignored",
+    "value": "1"
+  },
+  {
+    "id": 19,
+    "name": "mnet_localhost_id",
+    "value": "1"
+  },
+  {
+    "id": 20,
+    "name": "mnet_all_hosts_id",
+    "value": "2"
+  },
+  {
+    "id": 21,
+    "name": "siteguest",
+    "value": "1"
+  },
+  {
+    "id": 22,
+    "name": "siteadmins",
+    "value": "7,2,9,418,7025,11,245,97"
+  },
+  {
+    "id": 23,
+    "name": "themerev",
+    "value": "1589969759"
+  },
+  {
+    "id": 24,
+    "name": "jsrev",
+    "value": "1589969759"
+  },
+  {
+    "id": 25,
+    "name": "gdversion",
+    "value": "2"
+  },
+  {
+    "id": 26,
+    "name": "licenses",
+    "value": "unknown,allrightsreserved,public,cc,cc-nd,cc-nc-nd,cc-nc,cc-nc-sa,cc-sa"
+  },
+  {
+    "id": 27,
+    "name": "version",
+    "value": "2018120302.08"
+  },
+  {
+    "id": 28,
+    "name": "enableoutcomes",
+    "value": "0"
+  },
+  {
+    "id": 29,
+    "name": "usecomments",
+    "value": "1"
+  },
+  {
+    "id": 30,
+    "name": "usetags",
+    "value": "1"
+  },
+  {
+    "id": 31,
+    "name": "enablenotes",
+    "value": "1"
+  },
+  {
+    "id": 32,
+    "name": "enableportfolios",
+    "value": "0"
+  },
+  {
+    "id": 33,
+    "name": "enablewebservices",
+    "value": "1"
+  },
+  {
+    "id": 34,
+    "name": "messaging",
+    "value": "1"
+  },
+  {
+    "id": 36,
+    "name": "messagingdeletereadnotificationsdelay",
+    "value": "604800"
+  },
+  {
+    "id": 37,
+    "name": "messagingallowemailoverride",
+    "value": "0"
+  },
+  {
+    "id": 38,
+    "name": "enablestats",
+    "value": "0"
+  },
+  {
+    "id": 39,
+    "name": "enablerssfeeds",
+    "value": "0"
+  },
+  {
+    "id": 40,
+    "name": "enableblogs",
+    "value": "1"
+  },
+  {
+    "id": 41,
+    "name": "enablecompletion",
+    "value": "1"
+  },
+  {
+    "id": 42,
+    "name": "completiondefault",
+    "value": "1"
+  },
+  {
+    "id": 43,
+    "name": "enableavailability",
+    "value": "1"
+  },
+  {
+    "id": 44,
+    "name": "enableplagiarism",
+    "value": "0"
+  },
+  {
+    "id": 45,
+    "name": "enablebadges",
+    "value": "1"
+  },
+  {
+    "id": 46,
+    "name": "defaultpreference_maildisplay",
+    "value": "2"
+  },
+  {
+    "id": 47,
+    "name": "defaultpreference_mailformat",
+    "value": "1"
+  },
+  {
+    "id": 48,
+    "name": "defaultpreference_maildigest",
+    "value": "0"
+  },
+  {
+    "id": 49,
+    "name": "defaultpreference_autosubscribe",
+    "value": "1"
+  },
+  {
+    "id": 50,
+    "name": "defaultpreference_trackforums",
+    "value": "0"
+  },
+  {
+    "id": 51,
+    "name": "autologinguests",
+    "value": "0"
+  },
+  {
+    "id": 52,
+    "name": "hiddenuserfields",
+    "value": ""
+  },
+  {
+    "id": 53,
+    "name": "showuseridentity",
+    "value": "email,department"
+  },
+  {
+    "id": 54,
+    "name": "fullnamedisplay",
+    "value": "lastname firstname middlename"
+  },
+  {
+    "id": 55,
+    "name": "alternativefullnameformat",
+    "value": "lastname firstname middlename"
+  },
+  {
+    "id": 56,
+    "name": "maxusersperpage",
+    "value": "100"
+  },
+  {
+    "id": 57,
+    "name": "enablegravatar",
+    "value": "0"
+  },
+  {
+    "id": 58,
+    "name": "gravatardefaulturl",
+    "value": "mm"
+  },
+  {
+    "id": 59,
+    "name": "enablecourserequests",
+    "value": "0"
+  },
+  {
+    "id": 60,
+    "name": "defaultrequestcategory",
+    "value": "1"
+  },
+  {
+    "id": 61,
+    "name": "requestcategoryselection",
+    "value": "0"
+  },
+  {
+    "id": 62,
+    "name": "courserequestnotify",
+    "value": ""
+  },
+  {
+    "id": 63,
+    "name": "grade_profilereport",
+    "value": "user"
+  },
+  {
+    "id": 64,
+    "name": "grade_aggregationposition",
+    "value": "1"
+  },
+  {
+    "id": 65,
+    "name": "grade_includescalesinaggregation",
+    "value": "1"
+  },
+  {
+    "id": 66,
+    "name": "grade_hiddenasdate",
+    "value": "0"
+  },
+  {
+    "id": 67,
+    "name": "gradepublishing",
+    "value": "0"
+  },
+  {
+    "id": 68,
+    "name": "grade_export_displaytype",
+    "value": "1"
+  },
+  {
+    "id": 69,
+    "name": "grade_export_decimalpoints",
+    "value": "2"
+  },
+  {
+    "id": 70,
+    "name": "grade_navmethod",
+    "value": "0"
+  },
+  {
+    "id": 71,
+    "name": "grade_export_userprofilefields",
+    "value": "firstname,lastname,idnumber,institution,department,email"
+  },
+  {
+    "id": 72,
+    "name": "grade_export_customprofilefields",
+    "value": ""
+  },
+  {
+    "id": 73,
+    "name": "recovergradesdefault",
+    "value": "1"
+  },
+  {
+    "id": 74,
+    "name": "gradeexport",
+    "value": ""
+  },
+  {
+    "id": 75,
+    "name": "unlimitedgrades",
+    "value": "0"
+  },
+  {
+    "id": 76,
+    "name": "grade_report_showmin",
+    "value": "1"
+  },
+  {
+    "id": 77,
+    "name": "gradepointmax",
+    "value": "1000"
+  },
+  {
+    "id": 78,
+    "name": "gradepointdefault",
+    "value": "1000"
+  },
+  {
+    "id": 79,
+    "name": "grade_minmaxtouse",
+    "value": "1"
+  },
+  {
+    "id": 80,
+    "name": "grade_mygrades_report",
+    "value": "overview"
+  },
+  {
+    "id": 81,
+    "name": "gradereport_mygradeurl",
+    "value": ""
+  },
+  {
+    "id": 82,
+    "name": "grade_hideforcedsettings",
+    "value": "1"
+  },
+  {
+    "id": 83,
+    "name": "grade_aggregation",
+    "value": "13"
+  },
+  {
+    "id": 84,
+    "name": "grade_aggregation_flag",
+    "value": "0"
+  },
+  {
+    "id": 85,
+    "name": "grade_aggregations_visible",
+    "value": "0,10,11,12,13"
+  },
+  {
+    "id": 86,
+    "name": "grade_aggregateonlygraded",
+    "value": "1"
+  },
+  {
+    "id": 87,
+    "name": "grade_aggregateonlygraded_flag",
+    "value": "2"
+  },
+  {
+    "id": 88,
+    "name": "grade_aggregateoutcomes",
+    "value": "0"
+  },
+  {
+    "id": 89,
+    "name": "grade_aggregateoutcomes_flag",
+    "value": "2"
+  },
+  {
+    "id": 90,
+    "name": "grade_keephigh",
+    "value": "0"
+  },
+  {
+    "id": 91,
+    "name": "grade_keephigh_flag",
+    "value": "3"
+  },
+  {
+    "id": 92,
+    "name": "grade_droplow",
+    "value": "0"
+  },
+  {
+    "id": 93,
+    "name": "grade_droplow_flag",
+    "value": "2"
+  },
+  {
+    "id": 94,
+    "name": "grade_overridecat",
+    "value": "1"
+  },
+  {
+    "id": 95,
+    "name": "grade_displaytype",
+    "value": "1"
+  },
+  {
+    "id": 96,
+    "name": "grade_decimalpoints",
+    "value": "2"
+  },
+  {
+    "id": 97,
+    "name": "grade_item_advanced",
+    "value": "iteminfo,idnumber,gradepass,plusfactor,multfactor,display,decimals,hiddenuntil,locktime"
+  },
+  {
+    "id": 98,
+    "name": "grade_report_studentsperpage",
+    "value": "100"
+  },
+  {
+    "id": 99,
+    "name": "grade_report_showonlyactiveenrol",
+    "value": "1"
+  },
+  {
+    "id": 100,
+    "name": "grade_report_quickgrading",
+    "value": "1"
+  },
+  {
+    "id": 101,
+    "name": "grade_report_showquickfeedback",
+    "value": "0"
+  },
+  {
+    "id": 102,
+    "name": "grade_report_meanselection",
+    "value": "1"
+  },
+  {
+    "id": 103,
+    "name": "grade_report_enableajax",
+    "value": "0"
+  },
+  {
+    "id": 104,
+    "name": "grade_report_showcalculations",
+    "value": "1"
+  },
+  {
+    "id": 105,
+    "name": "grade_report_showeyecons",
+    "value": "0"
+  },
+  {
+    "id": 106,
+    "name": "grade_report_showaverages",
+    "value": "1"
+  },
+  {
+    "id": 107,
+    "name": "grade_report_showlocks",
+    "value": "0"
+  },
+  {
+    "id": 108,
+    "name": "grade_report_showranges",
+    "value": "0"
+  },
+  {
+    "id": 109,
+    "name": "grade_report_showanalysisicon",
+    "value": "1"
+  },
+  {
+    "id": 110,
+    "name": "grade_report_showuserimage",
+    "value": "1"
+  },
+  {
+    "id": 111,
+    "name": "grade_report_showactivityicons",
+    "value": "1"
+  },
+  {
+    "id": 112,
+    "name": "grade_report_shownumberofgrades",
+    "value": "0"
+  },
+  {
+    "id": 113,
+    "name": "grade_report_averagesdisplaytype",
+    "value": "inherit"
+  },
+  {
+    "id": 114,
+    "name": "grade_report_rangesdisplaytype",
+    "value": "inherit"
+  },
+  {
+    "id": 115,
+    "name": "grade_report_averagesdecimalpoints",
+    "value": "inherit"
+  },
+  {
+    "id": 116,
+    "name": "grade_report_rangesdecimalpoints",
+    "value": "inherit"
+  },
+  {
+    "id": 117,
+    "name": "grade_report_historyperpage",
+    "value": "50"
+  },
+  {
+    "id": 118,
+    "name": "grade_report_overview_showrank",
+    "value": "0"
+  },
+  {
+    "id": 119,
+    "name": "grade_report_overview_showtotalsifcontainhidden",
+    "value": "0"
+  },
+  {
+    "id": 120,
+    "name": "grade_report_user_showrank",
+    "value": "0"
+  },
+  {
+    "id": 121,
+    "name": "grade_report_user_showpercentage",
+    "value": "1"
+  },
+  {
+    "id": 122,
+    "name": "grade_report_user_showgrade",
+    "value": "1"
+  },
+  {
+    "id": 123,
+    "name": "grade_report_user_showfeedback",
+    "value": "1"
+  },
+  {
+    "id": 124,
+    "name": "grade_report_user_showrange",
+    "value": "1"
+  },
+  {
+    "id": 125,
+    "name": "grade_report_user_showweight",
+    "value": "1"
+  },
+  {
+    "id": 126,
+    "name": "grade_report_user_showaverage",
+    "value": "0"
+  },
+  {
+    "id": 127,
+    "name": "grade_report_user_showlettergrade",
+    "value": "0"
+  },
+  {
+    "id": 128,
+    "name": "grade_report_user_rangedecimals",
+    "value": "0"
+  },
+  {
+    "id": 129,
+    "name": "grade_report_user_showhiddenitems",
+    "value": "1"
+  },
+  {
+    "id": 130,
+    "name": "grade_report_user_showtotalsifcontainhidden",
+    "value": "0"
+  },
+  {
+    "id": 131,
+    "name": "grade_report_user_showcontributiontocoursetotal",
+    "value": "1"
+  },
+  {
+    "id": 132,
+    "name": "badges_defaultissuername",
+    "value": "Портал электронного обучения УрФУ"
+  },
+  {
+    "id": 133,
+    "name": "badges_defaultissuercontact",
+    "value": "it-innovation@urfu.ru"
+  },
+  {
+    "id": 134,
+    "name": "badges_badgesalt",
+    "value": "badges1441022602"
+  },
+  {
+    "id": 135,
+    "name": "badges_allowexternalbackpack",
+    "value": "1"
+  },
+  {
+    "id": 136,
+    "name": "badges_allowcoursebadges",
+    "value": "1"
+  },
+  {
+    "id": 138,
+    "name": "forcetimezone",
+    "value": "Asia/Yekaterinburg"
+  },
+  {
+    "id": 139,
+    "name": "country",
+    "value": "RU"
+  },
+  {
+    "id": 140,
+    "name": "defaultcity",
+    "value": ""
+  },
+  {
+    "id": 141,
+    "name": "geoipfile",
+    "value": "/var/www/moodledata/geoip/GeoLiteCity.dat"
+  },
+  {
+    "id": 142,
+    "name": "googlemapkey3",
+    "value": ""
+  },
+  {
+    "id": 143,
+    "name": "allcountrycodes",
+    "value": ""
+  },
+  {
+    "id": 144,
+    "name": "autolang",
+    "value": "0"
+  },
+  {
+    "id": 145,
+    "name": "lang",
+    "value": "ru"
+  },
+  {
+    "id": 146,
+    "name": "langmenu",
+    "value": "1"
+  },
+  {
+    "id": 147,
+    "name": "langlist",
+    "value": ""
+  },
+  {
+    "id": 148,
+    "name": "langrev",
+    "value": "1600503011"
+  },
+  {
+    "id": 149,
+    "name": "langcache",
+    "value": "0"
+  },
+  {
+    "id": 150,
+    "name": "langstringcache",
+    "value": "0"
+  },
+  {
+    "id": 151,
+    "name": "locale",
+    "value": ""
+  },
+  {
+    "id": 152,
+    "name": "latinexcelexport",
+    "value": "0"
+  },
+  {
+    "id": 153,
+    "name": "requiremodintro",
+    "value": "0"
+  },
+  {
+    "id": 155,
+    "name": "authloginviaemail",
+    "value": "0"
+  },
+  {
+    "id": 156,
+    "name": "authpreventaccountcreation",
+    "value": "0"
+  },
+  {
+    "id": 157,
+    "name": "loginpageautofocus",
+    "value": "0"
+  },
+  {
+    "id": 158,
+    "name": "guestloginbutton",
+    "value": "1"
+  },
+  {
+    "id": 159,
+    "name": "limitconcurrentlogins",
+    "value": "0"
+  },
+  {
+    "id": 160,
+    "name": "alternateloginurl",
+    "value": ""
+  },
+  {
+    "id": 161,
+    "name": "forgottenpasswordurl",
+    "value": ""
+  },
+  {
+    "id": 162,
+    "name": "auth_instructions",
+    "value": ""
+  },
+  {
+    "id": 163,
+    "name": "allowemailaddresses",
+    "value": ""
+  },
+  {
+    "id": 164,
+    "name": "denyemailaddresses",
+    "value": ""
+  },
+  {
+    "id": 165,
+    "name": "verifychangedemail",
+    "value": "1"
+  },
+  {
+    "id": 166,
+    "name": "recaptchapublickey",
+    "value": ""
+  },
+  {
+    "id": 167,
+    "name": "recaptchaprivatekey",
+    "value": ""
+  },
+  {
+    "id": 168,
+    "name": "filteruploadedfiles",
+    "value": "0"
+  },
+  {
+    "id": 169,
+    "name": "filtermatchoneperpage",
+    "value": "0"
+  },
+  {
+    "id": 170,
+    "name": "filtermatchonepertext",
+    "value": "0"
+  },
+  {
+    "id": 171,
+    "name": "sitedefaultlicense",
+    "value": "allrightsreserved"
+  },
+  {
+    "id": 172,
+    "name": "portfolio_moderate_filesize_threshold",
+    "value": "1048576"
+  },
+  {
+    "id": 173,
+    "name": "portfolio_high_filesize_threshold",
+    "value": "5242880"
+  },
+  {
+    "id": 174,
+    "name": "portfolio_moderate_db_threshold",
+    "value": "20"
+  },
+  {
+    "id": 175,
+    "name": "portfolio_high_db_threshold",
+    "value": "50"
+  },
+  {
+    "id": 176,
+    "name": "repositorycacheexpire",
+    "value": "120"
+  },
+  {
+    "id": 177,
+    "name": "repositorygetfiletimeout",
+    "value": "30"
+  },
+  {
+    "id": 178,
+    "name": "repositorysyncfiletimeout",
+    "value": "1"
+  },
+  {
+    "id": 179,
+    "name": "repositorysyncimagetimeout",
+    "value": "3"
+  },
+  {
+    "id": 180,
+    "name": "repositoryallowexternallinks",
+    "value": "1"
+  },
+  {
+    "id": 181,
+    "name": "legacyfilesinnewcourses",
+    "value": "0"
+  },
+  {
+    "id": 182,
+    "name": "legacyfilesaddallowed",
+    "value": "1"
+  },
+  {
+    "id": 183,
+    "name": "mobilecssurl",
+    "value": ""
+  },
+  {
+    "id": 184,
+    "name": "enablewsdocumentation",
+    "value": "0"
+  },
+  {
+    "id": 185,
+    "name": "allowbeforeblock",
+    "value": "0"
+  },
+  {
+    "id": 186,
+    "name": "allowedip",
+    "value": ""
+  },
+  {
+    "id": 187,
+    "name": "blockedip",
+    "value": ""
+  },
+  {
+    "id": 188,
+    "name": "protectusernames",
+    "value": "1"
+  },
+  {
+    "id": 189,
+    "name": "forcelogin",
+    "value": "0"
+  },
+  {
+    "id": 190,
+    "name": "forceloginforprofiles",
+    "value": "1"
+  },
+  {
+    "id": 191,
+    "name": "forceloginforprofileimage",
+    "value": "0"
+  },
+  {
+    "id": 192,
+    "name": "opentogoogle",
+    "value": "1"
+  },
+  {
+    "id": 193,
+    "name": "maxbytes",
+    "value": "52428800"
+  },
+  {
+    "id": 194,
+    "name": "userquota",
+    "value": "104857600"
+  },
+  {
+    "id": 195,
+    "name": "allowobjectembed",
+    "value": "0"
+  },
+  {
+    "id": 196,
+    "name": "enabletrusttext",
+    "value": "0"
+  },
+  {
+    "id": 197,
+    "name": "maxeditingtime",
+    "value": "900"
+  },
+  {
+    "id": 198,
+    "name": "extendedusernamechars",
+    "value": "1"
+  },
+  {
+    "id": 199,
+    "name": "sitepolicy",
+    "value": ""
+  },
+  {
+    "id": 200,
+    "name": "sitepolicyguest",
+    "value": ""
+  },
+  {
+    "id": 201,
+    "name": "keeptagnamecase",
+    "value": "1"
+  },
+  {
+    "id": 202,
+    "name": "profilesforenrolledusersonly",
+    "value": "1"
+  },
+  {
+    "id": 203,
+    "name": "cronclionly",
+    "value": "1"
+  },
+  {
+    "id": 204,
+    "name": "cronremotepassword",
+    "value": ""
+  },
+  {
+    "id": 205,
+    "name": "lockoutthreshold",
+    "value": "0"
+  },
+  {
+    "id": 206,
+    "name": "lockoutwindow",
+    "value": "1800"
+  },
+  {
+    "id": 207,
+    "name": "lockoutduration",
+    "value": "1800"
+  },
+  {
+    "id": 208,
+    "name": "passwordpolicy",
+    "value": "0"
+  },
+  {
+    "id": 209,
+    "name": "minpasswordlength",
+    "value": "8"
+  },
+  {
+    "id": 210,
+    "name": "minpassworddigits",
+    "value": "1"
+  },
+  {
+    "id": 211,
+    "name": "minpasswordlower",
+    "value": "1"
+  },
+  {
+    "id": 212,
+    "name": "minpasswordupper",
+    "value": "1"
+  },
+  {
+    "id": 213,
+    "name": "minpasswordnonalphanum",
+    "value": "1"
+  },
+  {
+    "id": 214,
+    "name": "maxconsecutiveidentchars",
+    "value": "0"
+  },
+  {
+    "id": 215,
+    "name": "passwordreuselimit",
+    "value": "0"
+  },
+  {
+    "id": 216,
+    "name": "pwresettime",
+    "value": "1800"
+  },
+  {
+    "id": 217,
+    "name": "passwordchangelogout",
+    "value": "0"
+  },
+  {
+    "id": 218,
+    "name": "groupenrolmentkeypolicy",
+    "value": "0"
+  },
+  {
+    "id": 219,
+    "name": "disableuserimages",
+    "value": "0"
+  },
+  {
+    "id": 220,
+    "name": "emailchangeconfirmation",
+    "value": "1"
+  },
+  {
+    "id": 221,
+    "name": "rememberusername",
+    "value": "1"
+  },
+  {
+    "id": 222,
+    "name": "strictformsrequired",
+    "value": "0"
+  },
+  {
+    "id": 224,
+    "name": "cookiesecure",
+    "value": "0"
+  },
+  {
+    "id": 225,
+    "name": "cookiehttponly",
+    "value": "0"
+  },
+  {
+    "id": 226,
+    "name": "allowframembedding",
+    "value": "0"
+  },
+  {
+    "id": 228,
+    "name": "displayloginfailures",
+    "value": "1"
+  },
+  {
+    "id": 229,
+    "name": "notifyloginfailures",
+    "value": ""
+  },
+  {
+    "id": 230,
+    "name": "notifyloginthreshold",
+    "value": "10"
+  },
+  {
+    "id": 235,
+    "name": "themelist",
+    "value": ""
+  },
+  {
+    "id": 236,
+    "name": "themedesignermode",
+    "value": "0"
+  },
+  {
+    "id": 237,
+    "name": "allowuserthemes",
+    "value": "0"
+  },
+  {
+    "id": 238,
+    "name": "allowcoursethemes",
+    "value": "0"
+  },
+  {
+    "id": 239,
+    "name": "allowcategorythemes",
+    "value": "1"
+  },
+  {
+    "id": 240,
+    "name": "allowthemechangeonurl",
+    "value": "0"
+  },
+  {
+    "id": 241,
+    "name": "allowuserblockhiding",
+    "value": "1"
+  },
+  {
+    "id": 242,
+    "name": "allowblockstodock",
+    "value": "1"
+  },
+  {
+    "id": 243,
+    "name": "custommenuitems",
+    "value": ""
+  },
+  {
+    "id": 244,
+    "name": "customusermenuitems",
+    "value": "grades,grades|/grade/report/mygrades.php|grades\r\nmessages,message|/message/index.php|message\r\npreferences,moodle|/user/preferences.php|preferences"
+  },
+  {
+    "id": 245,
+    "name": "enabledevicedetection",
+    "value": "1"
+  },
+  {
+    "id": 246,
+    "name": "devicedetectregex",
+    "value": "[]"
+  },
+  {
+    "id": 247,
+    "name": "calendartype",
+    "value": "gregorian"
+  },
+  {
+    "id": 248,
+    "name": "calendar_adminseesall",
+    "value": "1"
+  },
+  {
+    "id": 249,
+    "name": "calendar_site_timeformat",
+    "value": "0"
+  },
+  {
+    "id": 250,
+    "name": "calendar_startwday",
+    "value": "1"
+  },
+  {
+    "id": 251,
+    "name": "calendar_weekend",
+    "value": "65"
+  },
+  {
+    "id": 252,
+    "name": "calendar_lookahead",
+    "value": "21"
+  },
+  {
+    "id": 253,
+    "name": "calendar_maxevents",
+    "value": "10"
+  },
+  {
+    "id": 254,
+    "name": "enablecalendarexport",
+    "value": "1"
+  },
+  {
+    "id": 255,
+    "name": "calendar_customexport",
+    "value": "1"
+  },
+  {
+    "id": 256,
+    "name": "calendar_exportlookahead",
+    "value": "365"
+  },
+  {
+    "id": 257,
+    "name": "calendar_exportlookback",
+    "value": "5"
+  },
+  {
+    "id": 258,
+    "name": "calendar_exportsalt",
+    "value": "sIJoJ6NoCzM9mCd5PaDvySl2G1X9ks4uau88FJKjEjo2gHzARZUgXFz2QqKU"
+  },
+  {
+    "id": 259,
+    "name": "calendar_showicalsource",
+    "value": "1"
+  },
+  {
+    "id": 260,
+    "name": "useblogassociations",
+    "value": "1"
+  },
+  {
+    "id": 261,
+    "name": "bloglevel",
+    "value": "4"
+  },
+  {
+    "id": 262,
+    "name": "useexternalblogs",
+    "value": "1"
+  },
+  {
+    "id": 263,
+    "name": "externalblogcrontime",
+    "value": "86400"
+  },
+  {
+    "id": 264,
+    "name": "maxexternalblogsperuser",
+    "value": "1"
+  },
+  {
+    "id": 265,
+    "name": "blogusecomments",
+    "value": "1"
+  },
+  {
+    "id": 266,
+    "name": "blogshowcommentscount",
+    "value": "1"
+  },
+  {
+    "id": 267,
+    "name": "defaulthomepage",
+    "value": "1"
+  },
+  {
+    "id": 268,
+    "name": "allowguestmymoodle",
+    "value": "0"
+  },
+  {
+    "id": 269,
+    "name": "navshowfullcoursenames",
+    "value": "1"
+  },
+  {
+    "id": 270,
+    "name": "navshowcategories",
+    "value": "1"
+  },
+  {
+    "id": 271,
+    "name": "navshowmycoursecategories",
+    "value": "0"
+  },
+  {
+    "id": 272,
+    "name": "navshowallcourses",
+    "value": "1"
+  },
+  {
+    "id": 273,
+    "name": "navexpandmycourses",
+    "value": "1"
+  },
+  {
+    "id": 274,
+    "name": "navsortmycoursessort",
+    "value": "fullname"
+  },
+  {
+    "id": 275,
+    "name": "navcourselimit",
+    "value": "10"
+  },
+  {
+    "id": 276,
+    "name": "usesitenameforsitepages",
+    "value": "1"
+  },
+  {
+    "id": 277,
+    "name": "linkadmincategories",
+    "value": "1"
+  },
+  {
+    "id": 278,
+    "name": "linkcoursesections",
+    "value": "1"
+  },
+  {
+    "id": 279,
+    "name": "navshowfrontpagemods",
+    "value": "1"
+  },
+  {
+    "id": 280,
+    "name": "navadduserpostslinks",
+    "value": "0"
+  },
+  {
+    "id": 281,
+    "name": "formatstringstriptags",
+    "value": "1"
+  },
+  {
+    "id": 282,
+    "name": "emoticons",
+    "value": "[{\"text\":\":-)\",\"imagename\":\"s\\/smiley\",\"imagecomponent\":\"core\",\"altidentifier\":\"smiley\",\"altcomponent\":\"core_pix\"},{\"text\":\":)\",\"imagename\":\"s\\/smiley\",\"imagecomponent\":\"core\",\"altidentifier\":\"smiley\",\"altcomponent\":\"core_pix\"},{\"text\":\":-D\",\"imagename\":\"s\\/biggrin\",\"imagecomponent\":\"core\",\"altidentifier\":\"biggrin\",\"altcomponent\":\"core_pix\"},{\"text\":\";-)\",\"imagename\":\"s\\/wink\",\"imagecomponent\":\"core\",\"altidentifier\":\"wink\",\"altcomponent\":\"core_pix\"},{\"text\":\":-\\/\",\"imagename\":\"s\\/mixed\",\"imagecomponent\":\"core\",\"altidentifier\":\"mixed\",\"altcomponent\":\"core_pix\"},{\"text\":\"V-.\",\"imagename\":\"s\\/thoughtful\",\"imagecomponent\":\"core\",\"altidentifier\":\"thoughtful\",\"altcomponent\":\"core_pix\"},{\"text\":\":-P\",\"imagename\":\"s\\/tongueout\",\"imagecomponent\":\"core\",\"altidentifier\":\"tongueout\",\"altcomponent\":\"core_pix\"},{\"text\":\":-p\",\"imagename\":\"s\\/tongueout\",\"imagecomponent\":\"core\",\"altidentifier\":\"tongueout\",\"altcomponent\":\"core_pix\"},{\"text\":\"B-)\",\"imagename\":\"s\\/cool\",\"imagecomponent\":\"core\",\"altidentifier\":\"cool\",\"altcomponent\":\"core_pix\"},{\"text\":\"^-)\",\"imagename\":\"s\\/approve\",\"imagecomponent\":\"core\",\"altidentifier\":\"approve\",\"altcomponent\":\"core_pix\"},{\"text\":\"8-)\",\"imagename\":\"s\\/wideeyes\",\"imagecomponent\":\"core\",\"altidentifier\":\"wideeyes\",\"altcomponent\":\"core_pix\"},{\"text\":\":o)\",\"imagename\":\"s\\/clown\",\"imagecomponent\":\"core\",\"altidentifier\":\"clown\",\"altcomponent\":\"core_pix\"},{\"text\":\":-(\",\"imagename\":\"s\\/sad\",\"imagecomponent\":\"core\",\"altidentifier\":\"sad\",\"altcomponent\":\"core_pix\"},{\"text\":\":(\",\"imagename\":\"s\\/sad\",\"imagecomponent\":\"core\",\"altidentifier\":\"sad\",\"altcomponent\":\"core_pix\"},{\"text\":\"8-.\",\"imagename\":\"s\\/shy\",\"imagecomponent\":\"core\",\"altidentifier\":\"shy\",\"altcomponent\":\"core_pix\"},{\"text\":\":-I\",\"imagename\":\"s\\/blush\",\"imagecomponent\":\"core\",\"altidentifier\":\"blush\",\"altcomponent\":\"core_pix\"},{\"text\":\":-X\",\"imagename\":\"s\\/kiss\",\"imagecomponent\":\"core\",\"altidentifier\":\"kiss\",\"altcomponent\":\"core_pix\"},{\"text\":\"8-o\",\"imagename\":\"s\\/surprise\",\"imagecomponent\":\"core\",\"altidentifier\":\"surprise\",\"altcomponent\":\"core_pix\"},{\"text\":\"P-|\",\"imagename\":\"s\\/blackeye\",\"imagecomponent\":\"core\",\"altidentifier\":\"blackeye\",\"altcomponent\":\"core_pix\"},{\"text\":\"8-[\",\"imagename\":\"s\\/angry\",\"imagecomponent\":\"core\",\"altidentifier\":\"angry\",\"altcomponent\":\"core_pix\"},{\"text\":\"(grr)\",\"imagename\":\"s\\/angry\",\"imagecomponent\":\"core\",\"altidentifier\":\"angry\",\"altcomponent\":\"core_pix\"},{\"text\":\"xx-P\",\"imagename\":\"s\\/dead\",\"imagecomponent\":\"core\",\"altidentifier\":\"dead\",\"altcomponent\":\"core_pix\"},{\"text\":\"|-.\",\"imagename\":\"s\\/sleepy\",\"imagecomponent\":\"core\",\"altidentifier\":\"sleepy\",\"altcomponent\":\"core_pix\"},{\"text\":\"}-]\",\"imagename\":\"s\\/evil\",\"imagecomponent\":\"core\",\"altidentifier\":\"evil\",\"altcomponent\":\"core_pix\"},{\"text\":\"(h)\",\"imagename\":\"s\\/heart\",\"imagecomponent\":\"core\",\"altidentifier\":\"heart\",\"altcomponent\":\"core_pix\"},{\"text\":\"(heart)\",\"imagename\":\"s\\/heart\",\"imagecomponent\":\"core\",\"altidentifier\":\"heart\",\"altcomponent\":\"core_pix\"},{\"text\":\"(y)\",\"imagename\":\"s\\/yes\",\"imagecomponent\":\"core\",\"altidentifier\":\"yes\",\"altcomponent\":\"core\"},{\"text\":\"(n)\",\"imagename\":\"s\\/no\",\"imagecomponent\":\"core\",\"altidentifier\":\"no\",\"altcomponent\":\"core\"},{\"text\":\"(martin)\",\"imagename\":\"s\\/martin\",\"imagecomponent\":\"core\",\"altidentifier\":\"martin\",\"altcomponent\":\"core_pix\"},{\"text\":\"( )\",\"imagename\":\"s\\/egg\",\"imagecomponent\":\"core\",\"altidentifier\":\"egg\",\"altcomponent\":\"core_pix\"}]"
+  },
+  {
+    "id": 290,
+    "name": "core_media_enable_qt",
+    "value": "1"
+  },
+  {
+    "id": 291,
+    "name": "core_media_enable_wmp",
+    "value": "1"
+  },
+  {
+    "id": 292,
+    "name": "core_media_enable_rm",
+    "value": "1"
+  },
+  {
+    "id": 293,
+    "name": "docroot",
+    "value": "http://docs.moodle.org"
+  },
+  {
+    "id": 294,
+    "name": "doclang",
+    "value": ""
+  },
+  {
+    "id": 295,
+    "name": "doctonewwindow",
+    "value": "1"
+  },
+  {
+    "id": 296,
+    "name": "courselistshortnames",
+    "value": "0"
+  },
+  {
+    "id": 297,
+    "name": "coursesperpage",
+    "value": "20"
+  },
+  {
+    "id": 298,
+    "name": "courseswithsummarieslimit",
+    "value": "50"
+  },
+  {
+    "id": 299,
+    "name": "courseoverviewfileslimit",
+    "value": "1"
+  },
+  {
+    "id": 300,
+    "name": "courseoverviewfilesext",
+    "value": ".jpg,.gif,.png"
+  },
+  {
+    "id": 301,
+    "name": "useexternalyui",
+    "value": "0"
+  },
+  {
+    "id": 302,
+    "name": "yuicomboloading",
+    "value": "1"
+  },
+  {
+    "id": 303,
+    "name": "cachejs",
+    "value": "1"
+  },
+  {
+    "id": 304,
+    "name": "modchooserdefault",
+    "value": "1"
+  },
+  {
+    "id": 305,
+    "name": "modeditingmenu",
+    "value": "1"
+  },
+  {
+    "id": 306,
+    "name": "blockeditingmenu",
+    "value": "1"
+  },
+  {
+    "id": 307,
+    "name": "additionalhtmlhead",
+    "value": ""
+  },
+  {
+    "id": 308,
+    "name": "additionalhtmltopofbody",
+    "value": ""
+  },
+  {
+    "id": 309,
+    "name": "additionalhtmlfooter",
+    "value": ""
+  },
+  {
+    "id": 310,
+    "name": "pathtodu",
+    "value": ""
+  },
+  {
+    "id": 311,
+    "name": "aspellpath",
+    "value": ""
+  },
+  {
+    "id": 312,
+    "name": "pathtodot",
+    "value": ""
+  },
+  {
+    "id": 313,
+    "name": "pathtogs",
+    "value": "/usr/bin/gs"
+  },
+  {
+    "id": 314,
+    "name": "supportpage",
+    "value": ""
+  },
+  {
+    "id": 315,
+    "name": "dbsessions",
+    "value": "0"
+  },
+  {
+    "id": 316,
+    "name": "sessioncookie",
+    "value": ""
+  },
+  {
+    "id": 317,
+    "name": "sessioncookiepath",
+    "value": "/"
+  },
+  {
+    "id": 318,
+    "name": "sessioncookiedomain",
+    "value": ""
+  },
+  {
+    "id": 319,
+    "name": "statsfirstrun",
+    "value": "none"
+  },
+  {
+    "id": 320,
+    "name": "statsmaxruntime",
+    "value": "0"
+  },
+  {
+    "id": 321,
+    "name": "statsruntimedays",
+    "value": "31"
+  },
+  {
+    "id": 324,
+    "name": "statsuserthreshold",
+    "value": "0"
+  },
+  {
+    "id": 325,
+    "name": "slasharguments",
+    "value": "1"
+  },
+  {
+    "id": 326,
+    "name": "getremoteaddrconf",
+    "value": "0"
+  },
+  {
+    "id": 327,
+    "name": "proxyhost",
+    "value": ""
+  },
+  {
+    "id": 328,
+    "name": "proxyport",
+    "value": "0"
+  },
+  {
+    "id": 329,
+    "name": "proxytype",
+    "value": "HTTP"
+  },
+  {
+    "id": 330,
+    "name": "proxyuser",
+    "value": ""
+  },
+  {
+    "id": 331,
+    "name": "proxypassword",
+    "value": ""
+  },
+  {
+    "id": 332,
+    "name": "proxybypass",
+    "value": "localhost, 127.0.0.1"
+  },
+  {
+    "id": 333,
+    "name": "maintenance_enabled",
+    "value": "0"
+  },
+  {
+    "id": 334,
+    "name": "maintenance_message",
+    "value": ""
+  },
+  {
+    "id": 335,
+    "name": "deleteunconfirmed",
+    "value": "168"
+  },
+  {
+    "id": 336,
+    "name": "deleteincompleteusers",
+    "value": "0"
+  },
+  {
+    "id": 337,
+    "name": "disablegradehistory",
+    "value": "0"
+  },
+  {
+    "id": 338,
+    "name": "gradehistorylifetime",
+    "value": "0"
+  },
+  {
+    "id": 339,
+    "name": "tempdatafoldercleanup",
+    "value": "168"
+  },
+  {
+    "id": 340,
+    "name": "extramemorylimit",
+    "value": "1024M"
+  },
+  {
+    "id": 341,
+    "name": "maxtimelimit",
+    "value": "0"
+  },
+  {
+    "id": 342,
+    "name": "curlcache",
+    "value": "120"
+  },
+  {
+    "id": 343,
+    "name": "curltimeoutkbitrate",
+    "value": "56"
+  },
+  {
+    "id": 344,
+    "name": "updateautocheck",
+    "value": "1"
+  },
+  {
+    "id": 346,
+    "name": "updateminmaturity",
+    "value": "200"
+  },
+  {
+    "id": 347,
+    "name": "updatenotifybuilds",
+    "value": "0"
+  },
+  {
+    "id": 348,
+    "name": "enablesafebrowserintegration",
+    "value": "0"
+  },
+  {
+    "id": 349,
+    "name": "dndallowtextandlinks",
+    "value": "0"
+  },
+  {
+    "id": 351,
+    "name": "debug",
+    "value": "0"
+  },
+  {
+    "id": 352,
+    "name": "debugdisplay",
+    "value": "0"
+  },
+  {
+    "id": 353,
+    "name": "debugsmtp",
+    "value": "0"
+  },
+  {
+    "id": 354,
+    "name": "perfdebug",
+    "value": "7"
+  },
+  {
+    "id": 355,
+    "name": "debugstringids",
+    "value": "0"
+  },
+  {
+    "id": 356,
+    "name": "debugvalidators",
+    "value": "0"
+  },
+  {
+    "id": 357,
+    "name": "debugpageinfo",
+    "value": "0"
+  },
+  {
+    "id": 358,
+    "name": "profilingenabled",
+    "value": "0"
+  },
+  {
+    "id": 359,
+    "name": "profilingincluded",
+    "value": ""
+  },
+  {
+    "id": 360,
+    "name": "profilingexcluded",
+    "value": ""
+  },
+  {
+    "id": 361,
+    "name": "profilingautofrec",
+    "value": "0"
+  },
+  {
+    "id": 362,
+    "name": "profilingallowme",
+    "value": "0"
+  },
+  {
+    "id": 363,
+    "name": "profilingallowall",
+    "value": "0"
+  },
+  {
+    "id": 364,
+    "name": "profilinglifetime",
+    "value": "1440"
+  },
+  {
+    "id": 365,
+    "name": "profilingimportprefix",
+    "value": "(I)"
+  },
+  {
+    "id": 366,
+    "name": "release",
+    "value": "3.6.2+ (Build: 20190208)"
+  },
+  {
+    "id": 367,
+    "name": "branch",
+    "value": "36"
+  },
+  {
+    "id": 368,
+    "name": "localcachedirpurged",
+    "value": "1589969760"
+  },
+  {
+    "id": 369,
+    "name": "scheduledtaskreset",
+    "value": "1589969760"
+  },
+  {
+    "id": 370,
+    "name": "allversionshash",
+    "value": "3aea481023900ea06f2942c1b5911def8438df83"
+  },
+  {
+    "id": 372,
+    "name": "notloggedinroleid",
+    "value": "6"
+  },
+  {
+    "id": 373,
+    "name": "guestroleid",
+    "value": "6"
+  },
+  {
+    "id": 374,
+    "name": "defaultuserroleid",
+    "value": "7"
+  },
+  {
+    "id": 375,
+    "name": "creatornewroleid",
+    "value": "3"
+  },
+  {
+    "id": 376,
+    "name": "restorernewroleid",
+    "value": "3"
+  },
+  {
+    "id": 377,
+    "name": "gradebookroles",
+    "value": "3,5"
+  },
+  {
+    "id": 378,
+    "name": "chat_method",
+    "value": "ajax"
+  },
+  {
+    "id": 379,
+    "name": "chat_refresh_userlist",
+    "value": "10"
+  },
+  {
+    "id": 380,
+    "name": "chat_old_ping",
+    "value": "35"
+  },
+  {
+    "id": 381,
+    "name": "chat_refresh_room",
+    "value": "5"
+  },
+  {
+    "id": 382,
+    "name": "chat_normal_updatemode",
+    "value": "jsupdate"
+  },
+  {
+    "id": 383,
+    "name": "chat_serverhost",
+    "value": "elearn.dit.urfu.ru"
+  },
+  {
+    "id": 384,
+    "name": "chat_serverip",
+    "value": "127.0.0.1"
+  },
+  {
+    "id": 385,
+    "name": "chat_serverport",
+    "value": "9111"
+  },
+  {
+    "id": 386,
+    "name": "chat_servermax",
+    "value": "100"
+  },
+  {
+    "id": 387,
+    "name": "data_enablerssfeeds",
+    "value": "0"
+  },
+  {
+    "id": 388,
+    "name": "feedback_allowfullanonymous",
+    "value": "0"
+  },
+  {
+    "id": 389,
+    "name": "forum_displaymode",
+    "value": "3"
+  },
+  {
+    "id": 390,
+    "name": "forum_replytouser",
+    "value": "1"
+  },
+  {
+    "id": 391,
+    "name": "forum_shortpost",
+    "value": "300"
+  },
+  {
+    "id": 392,
+    "name": "forum_longpost",
+    "value": "600"
+  },
+  {
+    "id": 393,
+    "name": "forum_manydiscussions",
+    "value": "100"
+  },
+  {
+    "id": 394,
+    "name": "forum_maxbytes",
+    "value": "512000"
+  },
+  {
+    "id": 395,
+    "name": "forum_maxattachments",
+    "value": "9"
+  },
+  {
+    "id": 396,
+    "name": "forum_trackingtype",
+    "value": "2"
+  },
+  {
+    "id": 397,
+    "name": "forum_trackreadposts",
+    "value": "1"
+  },
+  {
+    "id": 398,
+    "name": "forum_allowforcedreadtracking",
+    "value": "0"
+  },
+  {
+    "id": 399,
+    "name": "forum_oldpostdays",
+    "value": "14"
+  },
+  {
+    "id": 400,
+    "name": "forum_usermarksread",
+    "value": "0"
+  },
+  {
+    "id": 401,
+    "name": "forum_cleanreadtime",
+    "value": "2"
+  },
+  {
+    "id": 402,
+    "name": "digestmailtime",
+    "value": "17"
+  },
+  {
+    "id": 403,
+    "name": "forum_enablerssfeeds",
+    "value": "0"
+  },
+  {
+    "id": 404,
+    "name": "forum_enabletimedposts",
+    "value": "0"
+  },
+  {
+    "id": 405,
+    "name": "glossary_entbypage",
+    "value": "10"
+  },
+  {
+    "id": 406,
+    "name": "glossary_dupentries",
+    "value": "0"
+  },
+  {
+    "id": 407,
+    "name": "glossary_allowcomments",
+    "value": "0"
+  },
+  {
+    "id": 408,
+    "name": "glossary_linkbydefault",
+    "value": "1"
+  },
+  {
+    "id": 409,
+    "name": "glossary_defaultapproval",
+    "value": "1"
+  },
+  {
+    "id": 410,
+    "name": "glossary_enablerssfeeds",
+    "value": "0"
+  },
+  {
+    "id": 411,
+    "name": "glossary_linkentries",
+    "value": "0"
+  },
+  {
+    "id": 412,
+    "name": "glossary_casesensitive",
+    "value": "0"
+  },
+  {
+    "id": 413,
+    "name": "glossary_fullmatch",
+    "value": "0"
+  },
+  {
+    "id": 423,
+    "name": "block_course_list_adminview",
+    "value": "all"
+  },
+  {
+    "id": 424,
+    "name": "block_course_list_hideallcourseslink",
+    "value": "0"
+  },
+  {
+    "id": 425,
+    "name": "block_html_allowcssclasses",
+    "value": "1"
+  },
+  {
+    "id": 426,
+    "name": "block_online_users_timetosee",
+    "value": "5"
+  },
+  {
+    "id": 427,
+    "name": "block_rss_client_num_entries",
+    "value": "5"
+  },
+  {
+    "id": 428,
+    "name": "block_rss_client_timeout",
+    "value": "30"
+  },
+  {
+    "id": 429,
+    "name": "block_tags_showcoursetags",
+    "value": "0"
+  },
+  {
+    "id": 430,
+    "name": "filter_censor_badwords",
+    "value": ""
+  },
+  {
+    "id": 431,
+    "name": "filter_multilang_force_old",
+    "value": "0"
+  },
+  {
+    "id": 432,
+    "name": "logguests",
+    "value": "1"
+  },
+  {
+    "id": 433,
+    "name": "loglifetime",
+    "value": "0"
+  },
+  {
+    "id": 434,
+    "name": "airnotifierurl",
+    "value": "https://messages.moodle.net"
+  },
+  {
+    "id": 435,
+    "name": "airnotifierport",
+    "value": "443"
+  },
+  {
+    "id": 436,
+    "name": "airnotifiermobileappname",
+    "value": "com.moodle.moodlemobile"
+  },
+  {
+    "id": 437,
+    "name": "airnotifierappname",
+    "value": "commoodlemoodlemobile"
+  },
+  {
+    "id": 438,
+    "name": "airnotifieraccesskey",
+    "value": "297ee43da298e505081ef38d0eff58b8"
+  },
+  {
+    "id": 439,
+    "name": "smtphosts",
+    "value": "mail.urfu.ru"
+  },
+  {
+    "id": 440,
+    "name": "smtpsecure",
+    "value": "tls"
+  },
+  {
+    "id": 441,
+    "name": "smtpuser",
+    "value": "elearn@urfu.ru"
+  },
+  {
+    "id": 442,
+    "name": "smtppass",
+    "value": "qXBD}#2gwYtv"
+  },
+  {
+    "id": 443,
+    "name": "smtpmaxbulk",
+    "value": "1"
+  },
+  {
+    "id": 444,
+    "name": "noreplyaddress",
+    "value": "elearn@urfu.ru"
+  },
+  {
+    "id": 445,
+    "name": "emailonlyfromnoreplyaddress",
+    "value": "0"
+  },
+  {
+    "id": 446,
+    "name": "sitemailcharset",
+    "value": "0"
+  },
+  {
+    "id": 447,
+    "name": "allowusermailcharset",
+    "value": "0"
+  },
+  {
+    "id": 448,
+    "name": "allowattachments",
+    "value": "1"
+  },
+  {
+    "id": 449,
+    "name": "mailnewline",
+    "value": "LF"
+  },
+  {
+    "id": 450,
+    "name": "jabberhost",
+    "value": ""
+  },
+  {
+    "id": 451,
+    "name": "jabberserver",
+    "value": ""
+  },
+  {
+    "id": 452,
+    "name": "jabberusername",
+    "value": ""
+  },
+  {
+    "id": 453,
+    "name": "jabberpassword",
+    "value": ""
+  },
+  {
+    "id": 454,
+    "name": "jabberport",
+    "value": "5222"
+  },
+  {
+    "id": 455,
+    "name": "profileroles",
+    "value": "3,4,5"
+  },
+  {
+    "id": 456,
+    "name": "coursecontact",
+    "value": "3"
+  },
+  {
+    "id": 457,
+    "name": "frontpage",
+    "value": "2"
+  },
+  {
+    "id": 458,
+    "name": "frontpageloggedin",
+    "value": "5,2"
+  },
+  {
+    "id": 459,
+    "name": "maxcategorydepth",
+    "value": "3"
+  },
+  {
+    "id": 460,
+    "name": "frontpagecourselimit",
+    "value": "10"
+  },
+  {
+    "id": 461,
+    "name": "commentsperpage",
+    "value": "15"
+  },
+  {
+    "id": 462,
+    "name": "defaultfrontpageroleid",
+    "value": "8"
+  },
+  {
+    "id": 463,
+    "name": "supportname",
+    "value": "Admin User"
+  },
+  {
+    "id": 464,
+    "name": "supportemail",
+    "value": ""
+  },
+  {
+    "id": 465,
+    "name": "messageinbound_enabled",
+    "value": "0"
+  },
+  {
+    "id": 466,
+    "name": "messageinbound_mailbox",
+    "value": ""
+  },
+  {
+    "id": 467,
+    "name": "messageinbound_domain",
+    "value": ""
+  },
+  {
+    "id": 468,
+    "name": "messageinbound_host",
+    "value": ""
+  },
+  {
+    "id": 469,
+    "name": "messageinbound_hostssl",
+    "value": "ssl"
+  },
+  {
+    "id": 470,
+    "name": "messageinbound_hostuser",
+    "value": ""
+  },
+  {
+    "id": 471,
+    "name": "messageinbound_hostpass",
+    "value": ""
+  },
+  {
+    "id": 472,
+    "name": "timezone",
+    "value": "America/New_York"
+  },
+  {
+    "id": 473,
+    "name": "registerauth",
+    "value": ""
+  },
+  {
+    "id": 475,
+    "name": "scorm_updatetimelast",
+    "value": "1600660870"
+  },
+  {
+    "id": 476,
+    "name": "digestmailtimelast",
+    "value": "1600635641"
+  },
+  {
+    "id": 477,
+    "name": "forum_lastreadclean",
+    "value": "1600631474"
+  },
+  {
+    "id": 478,
+    "name": "fileslastcleanup",
+    "value": "1600664467"
+  },
+  {
+    "id": 479,
+    "name": "themelegacy",
+    "value": "more"
+  },
+  {
+    "id": 480,
+    "name": "updatecronoffset",
+    "value": "10462"
+  },
+  {
+    "id": 483,
+    "name": "webserviceprotocols",
+    "value": "xmlrpc,rest"
+  },
+  {
+    "id": 484,
+    "name": "enablemobilewebservice",
+    "value": "1"
+  },
+  {
+    "id": 491,
+    "name": "taskchain_enablemymoodle",
+    "value": "1"
+  },
+  {
+    "id": 492,
+    "name": "taskchain_enablecache",
+    "value": "1"
+  },
+  {
+    "id": 493,
+    "name": "taskchain_enablecron",
+    "value": ""
+  },
+  {
+    "id": 494,
+    "name": "taskchain_enableswf",
+    "value": "1"
+  },
+  {
+    "id": 495,
+    "name": "taskchain_enableobfuscate",
+    "value": "1"
+  },
+  {
+    "id": 496,
+    "name": "taskchain_bodystyles",
+    "value": ""
+  },
+  {
+    "id": 497,
+    "name": "taskchain_frameheight",
+    "value": "85"
+  },
+  {
+    "id": 498,
+    "name": "taskchain_lockframe",
+    "value": "0"
+  },
+  {
+    "id": 499,
+    "name": "taskchain_storedetails",
+    "value": "0"
+  },
+  {
+    "id": 500,
+    "name": "taskchain_maxeventlength",
+    "value": "5"
+  },
+  {
+    "id": 502,
+    "name": "antiviruses",
+    "value": ""
+  },
+  {
+    "id": 503,
+    "name": "upgrade_letterboundarycourses",
+    "value": "1"
+  },
+  {
+    "id": 504,
+    "name": "media_plugins_sortorder",
+    "value": "videojs,youtube,swf"
+  },
+  {
+    "id": 505,
+    "name": "enableglobalsearch",
+    "value": "0"
+  },
+  {
+    "id": 506,
+    "name": "geoip2file",
+    "value": "/var/www/moodledata/geoip/GeoLite2-City.mmdb"
+  },
+  {
+    "id": 507,
+    "name": "allowaccountssameemail",
+    "value": "0"
+  },
+  {
+    "id": 508,
+    "name": "media_default_width",
+    "value": "400"
+  },
+  {
+    "id": 509,
+    "name": "media_default_height",
+    "value": "300"
+  },
+  {
+    "id": 510,
+    "name": "pathtounoconv",
+    "value": "/usr/bin/unoconv"
+  },
+  {
+    "id": 511,
+    "name": "searchengine",
+    "value": "simpledb"
+  },
+  {
+    "id": 512,
+    "name": "passwordchangetokendeletion",
+    "value": "0"
+  },
+  {
+    "id": 513,
+    "name": "curlsecurityblockedhosts",
+    "value": ""
+  },
+  {
+    "id": 514,
+    "name": "curlsecurityallowedport",
+    "value": ""
+  },
+  {
+    "id": 515,
+    "name": "smtpauthtype",
+    "value": "LOGIN"
+  },
+  {
+    "id": 516,
+    "name": "allowedemaildomains",
+    "value": ""
+  },
+  {
+    "id": 517,
+    "name": "emailfromvia",
+    "value": "1"
+  },
+  {
+    "id": 519,
+    "name": "linkcoursesectionsupgradescriptwasrun",
+    "value": "1"
+  },
+  {
+    "id": 520,
+    "name": "agedigitalconsentmap",
+    "value": "*, 16\r\nAT, 14\r\nES, 14\r\nUS, 13"
+  },
+  {
+    "id": 521,
+    "name": "messagingallusers",
+    "value": "0"
+  },
+  {
+    "id": 522,
+    "name": "messagingdeleteallnotificationsdelay",
+    "value": "2620800"
+  },
+  {
+    "id": 523,
+    "name": "allowstealth",
+    "value": "0"
+  },
+  {
+    "id": 524,
+    "name": "agedigitalconsentverification",
+    "value": "0"
+  },
+  {
+    "id": 525,
+    "name": "sitepolicyhandler",
+    "value": ""
+  },
+  {
+    "id": 526,
+    "name": "grade_export_exportfeedback",
+    "value": "0"
+  },
+  {
+    "id": 527,
+    "name": "forum_subscription",
+    "value": "0"
+  },
+  {
+    "id": 528,
+    "name": "searchindexwhendisabled",
+    "value": "0"
+  },
+  {
+    "id": 529,
+    "name": "searchindextime",
+    "value": "600"
+  },
+  {
+    "id": 530,
+    "name": "searchallavailablecourses",
+    "value": "0"
+  },
+  {
+    "id": 531,
+    "name": "allowindexing",
+    "value": "0"
+  },
+  {
+    "id": 532,
+    "name": "tokenduration",
+    "value": "7257600"
+  },
+  {
+    "id": 533,
+    "name": "allowcohortthemes",
+    "value": "0"
+  },
+  {
+    "id": 534,
+    "name": "coursecontactduplicates",
+    "value": "0"
+  },
+  {
+    "id": 535,
+    "name": "coursegraceperiodbefore",
+    "value": "0"
+  },
+  {
+    "id": 536,
+    "name": "coursegraceperiodafter",
+    "value": "0"
+  },
+  {
+    "id": 537,
+    "name": "pathtophp",
+    "value": ""
+  },
+  {
+    "id": 538,
+    "name": "pathtopython",
+    "value": ""
+  },
+  {
+    "id": 539,
+    "name": "pathtosassc",
+    "value": ""
+  },
+  {
+    "id": 540,
+    "name": "contextlocking",
+    "value": "0"
+  },
+  {
+    "id": 541,
+    "name": "contextlockappliestoadmin",
+    "value": "1"
+  },
+  {
+    "id": 542,
+    "name": "forceclean",
+    "value": "0"
+  },
+  {
+    "id": 544,
+    "name": "registrationpending",
+    "value": "0"
+  },
+  {
+    "id": 547,
+    "name": "reposecretkey",
+    "value": "154997933604yvL6EADHruNdv4cLXQMFqzni9tA7HA"
+  },
+  {
+    "id": 578,
+    "name": "block_xp_context",
+    "value": "50"
+  },
+  {
+    "id": 585,
+    "name": "converter_plugins_sortorder",
+    "value": ""
+  },
+  {
+    "id": 588,
+    "name": "bigbluebuttonbn_server_url",
+    "value": "https://bbb2.dit.urfu.ru/bigbluebutton/"
+  },
+  {
+    "id": 589,
+    "name": "bigbluebuttonbn_shared_secret",
+    "value": "uNpDY6N8ODGwAg9gY2zJORyFAaRCkOKisEiwJ20oWuI"
+  },
+  {
+    "id": 590,
+    "name": "bigbluebuttonbn_recording_default",
+    "value": "1"
+  },
+  {
+    "id": 591,
+    "name": "bigbluebuttonbn_recording_editable",
+    "value": "1"
+  },
+  {
+    "id": 592,
+    "name": "bigbluebuttonbn_recording_icons_enabled",
+    "value": "1"
+  },
+  {
+    "id": 593,
+    "name": "bigbluebuttonbn_recording_all_from_start_default",
+    "value": "0"
+  },
+  {
+    "id": 594,
+    "name": "bigbluebuttonbn_recording_all_from_start_editable",
+    "value": "0"
+  },
+  {
+    "id": 595,
+    "name": "bigbluebuttonbn_recording_hide_button_default",
+    "value": "0"
+  },
+  {
+    "id": 596,
+    "name": "bigbluebuttonbn_recording_hide_button_editable",
+    "value": "0"
+  },
+  {
+    "id": 597,
+    "name": "bigbluebuttonbn_importrecordings_enabled",
+    "value": "0"
+  },
+  {
+    "id": 598,
+    "name": "bigbluebuttonbn_importrecordings_from_deleted_enabled",
+    "value": "0"
+  },
+  {
+    "id": 599,
+    "name": "bigbluebuttonbn_recordings_html_default",
+    "value": "1"
+  },
+  {
+    "id": 600,
+    "name": "bigbluebuttonbn_recordings_html_editable",
+    "value": "0"
+  },
+  {
+    "id": 601,
+    "name": "bigbluebuttonbn_recordings_deleted_default",
+    "value": "1"
+  },
+  {
+    "id": 602,
+    "name": "bigbluebuttonbn_recordings_deleted_editable",
+    "value": "0"
+  },
+  {
+    "id": 603,
+    "name": "bigbluebuttonbn_recordings_imported_default",
+    "value": "0"
+  },
+  {
+    "id": 604,
+    "name": "bigbluebuttonbn_recordings_imported_editable",
+    "value": "1"
+  },
+  {
+    "id": 605,
+    "name": "bigbluebuttonbn_recordings_preview_default",
+    "value": "1"
+  },
+  {
+    "id": 606,
+    "name": "bigbluebuttonbn_recordings_preview_editable",
+    "value": "0"
+  },
+  {
+    "id": 607,
+    "name": "bigbluebuttonbn_recordings_sortorder",
+    "value": "0"
+  },
+  {
+    "id": 608,
+    "name": "bigbluebuttonbn_waitformoderator_default",
+    "value": "0"
+  },
+  {
+    "id": 609,
+    "name": "bigbluebuttonbn_waitformoderator_editable",
+    "value": "1"
+  },
+  {
+    "id": 610,
+    "name": "bigbluebuttonbn_waitformoderator_ping_interval",
+    "value": "10"
+  },
+  {
+    "id": 611,
+    "name": "bigbluebuttonbn_waitformoderator_cache_ttl",
+    "value": "60"
+  },
+  {
+    "id": 612,
+    "name": "bigbluebuttonbn_voicebridge_editable",
+    "value": "0"
+  },
+  {
+    "id": 613,
+    "name": "bigbluebuttonbn_preuploadpresentation_enabled",
+    "value": "0"
+  },
+  {
+    "id": 614,
+    "name": "bigbluebuttonbn_userlimit_default",
+    "value": "0"
+  },
+  {
+    "id": 615,
+    "name": "bigbluebuttonbn_userlimit_editable",
+    "value": "0"
+  },
+  {
+    "id": 616,
+    "name": "bigbluebuttonbn_participant_moderator_default",
+    "value": "0"
+  },
+  {
+    "id": 617,
+    "name": "bigbluebuttonbn_sendnotifications_enabled",
+    "value": "1"
+  },
+  {
+    "id": 618,
+    "name": "bigbluebuttonbn_muteonstart_default",
+    "value": "0"
+  },
+  {
+    "id": 619,
+    "name": "bigbluebuttonbn_muteonstart_editable",
+    "value": "0"
+  },
+  {
+    "id": 620,
+    "name": "bigbluebuttonbn_recordingready_enabled",
+    "value": "0"
+  },
+  {
+    "id": 621,
+    "name": "bigbluebuttonbn_meetingevents_enabled",
+    "value": "0"
+  }
+]

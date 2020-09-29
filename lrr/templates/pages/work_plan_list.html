@@ -13,19 +13,6 @@
           {{ item.semestr }} семестр</p>
       </div>
 
-
-      {#        {% for obj in academic_group %}#}
-      {#          {{ obj }}#}
-      {#        {% endfor %}#}
-
-      {#      <h2>{{ object.username }}</h2>#}
-      {#      <p>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p>#}
-      {#      <p>Страна: {{ person.country }}</p>#}
-      {#      <p>Город: {{ person.city }}</p>#}
-      {#      <p>Адрес проживания: {{ person.location }}</p>#}
-      {#      <p>Дата рождения: {{ person.date_birthday }}</p>#}
-      {#      <p>Академическая группа: {{ student.academic_group }}</p>#}
-
       <table class="table table-bordered mt-4 work-plan">
         <thead>
         <tr>
@@ -38,30 +25,14 @@
         <tbody>
         {% for sub in item.subject.all %}
           <tr>
-            <td data-label="Дисциплина"><p class="font-weight-bold align-right">{{ sub }}<span class="d-block text-secondary">{{ sub.labor }} ч.</span></p></td>
+            <td data-label="Дисциплина"><p class="font-weight-bold align-right">{{ sub }}<span
+                    class="d-block text-secondary">{{ sub.labor }} ч.</span></p></td>
             <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем"></td>
             <td data-label="Рекомендуемые цифровые ресурсы">
-              {% for res in item.digital_resource.all %}
-                {% for dis in res.provided_disciplines.all %}
-                  {% for state in status %}
-                    {% if dis.subject == sub and dis.edu_program == item.edu_program and state.expertise_status.accepted_status and state.digital_resource == res %}
-                      {% include "repository/dr_card.html" with object=res %}
-
-                    {% endif %}
-                  {% endfor %}
-                {% endfor %}
-              {% endfor %}
+              {% get_resources DR subject=sub edu_program=item.edu_program %}
             </td>
             <td data-label="Цифровые ресурсы, имеющиеся в каталоге">
-              {% for res in item.digital_resource.all %}
-                {% for sub_tag in res.subjects_tags.all %}
-                  {% for edu_tag in res.edu_programs_tags.all %}
-                    {% if sub == sub_tag.tag and item.edu_program == edu_tag.tag %}
-                      {% include "repository/dr_card.html" with object=res %}
-                    {% endif %}
-                  {% endfor %}
-                {% endfor %}
-              {% endfor %}
+              {% get_resources DR subject=sub %}
             </td>
           </tr>
         {% endfor %}

@@ -20,11 +20,11 @@ class Command(BaseCommand):
         parser.add_argument('-u', '--update', type=str)
 
     def handle(self, *args, **kwargs):
-        paltform = kwargs['paltform']
+        platform = kwargs['platform']
         update = kwargs['update']
 
-        if paltform == 'https://courses.openedu.urfu.ru/api/courses/v1/courses/?page_size=100':
-            response = urlopen(paltform)
+        if platform == 'https://courses.openedu.urfu.ru/api/courses/v1/courses/?page_size=100':
+            response = urlopen(platform)
             data = json.loads(response.read().decode("utf-8"))
             for course in data['results']:
                 if update:

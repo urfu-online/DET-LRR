@@ -1,0 +1,210 @@
+[
+  {
+    "id": 1,
+    "name": "assign",
+    "cron": 60,
+    "lastcron": 1600667460,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 2,
+    "name": "assignment",
+    "cron": 60,
+    "lastcron": 0,
+    "search": "",
+    "visible": 0
+  },
+  {
+    "id": 3,
+    "name": "book",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 4,
+    "name": "chat",
+    "cron": 300,
+    "lastcron": 1600667460,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 5,
+    "name": "choice",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 6,
+    "name": "data",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 7,
+    "name": "feedback",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 0
+  },
+  {
+    "id": 8,
+    "name": "folder",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 9,
+    "name": "forum",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 10,
+    "name": "glossary",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 11,
+    "name": "imscp",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 12,
+    "name": "label",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 13,
+    "name": "lesson",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 14,
+    "name": "lti",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 15,
+    "name": "page",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 16,
+    "name": "quiz",
+    "cron": 60,
+    "lastcron": 1600667460,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 17,
+    "name": "resource",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 18,
+    "name": "scorm",
+    "cron": 0,
+    "lastcron": 1549949403,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 19,
+    "name": "survey",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 20,
+    "name": "url",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 21,
+    "name": "wiki",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 22,
+    "name": "workshop",
+    "cron": 60,
+    "lastcron": 1600667460,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 25,
+    "name": "activequiz",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 27,
+    "name": "taskchain",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 28,
+    "name": "customcert",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  },
+  {
+    "id": 30,
+    "name": "bigbluebuttonbn",
+    "cron": 0,
+    "lastcron": 0,
+    "search": "",
+    "visible": 1
+  }
+]

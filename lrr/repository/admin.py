@@ -165,6 +165,10 @@ class DigitalResourceAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
+class SourceInline(admin.TabularInline):
+    model = models.Source
+
+
 @admin.register(models.DigitalResource)
 class DigitalResourceAdmin(admin.ModelAdmin):
     form = DigitalResourceAdminForm
@@ -178,13 +182,13 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         "description",
         "authors",
         "copyright_holder",
-        "subjects_tags",
+
         "edu_programs_tags",
         "owner",
         "provided_disciplines",
         "conformity_theme",
         "result_edu",
-
+        "subjects_tags",
         "created",
         "last_updated",
     ]
@@ -200,25 +204,18 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         "created",
         "last_updated",
     ]
+    inlines = [
+        SourceInline,
+    ]
+    # filter_horizontal = ["subjects_tags", ]
+    autocomplete_fields = ["subjects_tags", "provided_disciplines", "copyright_holder", "edu_programs_tags", "platform",
+                           "language"]
+    list_filter = ["platform"]
 
 
 # class DigitalResourceChild(PolymorphicChildModelAdmin):
 #     base_model = models.DigitalResource
 #     autocomplete_fields = ["copyright_holder"]
-
-class SourceAdminForm(forms.ModelForm):
-    class Meta:
-        model = models.Source
-        fields = "__all__"
-
-
-@admin.register(models.Source)
-class SourceAdmin(admin.ModelAdmin):
-    form = SourceAdminForm
-    list_display = [
-        "digital_resource",
-        "URL",
-    ]
 
 
 # class DigitalResourceLinksAdmin(DigitalResourceChild):
@@ -272,6 +269,7 @@ class PlatformAdmin(admin.ModelAdmin):
     readonly_fields = [
         "created"
     ]
+    search_fields = ["title", "url", "id", ]
 
 
 class LanguageAdminForm(forms.ModelForm):
@@ -285,12 +283,12 @@ class LanguageAdmin(admin.ModelAdmin):
     list_display = [
         "code",
         "title",
-        "created",
         "pk"
     ]
     readonly_fields = [
         "created",
     ]
+    search_fields = ["code", "title", ]
 
 
 class SubjectTagAdminForm(forms.ModelForm):
@@ -301,6 +299,7 @@ class SubjectTagAdminForm(forms.ModelForm):
 
 class SubjectTagAdmin(admin.ModelAdmin):
     form = SubjectTagAdminForm
+    search_fields = ["tag__title"]
     list_display = [
         "tag",
         "created",
@@ -383,6 +382,7 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     readonly_fields = [
         "created",
     ]
+    autocomplete_fields = ["subject", ]
 
 
 class WorkPlanAcademicGroupForm(forms.ModelForm):
