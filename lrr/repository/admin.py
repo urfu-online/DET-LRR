@@ -121,6 +121,7 @@ class ProvidingDisciplineAdmin(admin.ModelAdmin):
         "created",
         "last_updated",
     ]
+    search_fields = ["subject__title", "edu_program__title"]
 
 
 # class DigitalResourceCompetenceForm(forms.ModelForm):
@@ -348,6 +349,7 @@ class EduProgramTagAdmin(admin.ModelAdmin):
         "created",
         "last_updated",
     ]
+    search_fields = ["tag__title"]
 
 
 class SubjectThemeAdminForm(forms.ModelForm):
