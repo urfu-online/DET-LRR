@@ -204,7 +204,7 @@ class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, blank=True)
-    competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True,
+    competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
                                    on_delete=models.PROTECT)
 
     class Meta:

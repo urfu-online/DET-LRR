@@ -332,3 +332,4 @@ lrr/media/
 .envs/*
 !.envs/.local/
 /.idea/
+/parsed/.idea/
