@@ -24,6 +24,22 @@
   </div>
     <div class="row p-2">
 
+
+
+    {% for ep, count in eduprograms.items %}
+
+    <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+      <div class="card h-100 shadow-1 text-center">
+
+         <div class="card-body">
+          <h5 class="display-1">{{ep}}</h5>
+           <h5 class="">Цифровых образовательных ресурсов <br /> {{count}}</h5>
+         </div>
+
+      </div>
+    </div>
+    {% endfor %}
+
 {% for platform, count in by_platform.items %}
 
     <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">

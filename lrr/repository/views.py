@@ -517,8 +517,12 @@ def statistics(request):
     context["dp_count"] = dp_count
 
     by_platform = dict()
+    eduprograms = dict()
     for p in models.Platform.objects.all():
         by_platform[p.title] = models.DigitalResource.objects.filter(platform=p).count()
+
+    for ep in models.EduProgram.objects.all():
+        eduprograms[ep.title] = ep.get_count_resources()
 
     context["by_platform"] = by_platform
 
