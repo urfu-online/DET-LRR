@@ -34,8 +34,10 @@
         </thead>
         <tbody>
         {% for ep, count in eduprograms.items %}
-          <td>{{ ep }}</td>
-          <td>{{ count }}</td>
+          <tr>
+            <td>{{ ep }}</td>
+            <td>{{ count }}</td>
+          </tr>
         {% endfor %}
         </tbody>
       </table>
