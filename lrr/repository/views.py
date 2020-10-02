@@ -525,5 +525,6 @@ def statistics(request):
         eduprograms[ep.title] = ep.get_count_resources()
 
     context["by_platform"] = by_platform
+    context["eduprograms"] = eduprograms
 
     return render(request, "repository/report.html", context=context)

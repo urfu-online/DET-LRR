@@ -2,59 +2,61 @@
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
-  <ol class="breadcrumb px-2 pb-0">
-    <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
-    <li class="breadcrumb-item active" aria-current="page">Статистика</li>
-  </ol>
-</nav>
- <header class="pb-4 px-2">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item active" aria-current="page">Статистика</li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
     <h1>Статистика</h1>
   </header>
   <div class="row p-2">
-      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+    <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
       <div class="card h-100 shadow-1 p-2">
         <div class="card h-100 text-center">
-         <div class="card-body">
-          <h5 class="display-1">{{ dp_count }}</h5>
-           <h5 class="">Общее колличество цифровых образовательных ресурсов</h5>
-         </div>
+          <div class="card-body">
+            <h5 class="display-1">{{ dp_count }}</h5>
+            <h5 class="">Общее колличество цифровых образовательных ресурсов</h5>
+          </div>
         </div>
       </div>
     </div>
   </div>
-    <div class="row p-2">
+  <div class="row p-2">
 
 
+    <div class="col-12">
+      <table>
 
-    {% for ep, count in eduprograms.items %}
-
-    <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-      <div class="card h-100 shadow-1 text-center">
-
-         <div class="card-body">
-          <h5 class="display-1">{{ep}}</h5>
-           <h5 class="">Цифровых образовательных ресурсов <br /> {{count}}</h5>
-         </div>
-
-      </div>
+        <thead>
+        <th>ОП</th>
+        <th>Ресурсов</th>
+        </thead>
+        <tbody>
+        {% for ep, count in eduprograms.items %}
+          <td>{{ ep }}</td>
+          <td>{{ count }}</td>
+        {% endfor %}
+        </tbody>
+      </table>
     </div>
+
+
+    {% for platform, count in by_platform.items %}
+
+      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+        <div class="card h-100 shadow-1 text-center">
+
+          <div class="card-body">
+            <h5 class="display-1">{{ count }}</h5>
+            <h5 class="">Цифровых образовательных ресурсов <br/> {{ platform }}</h5>
+          </div>
+
+        </div>
+      </div>
     {% endfor %}
 
-{% for platform, count in by_platform.items %}
-
-    <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-      <div class="card h-100 shadow-1 text-center">
-
-         <div class="card-body">
-          <h5 class="display-1">{{count}}</h5>
-           <h5 class="">Цифровых образовательных ресурсов <br /> {{platform}}</h5>
-         </div>
-
-      </div>
-    </div>
-    {% endfor %}
-
- </div>
+  </div>
 
 
 {% endblock %}
