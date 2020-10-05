@@ -2,7 +2,8 @@
 {% load static %}
 {% load user_tags %}
 {% block content %}
-  <main role="main" class="col-md-9 col-lg-10 pt-3 px-4">
+  <main role="main" class="col-md-9 col-lg-10 pt-3 px-4 resurse-list-hide">
+     <button id="resurse-list-hide" class="btn btn-primary float-right"> Скрыть / Показать</button>
 
     {% for item in obj_plan %}
       <div class="d-block row px-3">
@@ -45,4 +46,5 @@
     {% endfor %}
 
   </main>
+
 {% endblock content %}
