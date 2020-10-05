@@ -173,6 +173,9 @@ class EduProgram(BaseModel):
     def get_update_url(self):
         return reverse("repository_EduProgram_update", args=(self.pk,))
 
+    def get_count_resources(self):
+        return DigitalResource.objects.filter(edu_programs_tags__tag=self).count()
+
 
 class ProvidingDiscipline(BaseModel):
     # Relationships
