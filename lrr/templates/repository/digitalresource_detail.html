@@ -5,8 +5,8 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-2 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
-      <li class="breadcrumb-item"><a href="/">Список ЦОР</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Паспорт ЦОР: {{ object.title }}</li>
+      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Паспорт ЭОР: {{ object.title }}</li>
     </ol>
   </nav>
   <header class="pb-4 px-2">
@@ -40,7 +40,7 @@
 
 
             {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" or request.user.is_superuser %}
-              <h6 class="card-subtitle mb-2 text-muted">ЦОР рекомендован в качестве обеспечения дисциплины</h6>
+              <h6 class="card-subtitle mb-2 text-muted">ЭОР рекомендован в качестве обеспечения дисциплины</h6>
               {% for obj in object.provided_disciplines.all %}
                 <table class="ui compact table">
                   <thead>
@@ -57,7 +57,7 @@
                   </tbody>
                 </table>
               {% endfor %}
-              <h6 class="card-subtitle mb-2 text-muted">Соответствие ЦОР темам дисциплины</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Соответствие ЭОР темам дисциплины</h6>
               {% for obj in object.conformity_theme.all %}
                 <table class="ui compact table">
                   <thead>

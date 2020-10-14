@@ -41,7 +41,7 @@
   <div class="ui fixed inverted menu">
     <div class="ui container">
       <a href="{% url 'home' %}" class="header item">
-        Репозиторий ЦОР
+        Репозиторий ЭОР
       </a>
       {% if request.user.is_superuser %}
         <div class="ui simple dropdown item">Администрирование<i class="dropdown icon"></i>
@@ -59,13 +59,13 @@
         <div class="ui simple dropdown item">Сотруднику<i class="dropdown icon"></i>
           <div class="menu">
             {% if request.user|has_group:"expert" %}
-              <a class="item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЦОР</a>
+              <a class="item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЭОР</a>
             {% endif %}
             {% if request.user|has_group:"staff" %}
               <a class="item" href="">Компоновка рабочего плана</a>
             {% endif %}
             {% if request.user|has_group:"teacher" %}
-              <a class="item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЦОР</a>
+              <a class="item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЭОР</a>
             {% endif %}
           </div>
         </div>
@@ -100,7 +100,7 @@
   {#            aria-label="Toggle navigation">#}
   {#      <span class="navbar-toggler-icon"></span>#}
   {#    </button>#}
-  {#    <a class="navbar-brand" href="{% url 'home' %}">Репозиторий ЦОР</a>#}
+  {#    <a class="navbar-brand" href="{% url 'home' %}">Репозиторий ЭОР</a>#}
   {##}
   {#    <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
   {#      <ul class="navbar-nav mr-auto">#}

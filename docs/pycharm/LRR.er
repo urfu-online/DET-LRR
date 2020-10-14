@@ -18,7 +18,7 @@ entity {font: "FreeSans", size: "14"}
 relationship {font: "FreeSans", size: "12"}
 
 
-[DigitalResource] {bgcolor: "DeepSkyBlue", label: "Паспорт ЦОР"}
+[DigitalResource] {bgcolor: "DeepSkyBlue", label: "Паспорт ЭОР"}
 *id
 title {label: "Наименование; CF"}
 type {label: "Тип; CF"}
@@ -37,16 +37,16 @@ usage_stats {label: "Показатель использования; Int"}
 programs_count {label: "Показатель назначения; Int"}
 +sources {label: "Точки входа; M2M"}
 +owner {label: "Владелец; FK"}
-+status {label: "Статус ЦОР; O2O"}
++status {label: "Статус ЭОР; O2O"}
 'get_themes()' {label: "Тематические планы дисциплин"}
 
-[ResourceStatus] {bgcolor: "Indigo", color: "white", label: "Статус паспорта ЦОР"} 
+[ResourceStatus] {bgcolor: "Indigo", color: "white", label: "Статус паспорта ЭОР"}
 status {label: "Статус; CF"}
-model {label: "Модель использования; CF"} 
+model {label: "Модель использования; CF"}
 due_date {label: "Статус; CF"}
 
 
-[Direction] {bgcolor: "Indigo", color: "white", label: "Направление подготовки"} 
+[Direction] {bgcolor: "Indigo", color: "white", label: "Направление подготовки"}
 *id
 title {label: "Наименование; CF"}
 
@@ -84,7 +84,7 @@ logo {label: "Логотип; ImageField"}
 site_url {label: "URL сайта; URLField"}
 contacts {label: "Контакты; TF"}
 
-[Author] {bgcolor: "Khaki", label: "Автор ЦОР"}
+[Author] {bgcolor: "Khaki", label: "Автор ЭОР"}
 title {label: "Наименование; CF"}
 description {label: "Описание; TF"}
 image {label: "Фото; ImageField"}
@@ -95,7 +95,7 @@ first_name
 last_name
 email
 
-[Source] {bgcolor: "Indigo", color: "white", label: "Источник ЦОР"} 
+[Source] {bgcolor: "Indigo", color: "white", label: "Источник ЭОР"}
 link {label: "Ссылка; URLField"}
 status {label: "Статус; CF"}
 type {label: "Статус; CF"}
@@ -107,16 +107,16 @@ title {label: "Наименование; CF"}
 description {label: "Описание; TF"}
 labor {label: "Трудоемкость; Int"}
 
-[DisciplineTheme] {bgcolor: "Indigo", color: "white", label: "Тема дисциплины"} 
+[DisciplineTheme] {bgcolor: "Indigo", color: "white", label: "Тема дисциплины"}
 index {label: "Индекс; CF"}
 title {label: "Наименование; CF"}
 
-[ThematicPlan] {bgcolor: "Indigo", color: "white", label: "Тематический план"} 
+[ThematicPlan] {bgcolor: "Indigo", color: "white", label: "Тематический план"}
 +discipline {label: "Дисциплина; FK"}
 +themes {label: "Темы; M2M"}
 
-[DisciplineThemeResource] {bgcolor: "DeepSkyBlue", label: "Темы, к которым привязан ЦОР"} 
-+digital_resource_source {label: "Источник ЦОР; FK"}
+[DisciplineThemeResource] {bgcolor: "DeepSkyBlue", label: "Темы, к которым привязан ЭОР"}
++digital_resource_source {label: "Источник ЭОР; FK"}
 +discipline_themes {label: "Темы дисциплин; FK"}
 
 Competence *--1 CompetenceCategory

@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class RepositoryConfig(AppConfig):
     name = "lrr.repository"
-    verbose_name = "Репозиторий ЦОР"
+    verbose_name = "Репозиторий ЭОР"

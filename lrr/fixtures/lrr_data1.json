@@ -60411,7 +60411,7 @@
     "model": "auth.permission",
     "pk": 97,
     "fields": {
-      "name": "Can add Соответствие ЦОР темам дисциплины",
+      "name": "Can add Соответствие ЭОР темам дисциплины",
       "content_type": 25,
       "codename": "add_conformitytheme"
     }
@@ -60420,7 +60420,7 @@
     "model": "auth.permission",
     "pk": 98,
     "fields": {
-      "name": "Can change Соответствие ЦОР темам дисциплины",
+      "name": "Can change Соответствие ЭОР темам дисциплины",
       "content_type": 25,
       "codename": "change_conformitytheme"
     }
@@ -60429,7 +60429,7 @@
     "model": "auth.permission",
     "pk": 99,
     "fields": {
-      "name": "Can delete Соответствие ЦОР темам дисциплины",
+      "name": "Can delete Соответствие ЭОР темам дисциплины",
       "content_type": 25,
       "codename": "delete_conformitytheme"
     }
@@ -60438,7 +60438,7 @@
     "model": "auth.permission",
     "pk": 100,
     "fields": {
-      "name": "Can view Соответствие ЦОР темам дисциплины",
+      "name": "Can view Соответствие ЭОР темам дисциплины",
       "content_type": 25,
       "codename": "view_conformitytheme"
     }
@@ -60447,7 +60447,7 @@
     "model": "auth.permission",
     "pk": 101,
     "fields": {
-      "name": "Can add Паспорт ЦОР",
+      "name": "Can add Паспорт ЭОР",
       "content_type": 26,
       "codename": "add_digitalresource"
     }
@@ -60456,7 +60456,7 @@
     "model": "auth.permission",
     "pk": 102,
     "fields": {
-      "name": "Can change Паспорт ЦОР",
+      "name": "Can change Паспорт ЭОР",
       "content_type": 26,
       "codename": "change_digitalresource"
     }
@@ -60465,7 +60465,7 @@
     "model": "auth.permission",
     "pk": 103,
     "fields": {
-      "name": "Can delete Паспорт ЦОР",
+      "name": "Can delete Паспорт ЭОР",
       "content_type": 26,
       "codename": "delete_digitalresource"
     }
@@ -60474,7 +60474,7 @@
     "model": "auth.permission",
     "pk": 104,
     "fields": {
-      "name": "Can view Паспорт ЦОР",
+      "name": "Can view Паспорт ЭОР",
       "content_type": 26,
       "codename": "view_digitalresource"
     }
@@ -60915,7 +60915,7 @@
     "model": "auth.permission",
     "pk": 153,
     "fields": {
-      "name": "Can add Рекомендация ЦОР в качестве обеспечения дисциплины",
+      "name": "Can add Рекомендация ЭОР в качестве обеспечения дисциплины",
       "content_type": 39,
       "codename": "add_providingdiscipline"
     }
@@ -60924,7 +60924,7 @@
     "model": "auth.permission",
     "pk": 154,
     "fields": {
-      "name": "Can change Рекомендация ЦОР в качестве обеспечения дисциплины",
+      "name": "Can change Рекомендация ЭОР в качестве обеспечения дисциплины",
       "content_type": 39,
       "codename": "change_providingdiscipline"
     }
@@ -60933,7 +60933,7 @@
     "model": "auth.permission",
     "pk": 155,
     "fields": {
-      "name": "Can delete Рекомендация ЦОР в качестве обеспечения дисциплины",
+      "name": "Can delete Рекомендация ЭОР в качестве обеспечения дисциплины",
       "content_type": 39,
       "codename": "delete_providingdiscipline"
     }
@@ -60942,7 +60942,7 @@
     "model": "auth.permission",
     "pk": 156,
     "fields": {
-      "name": "Can view Рекомендация ЦОР в качестве обеспечения дисциплины",
+      "name": "Can view Рекомендация ЭОР в качестве обеспечения дисциплины",
       "content_type": 39,
       "codename": "view_providingdiscipline"
     }
@@ -60987,7 +60987,7 @@
     "model": "auth.permission",
     "pk": 161,
     "fields": {
-      "name": "Can add Статус ЦОР",
+      "name": "Can add Статус ЭОР",
       "content_type": 41,
       "codename": "add_drstatus"
     }
@@ -60996,7 +60996,7 @@
     "model": "auth.permission",
     "pk": 162,
     "fields": {
-      "name": "Can change Статус ЦОР",
+      "name": "Can change Статус ЭОР",
       "content_type": 41,
       "codename": "change_drstatus"
     }
@@ -61005,7 +61005,7 @@
     "model": "auth.permission",
     "pk": 163,
     "fields": {
-      "name": "Can delete Статус ЦОР",
+      "name": "Can delete Статус ЭОР",
       "content_type": 41,
       "codename": "delete_drstatus"
     }
@@ -61014,7 +61014,7 @@
     "model": "auth.permission",
     "pk": 164,
     "fields": {
-      "name": "Can view Статус ЦОР",
+      "name": "Can view Статус ЭОР",
       "content_type": 41,
       "codename": "view_drstatus"
     }

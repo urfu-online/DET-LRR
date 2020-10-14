@@ -12,7 +12,7 @@
   <div class="ui two column doubling stackable grid" style="padding-left:5em; padding-right:5em">
     <div class="column">
       <div class="ui segment container">
-        <h3>Статус ЦОР</h3>
+        <h3>Статус ЭОР</h3>
         <form class="ui form" method="post">
           {% csrf_token %}
           {{ form.errors }}
@@ -43,7 +43,7 @@
     </div>
     <div class="column">
       <div class="ui segment column container">
-        <h3>Паспорт ЦОР: {{ digital_resource.title }}</h3>
+        <h3>Паспорт ЭОР: {{ digital_resource.title }}</h3>
         <div class="ui relaxed divided list">
           <div class="item">
             <div class="content">
@@ -112,7 +112,7 @@
           </div>
           <div class="item">
             <div class="content">
-              <p class="header">ЦОР рекомендован в качестве обеспечения дисциплины</p>
+              <p class="header">ЭОР рекомендован в качестве обеспечения дисциплины</p>
               <div class="description">
                 {% for obj in digital_resource.provided_disciplines.all %}
                   <table class="ui compact table">
@@ -135,7 +135,7 @@
           </div>
           <div class="item">
             <div class="content">
-              <p class="header">Соответствие ЦОР темам дисциплины</p>
+              <p class="header">Соответствие ЭОР темам дисциплины</p>
               <div class="description">
                 {% for obj in digital_resource.conformity_theme.all %}
                   <table class="ui compact table">

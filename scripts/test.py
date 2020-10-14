@@ -30,46 +30,51 @@ df = pd.DataFrame(data, columns=['title', 'programs', 'conditions', 'owner', 'de
 
 # HTML DOWNLOAD
 # for item in data_frame:
-#     SEQUENCE = 'edit_{}'.format(item)
+#     # SEQUENCE = 'edit_{}'.format(item)
 #     SEQUENCE_TWO = 'card_{}'.format(item)
 #     driver = webdriver.Firefox()
-#
-#     driver.get("https://learn.urfu.ru")
-#     username = driver.find_element_by_name("login")
-#
-#     username.send_keys("r.r.repositor")
-#     password = driver.find_element_by_name("password")
-#     password.send_keys("123456789")
-#     submit = driver.find_element_by_name("submit")
-#     submit.click()
-#
-#     elem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.hm-user-roleSwitcher')))
-#     elem.click()
-#     elem1 = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.hm-user-roleSwitcher-menu > .hm-list-item')))
-#     elem1.click()
-#
-#     driver.get("https://learn.urfu.ru/subject/list/edit/gridmod//subject_id/{}".format(item))
-#
-#     pyautogui.hotkey('ctrl', 's')
-#     time.sleep(1)
-#     pyautogui.typewrite(SEQUENCE)
-#     pyautogui.hotkey('enter')
-#     driver.get("https://learn.urfu.ru/subject/index/card/subject_id/{}".format(item))
-#     time.sleep(1)
-#
-#     pyautogui.hotkey('ctrl', 's')
-#     time.sleep(1)
-#     pyautogui.typewrite(SEQUENCE_TWO)
-#     pyautogui.hotkey('enter')
-#     time.sleep(1)
-#
-#     driver.close()
+
+    # driver.get("https://learn.urfu.ru")
+    # username = driver.find_element_by_name("login")
+    #
+    # username.send_keys("r.r.repositor")
+    # password = driver.find_element_by_name("password")
+    # password.send_keys("123456789")
+    # submit = driver.find_element_by_name("submit")
+    # submit.click()
+    #
+    # elem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.hm-user-roleSwitcher')))
+    # elem.click()
+    # elem1 = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.hm-user-roleSwitcher-menu > .hm-list-item')))
+    # elem1.click()
+
+    # driver.get("https://learn.urfu.ru/subject/list/edit/gridmod//subject_id/{}".format(item))
+    #
+    # pyautogui.hotkey('ctrl', 's')
+    # time.sleep(1)
+    # pyautogui.typewrite(SEQUENCE)
+    # pyautogui.hotkey('enter')
+    # html_file = '/home/alex/Загрузки/card_{}_files'.format(item)
+    #
+    # driver.get("https://learn.urfu.ru/subject/index/card/subject_id/{}".format(item))
+    # time.sleep(1)
+    #
+    # pyautogui.hotkey('ctrl', 's')
+    # time.sleep(1)
+    # pyautogui.typewrite(SEQUENCE_TWO)
+    # pyautogui.hotkey('enter')
+    # time.sleep(1)
+    #
+    # driver.close()
+    # if os.path.isdir(html_file):
+    #     shutil.rmtree(html_file)
+    #     print("remove! %s" % html_file)
+    # else:  ## Show an error ##
+    #     print("Error: %s file not found" % html_file)
 
 # HTML TO CSV
 
 for item in data_frame:
-    html_doc = '/home/alex/Загрузки/card_{}.html'.format(item)
-    html_file = '/home/alex/Загрузки/card_{}_files'.format(item)
     # print(html_doc)
 
     # if os.path.isdir(html_file):
@@ -77,6 +82,9 @@ for item in data_frame:
     #     print("remove! %s" % html_file)
     # else:  ## Show an error ##
     #     print("Error: %s file not found" % html_file)
+
+    html_doc = '/home/alex/Загрузки/card_{}.html'.format(item)
+    print(html_doc)
 
     df1 = pd.read_html(html_doc)
     soup = BeautifulSoup(open(html_doc), 'html.parser')
@@ -108,6 +116,6 @@ for item in data_frame:
     #         print("remove! %s" % html_file)
     #     else:  ## Show an error ##
     #         print("Error: %s file not found" % html_file)
-
-# print(df)
+#
+# # print(df)
 df.to_excel("output.xlsx")

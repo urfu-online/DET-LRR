@@ -42,7 +42,7 @@ class DRStatus(BaseModel):
     # Relationships
     expertise_status = models.ForeignKey("repository.ExpertiseStatus", verbose_name="Статус экспертизы",
                                          on_delete=models.CASCADE)
-    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЦОР",
+    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
                                          on_delete=models.CASCADE)
     edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
                                     verbose_name="Утвержденная образовательная программа", blank=True, null=True)
@@ -55,8 +55,8 @@ class DRStatus(BaseModel):
                                             blank=True)
 
     class Meta:
-        verbose_name = u"Статус ЦОР"
-        verbose_name_plural = u"Статусы ЦОР"
+        verbose_name = u"Статус ЭОР"
+        verbose_name_plural = u"Статусы ЭОР"
 
     def __str__(self):
         return "{} {} {}".format(self.expertise_status, self.get_quality_category_display(),
@@ -187,8 +187,8 @@ class ProvidingDiscipline(BaseModel):
     rate = models.PositiveIntegerField("Процент покрытия")
 
     class Meta:
-        verbose_name = u"Рекомендация ЦОР в качестве обеспечения дисциплины"
-        verbose_name_plural = u"Рекомендации ЦОР в качестве обеспечения дисциплин"
+        verbose_name = u"Рекомендация ЭОР в качестве обеспечения дисциплины"
+        verbose_name_plural = u"Рекомендации ЭОР в качестве обеспечения дисциплин"
 
     def __str__(self):
         return f"{self.edu_program.title} {self.subject.title}"
@@ -248,16 +248,16 @@ class DigitalResource(BaseModel):
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
-    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЦОР", blank=True)
-    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЦОР",
+    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЭОР", blank=True)
+    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЭОР",
                                                blank=True)
     owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
                               verbose_name="Владелец", blank=True, null=True)
     language = models.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
     provided_disciplines = models.ManyToManyField("ProvidingDiscipline",
-                                                  verbose_name="ЦОР рекомендован в качестве обеспечения дисциплины",
+                                                  verbose_name="ЭОР рекомендован в качестве обеспечения дисциплины",
                                                   blank=True)
-    conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЦОР темам дисциплины",
+    conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЭОР темам дисциплины",
                                               blank=True)
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
@@ -270,8 +270,8 @@ class DigitalResource(BaseModel):
     description = models.TextField("Описание", max_length=6024, null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Паспорт ЦОР"
-        verbose_name_plural = u"Паспорта ЦОР"
+        verbose_name = u"Паспорт ЭОР"
+        verbose_name_plural = u"Паспорта ЭОР"
         ordering = ["title"]
 
     def __str__(self):
@@ -315,7 +315,7 @@ class Source(BaseModel):
     link_name = models.CharField("Наименование файла", max_length=150, null=True, blank=True)
     URL = models.URLField("Ссылка", null=True, blank=True)
     file = models.FileField(upload_to="upload/files", null=True, blank=True)
-    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЦОР",
+    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
                                          on_delete=models.CASCADE)
 
     class Meta:
@@ -333,12 +333,12 @@ class Source(BaseModel):
 
 # class DigitalResourceCompetence(BaseModel):
 #     digital_resource = models.ForeignKey("repository.DigitalResource", on_delete=models.CASCADE,
-#                                          verbose_name="Паспорт ЦОР")
+#                                          verbose_name="Паспорт ЭОР")
 #     competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT, verbose_name="Компетенция")
 #
 #     class Meta:
-#         verbose_name = u"Паспорт ЦОР / Компетенция"
-#         verbose_name_plural = u"Паспорт ЦОР / Компетенции"
+#         verbose_name = u"Паспорт ЭОР / Компетенция"
+#         verbose_name_plural = u"Паспорт ЭОР / Компетенции"
 #
 #     def __str__(self):
 #         return "{}".format(self.competence)
@@ -441,7 +441,7 @@ class ConformityTheme(BaseModel):
     # Relationships
     theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.CASCADE, verbose_name="Тема дисциплины")
     providing_discipline = models.ForeignKey("repository.ProvidingDiscipline", on_delete=models.CASCADE,
-                                             verbose_name="Рекомендация ЦОР в качестве обеспечения дисциплины")  # TODO: Должно ли это быть тут ?
+                                             verbose_name="Рекомендация ЭОР в качестве обеспечения дисциплины")  # TODO: Должно ли это быть тут ?
 
     # Fields
     practice = models.NullBooleanField("Практика")
@@ -450,8 +450,8 @@ class ConformityTheme(BaseModel):
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
-        verbose_name = u"Соответствие ЦОР темам дисциплины"
-        verbose_name_plural = u"Соответствия ЦОР темам дисциплин"
+        verbose_name = u"Соответствие ЭОР темам дисциплины"
+        verbose_name_plural = u"Соответствия ЭОР темам дисциплин"
 
     def __str__(self):
         return f"{self.theme.title} {self.providing_discipline}"

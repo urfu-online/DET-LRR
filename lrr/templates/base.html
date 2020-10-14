@@ -44,18 +44,18 @@
   </button>
   <a class="navbar-brand mb-3" href="{% url 'home' %}">
     <img class="d-none d-sm-none d-xs-none d-md-block d-lg-block d-xl-block" width="100%"
-         src="{% static 'images/logo.png' %}" alt="Репозиторий ЦОР">
-    <span class="d-block d-sm-block d-xs-block d-md-none d-lg-none d-xl-none">Репозиторий ЦОР</span>
+         src="{% static 'images/logo.png' %}" alt="Репозиторий ЭОР">
+    <span class="d-block d-sm-block d-xs-block d-md-none d-lg-none d-xl-none">Репозиторий ЭОР</span>
   </a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
         <li class="nav-item">
-          <a class="nav-link" href="/repository/resource">{% trans "Мои ЦОР" %}</a>
+          <a class="nav-link" href="/repository/resource">{% trans "Мои ЭОР" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/">{% trans "Поиск ЦОР" %}</a>
+          <a class="nav-link" href="/">{% trans "Поиск ЭОР" %}</a>
         </li>
 
       {% endif %}
@@ -75,13 +75,13 @@
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
             {% if request.user|has_group:"expert" %}
-              <a class="dropdown-item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЦОР</a>
+              <a class="dropdown-item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЭОР</a>
             {% endif %}
             {% if request.user|has_group:"staff" %}
               <a class="dropdown-item" href="">Компановка рабочего плана</a>
             {% endif %}
             {% if request.user|has_group:"teacher" %}
-              <a class="dropdown-item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЦОР</a>
+              <a class="dropdown-item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЭОР</a>
             {% endif %}
           </div>
         </li>
@@ -90,7 +90,7 @@
       {% if request.user.is_superuser %}
         <hr class="dotted">
         <li class="nav-item">
-          <a class="nav-link" href="/">{% trans "Список ЦОР" %}</a>
+          <a class="nav-link" href="/">{% trans "Список ЭОР" %}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/repository/statistics/">{% trans "Статистика" %}</a>
@@ -104,7 +104,7 @@
             <a class="dropdown-item" href="{% url 'admin:index' %}">Административная панель</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'repository:repository_DigitalResource_create' %}">+ Добавить паспорт
-              ЦОР</a>
+              ЭОР</a>
           </div>
         </li>
       {% endif %}
