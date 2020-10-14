@@ -2,4 +2,4 @@ from django.contrib import admin
 
 
 class LRRAdminSite(admin.AdminSite):
-    site_header = 'Репозиторий ЦОТ (development)'
+    site_header = 'Каталог ЦОТ (development)'
