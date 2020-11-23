@@ -2,13 +2,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
+
 <p>
-    <a class="btn btn-light" href="{% url 'repository_Competence_list' %}">
-    Competence Listing
+    <a class="btn btn-light" href="{% url 'repository_Direction_list' %}">
+    Direction Listing
     </a>
 </p>
-    
+
 <form method="post">
   {% csrf_token %}
   {{form.errors}}

@@ -213,9 +213,9 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
         return dr
 
 
-class CompetenceSerializer(serializers.ModelSerializer):
+class DirectionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Competence
+        model = models.Direction
         fields = [
             "id",
             "title",

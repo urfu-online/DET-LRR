@@ -2,13 +2,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
+
 <p>
-    <a class="btn btn-light" href="{% url 'repository_Competence_list' %}">
+    <a class="btn btn-light" href="{% url 'repository_Direction_list' %}">
     Competence Listing
     </a>
 </p>
-    
+
 <table class="table">
     <tr><td>created</td><td>{{ object.created }}</td></tr>
     <tr><td>title</td><td>{{ object.title }}</td></tr>
