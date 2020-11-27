@@ -1,5 +1,7 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
+from . import api
 from . import views
 
 urlpatterns = (
@@ -35,10 +37,10 @@ urlpatterns = (
     path("DigitalResource/create/", views.DigitalResourceCreateView.as_view(), name="repository_DigitalResource_create"),
     path("DigitalResource/detail/<uuid:pk>/", views.DigitalResourceDetailView.as_view(), name="repository_DigitalResource_detail"),
     path("DigitalResource/update/<uuid:pk>/", views.DigitalResourceUpdateView.as_view(), name="repository_DigitalResource_update"),
-    path("Direction/", views.DirectionListView.as_view(), name="repository_Direction_list"),
-    path("Direction/create/", views.DirectionCreateView.as_view(), name="repository_Direction_create"),
-    path("Direction/detail/<int:pk>/", views.DirectionDetailView.as_view(), name="repository_Direction_detail"),
-    path("Direction/update/<int:pk>/", views.DirectionUpdateView.as_view(), name="repository_Direction_update"),
+    path("Competence/", views.CompetenceListView.as_view(), name="repository_Competence_list"),
+    path("Competence/create/", views.CompetenceCreateView.as_view(), name="repository_Competence_create"),
+    path("Competence/detail/<int:pk>/", views.CompetenceDetailView.as_view(), name="repository_Competence_detail"),
+    path("Competence/update/<int:pk>/", views.CompetenceUpdateView.as_view(), name="repository_Competence_update"),
     path("Platform/", views.PlatformListView.as_view(), name="repository_Platform_list"),
     path("Platform/create/", views.PlatformCreateView.as_view(), name="repository_Platform_create"),
     path("Platform/detail/<int:pk>/", views.PlatformDetailView.as_view(), name="repository_Platform_detail"),

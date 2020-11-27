@@ -97,9 +97,9 @@ class DigitalResourceForm(forms.ModelForm):
         ]
 
 
-class DirectionForm(forms.ModelForm):
+class CompetenceForm(forms.ModelForm):
     class Meta:
-        model = models.Direction
+        model = models.Competence
         fields = [
             "title",
             "code",

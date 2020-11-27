@@ -1,5 +1,4 @@
 import logging
-
 from rest_framework import serializers
 
 from lrr.users.models import Person
@@ -213,9 +212,9 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
         return dr
 
 
-class DirectionSerializer(serializers.ModelSerializer):
+class CompetenceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Direction
+        model = models.Competence
         fields = [
             "id",
             "title",

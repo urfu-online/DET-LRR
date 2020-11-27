@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import uuid
-
 from django.db import models as models
 from django.urls import reverse
 
@@ -204,8 +203,8 @@ class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, blank=True)
-    direction = models.ForeignKey("repository.Direction", verbose_name="Компетенция", null=True, blank=True,
-                                  on_delete=models.PROTECT)
+    competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
+                                   on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = u"Образовательный результат"
@@ -350,42 +349,23 @@ class Source(BaseModel):
 #         return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
 
 
-# class Competence(BaseModel):
-#     # Fields
-#     description = models.TextField("Наименование", max_length=1024)
-#     code = models.CharField("Код направления", max_length=8)
-#
-#     class Meta:
-#         verbose_name = u"Компетенция"
-#         verbose_name_plural = u"Компетенции"
-#
-#     def __str__(self):
-#         return f"{self.code} {self.description}"
-#
-#     def get_absolute_url(self):
-#         return reverse("repository_Competence_detail", args=(self.pk,))
-#
-#     def get_update_url(self):
-#         return reverse("repository_Competence_update", args=(self.pk,))
-
-
-class Direction(BaseModel):
+class Competence(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
-    code = models.CharField("Код направления", max_length=8)
+    code = models.CharField("Код компетенции", max_length=8)
 
     class Meta:
-        verbose_name = u"Направление"
-        verbose_name_plural = u"Направления"
+        verbose_name = u"Компетенция"
+        verbose_name_plural = u"Компетенции"
 
     def __str__(self):
         return f"{self.code} {self.title}"
 
     def get_absolute_url(self):
-        return reverse("repository_Direction_detail", args=(self.pk,))
+        return reverse("repository_Competence_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_Direction_update", args=(self.pk,))
+        return reverse("repository_Competence_update", args=(self.pk,))
 
 
 class Platform(BaseModel):

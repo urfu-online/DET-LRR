@@ -250,14 +250,14 @@ class DigitalResourceAdmin(admin.ModelAdmin):
 #     form = DigitalResourceAdminForm
 
 
-class DirectionAdminForm(forms.ModelForm):
+class CompetenceAdminForm(forms.ModelForm):
     class Meta:
-        model = models.Direction
+        model = models.Competence
         fields = "__all__"
 
 
-class DirectionAdmin(admin.ModelAdmin):
-    form = DirectionAdminForm
+class CompetenceAdmin(admin.ModelAdmin):
+    form = CompetenceAdminForm
     list_display = [
         "title",
         "code",
@@ -426,7 +426,7 @@ admin.site.register(models.Organization, OrganizationAdmin)
 admin.site.register(models.EduProgram, EduProgramAdmin)
 admin.site.register(models.ProvidingDiscipline, ProvidingDisciplineAdmin)
 admin.site.register(models.ResultEdu, ResultEduAdmin)
-admin.site.register(models.Direction, CompetenceAdmin)
+admin.site.register(models.Competence, CompetenceAdmin)
 admin.site.register(models.Platform, PlatformAdmin)
 admin.site.register(models.Language, LanguageAdmin)
 admin.site.register(models.SubjectTag, SubjectTagAdmin)

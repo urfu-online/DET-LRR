@@ -1,6 +1,5 @@
-import logging
-
 import django_filters
+import logging
 from django.views import generic
 
 from lrr.users.models import Person, Student
@@ -230,46 +229,25 @@ class DigitalResourceUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-class DirectionListView(generic.ListView):
-    model = models.Direction
-    form_class = forms.DirectionForm
+class CompetenceListView(generic.ListView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
 
 
-class DirectionCreateView(generic.CreateView):
-    model = models.Direction
-    form_class = forms.DirectionForm
+class CompetenceCreateView(generic.CreateView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
 
 
-class DirectionDetailView(generic.DetailView):
-    model = models.Direction
-    form_class = forms.DirectionForm
+class CompetenceDetailView(generic.DetailView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
 
 
-class DirectioneUpdateView(generic.UpdateView):
-    model = models.Direction
-    form_class = forms.DirectionForm
+class CompetenceUpdateView(generic.UpdateView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
     pk_url_kwarg = "pk"
-
-
-# class CompetenceListView(generic.ListView):
-#     model = models.Competence
-#     form_class = forms.CompetenceForm
-#
-#
-# class CompetenceCreateView(generic.CreateView):
-#     model = models.Competence
-#     form_class = forms.DirectionForm
-#
-#
-# class CompetenceDetailView(generic.DetailView):
-#     model = models.Competence
-#     form_class = forms.CompetenceForm
-#
-#
-# class CompetenceUpdateView(generic.UpdateView):
-#     model = models.Competence
-#     form_class = forms.CompetenceForm
-#     pk_url_kwarg = "pk"
 
 
 class PlatformListView(generic.ListView):
@@ -485,6 +463,10 @@ def WorkPlanView(request):
     return render(request, 'pages/work_plan_list.html',
                   {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person,  # 'status': status,
                    'DR': obj_plan[0].digital_resource.first()})
+
+
+from django.http import Http404
+from django.utils.translation import gettext as _
 
 
 # class ResourceListView(generic.ListView):
