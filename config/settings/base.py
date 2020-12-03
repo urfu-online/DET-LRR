@@ -88,6 +88,7 @@ LOCAL_APPS = [
     "lrr.apps.LRRAdminConfig",
     "lrr.users.apps.UsersConfig",
     'lrr.repository.apps.RepositoryConfig',
+    'lrr.complexes.apps.СomplexesConfig',
     'lrr.templatetags.user_tags'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
