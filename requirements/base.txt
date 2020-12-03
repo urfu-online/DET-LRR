@@ -26,4 +26,5 @@ django-cors-headers==3.4.0
 django-rest-swagger
 django-polymorphic
 django-schema-graph
-
+django-import-export
+# django-import-export-celery

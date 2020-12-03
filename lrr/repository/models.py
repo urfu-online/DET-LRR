@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import uuid
+
 from django.db import models as models
 from django.urls import reverse
 
@@ -545,3 +546,21 @@ class WorkPlanAcademicGroup(BaseModel):
 
     def get_resources_by_subject(self):
         return DigitalResource.get_resources_by_subject(self.subject)
+
+
+class Direction(BaseModel):
+    title = models.CharField("Наименование", max_length=150)
+    code = models.CharField("Код компетенции", max_length=8)
+
+    class Meta:
+        verbose_name = u"Направление подготовки"
+        verbose_name_plural = u"Направления подготовки"
+
+    def __str__(self):
+        return f"{self.code} {self.title}"
+
+    def get_absolute_url(self):
+        return reverse("repository_Competence_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_Competence_update", args=(self.pk,))

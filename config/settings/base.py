@@ -1,9 +1,10 @@
 """
 Base settings to build other settings files upon.
 """
-import environ
 import os
 from pathlib import Path
+
+import environ
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # lrr/
@@ -67,6 +68,7 @@ DJANGO_APPS = [
     "django.forms",
     "corsheaders",
     "django_filters",
+    "import_export",
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -332,3 +334,9 @@ DATETIME_INPUT_FORMATS = ["iso-8601"]
 DATE_INPUT_FORMATS = ["iso-8601"]
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# IMPORT_EXPORT_CELERY_INIT_MODULE = "lrr.repository.celery_app"
+#
+# IMPORT_EXPORT_CELERY_MODELS = {
+#     "DigitalResource": {"app_label": "lrr.repository", "model_name": "DigitalResource"}
+# }
