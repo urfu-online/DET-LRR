@@ -3,23 +3,6 @@ from django import forms
 from lrr.complexes import models as complex_models
 
 
-class DigitalComplexForm(forms.ModelForm):
-    class Meta:
-        model = complex_models.DigitalComplex
-        fields = [
-            "keywords",
-            "description",
-            "language",
-            "format",
-            "subjects",
-            "directions",
-            "competences",
-            "results_edu",
-            "digital_resources",
-            "space_cell",
-        ]
-
-
 class DigitalComplexAdminForm(forms.ModelForm):
     class Meta:
         model = complex_models.DigitalComplex
@@ -33,11 +16,10 @@ class DigitalComplexAdminForm(forms.ModelForm):
             "competences",
             "results_edu",
             "digital_resources",
-            "space_cell",
         ]
 
 
-class CellForm(forms.ModelForm):
+class CellAdminForm(forms.ModelForm):
     class Meta:
         model = complex_models.Cell
         fields = [
@@ -50,6 +32,12 @@ class CellForm(forms.ModelForm):
         ]
 
 
+class CellWeeksAdminForm(forms.ModelForm):
+    class Meta:
+        model = complex_models.CellWeeks
+        fields = "__all__"
+
+
 class ComplexSpaceCellForm(forms.ModelForm):
     class Meta:
         model = complex_models.ComplexSpaceCell
@@ -60,10 +48,16 @@ class ComplexSpaceCellForm(forms.ModelForm):
         ]
 
 
-class ComplexThemeForm(forms.ModelForm):
+class ComplexThemeAdminForm(forms.ModelForm):
     class Meta:
         model = complex_models.ComplexTheme
         fields = [
             "title",
             "number",
         ]
+
+
+class WorkPlanAcademicGroupAdminForm(forms.ModelForm):
+    class Meta:
+        model = complex_models.WorkPlanAcademicGroup
+        fields = "__all__"

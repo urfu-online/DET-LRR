@@ -157,12 +157,6 @@ class ThematicPlanViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ThematicPlanSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-# class PersonViewSet(viewsets.ModelViewSet):
-#     """ViewSet for the Person class"""
-#
-#     queryset = models.Person.objects.all()
-#     serializer_class = serializers.PersonSerializer
-#     permission_classes = [permissions.IsAuthenticated]
 
 class SourceViewSet(viewsets.ModelViewSet):
     """ViewSet for the SubjectTag class"""

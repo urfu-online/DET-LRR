@@ -1,4 +1,5 @@
 import logging
+
 from rest_framework import serializers
 
 from lrr.users.models import Person
@@ -17,6 +18,7 @@ class SourceSerializer(serializers.ModelSerializer):
             "URL",
             "digital_resource",
         ]
+
 
 class DRStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -210,6 +212,16 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
         dr.edu_programs_tags.set(edu_programs_tags)
         dr.result_edu.set(results_edu)
         return dr
+
+
+class DirectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Direction
+        fields = [
+            "id",
+            "title",
+            "code",
+        ]
 
 
 class CompetenceSerializer(serializers.ModelSerializer):

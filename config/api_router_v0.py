@@ -1,8 +1,8 @@
 from django.conf import settings
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
+from lrr.complexes import api as complexes_api
 from lrr.repository import api as repository_api
-
 from lrr.users.api.views import StudentViewSet, PersonViewSet
 
 if settings.DEBUG:
@@ -10,8 +10,12 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
+# USERS
+
 router.register("Person", PersonViewSet)
 router.register("Student", StudentViewSet)
+
+# REPOSITORY
 
 router.register("DRStatus", repository_api.DRStatusViewSet)
 router.register("ExpertiseStatus", repository_api.ExpertiseStatusViewSet)
@@ -33,6 +37,12 @@ router.register("ThematicPlan", repository_api.ThematicPlanViewSet)
 router.register("Source", repository_api.SourceViewSet)
 # router.register("Person", repository_api.PersonViewSet)
 
+# COMPLEXES
+
+router.register("digitalComplex", complexes_api.DigitalComplexViewSet)
+router.register("cell", complexes_api.CellViewSet)
+router.register("complexSpaceCell", complexes_api.ComplexSpaceCellViewSet)
+router.register("workPlanAcademicGroup", complexes_api.WorkPlanAcademicGroupViewSet)
 
 app_name = "api"
 urlpatterns = router.urls

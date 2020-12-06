@@ -168,6 +168,7 @@ class ResultEduAdmin(admin.ModelAdmin):
         "last_updated",
         "created",
     ]
+    search_fields = ["title",]
 
 
 class DigitalResourceAdminForm(forms.ModelForm):
@@ -265,6 +266,7 @@ class CompetenceAdmin(admin.ModelAdmin):
     readonly_fields = [
         "created",
     ]
+    search_fields = ["title", "code"]
 
 
 class PlatformAdminForm(forms.ModelForm):
@@ -400,23 +402,22 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     autocomplete_fields = ["subject", ]
 
 
-class WorkPlanAcademicGroupForm(forms.ModelForm):
+class DirectionAdminForm(forms.ModelForm):
     class Meta:
-        model = models.WorkPlanAcademicGroup
+        model = models.Direction
         fields = "__all__"
 
 
-class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
-    form = WorkPlanAcademicGroupForm
+class DirectionAdmin(admin.ModelAdmin):
+    form = DirectionAdminForm
     list_display = [
-        "academic_group",
-        "semestr"
+        "title",
+        "code"
     ]
     readonly_fields = [
         "created",
     ]
-
-    autocomplete_fields = ["subject", "digital_resource"]
+    search_fields = ["title", "code"]
 
 
 # admin.site.register(models.DRStatus, DRStatusAdmin)
@@ -434,4 +435,4 @@ admin.site.register(models.ConformityTheme, ConformityThemeAdmin)
 admin.site.register(models.EduProgramTag, EduProgramTagAdmin)
 admin.site.register(models.SubjectTheme, SubjectThemeAdmin)
 admin.site.register(models.ThematicPlan, ThematicPlanAdmin)
-admin.site.register(models.WorkPlanAcademicGroup, WorkPlanAcademicGroupAdmin)
+admin.site.register(models.Direction, DirectionAdmin)

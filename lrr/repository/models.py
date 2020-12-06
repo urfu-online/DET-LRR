@@ -522,30 +522,30 @@ class ThematicPlan(BaseModel):
         return reverse("repository_ThematicPlan_update", args=(self.pk,))
 
 
-class WorkPlanAcademicGroup(BaseModel):
-    digital_resource = models.ManyToManyField("repository.DigitalResource", verbose_name="Ресурсное обеспечение")
-    academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
-                                       verbose_name="Академическая группа")
-    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
-                                    verbose_name="Образовательная программа")
-    subject = models.ManyToManyField("repository.Subject", verbose_name="Дисциплины")
-    semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
-
-    class Meta:
-        verbose_name = u"Ресурсное обеспечение академической группы"
-        verbose_name_plural = u"Ресурсное обеспечение академических групп"
-
-    def __str__(self):
-        return str(self.pk)
-
-    def get_absolute_url(self):
-        return reverse("repository_WorkPlanAcademicGroup_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
-
-    def get_resources_by_subject(self):
-        return DigitalResource.get_resources_by_subject(self.subject)
+# class WorkPlanAcademicGroup(BaseModel):
+#     digital_resource = models.ManyToManyField("repository.DigitalResource", verbose_name="Ресурсное обеспечение")
+#     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
+#                                        verbose_name="Академическая группа")
+#     edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
+#                                     verbose_name="Образовательная программа")
+#     subject = models.ManyToManyField("repository.Subject", verbose_name="Дисциплины")
+#     semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
+#
+#     class Meta:
+#         verbose_name = u"Ресурсное обеспечение академической группы"
+#         verbose_name_plural = u"Ресурсное обеспечение академических групп"
+#
+#     def __str__(self):
+#         return str(self.pk)
+#
+#     def get_absolute_url(self):
+#         return reverse("repository_WorkPlanAcademicGroup_detail", args=(self.pk,))
+#
+#     def get_update_url(self):
+#         return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
+#
+#     def get_resources_by_subject(self):
+#         return DigitalResource.get_resources_by_subject(self.subject)
 
 
 class Direction(BaseModel):
