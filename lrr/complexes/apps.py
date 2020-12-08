@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.apps import AppConfig
 
 
-class СomplexesConfig(AppConfig):
+class ComplexesConfig(AppConfig):
     name = "lrr.complexes"
     verbose_name = "Комплексы ЭУМК"

@@ -83,9 +83,9 @@ class ExpertiseStatus(BaseModel):
         (ON_EXPERTISE, 'на экспертизе'),
         (ON_REVISION, 'на доработку'),
         (ASSIGNED_STATUS, 'присвоен статус'),
-    ]
-
     # Fields
+
+    ]
 
     end_date = models.DateTimeField("Срок действия")
     status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES, default=NO_INIT)
