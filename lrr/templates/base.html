@@ -63,7 +63,7 @@
       {% if request.user|has_group:"student" %}
 
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'repository:repository_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>
+          <a class="nav-link" href="{% url 'complexes:complexes_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>
         </li>
       {% endif %}
 

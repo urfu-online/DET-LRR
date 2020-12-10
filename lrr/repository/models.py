@@ -68,6 +68,23 @@ class DRStatus(BaseModel):
     def get_update_url(self):
         return reverse("repository:repository_DRStatus_update", args=(self.pk,))
 
+    @classmethod
+    def get_by_status(cls, drstatus):
+        return cls.objects.filter(drstatus__expertise_status=drstatus.expertise_status)
+
+    # @classmethod
+    # def get_by_subject(cls, subject):
+    #     return cls.objects.filter(tag__title=subject.title)
+    #TODO Допилить методы для ExpertiseStatusUpdateView
+    @classmethod
+    def get_digitalresource_status(cls, status):
+        if isinstance(status, ExpertiseStatus):
+
+            tags = DRStatus.get_by_status(status)
+            return cls.objects.filter(expertise_status__in=tags)
+        else:
+            return None
+
 
 class ExpertiseStatus(BaseModel):
     # status
@@ -83,7 +100,7 @@ class ExpertiseStatus(BaseModel):
         (ON_EXPERTISE, 'на экспертизе'),
         (ON_REVISION, 'на доработку'),
         (ASSIGNED_STATUS, 'присвоен статус'),
-    # Fields
+        # Fields
 
     ]
 

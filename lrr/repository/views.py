@@ -46,6 +46,10 @@ class ExpertiseStatusDetailView(generic.DetailView):
     model = models.ExpertiseStatus
     form_class = forms.ExpertiseStatusForm
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class ExpertiseStatusUpdateView(generic.UpdateView):
     model = models.ExpertiseStatus
@@ -54,7 +58,9 @@ class ExpertiseStatusUpdateView(generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ExpertiseStatusUpdateView, self).get_context_data(**kwargs)
-        drstatus = get_object_or_404(models.DRStatus, expertise_status=self.get_object())
+        drstatus = models.DRStatus.objects.filter(expertise_status__pk=self.kwargs['pk']).first()
+        # logger.warning()
+
         context['digital_resource'] = drstatus.digital_resource
         return context
 
@@ -418,21 +424,7 @@ class ThematicPlanUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-from django.shortcuts import render, get_object_or_404
-
-
-# import logging
-#
-# logger = logging.getLogger(__name__)
-
-
-# def WorkPlanView(request):
-#     person = get_object_or_404(Person, user=request.user)
-#     academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
-#     obj_plan = models.WorkPlanAcademicGroup.objects.filter(academic_group=academic_group)
-#     return render(request, 'pages/work_plan_list.html',
-#                   {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person,  # 'status': status,
-#                    'DR': obj_plan[0].digital_resource.first()})
+from django.shortcuts import render
 
 
 def ExpertiseListView(request):
