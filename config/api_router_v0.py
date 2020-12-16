@@ -2,6 +2,7 @@ from django.conf import settings
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 from lrr.complexes import api as complexes_api
+from lrr.inspections import api as inspection_api
 from lrr.repository import api as repository_api
 from lrr.users.api.views import StudentViewSet, PersonViewSet
 
@@ -43,6 +44,12 @@ router.register("digitalComplex", complexes_api.DigitalComplexViewSet)
 router.register("cell", complexes_api.CellViewSet)
 router.register("complexSpaceCell", complexes_api.ComplexSpaceCellViewSet)
 router.register("workPlanAcademicGroup", complexes_api.WorkPlanAcademicGroupViewSet)
+
+# INSPECTIONS
+
+router.register("expertise", inspection_api.ExpertiseViewSet)
+router.register("checklist", inspection_api.CheckListViewSet)
+router.register("question", inspection_api.QuestionViewSet)
 
 app_name = "api"
 urlpatterns = router.urls
