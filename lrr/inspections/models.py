@@ -9,6 +9,7 @@ from lrr.users.models import Person, Expert
 
 
 class Expertise(repository_model.BaseModel):
+    # status
     NO_INIT = 'NO_INIT'
     SUB_APP = 'SUB_APP'
     ON_EXPERTISE = 'ON_EXPERTISE'
@@ -22,8 +23,28 @@ class Expertise(repository_model.BaseModel):
         (ON_REVISION, 'на доработку'),
         (ASSIGNED_STATUS, 'присвоен статус'),
         (NOT_ASSIGNED_STATUS, 'не присвоен статус'),
-        # Fields
+    ]
 
+    # quality_category
+    INNER = 'INNER'
+    OUTER = 'OUTER'
+    OUTSIDE = 'OUTSIDE'
+
+    QUALITY_CATEGORIES = [
+        (INNER, 'внутренний'),
+        (OUTER, 'внешний'),
+        (OUTSIDE, 'сторонний'),
+    ]
+
+    # interactive_category
+    NOT_INTERACTIVE = 'NOT_INTERACTIVE'
+    WITH_TEACHER_SUPPORT = 'WITH_TEACHER_SUPPORT'
+    AUTO = 'AUTO'
+
+    INTERACTIVE_CATEGORIES = [
+        (NOT_INTERACTIVE, 'не интерактивный'),
+        (WITH_TEACHER_SUPPORT, 'с поддержкой преподавателя'),
+        (AUTO, 'автоматизированный'),
     ]
 
     digital_resource = models.ForeignKey(repository_model.DigitalResource, verbose_name="Паспорт ЭОР",
@@ -42,6 +63,19 @@ class Expertise(repository_model.BaseModel):
     status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES,
                               default=NOT_ASSIGNED_STATUS)
 
+    # TODO: возможно нужны
+    quality_category = models.CharField("Категория качества", max_length=30, choices=QUALITY_CATEGORIES, blank=True)
+    interactive_category = models.CharField("Категория интерактивности", max_length=30, choices=INTERACTIVE_CATEGORIES,
+                                            blank=True)
+
+    @classmethod
+    def get_count_expertise_assigned_status(cls):
+        return cls.objects.filter(status='ASSIGNED_STATUS').count()
+
+    @classmethod
+    def get_count_expertise_on_expertise(cls):
+        return cls.objects.filter(status='ON_EXPERTISE').count()
+
     class Meta:
         verbose_name = u"Экспертиза"
         verbose_name_plural = u"Экспертизы"
@@ -54,6 +88,9 @@ class Expertise(repository_model.BaseModel):
 
     def get_update_url(self):
         return reverse("inspections:inspections_Expertise_update", args=(self.pk,))
+
+    def get_checklist(self):
+        return CheckList.objects.get(expertise=self.pk)
 
 
 class CheckList(repository_model.BaseModel):
