@@ -59,7 +59,7 @@ class Expertise(repository_model.BaseModel):
     file = models.FileField(
         verbose_name="№ протокола комиссии по ресурсному обеспечению модулей и ЭО методического совета",
         upload_to="upload/files", null=True, blank=True)
-    remarks = models.TextField("Замечания и рекомендации комиссии")
+    remarks = models.TextField("Замечания и рекомендации комиссии", blank=True)
     status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES,
                               default=NOT_ASSIGNED_STATUS)
 
@@ -89,8 +89,12 @@ class Expertise(repository_model.BaseModel):
     def get_update_url(self):
         return reverse("inspections:inspections_Expertise_update", args=(self.pk,))
 
-    def get_checklist(self):
-        return CheckList.objects.get(expertise=self.pk)
+    # choose type checklist
+    def get_checklists(self, type):
+        return CheckList.objects.filter(expertise=self.pk, type=type)
+
+    def get_checklists(self):
+        return CheckList.objects.filter(expertise=self.pk)
 
 
 class CheckList(repository_model.BaseModel):

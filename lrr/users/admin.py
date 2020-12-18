@@ -71,6 +71,22 @@ class AcademicGroupAdmin(admin.ModelAdmin):
     ]
 
 
+class ExpertAdminForm(form.ModelForm):
+    class Meta:
+        model = models.Expert
+        fields = "__all__"
+
+
+class ExpertAdmin(admin.ModelAdmin):
+    form = ExpertAdminForm
+    list_display = [
+        "person",
+        "type",
+        "subdivision",
+    ]
+
+
+admin.site.register(models.Expert, ExpertAdmin)
 admin.site.register(models.AcademicGroup, AcademicGroupAdmin)
 admin.site.register(models.Student, StudentAdmin)
 admin.site.register(models.Person, PersonAdmin)

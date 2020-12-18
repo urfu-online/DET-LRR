@@ -23,6 +23,10 @@ class DigitalComplex(BaseModel):
     def __str__(self):
         return str(self.keywords)
 
+    @classmethod
+    def get_count_complex(cls):
+        return cls.objects.all().count()
+
 
 class Cell(BaseModel):
     ASYNC = 'ASYNC'

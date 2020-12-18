@@ -134,8 +134,12 @@ class Expert(models.Model):
     type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)
     subdivision = models.CharField('Подразделение/отрасль', max_length=500)
 
+    class Meta:
+        verbose_name = u"Эксперт"
+        verbose_name_plural = u"Эксперты"
+
     def __str__(self):
-        return str(self.pk)
+        return str(self.person)
 
     def get_absolute_url(self):
         return reverse("repository_Expert_detail", args=(self.pk,))
