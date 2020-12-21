@@ -68,7 +68,6 @@ DJANGO_APPS = [
     "django.forms",
     "corsheaders",
     "django_filters",
-    "import_export",
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
