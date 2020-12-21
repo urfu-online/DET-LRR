@@ -16,6 +16,7 @@ class BaseModel(models.Model):
         abstract = True
 
 
+# TODO: устаревшая модель. подумать убрать или нет.
 class DRStatus(BaseModel):
     # quality_category
     INNER = 'INNER'
@@ -68,7 +69,12 @@ class DRStatus(BaseModel):
     def get_update_url(self):
         return reverse("repository:repository_DRStatus_update", args=(self.pk,))
 
+    @classmethod
+    def get_by_status(cls, drstatus):
+        return cls.objects.filter(drstatus__expertise_status=drstatus.expertise_status)
 
+
+# TODO: устаревшая модель.
 class ExpertiseStatus(BaseModel):
     # status
     NO_INIT = 'NO_INIT'
@@ -83,7 +89,7 @@ class ExpertiseStatus(BaseModel):
         (ON_EXPERTISE, 'на экспертизе'),
         (ON_REVISION, 'на доработку'),
         (ASSIGNED_STATUS, 'присвоен статус'),
-    # Fields
+        # Fields
 
     ]
 
@@ -303,7 +309,7 @@ class DigitalResource(BaseModel):
         if isinstance(subject, Subject) and isinstance(edu_program, EduProgram):
             return cls.objects.filter(provided_disciplines__subject=subject,
                                       provided_disciplines__edu_program=edu_program,
-                                      drstatus__expertise_status__accepted_status=True)
+                                      expertise__status='ASSIGNED_STATUS')
         else:
             return None
 
@@ -415,6 +421,7 @@ class Language(models.Model):
         return reverse("repository_Language_update", args=(self.code,))
 
 
+# TODO: Карасик спросил для чего эта модель
 class SubjectTag(BaseModel):
     # Relationships
     tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
@@ -463,6 +470,7 @@ class ConformityTheme(BaseModel):
         return reverse("repository_ConformityTheme_update", args=(self.pk,))
 
 
+# TODO: Карасик спросил для чего эта модель
 class EduProgramTag(BaseModel):
     # Relationships
     tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
@@ -522,35 +530,9 @@ class ThematicPlan(BaseModel):
         return reverse("repository_ThematicPlan_update", args=(self.pk,))
 
 
-# class WorkPlanAcademicGroup(BaseModel):
-#     digital_resource = models.ManyToManyField("repository.DigitalResource", verbose_name="Ресурсное обеспечение")
-#     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
-#                                        verbose_name="Академическая группа")
-#     edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
-#                                     verbose_name="Образовательная программа")
-#     subject = models.ManyToManyField("repository.Subject", verbose_name="Дисциплины")
-#     semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
-#
-#     class Meta:
-#         verbose_name = u"Ресурсное обеспечение академической группы"
-#         verbose_name_plural = u"Ресурсное обеспечение академических групп"
-#
-#     def __str__(self):
-#         return str(self.pk)
-#
-#     def get_absolute_url(self):
-#         return reverse("repository_WorkPlanAcademicGroup_detail", args=(self.pk,))
-#
-#     def get_update_url(self):
-#         return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
-#
-#     def get_resources_by_subject(self):
-#         return DigitalResource.get_resources_by_subject(self.subject)
-
-
 class Direction(BaseModel):
     title = models.CharField("Наименование", max_length=150)
-    code = models.CharField("Код компетенции", max_length=8)
+    code = models.CharField("Код направления", max_length=8)
 
     class Meta:
         verbose_name = u"Направление подготовки"

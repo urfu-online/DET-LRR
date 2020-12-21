@@ -1,12 +1,10 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import MultipleObjectsReturned
 from django.db import models as models
 from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.db.models.signals import post_save
-
-from django.core.exceptions import MultipleObjectsReturned
 
 
 class User(AbstractUser):
@@ -116,3 +114,35 @@ class AcademicGroup(models.Model):
 
     def get_update_url(self):
         return reverse("repository_AcademicGroup_update", args=(self.pk,))
+
+
+class Expert(models.Model):
+    # status
+    METHODIGAL = 'METHODIGAL'
+    CONTENT = 'CONTENT'
+    TECH = 'TECH'
+
+    STATUS_CHOICES = [
+        (METHODIGAL, 'Методическая'),
+        (CONTENT, 'Содержательная'),
+        (TECH, 'Техническая'),
+        # Fields
+
+    ]
+
+    person = models.ForeignKey("users.Person", on_delete=models.CASCADE)
+    type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)
+    subdivision = models.CharField('Подразделение/отрасль', max_length=500)
+
+    class Meta:
+        verbose_name = u"Эксперт"
+        verbose_name_plural = u"Эксперты"
+
+    def __str__(self):
+        return str(self.person)
+
+    def get_absolute_url(self):
+        return reverse("repository_Expert_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_Expert_update", args=(self.pk,))
