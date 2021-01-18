@@ -171,3 +171,4 @@ class Question(repository_model.BaseModel):
 
     def get_update_url(self):
         return reverse("inspections:inspections_CheckList_update", args=(self.pk,))
+

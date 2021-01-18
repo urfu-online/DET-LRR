@@ -38,8 +38,8 @@ class Cell(BaseModel):
     ]
 
     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
-    include_practice = models.NullBooleanField("Практика", blank=True)
-    include_theory = models.NullBooleanField("Теория", blank=True)
+    include_practice = models.BooleanField("Практика", blank=True, null=True)
+    include_theory = models.BooleanField("Теория", blank=True, null=True)
     beg_theme_number = models.PositiveSmallIntegerField("Начало диапазонов объединяемых строчек", blank=True)
     end_theme_number = models.PositiveSmallIntegerField("Конец диапазонов объединяемых строчек", blank=True)
     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True)
@@ -122,8 +122,8 @@ class WorkPlanAcademicGroup(BaseModel):
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
                                        verbose_name="Академическая группа")
     direction = models.ForeignKey("repository.Direction", on_delete=models.PROTECT,
-                                  verbose_name="Направление подготовки")
-    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплины", on_delete=models.PROTECT)
+                                  verbose_name="Направление подготовки", null=True)
+    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплины", on_delete=models.PROTECT, null=True)
     learn_date = models.PositiveSmallIntegerField("Учебный год", null=True, blank=True)
     semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
 

@@ -451,8 +451,8 @@ class ConformityTheme(BaseModel):
                                              verbose_name="Рекомендация ЭОР в качестве обеспечения дисциплины")  # TODO: Должно ли это быть тут ?
 
     # Fields
-    practice = models.NullBooleanField("Практика")
-    theory = models.NullBooleanField("Теория")
+    practice = models.BooleanField("Практика", null=True)
+    theory = models.BooleanField("Теория", null=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
