@@ -77,6 +77,9 @@
             {% if request.user|has_group:"expert" %}
               <a class="dropdown-item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЭОР</a>
             {% endif %}
+            {% if request.user|has_group:"expert" %}
+              <a class="dropdown-item" href="{% url 'inspections:inspections_Expertise_list' %}">Экспертизы ЭОР 2</a>
+            {% endif %}
             {% if request.user|has_group:"staff" %}
               <a class="dropdown-item" href="">Компановка рабочего плана</a>
             {% endif %}

@@ -46,10 +46,6 @@ class ExpertiseStatusDetailView(generic.DetailView):
     model = models.ExpertiseStatus
     form_class = forms.ExpertiseStatusForm
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 
 class ExpertiseStatusUpdateView(generic.UpdateView):
     model = models.ExpertiseStatus

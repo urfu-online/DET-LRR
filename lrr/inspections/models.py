@@ -6,7 +6,7 @@ from django.urls import reverse
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
 from lrr.users.models import Person, Expert
-
+from lrr.repository.models import DigitalResource
 
 class Expertise(repository_model.BaseModel):
     # status
@@ -23,6 +23,15 @@ class Expertise(repository_model.BaseModel):
         (ON_REVISION, 'на доработку'),
         (ASSIGNED_STATUS, 'присвоен статус'),
         (NOT_ASSIGNED_STATUS, 'не присвоен статус'),
+    ]
+
+    # type
+    FULL = 'FULL'
+    COMPLIANCE_DISCIPLINE = 'COMPLIANCE_DISCIPLINE'
+
+    TYPE_EXPERTISE = [
+        (FULL, 'Полная'),
+        (COMPLIANCE_DISCIPLINE, 'На соответствие дисциплине'),
     ]
 
     # quality_category
@@ -49,19 +58,20 @@ class Expertise(repository_model.BaseModel):
 
     digital_resource = models.ForeignKey(repository_model.DigitalResource, verbose_name="Паспорт ЭОР",
                                          on_delete=models.CASCADE)
-    date = models.DateTimeField("Дата заявки")
-    subjects = models.ManyToManyField(repository_model.Subject, verbose_name="Дисциплина(ы)", blank=True)
-    direction = models.ForeignKey(repository_model.Direction, verbose_name="Направление подготовки",
-                                  on_delete=models.CASCADE)
-    digital_complex = models.ForeignKey(complex_model.DigitalComplex, verbose_name="ЭУМК", on_delete=models.PROTECT)
+    date = models.DateTimeField("Дата заявки", blank=True, null=True)
+    subjects = models.ManyToManyField(repository_model.Subject, verbose_name="Дисциплина(ы)", blank=True, null=True)
+    directions = models.ManyToManyField(repository_model.Direction, verbose_name="Направление подготовки", blank=True,
+                                        null=True)
+    digital_complexes = models.ManyToManyField(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True, null=True)
     expert = models.ManyToManyField(Expert, verbose_name="Назначенные эксперты ", blank=True)
-    date_end = models.DateTimeField("До какого действует статус экспертизы")
+    date_end = models.DateTimeField("До какого действует статус экспертизы", blank=True)
     file = models.FileField(
         verbose_name="№ протокола комиссии по ресурсному обеспечению модулей и ЭО методического совета",
         upload_to="upload/files", null=True, blank=True)
     remarks = models.TextField("Замечания и рекомендации комиссии", blank=True)
     status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES,
                               default=NOT_ASSIGNED_STATUS)
+    type = models.CharField("Тип экспертизы", max_length=30, choices=TYPE_EXPERTISE, blank=True, null=True)
 
     # TODO: возможно нужны
     quality_category = models.CharField("Категория качества", max_length=30, choices=QUALITY_CATEGORIES, blank=True)
@@ -75,6 +85,11 @@ class Expertise(repository_model.BaseModel):
     @classmethod
     def get_count_expertise_on_expertise(cls):
         return cls.objects.filter(status='ON_EXPERTISE').count()
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        self.date = timezone.now()
+        return super(Expertise, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = u"Экспертиза"
@@ -95,6 +110,11 @@ class Expertise(repository_model.BaseModel):
 
     def get_checklists(self):
         return CheckList.objects.filter(expertise=self.pk)
+
+    def get_digital_resource(self):
+        digital_resource_pk = self.request.path.split('/')[4]
+        digital_resource = DigitalResource.objects.get(pk=digital_resource_pk)
+        return digital_resource
 
 
 class CheckList(repository_model.BaseModel):
@@ -171,4 +191,3 @@ class Question(repository_model.BaseModel):
 
     def get_update_url(self):
         return reverse("inspections:inspections_CheckList_update", args=(self.pk,))
-

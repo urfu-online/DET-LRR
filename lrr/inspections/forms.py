@@ -1,17 +1,9 @@
-# -*- coding: utf-8 -*-
-import logging
-
-from rest_framework import serializers
+from django import forms
 
 from lrr.inspections import models as inspections_models
-from lrr.repository import serializers as repo_serializers
-
-logger = logging.getLogger(__name__)
 
 
-class ExpertiseSerializer(serializers.ModelSerializer):
-    subjects = repo_serializers.SubjectSerializer(many=True, read_only=True)
-
+class ExpertiseForm(forms.ModelForm):
     class Meta:
         model = inspections_models.Expertise
         fields = [
@@ -28,7 +20,7 @@ class ExpertiseSerializer(serializers.ModelSerializer):
         ]
 
 
-class CheckListSerializer(serializers.ModelSerializer):
+class CheckListForm(forms.ModelForm):
     class Meta:
         model = inspections_models.CheckList
         fields = [
@@ -40,7 +32,7 @@ class CheckListSerializer(serializers.ModelSerializer):
         ]
 
 
-class QuestionSerializer(serializers.ModelSerializer):
+class QuestionForm(forms.ModelForm):
     class Meta:
         model = inspections_models.Question
         fields = [

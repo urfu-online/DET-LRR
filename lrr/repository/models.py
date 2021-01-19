@@ -296,6 +296,9 @@ class DigitalResource(BaseModel):
         else:
             return ""
 
+    def get_create_expertise_url(self):
+        return reverse("inspections:inspections_Expertise_create", args=(self.pk,))
+
     @classmethod
     def get_resources_by_subject(cls, subject):
         if isinstance(subject, Subject):
