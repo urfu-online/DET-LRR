@@ -25,7 +25,9 @@
             <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
             <p> {{ object.description }}</p>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Образовательный результат:</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Компетенции / Результаты обучения ЭОР:</h6>
             <h5 class="card-title"></h5>
               {% if object.result_edu.all %}
                 <ul class="list-unstyled">
@@ -34,11 +36,7 @@
                   {% endfor %}
                 </ul>
               {% endif %}
-
             <hr>
-
-
-
             {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" or request.user.is_superuser %}
               <h6 class="card-subtitle mb-2 text-muted">ЭОР рекомендован в качестве обеспечения дисциплины</h6>
               {% for obj in object.provided_disciplines.all %}
@@ -57,6 +55,7 @@
                   </tbody>
                 </table>
               {% endfor %}
+              <hr />
               <h6 class="card-subtitle mb-2 text-muted">Соответствие ЭОР темам дисциплины</h6>
               {% for obj in object.conformity_theme.all %}
                 <table class="ui compact table">
@@ -89,6 +88,43 @@
                 </table>
               {% endfor %}
             {% endif %}
+                    <hr />
+            <h6 class="card-subtitle mb-2 text-muted">Статусы ЭОР:</h6>
+                <table class="ui compact table">
+                  <thead>
+                  <tr>
+                    <th>Наимкенование</th>
+                    <th>Дата</th>
+                    <th>Статус</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>Курс для внешненго испольщования</td>
+                    <td>20/02/2021</td>
+                    <td><i class="check circle outline icon"></i> Принят</td>
+                  </tr>
+                  </tbody></table>
+                    <a href="{{ object.get_url }}" class="btn btn-block btn-primary mb-3"><i
+                class="envelope outline icon"></i> Подать заявку на экспертизу</a>
+
+          <hr />
+            <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭОР:</h6>
+          <table class="ui compact table">
+                  <thead>
+                  <tr>
+                    <th>Наименоваие компонента</th>
+                    <th>URL компонента</th>
+                    <th>Тип компонента</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>Методичка</td>
+                    <td><a href="google.com">google.com</a></td>
+                    <td>PDF</td>
+                  </tr>
+                  </tbody></table>
           </div>
         </div>
       </div>
