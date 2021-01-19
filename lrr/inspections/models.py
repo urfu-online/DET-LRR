@@ -2,11 +2,13 @@
 
 from django.db import models as models
 from django.urls import reverse
+from django.utils import timezone
 
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
-from lrr.users.models import Person, Expert
 from lrr.repository.models import DigitalResource
+from lrr.users.models import Person, Expert
+
 
 class Expertise(repository_model.BaseModel):
     # status
@@ -64,7 +66,7 @@ class Expertise(repository_model.BaseModel):
                                         null=True)
     digital_complexes = models.ManyToManyField(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True, null=True)
     expert = models.ManyToManyField(Expert, verbose_name="Назначенные эксперты ", blank=True)
-    date_end = models.DateTimeField("До какого действует статус экспертизы", blank=True)
+    date_end = models.DateTimeField("До какого действует статус экспертизы", blank=True, null=True)
     file = models.FileField(
         verbose_name="№ протокола комиссии по ресурсному обеспечению модулей и ЭО методического совета",
         upload_to="upload/files", null=True, blank=True)
