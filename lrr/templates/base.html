@@ -78,7 +78,9 @@
               <a class="dropdown-item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЭОР</a>
             {% endif %}
             {% if request.user|has_group:"expert" %}
-              <a class="dropdown-item" href="{% url 'inspections:inspections_Expertise_list' %}">Заявки</a>
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActive_list' %}">Активные заявки</a>
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseClose_list' %}">Закрытые заявки</a>
+              <a class="dropdown-item" href="{% url 'users:expert_list' %}">Эксперты</a>
             {% endif %}
             {% if request.user|has_group:"staff" %}
               <a class="dropdown-item" href="">Компановка рабочего плана</a>

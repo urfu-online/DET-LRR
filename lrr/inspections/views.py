@@ -8,13 +8,27 @@ from lrr.inspections import models as inspections_models
 from .filters import FilteredListView
 from django.urls import reverse
 
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 
-class ExpertiseListView(generic.ListView):
+class ExpertiseActiveListView(generic.ListView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseForm
+    template_name = 'inspections/expertiseactive_list.html'
+
+    def get_queryset(self):
+        return inspections_models.Expertise.get_expertise_not_assigned_status()
+
+
+class ExpertiseCloseListView(generic.ListView):
+    model = inspections_models.Expertise
+    form_class = forms.ExpertiseForm
+    template_name = 'inspections/expertiseclose_list.html'
+
+    def get_queryset(self):
+        return inspections_models.Expertise.get_expertise_assigned_status()
 
 
 class ExpertiseCreateView(generic.CreateView):
@@ -25,7 +39,6 @@ class ExpertiseCreateView(generic.CreateView):
     def form_valid(self, form):
         form_valid = super(ExpertiseCreateView, self).form_valid(form)
         form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
-
         return form_valid
 
     def get_initial(self):

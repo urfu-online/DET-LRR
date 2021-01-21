@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% load user_tags %}
+{% block content %}
+  <div class="ui container">
+    <div class="ui segment">
+      <div class="ui grid ">
+        <div class="eleven wide column "><h2>Эксперты</h2></div>
+      </div>
+      <div class="ui relaxed divided items">
+        {% for object in object_list %}
+          <div class="item">
+            <div class="content">
+              <div class="header">{{ object.person.first_name }} {{ object.person.middle_name }} {{ object.person.last_name }}</div>
+              <div class="meta">
+                <span class="category">Вид экспертизы: {{ object.get_type_display }}</span>
+              </div>
+              <div class="meta">
+                <span class="category">Подразделение / Отрасль: {{ object.get_subdivision_display }}</span>
+              </div>
+              <div class="extra">
+                <div class="right floated author">
+                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

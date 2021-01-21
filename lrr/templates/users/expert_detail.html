@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="ui segment container">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="eight wide column">
+          <h3 class="ui header">Данные эксперта</h3>
+          <p>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p>
+          <p>Страна: {{ person.country }}</p>
+          <p>Город: {{ person.city }}</p>
+          <p>Адрес проживания: {{ person.location }}</p>
+          <p>Дата рождения: {{ person.date_birthday }}</p>
+          <p>Вид экспертизы: {{ object.type }}</p>
+          <p>Подразделение/отрасль: {{ object.subdivision }}</p>
+        </div>
+        <div class="six wide right floated column">
+          <img src='/media/{{ person.avatar }}' class="ui large bordered rounded image">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+

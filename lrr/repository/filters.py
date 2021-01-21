@@ -10,7 +10,7 @@ class FilteredListView(ListView):
     filterset = None
     paginator_class = Paginator
 
-    def get_paginator(self, queryset, per_page, orphans=0,
+    def get_paginator(self, queryset, per_page, orphans=3,
                       allow_empty_first_page=True, **kwargs):
         """Return an instance of the paginator for this view."""
         return self.paginator_class(
