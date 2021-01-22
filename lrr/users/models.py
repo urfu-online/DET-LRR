@@ -142,7 +142,7 @@ class Expert(models.Model):
         return str(self.person)
 
     def get_absolute_url(self):
-        return reverse("repository_Expert_detail", args=(self.pk,))
+        return reverse("users:expert_detail", args=(self.pk,))
 
-    def get_update_url(self):
-        return reverse("repository_Expert_update", args=(self.pk,))
+    # def get_update_url(self):
+    #     return reverse("", args=(self.pk,))

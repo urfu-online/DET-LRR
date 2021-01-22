@@ -85,6 +85,22 @@ class Expertise(repository_model.BaseModel):
         return cls.objects.filter(status='ASSIGNED_STATUS').count()
 
     @classmethod
+    def get_expertise_assigned_status(cls):
+        try:
+            objs = cls.objects.filter(status='ASSIGNED_STATUS')
+        except:
+            objs = cls.objects.all()
+        return objs
+
+    @classmethod
+    def get_expertise_not_assigned_status(cls):
+        try:
+            objs = cls.objects.exclude(status='ASSIGNED_STATUS')
+        except:
+            objs = cls.objects.all()
+        return objs
+
+    @classmethod
     def get_count_expertise_on_expertise(cls):
         return cls.objects.filter(status='ON_EXPERTISE').count()
 
@@ -120,7 +136,7 @@ class Expertise(repository_model.BaseModel):
 
 
 class CheckList(repository_model.BaseModel):
-    # status
+    # type
     METHODIGAL = 'METHODIGAL'
     CONTENT = 'CONTENT'
     TECH = 'TECH'
@@ -132,8 +148,9 @@ class CheckList(repository_model.BaseModel):
         (TECH, 'Техническая'),
         (NO_TYPE, 'Отсутствует тип экспертизы')
         # Fields
-
     ]
+
+    #status
 
     type = models.CharField("Тип чек-листа", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE)
     expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)

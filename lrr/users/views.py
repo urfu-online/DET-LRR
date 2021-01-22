@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import DetailView, RedirectView, UpdateView
+from django.views.generic import DetailView, RedirectView, UpdateView, ListView
 from django.shortcuts import get_object_or_404
 
 from lrr.users import forms
@@ -65,6 +65,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 user_redirect_view = UserRedirectView.as_view()
 
+
 # class StudentListView(ListView):
 #     model = models.Student
 #     form_class = forms.StudentForm
@@ -105,3 +106,18 @@ user_redirect_view = UserRedirectView.as_view()
 #     model = models.Person
 #     form_class = forms.PersonForm
 #     pk_url_kwarg = "pk"
+
+class ExpertListView(ListView):
+    model = models.Expert
+    form_class = forms.ExpertForm
+
+
+expert_list_view = ExpertListView.as_view()
+
+
+class ExpertDetailView(DetailView):
+    model = models.Expert
+    form_class = forms.ExpertForm
+
+
+expert_detail_view = ExpertDetailView.as_view()

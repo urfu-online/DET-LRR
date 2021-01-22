@@ -2,7 +2,8 @@ from django.urls import path
 from lrr.inspections import views
 
 urlpatterns = (
-    path("Expertise/", views.ExpertiseListView.as_view(), name="inspections_Expertise_list"),
+    path("ExpertiseActive/", views.ExpertiseActiveListView.as_view(), name="inspections_ExpertiseActive_list"),
+    path("ExpertiseClose/", views.ExpertiseCloseListView.as_view(), name="inspections_ExpertiseClose_list"),
     path("Expertise/create/<uuid:pk>/", views.ExpertiseCreateView.as_view(), name="inspections_Expertise_create"),
     path("Expertise/detail/<uuid:pk>/", views.ExpertiseDetailView.as_view(), name="inspections_Expertise_detail"),
     path("Expertise/update/<uuid:pk>/", views.ExpertiseUpdateView.as_view(), name="inspections_Expertise_update"),
