@@ -49,11 +49,11 @@ class ExpertiseForm(forms.ModelForm):
             ),
             'directions': forms.SelectMultiple(
                 attrs={
-                    'class': 'form-control-file',
+                    'class': 'form-control',
                     'required': 'false'
                 }
             ),
-            'digital_complexes': forms.Select(
+            'digital_complexes': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control',
                     'required': 'true'
@@ -61,7 +61,7 @@ class ExpertiseForm(forms.ModelForm):
             ),
             'expert': forms.SelectMultiple(
                 attrs={
-                    'class': 'form-control-file',
+                    'class': 'form-control',
                     'required': 'false'
                 }
             ),
@@ -73,13 +73,13 @@ class ExpertiseForm(forms.ModelForm):
             ),
             'remarks': forms.Textarea(
                 attrs={
-                    'class': 'form-control-file',
+                    'class': 'form-control',
                     'required': 'false'
                 }
             ),
             'status': forms.Select(
                 attrs={
-                    'class': 'form-control-file',
+                    'class': 'form-control',
                     'required': 'false'
                 }
             ),

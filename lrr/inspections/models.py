@@ -62,9 +62,8 @@ class Expertise(repository_model.BaseModel):
                                          on_delete=models.CASCADE)
     date = models.DateTimeField("Дата заявки", blank=True, null=True)
     subjects = models.ManyToManyField(repository_model.Subject, verbose_name="Дисциплина(ы)", blank=True)
-    directions = models.ManyToManyField(repository_model.Direction, verbose_name="Направление подготовки", blank=True,
-                                        null=True)
-    digital_complexes = models.ForeignKey(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True, null=True, on_delete=models.CASCADE)
+    directions = models.ManyToManyField(repository_model.Direction, verbose_name="Направление подготовки", blank=True)
+    digital_complexes = models.ManyToManyField(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True)
     expert = models.ManyToManyField(Expert, verbose_name="Назначенные эксперты ", blank=True)
     date_end = models.DateTimeField("До какого действует статус экспертизы", blank=True, null=True)
     file = models.FileField(
@@ -103,6 +102,10 @@ class Expertise(repository_model.BaseModel):
     @classmethod
     def get_count_expertise_on_expertise(cls):
         return cls.objects.filter(status='ON_EXPERTISE').count()
+
+    @classmethod
+    def get_digital_resource_status(cls, digital_resource):
+        return cls.objects.filter(digital_resource=digital_resource)
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
@@ -150,13 +153,24 @@ class CheckList(repository_model.BaseModel):
         # Fields
     ]
 
-    #status
+    # status
+    START = 'START'
+    IN_PROCESS = 'IN_PROCESS'
+    END = 'END'
+
+    STATUS_CHOICES = [
+        (START, 'Назначена'),
+        (IN_PROCESS, 'В процессе'),
+        (END, 'Завершена')
+        # Fields
+    ]
 
     type = models.CharField("Тип чек-листа", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE)
     expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)
     date = models.DateTimeField("Дата проведения экспертизы")
     protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424)
     expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
+    status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
 
     class Meta:
         verbose_name = u"Чек-лист экспертизы"

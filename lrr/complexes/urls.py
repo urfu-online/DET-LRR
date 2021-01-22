@@ -4,4 +4,5 @@ from lrr.complexes import views
 
 urlpatterns = (
     path("WorkPlan/", views.WorkPlanView, name="complexes_WorkPlan"),
+    path("DigitalComplex/", views.DigitalComplex, name="complexes_WorkPlan"),
 )

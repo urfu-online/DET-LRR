@@ -8,24 +8,32 @@ from lrr.inspections import models as inspections_models
 from .filters import FilteredListView
 from django.urls import reverse
 
-
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 
-class ExpertiseActiveListView(generic.ListView):
+class ExpertiseActiveSecretaryListView(generic.ListView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseForm
-    template_name = 'inspections/expertiseactive_list.html'
+    template_name = 'inspections/secretary/expertiseactive_secretary_list.html'
 
     def get_queryset(self):
         return inspections_models.Expertise.get_expertise_not_assigned_status()
 
 
-class ExpertiseCloseListView(generic.ListView):
+class ExpertiseCloseSecretaryListView(generic.ListView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseForm
-    template_name = 'inspections/expertiseclose_list.html'
+    template_name = 'inspections/secretary/expertiseclose_secretary_list.html'
+
+    def get_queryset(self):
+        return inspections_models.Expertise.get_expertise_assigned_status()
+
+
+class ExpertiseActiveExpert(generic.ListView):
+    model = inspections_models.Expertise
+    form_class = forms.ExpertiseForm
+    template_name = 'inspections/expert/expertise_active_expert_list.html'
 
     def get_queryset(self):
         return inspections_models.Expertise.get_expertise_assigned_status()
@@ -60,7 +68,6 @@ class ExpertiseCreateView(generic.CreateView):
         return context
 
 
-
 class ExpertiseDetailView(generic.DetailView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseForm
@@ -75,6 +82,18 @@ class ExpertiseUpdateView(generic.UpdateView):
 class CheckListListView(generic.ListView):
     model = inspections_models.CheckList
     form_class = forms.CheckListForm
+
+
+class CheckListMyExpertListView(generic.ListView):
+    model = inspections_models.CheckList
+    form_class = forms.CheckListForm
+    template_name = 'inspections/expert/checklist_my_expert_active_list.html'
+
+
+class CheckListMyCloseExpertListView(generic.ListView):
+    model = inspections_models.CheckList
+    form_class = forms.CheckListForm
+    template_name = 'inspections/expert/checklist_my_expert_close_list.html'
 
 
 class CheckListCreateView(generic.CreateView):

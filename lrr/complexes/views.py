@@ -5,10 +5,13 @@ from django.shortcuts import render, get_object_or_404
 from lrr.complexes import models as complex_model
 from lrr.users.models import Person, Student
 
+import logging
+from django.views import generic
+
 
 # import logging
 #
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def WorkPlanView(request):

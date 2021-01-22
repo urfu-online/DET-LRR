@@ -6,6 +6,7 @@ from django.views import generic
 from . import forms
 from . import models
 from .filters import FilteredListView
+from lrr.inspections.models import Expertise
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -221,7 +222,7 @@ class DigitalResourceDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
-        context['status'] = models.DRStatus.objects.filter(digital_resource=self.object)
+        context['expertise'] = Expertise.get_digital_resource_status(self.object)
         return context
 
 

@@ -98,13 +98,16 @@
                     <th>Статус</th>
                   </tr>
                   </thead>
+                  {% for item in expertise %}
                   <tbody>
                   <tr>
-                    <td>Курс для внешненго испольщования</td>
-                    <td>20/02/2021</td>
-                    <td><i class="check circle outline icon"></i> Принят</td>
+                    <td>{{ item.quality_category }} {{ item.interactive_category }} {{ item.subjects }} {{ item.direction }}</td>
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.get_status_display }}</td>
                   </tr>
-                  </tbody></table>
+                  </tbody>
+                  {% endfor %}
+                </table>
                     <a href="{{ object.get_create_expertise_url }}" class="btn btn-block btn-primary mb-3"><i
                 class="envelope outline icon"></i> Подать заявку на экспертизу</a>
 

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% load user_tags %}
+{% block content %}
+  <div class="ui container">
+    <div class="ui segment">
+      <div class="ui grid ">
+        <div class="eleven wide column "><h2>Мои заключения</h2></div>
+      </div>
+      <div class="ui relaxed divided items">
+        {% for object in object_list %}
+          <div class="item">
+            <div class="content">
+              <div class="header">{{ object.digital_resource.title }}</div>
+              <div class="meta">
+                <span class="category">Тип ресура: {{ object.digital_resource.get_type_display }}</span>
+              </div>
+              <div class="meta">
+                <span class="category">Категория качества: {{ object.get_quality_category_display }}</span>
+              </div>
+              <div class="meta">
+                <span class="category">Категория интерактивности: {{ object.get_interactive_category_display }}</span>
+              </div>
+              <div class="description">
+                <h5>Статус экспертизы: </h5>
+              </div>
+              <div class="description">
+                Утверждено (присвоен статус):
+                {% if object.expertise_status.accepted_status %}
+                  <i class="check circle outline icon"></i>
+                {% else %}
+                  <i class="circle outline icon"></i>
+                {% endif %}
+              </div>
+              <div class="description">
+                Состояние экспертизы: {{ object.expertise_status.get_status_display }}
+              </div>
+              <div class="description">
+                Срок действия: {{ object.expertise_status.end_date }}
+              </div>
+              <div class="extra">
+                <div class="left floated author">
+                  <i class="graduation cap icon"></i>
+                  {{ object.digital_resource.copyright_holder }}
+                </div>
+                <div class="right floated author">
+                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>
+                  <a class="ui button mini" href="{{ object.get_update_url }}"><i class="pen icon"></i>Выставить статус</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}
