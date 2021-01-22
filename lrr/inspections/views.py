@@ -52,6 +52,14 @@ class ExpertiseCreateView(generic.CreateView):
         initial['status'] = "SUB_APP"
         return initial
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dig_res = inspections_models.Expertise.get_digital_resource(self)
+        context['dig_res'] = dig_res
+        logger.warning(context)
+        return context
+
+
 
 class ExpertiseDetailView(generic.DetailView):
     model = inspections_models.Expertise

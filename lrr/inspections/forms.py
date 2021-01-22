@@ -18,6 +18,14 @@ class ExpertiseForm(forms.ModelForm):
             "remarks",
             "status",
         ]
+        widgets = {
+            'file': forms.FileInput(
+                attrs={
+                    'class': 'form-control-file',
+                    'required': 'false'
+                }
+            ),
+        }
 
 
 class CheckListForm(forms.ModelForm):
