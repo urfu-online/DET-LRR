@@ -53,13 +53,13 @@ class ExpertiseForm(forms.ModelForm):
                     'required': 'false'
                 }
             ),
-            'digital_complexes': forms.SelectMultiple(
+            'digital_complexes': forms.Select(
                 attrs={
                     'class': 'form-control',
                     'required': 'true'
                 }
             ),
-            'expert': forms.Select(
+            'expert': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control-file',
                     'required': 'false'
