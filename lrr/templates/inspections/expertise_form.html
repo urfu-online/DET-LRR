@@ -7,27 +7,53 @@
       Перейти к списку Экспертиз
     </a>
   </p>
+
   <h2>Заявка на экспертизу ЭОР "{{ form.test }}"</h2>
   {{ object }}
   <form method="post">
     {% csrf_token %}
     {{ form.errors }}
-    {{ form }}
-    {{ object.digital_resource.title }}
-    {#  <div class="form-group row">#}
-    {#  <label class="col-sm-2 col-form-label" for="created">created: </label>#}
-    {#  <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>#}
-    {#  </div>#}
-    {#  <div class="form-group row">#}
-    {#  <label class="col-sm-2 col-form-label" for="title">title: </label>#}
-    {#  <input class="form-control col-sm-10" id="title" type="text" name="title" value="{{ object.title }}">#}
-    {#  </div>#}
-    {#  <div class="form-group row">#}
-    {#  <label class="col-sm-2 col-form-label" for="code">code: </label>#}
-    {#  <input class="form-control col-sm-10" id="code" type="text" name="code" value="{{ object.code }}">#}
-    {#  </div>#}
+
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.date }}
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.subjects }}
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.directions }}
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.digital_complexes }}
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.expert }}
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.date_end }}
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.file }}
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.remarks }}
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      {{ form.status }}
+   </div>
     <input type="submit" value="Сохранить" class="btn btn-primary">
     <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
   </form>
+
+
 
 {% endblock %}
