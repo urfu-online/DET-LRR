@@ -61,10 +61,10 @@ class Expertise(repository_model.BaseModel):
     digital_resource = models.ForeignKey(repository_model.DigitalResource, verbose_name="Паспорт ЭОР",
                                          on_delete=models.CASCADE)
     date = models.DateTimeField("Дата заявки", blank=True, null=True)
-    subjects = models.ManyToManyField(repository_model.Subject, verbose_name="Дисциплина(ы)", blank=True, null=True)
+    subjects = models.ManyToManyField(repository_model.Subject, verbose_name="Дисциплина(ы)", blank=True)
     directions = models.ManyToManyField(repository_model.Direction, verbose_name="Направление подготовки", blank=True,
                                         null=True)
-    digital_complexes = models.ManyToManyField(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True, null=True)
+    digital_complexes = models.ForeignKey(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True, null=True, on_delete=models.CASCADE)
     expert = models.ManyToManyField(Expert, verbose_name="Назначенные эксперты ", blank=True)
     date_end = models.DateTimeField("До какого действует статус экспертизы", blank=True, null=True)
     file = models.FileField(
