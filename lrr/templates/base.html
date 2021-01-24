@@ -50,49 +50,11 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
-        <li class="nav-item">
-          <a class="nav-link" href="/repository/resource">{% trans "Мои ЭОР" %}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/">{% trans "Поиск ЭОР" %}</a>
-        </li>
-
-      {% endif %}
-
-      {% if request.user|has_group:"student" %}
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'complexes:complexes_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>
-        </li>
-      {% endif %}
-
-      {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">
-            Сотруднику
-          </a>
-          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-            {% if request.user|has_group:"expert" %}
-              <a class="dropdown-item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЭОР</a>
-            {% endif %}
-            {% if request.user|has_group:"expert" %}
-              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Активные
-                заявки</a>
-              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseCloseSecretary_list' %}">Закрытые
-                заявки</a>
-              <a class="dropdown-item" href="{% url 'users:expert_list' %}">Эксперты</a>
-            {% endif %}
-            {% if request.user|has_group:"staff" %}
-              <a class="dropdown-item" href="">Компановка рабочего плана</a>
-            {% endif %}
-            {% if request.user|has_group:"teacher" %}
-              <a class="dropdown-item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЭОР</a>
-            {% endif %}
-          </div>
-        </li>
-      {% endif %}
+      {#      {% if request.user|has_group:"student" %}#}
+      {#        <li class="nav-item">#}
+      {#          <a class="nav-link" href="{% url 'complexes:complexes_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>#}
+      {#        </li>#}
+      {#      {% endif %}#}
 
       {% if request.user|has_group:"teacher" %}
         <li class="nav-item dropdown">
@@ -102,9 +64,9 @@
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
             {% if request.user|has_group:"teacher" %}
-              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Мои ЭОР</a>
-              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseCloseSecretary_list' %}">Поиск ЭОР</a>
-              <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Мои ЭМУК</a>
+              <a class="dropdown-item" href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a>
+              <a class="dropdown-item" href="/">{% trans "Поиск ЭОР" %}</a>
+              <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои ЭМУК</a>
             {% endif %}
           </div>
         </li>
@@ -146,13 +108,46 @@
         </li>
       {% endif %}
 
+      {% if request.user|has_group:"staff" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Кабинет РОП
+          </a>
+          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
+            {% if request.user|has_group:"staff" %}
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Статистика
+                ЭОР</a>
+              <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭМУК</a>
+              <a class="dropdown-item" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>
+              <a class="dropdown-item" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>
+            {% endif %}
+          </div>
+        </li>
+      {% endif %}
+
+      {% if request.user|has_group:"student" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Кабинет студента
+          </a>
+          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
+            {% if request.user|has_group:"student" %}
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Мои
+                дисциплины</a>
+            {% endif %}
+          </div>
+        </li>
+      {% endif %}
+
       {% if request.user.is_superuser %}
         <hr class="dotted">
         <li class="nav-item">
           <a class="nav-link" href="/">{% trans "Список ЭОР" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/repository/statistics/">{% trans "Статистика" %}</a>
+          <a class="nav-link" href="{% url 'repository:repository_statistics' %}">{% trans "Статистика" %}</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"

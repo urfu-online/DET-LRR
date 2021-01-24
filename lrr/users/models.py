@@ -62,6 +62,14 @@ class Person(models.Model):
 
         return obj
 
+    @classmethod
+    def get_person(cls, user):
+        try:
+            obj = cls.objects.get(user=user)
+        except cls.DoesNotExist:
+            obj = None
+        return obj
+
 
 # TODO: add reciever
 

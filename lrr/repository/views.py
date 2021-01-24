@@ -3,10 +3,11 @@ import logging
 import django_filters
 from django.views import generic
 
+from lrr.inspections.models import Expertise
+from lrr.users.models import Person
 from . import forms
 from . import models
 from .filters import FilteredListView
-from lrr.inspections.models import Expertise
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -205,15 +206,42 @@ class ResourceListView(FilteredListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['my_resources'] = models.DigitalResource.objects.filter(
-            owner__user=self.request.user)
+        context['my_resources'] = models.DigitalResource.objects.filter(owner__user=self.request.user)
         return context
+
+    def get_queryset(self):
+        queryset = models.DigitalResource.objects.filter(owner__user=self.request.user)
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
 
 
 class DigitalResourceCreateView(generic.CreateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
     permission_class = []
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        source = context['source']
+        person = Person.get_person(user=self.request.user)
+        form.instance.owner = person
+        if source.is_valid():
+            source.instance = self.object
+            source.save()
+        form.save()
+        form_valid = super(DigitalResourceCreateView, self).form_valid(form)
+        return form_valid
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data["source"] = forms.SourceFormset(self.request.POST)
+        else:
+            data["source"] = forms.SourceFormset()
+        return data
 
 
 class DigitalResourceDetailView(generic.DetailView):
@@ -223,6 +251,7 @@ class DigitalResourceDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
         context['expertise'] = Expertise.get_digital_resource_status(self.object)
+        context['source'] = models.DigitalResource.get_source(self.object)
         return context
 
 
@@ -230,6 +259,26 @@ class DigitalResourceUpdateView(generic.UpdateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
     pk_url_kwarg = "pk"
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        source = context['source']
+        person = Person.get_person(user=self.request.user)
+        form.instance.owner = person
+        if source.is_valid():
+            source.instance = self.object
+            source.save()
+        form.save()
+        form_valid = super(DigitalResourceUpdateView, self).form_valid(form)
+        return form_valid
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data["source"] = forms.SourceFormset(self.request.POST, instance=self.object)
+        else:
+            data["source"] = forms.SourceFormset()
+        return data
 
 
 class CompetenceListView(generic.ListView):

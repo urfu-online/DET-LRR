@@ -4,63 +4,34 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-2 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
-      <li class="breadcrumb-item active" aria-current="page">Список ЭОР</li>
+      <li class="breadcrumb-item active" aria-current="page">Список ЭМУК</li>
     </ol>
   </nav>
   <header class="pb-4 px-2">
-    <h1>Мои цифровые ресурсы</h1>
+    <h1>Мои ЭМУК</h1>
   </header>
-
+  <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
+          aria-controls="filters">
+    Фильтры и поиск
+  </button>
   <div class="row mb-3 px-3" id="accordion">
-    <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
-            aria-controls="filters">
-      Фильтры и поиск
-    </button>
+
     <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
 
       <form action="" method="get">
         <div class="form-row p-2 align-items-end">
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_title__contains">Наименование</label>
-            <input type="text" name="title__contains" class="form-control" value="" id="id_title__contains">
+          <div class="form-group col-12 col-xl-3 col-md-6">
+            <label for="id_keywords__contains">Ключевые слова</label>
+            <input type="text" name="keywords__contains" class="form-control" value="" id="id_keywords__contains">
           </div>
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_type">Тип ресурса</label>
-            <select name="type" class="custom-select" id="id_type">
-              <option value="" selected="">---------</option>
-              <option value="OK">Онлайн-курс</option>
-              <option value="EUK">ЭУК</option>
-              <option value="TEXT_EOR">Текстовый электронный образовательный ресурс</option>
-              <option value="MULTIMEDIA_EOR">Мультимедийный электронный образовательный ресурс</option>
-            </select>
+          <div class="form-group col-12 col-xl-3 col-md-6">
+            <label for="id_format__contains">Формат использования</label>
+            <input type="text" name="format__contains" class="form-control" value="" id="id_format__contains">
           </div>
 
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_copyright_holder">Правообладатель</label>
-            <select name="copyright_holder"
-                    class="custom-select"
-                    id="id_copyright_holder">
-              <option value="" selected="">---------</option>
-              <option value="1eaf6f4e-45ae-40f4-acf0-e0a41d944d50">УрФУ</option>
-              <option value="730555fe-c7f1-49fc-982f-347be329276b">УКСАП</option>
-              <option value="e7adc87f-473e-4300-839e-ab561a980613">КСПУ</option>
-            </select>
-          </div>
-
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_platform">Платформа</label>
-            <select name="platform" class="custom-select" id="id_platform">
-              <option value="" selected="">---------</option>
-              <option value="0ffadae4-0c03-4e20-b3b5-bb4b3da90d08">Портал электронного обучения</option>
-              <option value="0badb9d3-6d87-485b-839c-f41fa93897d5">Платформа Открытого образования УрФУ</option>
-              <option value="10e187d4-3664-498c-8ff2-b14c7983d470">Система электронного обучения на платформе Гиперметод
-              </option>
-            </select>
-          </div>
-
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_language">Язык ресурса:</label> <select name="language" class="custom-select"
-                                                                   id="id_language">
+          <div class="form-group col-12 col-xl-3 col-md-6">
+            <label for="id_language">Язык ЭМУК:</label> <select name="language" class="custom-select"
+                                                                id="id_language">
             <option value="" selected="">---------</option>
             <option value="ru">Русский</option>
             <option value="en">Английский</option>
@@ -75,8 +46,8 @@
     </div>
   </div>
 
-  <a class="btn btn-primary mt-3 " href="{% url 'repository:repository_DigitalResource_create' %}">
-    Добавить ЭОР
+  <a class="btn btn-primary mt-3 " href="{% url 'complexes:complexes_DigitalComplex_create' %}">
+    Создать ЭМУК
   </a>
 
   {#  <div class="row p-2">#}
@@ -109,25 +80,25 @@
   {#  </div>#}
 
   <div class="row p-2">
-    {% if my_resources %}
-      {% for object in my_resources %}
+    {% if my_complexes %}
+      {% for object in my_complexes %}
         <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
           <div class="card h-100 shadow-1">
             <div class="card-header pb-0">
               <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>
-                {{ object.copyright_holder }}
+                {{ object.owner }}
               </p>
               <p class="mb-2 text-muted">{{ object.get_type_display }}</p>
             </div>
             <div class="card-body">
-              <h5 class="card-title">{{ object.title }}</h5>
+              <h5 class="card-title">{{ object.keywords }}</h5>
             </div>
             <div class="card-footer">
-              {% if object.get_url %}
-                <a href="{{ object.get_url }}" class="card-link">К материалам</a>
-              {% else %}
-                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>
-              {% endif %}
+              {#              {% if object.get_url %}#}
+              {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
+              {#              {% else %}#}
+              {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
+              {#              {% endif %}#}
               <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>
             </div>
 

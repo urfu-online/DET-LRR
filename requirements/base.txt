@@ -28,3 +28,4 @@ django-polymorphic
 django-schema-graph
 django-import-export
 # django-import-export-celery
+django-dynamic-formsets==0.0.8
