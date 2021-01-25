@@ -4,6 +4,7 @@
 @import "navbar-fixed-left";
 
 @import "colors";
+@import "select2_layout";
 
 
 a.disabled {
@@ -137,4 +138,11 @@ img.author {
     height: calc(100vh - 100px);
 }
 
+.main-container {
+  margin-bottom: 1em;
+}
 
+//Костыль для плавающей кнопки Удалить
+.source_form {
+  padding-bottom: 4em !important;
+}

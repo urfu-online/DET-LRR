@@ -30,3 +30,4 @@ django-import-export
 # django-import-export-celery
 django-dynamic-formsets==0.0.8
 six==1.15.0 # https://pypi.org/project/six/1.15.0/
+django-select2

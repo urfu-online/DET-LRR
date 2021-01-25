@@ -83,6 +83,7 @@ THIRD_PARTY_APPS = [
     'polymorphic',
     'dynamic_formsets',
     'six',
+    'django_select2',
 ]
 
 LOCAL_APPS = [

@@ -328,12 +328,12 @@ class DigitalResource(BaseModel):
 
 
 class Source(BaseModel):
-    link_name = models.CharField("Наименование компонента", max_length=150, null=True, blank=True)
-    URL = models.URLField("Ссылка компонента", null=True, blank=True)
-    file = models.FileField(verbose_name="Файл компонента", upload_to="upload/files", null=True, blank=True)
+    link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
+    URL = models.URLField("Ссылка", null=True, blank=True)
+    file = models.FileField(verbose_name="Файл", upload_to="upload/files", null=True, blank=True)
     digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
                                          on_delete=models.CASCADE)
-    type = models.CharField("Тип компонента", max_length=150, null=True, blank=True)
+    type = models.CharField("Тип", max_length=150, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Источник"
@@ -373,7 +373,7 @@ class Source(BaseModel):
 class Competence(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
-    code = models.CharField("Код компетенции", max_length=8)
+    code = models.CharField("Код", max_length=8)
 
     class Meta:
         verbose_name = u"Компетенция"
