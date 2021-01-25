@@ -6,22 +6,17 @@ from lrr.complexes import models as complexes_models
 from lrr.users.models import Expert
 
 
-class ExpertiseForm(forms.ModelForm):
+class ExpertiseCreateForm(forms.ModelForm):
     class Meta:
         model = inspections_models.Expertise
-        fields = '__all__'
-        # fields = [
-        #     "digital_resource",
-        #     "date",
-        #     "subjects",
-        #     "directions",
-        #     "digital_complexes",
-        #     "expert",
-        #     "date_end",
-        #     "file",
-        #     "remarks",
-        #     "status",
-        # ]
+        fields = [
+            "subjects",
+            "directions",
+            "digital_complexes",
+            "expert",
+            "file",
+            "remarks",
+        ]
         widgets = {
             # 'digital_resource': forms.MultipleChoiceField(
             #     attrs={
@@ -38,7 +33,7 @@ class ExpertiseForm(forms.ModelForm):
             'subjects': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control',
-                    'required': 'true'
+                    'required': 'false'
                 }
             ),
             'directions': forms.SelectMultiple(
@@ -50,7 +45,79 @@ class ExpertiseForm(forms.ModelForm):
             'digital_complexes': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control',
-                    'required': 'true'
+                    'required': 'false'
+                }
+            ),
+            'expert': forms.SelectMultiple(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            # 'date_end': forms.TextInput(
+            #     attrs={
+            #         'class': 'form-control',
+            #         'required': 'true'
+            #     }
+            # ),
+            # 'remarks': forms.Textarea(
+            #     attrs={
+            #         'class': 'form-control',
+            #         'required': 'false'
+            #     }
+            # ),
+            'type': forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            )
+        }
+        exclude = ['status', 'date', "digital_resource", ]
+
+
+class ExpertiseUpdateForm(forms.ModelForm):
+    class Meta:
+        model = inspections_models.Expertise
+        fields = [
+            "digital_resource",
+            "subjects",
+            "directions",
+            "digital_complexes",
+            "expert",
+            "file",
+            "remarks",
+            "date_end"
+        ]
+        widgets = {
+            # 'digital_resource': forms.MultipleChoiceField(
+            #     attrs={
+            #         'class': 'form-control',
+            #         'required': 'false'
+            #     }
+            # ),
+            'file': forms.FileInput(
+                attrs={
+                    'class': 'form-control-file',
+                    'required': 'false'
+                }
+            ),
+            'subjects': forms.SelectMultiple(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            'directions': forms.SelectMultiple(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            'digital_complexes': forms.SelectMultiple(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
                 }
             ),
             'expert': forms.SelectMultiple(
@@ -81,16 +148,27 @@ class ExpertiseForm(forms.ModelForm):
         exclude = ['status', 'date']
 
 
-class CheckListForm(forms.ModelForm):
+class CheckListCreateForm(forms.ModelForm):
     class Meta:
         model = inspections_models.CheckList
         fields = [
-            "expertise",
+            "type",
+            "expert",
+        ]
+        exclude = ["expertise", "date", "protocol", "status"]
+
+
+class CheckListUpdateForm(forms.ModelForm):
+    class Meta:
+        model = inspections_models.CheckList
+        fields = [
             "type",
             "expert",
             "date",
             "protocol",
+            "status"
         ]
+        exclude = ["expertise", ]
 
 
 class QuestionForm(forms.ModelForm):

@@ -72,11 +72,11 @@
         </li>
       {% endif %}
 
-      {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
+      {% if request.user|has_group:"expert" or request.user|has_group:"rop" or request.user|has_group:"teacher" %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">
-            Кабинет секретаря комисии
+            Кабинет секретаря комиссии
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
             {% if request.user|has_group:"expert" %}
@@ -90,7 +90,7 @@
         </li>
       {% endif %}
 
-      {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
+      {% if request.user|has_group:"expert" or request.user|has_group:"rop" or request.user|has_group:"teacher" %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">
@@ -108,14 +108,14 @@
         </li>
       {% endif %}
 
-      {% if request.user|has_group:"staff" %}
+      {% if request.user|has_group:"rop" %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">
             Кабинет РОП
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-            {% if request.user|has_group:"staff" %}
+            {% if request.user|has_group:"rop" %}
               <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Статистика
                 ЭОР</a>
               <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭМУК</a>

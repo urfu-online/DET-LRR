@@ -53,18 +53,6 @@
               {% endif %}
               <a class="btn btn-primary" href="{% url 'complexes:complexes_DigitalComplex_create' %}">Создать ЭУМК</a>
             </div>
-            <div class="form-group">
-              <label>{{ form.date_end.label }}</label>
-              {{ form.date_end }}
-            </div>
-            <div class="form-group">
-              <label>{{ form.file.label }}</label>
-              {{ form.file }}
-            </div>
-            <div class="form-group">
-              <label>{{ form.remarks.label }}</label>
-              {{ form.remarks }}
-            </div>
             <input type="submit" value="Подать заявку" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>

@@ -49,8 +49,10 @@
       </div>
     </div>
     <div class="form-group">
-      <label>{{ form.expert.label }}</label>
-      {{ form.expert }}
+      <label>Экспертные заключения</label>
+      <a class="btn btn-primary"
+         href="{% url 'inspections:inspections_CheckList_create' digital_resource_pk=object.digital_resource.pk expertise_pk=object.pk %}">Назначить
+        эксперта</a>
     </div>
     <div class="form-group">
       <label>{{ form.date_end.label }}</label>

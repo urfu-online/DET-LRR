@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import logging
 from django.db import models as models
 from django.urls import reverse
 from django.utils import timezone
@@ -10,6 +10,8 @@ from lrr.repository.models import DigitalResource
 from lrr.users.models import Person, Expert
 
 from django.db.models import Q
+
+logger = logging.getLogger(__name__)
 
 
 class Expertise(repository_model.BaseModel):
@@ -116,10 +118,13 @@ class Expertise(repository_model.BaseModel):
         verbose_name_plural = u"Экспертизы"
 
     def __str__(self):
-        return self.get_status_display()
+        return f"{self.get_status_display()} {self.digital_resource.title} {self.date} {self.owner}"
 
     def get_absolute_url(self):
         return reverse("inspections:inspections_Expertise_detail", args=(self.pk,))
+
+    def get_absolute_url_digital_resource(self):
+        return reverse("repository:repository_DigitalResource_detail", args=(self.pk,))
 
     def get_update_url(self):
         return reverse("inspections:inspections_Expertise_update", args=(self.pk,))
@@ -132,8 +137,11 @@ class Expertise(repository_model.BaseModel):
         super(Expertise, self).save(*args, **kwargs)
 
     # choose type checklist
-    def get_checklists(self, type):
-        return CheckList.objects.filter(expertise=self.pk, type=type)
+    # def get_checklists(self, type):
+    #     return CheckList.objects.filter(expertise=self.pk, type=type)
+
+    def get_checklists(self, expertise):
+        return CheckList.objects.filter(expertise=expertise)
 
     def get_checklists(self):
         return CheckList.objects.filter(expertise=self.pk)
@@ -142,6 +150,11 @@ class Expertise(repository_model.BaseModel):
         digital_resource_pk = self.request.path.split('/')[4]
         digital_resource = DigitalResource.objects.get(pk=digital_resource_pk)
         return digital_resource
+
+    def get_expertise(self):
+        expertise_pk = self.request.path.split('/')[5]
+        expertise = Expertise.objects.get(pk=expertise_pk)
+        return expertise
 
     def check_empty_queryset(self, type):
         if type == 'directions':
@@ -188,7 +201,7 @@ class CheckList(repository_model.BaseModel):
 
     type = models.CharField("Тип чек-листа", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE)
     expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)
-    date = models.DateTimeField("Дата проведения экспертизы")
+    date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
     protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424)
     expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
     status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
