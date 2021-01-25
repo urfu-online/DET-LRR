@@ -20,7 +20,7 @@ class ExpertiseForm(forms.ModelForm):
         #     "date_end",
         #     "file",
         #     "remarks",
-        #     "status",np
+        #     "status",
         # ]
         widgets = {
             # 'digital_resource': forms.MultipleChoiceField(

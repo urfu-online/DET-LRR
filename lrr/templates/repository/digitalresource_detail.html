@@ -91,30 +91,36 @@
             {% endif %}
             <hr/>
             <h6 class="card-subtitle mb-2 text-muted">Статусы ЭОР:</h6>
-            <table class="ui compact table">
-              <thead>
-              <tr>
-                <th>Наимкенование</th>
-                <th>Дата</th>
-                <th>Статус</th>
-              </tr>
-              </thead>
-              {% for item in expertise %}
-                <tbody>
+            {% if expertise %}
+              <table class="ui compact table">
+                <thead>
                 <tr>
-                  <td>{{ item.quality_category }} {{ item.interactive_category }} {{ item.subjects }} {{ item.direction }}</td>
-                  <td>{{ item.date }}</td>
-                  <td>{{ item.get_status_display }}</td>
+                  {#                <th>Наимкенование</th>#}
+                  <th>Дата</th>
+                  <th>Статус</th>
                 </tr>
-                </tbody>
-              {% endfor %}
-            </table>
+                </thead>
+                {% for item in expertise %}
+                  <tbody>
+                  <tr>
+                    {#                  <td>{{ item.quality_category }} {{ item.interactive_category }} {{ item.subjects }} {{ item.direction }}</td>#}
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.get_status_display }}</td>
+                  </tr>
+                  </tbody>
+                {% endfor %}
+              </table>
+            {% else %}
+              <h4>Статусы отсутсвуют</h4>
+            {% endif %}
+            {#            {% if expertise is not None %}#}
+            {#            {% else %}#}
             <a href="{{ object.get_create_expertise_url }}" class="btn btn-block btn-primary mb-3"><i
                     class="envelope outline icon"></i> Подать заявку на экспертизу</a>
-
+            {#            {% endif %}#}
             <hr/>
             <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭОР:</h6>
-            {% if source is not None %}
+            {% if source %}
               <table class="ui compact table">
                 <thead>
                 <tr>
@@ -127,12 +133,14 @@
                 {% for item_source in source %}
                   <tr>
                     <td>{{ item_source }}</td>
+                    <td><a href="{{ item_source.URL }}">{{ item_source.URL }}</a></td>
+                    <td>{{ item_source.type }}</td>
                   </tr>
                 {% endfor %}
                 </tbody>
               </table>
             {% else %}
-              Компоненты Отсутсвуют
+              <h4>Компоненты отсутсвуют</h4>
             {% endif %}
           </div>
         </div>
@@ -154,7 +162,11 @@
         <div class="card shadow-1">
           <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted">Владелец:</h6>
-            <h5 class="card-title"> {{ object.owner }}</h5>
+            {% if object.owner is None %}
+              <h5 class="card-title">Владелец отсутсвует</h5>
+            {% else %}
+              <h5 class="card-title"> {{ object.owner }}</h5>
+            {% endif %}
             <hr>
             <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
             <h5 class="card-title"> {{ object.get_type_display }}</h5>

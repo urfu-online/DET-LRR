@@ -2,31 +2,197 @@
 {% load static %}
 {% load user_tags %}
 {% block content %}
-  <div class="ui container">
-    <div class="ui segment">
-      <div class="ui grid ">
-        <div class="eleven wide column "><h2>Эксперты</h2></div>
-      </div>
-      <div class="ui relaxed divided items">
-        {% for object in object_list %}
-          <div class="item">
-            <div class="content">
-              <div class="header">{{ object.person.first_name }} {{ object.person.middle_name }} {{ object.person.last_name }}</div>
-              <div class="meta">
-                <span class="category">Вид экспертизы: {{ object.get_type_display }}</span>
-              </div>
-              <div class="meta">
-                <span class="category">Подразделение / Отрасль: {{ object.get_subdivision_display }}</span>
-              </div>
-              <div class="extra">
-                <div class="right floated author">
-                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>
-                </div>
-              </div>
-            </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item active" aria-current="page">Список экспертов</li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    <h1>Эксперты</h1>
+  </header>
+  <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
+          aria-controls="filters">
+    Фильтры и поиск
+  </button>
+  <div class="row mb-3 px-3" id="accordion">
+
+    <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
+
+      <form action="" method="get">
+        <div class="form-row p-2 align-items-end">
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_person__last_name__contains">Фамилия эксперта</label>
+            <input type="text" name="person__last_name__contains" class="form-control" value="" id="id_person__last_name__contains">
           </div>
-        {% endfor %}
-      </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_person__first_name__contains">Имя эксперта</label>
+            <input type="text" name="person__first_name__contains" class="form-control" value="" id="id_person__first_name__contains">
+          </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_person__middle_name__contains">Отчество эксперта</label>
+            <input type="text" name="person__middle_name__contains" class="form-control" value="" id="id_person__middle_name__contains">
+          </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_format__contains">Подразделение / Отрасль: </label>
+            <input type="text" name="format__contains" class="form-control" value="" id="id_format__contains">
+          </div>
+
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_type">Вид экспертизы:</label> <select name="type" class="custom-select"
+                                                                 id="id_type">
+            <option value="" selected="">---------</option>
+            <option value="METHODIGAL">Методическая</option>
+            <option value="CONTENT">Содержательная</option>
+            <option value="TECH">Техническая</option>
+          </select>
+          </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <input class="btn btn-primary btn-block pt-3" type="submit">
+          </div>
+        </div>
+
+      </form>
     </div>
   </div>
-{% endblock content %}
+
+  {#  <a class="btn btn-primary mt-3 " href="{% url 'complexes:complexes_DigitalComplex_create' %}">#}
+  {#    Добавить эксперта#}
+  {#  </a>#}
+
+  {#  <div class="row p-2">#}
+  {#    {% if page_obj|length != 0 %}#}
+  {#      {% for object in page_obj %}#}
+  {#        <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">#}
+  {#          <div class="card h-100 shadow-1">#}
+  {#            <div class="card-header pb-0">#}
+  {#              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>#}
+  {#                {{ object.copyright_holder }}#}
+  {#              </p>#}
+  {#              <p class="mb-2 text-muted">{{ object.get_type_display }}</p>#}
+  {#            </div>#}
+  {#            <div class="card-body">#}
+  {#              <h5 class="card-title">{{ object.title }}</h5>#}
+  {#            </div>#}
+  {#            <div class="card-footer">#}
+  {#              {% if object.get_url %}#}
+  {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
+  {#              {% else %}#}
+  {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
+  {#              {% endif %}#}
+  {#              <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>#}
+  {#            </div>#}
+  {##}
+  {#          </div>#}
+  {#        </div>#}
+  {#      {% endfor %}#}
+  {#    {% endif %}#}
+  {#  </div>#}
+
+  <div class="row p-2">
+    {% for object in object_list %}
+      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+        <div class="card h-100 shadow-1">
+          <div class="card-header pb-0">
+            {#              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>#}
+            {#                #}
+            {#              </p>#}
+            <p class="mb-2 text-muted">Вид экспертизы: {{ object.get_type_display }}</p>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ object.person.first_name }} {{ object.person.middle_name }} {{ object.person.last_name }}</h5>
+            <p>Подразделение / Отрасль: {{ object.get_subdivision_display }}</p>
+          </div>
+          <div class="card-footer">
+            {#              {% if object.get_url %}#}
+            {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
+            {#              {% else %}#}
+            {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
+            {#              {% endif %}#}
+            <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if page_obj|length != 0 %}
+    <div class="row p-2">
+      <nav>
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=1 %}">&laquo; Начало</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.previous_page_number %}"
+                 tabindex="-1">Назад</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="?page=1">&laquo; Начало</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="/" tabindex="-1">Назад</a>
+            </li>
+          {% endif %}
+
+          {#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
+          <li class="page-item">
+            <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span
+                    class="sr-only">(current)</span></a>
+          </li>
+          {#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
+
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="">Далее</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  {% endif %}
+
+  </div>
+{% endblock %}
+
+
+{#  <div class="ui container">#}
+{#    <div class="ui segment">#}
+{#      <div class="ui grid ">#}
+{#        <div class="eleven wide column "><h2>Эксперты</h2></div>#}
+{#      </div>#}
+{#      <div class="ui relaxed divided items">#}
+{#        {% for object in object_list %}#}
+{#          <div class="item">#}
+{#            <div class="content">#}
+{#              <div class="header">{{ object.person.first_name }} {{ object.person.middle_name }} {{ object.person.last_name }}</div>#}
+{#              <div class="meta">#}
+{#                <span class="category">Вид экспертизы: {{ object.get_type_display }}</span>#}
+{#              </div>#}
+{#              <div class="meta">#}
+{#                <span class="category">Подразделение / Отрасль: {{ object.get_subdivision_display }}</span>#}
+{#              </div>#}
+{#              <div class="extra">#}
+{#                <div class="right floated author">#}
+{#                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        {% endfor %}#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#{% endblock content %}#}

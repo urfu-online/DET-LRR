@@ -44,6 +44,7 @@ class ExpertiseAdmin(admin.ModelAdmin):
         "file",
         "remarks",
         "status",
+        "owner",
     ]
     list_display = [
         "digital_resource",

@@ -8,8 +8,10 @@ from django.shortcuts import get_object_or_404
 
 from lrr.users import forms
 from lrr.users import models
+from lrr.repository.filters import FilteredListView
 
 # import the logging library
+import django_filters
 import logging
 
 # Get an instance of a logger
@@ -107,9 +109,24 @@ user_redirect_view = UserRedirectView.as_view()
 #     form_class = forms.PersonForm
 #     pk_url_kwarg = "pk"
 
-class ExpertListView(ListView):
+class ExpertFilter(django_filters.FilterSet):
+    class Meta:
+        model = models.Expert
+        fields = {
+            'person__first_name': ['contains'],
+            'person__last_name': ['contains'],
+            'person__middle_name': ['contains'],
+            'type': ['exact'],
+            'subdivision': ['contains'],
+        }
+
+
+class ExpertListView(FilteredListView):
     model = models.Expert
     form_class = forms.ExpertForm
+    allow_empty = True
+    paginate_by = 12
+    filterset_class = ExpertFilter
 
 
 expert_list_view = ExpertListView.as_view()

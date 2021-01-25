@@ -9,6 +9,8 @@ from lrr.repository import models as repository_model
 from lrr.repository.models import DigitalResource
 from lrr.users.models import Person, Expert
 
+from django.db.models import Q
+
 
 class Expertise(repository_model.BaseModel):
     # status
@@ -64,7 +66,7 @@ class Expertise(repository_model.BaseModel):
     subjects = models.ManyToManyField(repository_model.Subject, verbose_name="Дисциплина(ы)", blank=True)
     directions = models.ManyToManyField(repository_model.Direction, verbose_name="Направление подготовки", blank=True)
     digital_complexes = models.ManyToManyField(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True)
-    expert = models.ManyToManyField(Expert, verbose_name="Назначенные эксперты ", blank=True)
+    expert = models.ManyToManyField(Expert, verbose_name="Назначенные эксперты", blank=True)
     date_end = models.DateTimeField("До какого действует статус экспертизы", blank=True, null=True)
     file = models.FileField(
         verbose_name="№ протокола комиссии по ресурсному обеспечению модулей и ЭО методического совета",
@@ -78,6 +80,8 @@ class Expertise(repository_model.BaseModel):
     quality_category = models.CharField("Категория качества", max_length=30, choices=QUALITY_CATEGORIES, blank=True)
     interactive_category = models.CharField("Категория интерактивности", max_length=30, choices=INTERACTIVE_CATEGORIES,
                                             blank=True)
+    owner = models.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_expertise",
+                              verbose_name="Инициатор", blank=True, null=True)
 
     @classmethod
     def get_count_expertise_assigned_status(cls):
@@ -86,7 +90,7 @@ class Expertise(repository_model.BaseModel):
     @classmethod
     def get_expertise_assigned_status(cls):
         try:
-            objs = cls.objects.filter(status='ASSIGNED_STATUS')
+            objs = cls.objects.filter(Q(status='ASSIGNED_STATUS') | Q(status='NOT_ASSIGNED_STATUS'), )
         except:
             objs = cls.objects.all()
         return objs
@@ -94,7 +98,7 @@ class Expertise(repository_model.BaseModel):
     @classmethod
     def get_expertise_not_assigned_status(cls):
         try:
-            objs = cls.objects.exclude(status='ASSIGNED_STATUS')
+            objs = cls.objects.exclude(Q(status='ASSIGNED_STATUS') | Q(status='NOT_ASSIGNED_STATUS'), )
         except:
             objs = cls.objects.all()
         return objs

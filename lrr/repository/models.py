@@ -304,7 +304,7 @@ class DigitalResource(BaseModel):
 
     def get_source(self):
         try:
-            obj = Source.objects.get(digital_resource=self)
+            obj = Source.objects.filter(digital_resource=self)
         except:
             obj = None
         return obj
@@ -338,6 +338,9 @@ class Source(BaseModel):
     class Meta:
         verbose_name = u"Источник"
         verbose_name_plural = u"Источники"
+
+    def __str__(self):
+        return f"{self.link_name} {self.digital_resource.title}"
 
     def get_format(self):
         if self.URL:

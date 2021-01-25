@@ -17,6 +17,7 @@ class ExpertiseAdminForm(forms.ModelForm):
             "file",
             "remarks",
             "status",
+            "owner",
         ]
 
 
