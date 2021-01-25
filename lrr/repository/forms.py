@@ -114,7 +114,7 @@ class DigitalResourceForm(forms.ModelForm):
         #     )
 
 
-SourceFormset = inlineformset_factory(models.DigitalResource, models.Source, form=DigitalResourceForm,
+SourceFormset = inlineformset_factory(models.DigitalResource, models.Source,
                                       fields=('link_name', 'URL', 'file', 'type'))
 
 

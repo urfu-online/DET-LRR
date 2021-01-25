@@ -1,6 +1,5 @@
-import logging
-
 import django_filters
+import logging
 from django.views import generic
 
 from lrr.inspections.models import Expertise
@@ -265,7 +264,10 @@ class DigitalResourceUpdateView(generic.UpdateView):
         source = context['source']
         person = Person.get_person(user=self.request.user)
         form.instance.owner = person
+        logger.warning(self.object)
+        # self.object = form.save()
         if source.is_valid():
+            self.object = form.save()
             source.instance = self.object
             source.save()
         form.save()
@@ -273,12 +275,12 @@ class DigitalResourceUpdateView(generic.UpdateView):
         return form_valid
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
+        context = super(DigitalResourceUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            data["source"] = forms.SourceFormset(self.request.POST, instance=self.object)
+            context["source"] = forms.SourceFormset(self.request.POST, self.request.FILES, instance=self.object)
         else:
-            data["source"] = forms.SourceFormset()
-        return data
+            context["source"] = forms.SourceFormset(instance=self.object)
+        return context
 
 
 class CompetenceListView(generic.ListView):
