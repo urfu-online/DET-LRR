@@ -111,13 +111,6 @@ class Expertise(repository_model.BaseModel):
     def get_digital_resource_status(cls, digital_resource):
         return cls.objects.filter(digital_resource=digital_resource)
 
-    def save(self, *args, **kwargs):
-        if self.date is None:
-            self.date = timezone.now()
-        elif self.date is not None:
-            self.date = None
-        super(Expertise, self).save(*args, **kwargs)
-
     class Meta:
         verbose_name = u"Экспертиза"
         verbose_name_plural = u"Экспертизы"
@@ -131,6 +124,13 @@ class Expertise(repository_model.BaseModel):
     def get_update_url(self):
         return reverse("inspections:inspections_Expertise_update", args=(self.pk,))
 
+    def save(self, *args, **kwargs):
+        if self.date is None:
+            self.date = timezone.now()
+        elif self.date is not None:
+            self.date = None
+        super(Expertise, self).save(*args, **kwargs)
+
     # choose type checklist
     def get_checklists(self, type):
         return CheckList.objects.filter(expertise=self.pk, type=type)
@@ -142,6 +142,21 @@ class Expertise(repository_model.BaseModel):
         digital_resource_pk = self.request.path.split('/')[4]
         digital_resource = DigitalResource.objects.get(pk=digital_resource_pk)
         return digital_resource
+
+    def check_empty_queryset(self, type):
+        if type == 'directions':
+            queryset = repository_model.Direction.objects.all()
+        elif type == 'subjects':
+            queryset = repository_model.Subject.objects.all()
+        elif type == 'digital_complexes':
+            queryset = complex_model.DigitalComplex.objects.all()
+        else:
+            queryset = None
+
+        if not queryset:
+            return None
+        else:
+            return queryset
 
 
 class CheckList(repository_model.BaseModel):

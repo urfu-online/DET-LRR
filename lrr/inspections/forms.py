@@ -29,12 +29,6 @@ class ExpertiseForm(forms.ModelForm):
             #         'required': 'false'
             #     }
             # ),
-            'date': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'required': 'true'
-                }
-            ),
             'file': forms.FileInput(
                 attrs={
                     'class': 'form-control-file',
@@ -77,13 +71,14 @@ class ExpertiseForm(forms.ModelForm):
                     'required': 'false'
                 }
             ),
-            'status': forms.Select(
+            'type': forms.Select(
                 attrs={
                     'class': 'form-control',
                     'required': 'false'
                 }
-            ),
+            )
         }
+        exclude = ['status', 'date']
 
 
 class CheckListForm(forms.ModelForm):

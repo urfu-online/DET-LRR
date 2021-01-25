@@ -94,6 +94,10 @@ class ExpertiseCreateView(generic.CreateView):
         context = super().get_context_data(**kwargs)
         dig_res = inspections_models.Expertise.get_digital_resource(self)
         context['dig_res'] = dig_res
+        context['directions'] = inspections_models.Expertise.check_empty_queryset(self, 'directions')
+        context['subjects'] = inspections_models.Expertise.check_empty_queryset(self, 'subjects')
+        logger.warning(inspections_models.Expertise.check_empty_queryset(self, 'digital_complexes'))
+        context['digital_complexes'] = inspections_models.Expertise.check_empty_queryset(self, 'digital_complexes')
         return context
 
 
