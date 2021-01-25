@@ -38,7 +38,7 @@ class CellWeeksAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class ComplexSpaceCellForm(forms.ModelForm):
+class ComplexSpaceCellAdminForm(forms.ModelForm):
     class Meta:
         model = complex_models.ComplexSpaceCell
         fields = [

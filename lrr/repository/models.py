@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+import logging
 import uuid
 
 from django.db import models as models
 from django.urls import reverse
 
 from lrr.users.models import Person, Student
+
+logger = logging.getLogger(__name__)
 
 
 class BaseModel(models.Model):
@@ -296,6 +299,16 @@ class DigitalResource(BaseModel):
         else:
             return ""
 
+    def get_create_expertise_url(self):
+        return reverse("inspections:inspections_Expertise_create", args=(self.pk,))
+
+    def get_source(self):
+        try:
+            obj = Source.objects.filter(digital_resource=self)
+        except:
+            obj = None
+        return obj
+
     @classmethod
     def get_resources_by_subject(cls, subject):
         if isinstance(subject, Subject):
@@ -313,20 +326,21 @@ class DigitalResource(BaseModel):
         else:
             return None
 
-    def get_status(self):
-        return self.drstatus_set.all()
-
 
 class Source(BaseModel):
-    link_name = models.CharField("Наименование файла", max_length=150, null=True, blank=True)
-    URL = models.URLField("Ссылка", null=True, blank=True)
-    file = models.FileField(upload_to="upload/files", null=True, blank=True)
+    link_name = models.CharField("Наименование компонента", max_length=150, null=True, blank=True)
+    URL = models.URLField("Ссылка компонента", null=True, blank=True)
+    file = models.FileField(verbose_name="Файл компонента", upload_to="upload/files", null=True, blank=True)
     digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
                                          on_delete=models.CASCADE)
+    type = models.CharField("Тип компонента", max_length=150, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Источник"
         verbose_name_plural = u"Источники"
+
+    def __str__(self):
+        return f"{self.link_name} {self.digital_resource.title}"
 
     def get_format(self):
         if self.URL:
@@ -451,8 +465,8 @@ class ConformityTheme(BaseModel):
                                              verbose_name="Рекомендация ЭОР в качестве обеспечения дисциплины")  # TODO: Должно ли это быть тут ?
 
     # Fields
-    practice = models.NullBooleanField("Практика")
-    theory = models.NullBooleanField("Теория")
+    practice = models.BooleanField("Практика", null=True)
+    theory = models.BooleanField("Теория", null=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 

@@ -168,7 +168,24 @@ class ResultEduAdmin(admin.ModelAdmin):
         "last_updated",
         "created",
     ]
-    search_fields = ["title",]
+    search_fields = ["title", ]
+
+
+class SourceAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.Source
+        fields = "__all__"
+
+
+@admin.register(models.Source)
+class SourceAdmin(admin.ModelAdmin):
+    form = SourceAdminForm
+    search_fields = ["link_name", "digital_resource__title", "URL"]
+    list_display = [
+        "link_name",
+        "digital_resource",
+        "URL",
+    ]
 
 
 class DigitalResourceAdminForm(forms.ModelForm):

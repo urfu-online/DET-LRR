@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.urls import reverse
+from polymorphic.models import PolymorphicModel
 
-from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language
+from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
+    Platform
+from lrr.users.models import Person
 
 
 class DigitalComplex(BaseModel):
@@ -15,6 +18,8 @@ class DigitalComplex(BaseModel):
     format = models.CharField("Формат использования", max_length=300, blank=True)
     language = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name="Язык комплекса")
     keywords = models.CharField("Ключевые слова", max_length=300, null=True, blank=True)
+    owner = models.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_digital_complex",
+                              verbose_name="Владелец", blank=True, null=True)
 
     class Meta:
         verbose_name = u"Цифровой Комплекс (ЭУМК)"
@@ -22,6 +27,12 @@ class DigitalComplex(BaseModel):
 
     def __str__(self):
         return str(self.keywords)
+
+    def get_absolute_url(self):
+        return reverse("complexes:complexes_DigitalComplex_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("complexes:complexes_DigitalComplex_update", args=(self.pk,))
 
     @classmethod
     def get_count_complex(cls):
@@ -38,8 +49,8 @@ class Cell(BaseModel):
     ]
 
     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
-    include_practice = models.NullBooleanField("Практика", blank=True)
-    include_theory = models.NullBooleanField("Теория", blank=True)
+    include_practice = models.BooleanField("Практика", blank=True, null=True)
+    include_theory = models.BooleanField("Теория", blank=True, null=True)
     beg_theme_number = models.PositiveSmallIntegerField("Начало диапазонов объединяемых строчек", blank=True)
     end_theme_number = models.PositiveSmallIntegerField("Конец диапазонов объединяемых строчек", blank=True)
     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True)
@@ -122,8 +133,8 @@ class WorkPlanAcademicGroup(BaseModel):
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
                                        verbose_name="Академическая группа")
     direction = models.ForeignKey("repository.Direction", on_delete=models.PROTECT,
-                                  verbose_name="Направление подготовки")
-    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплины", on_delete=models.PROTECT)
+                                  verbose_name="Направление подготовки", null=True)
+    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплины", on_delete=models.PROTECT, null=True)
     learn_date = models.PositiveSmallIntegerField("Учебный год", null=True, blank=True)
     semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
 
@@ -139,3 +150,26 @@ class WorkPlanAcademicGroup(BaseModel):
 
     def get_update_url(self):
         return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
+
+
+class ComponentComplex(BaseModel, PolymorphicModel):
+    digital_complex = models.ForeignKey(DigitalComplex, verbose_name="ЭУМК", on_delete=models.CASCADE, blank=True)
+    description = models.TextField("Описание / Методика применения")
+
+
+class ResourceComponent(ComponentComplex):
+    digital_resource = models.ForeignKey(DigitalResource, verbose_name="ЭОР", on_delete=models.CASCADE, blank=True)
+
+
+class LiterarySourcesComponent(ComponentComplex):
+    pass
+
+
+class PlatformComponent(ComponentComplex):
+    platform = models.ForeignKey(Platform, verbose_name="Платформа", on_delete=models.CASCADE, blank=True)
+
+
+class TraditionalSessionComponent(ComponentComplex):
+    title = models.CharField("Наименование вида занятий", max_length=150, blank=True)
+    description_session = models.TextField("Описание занятий", max_length=2024, blank=True)
+    url = models.URLField("Ссылка на онлайн-расписание занятий", null=True, blank=True)

@@ -25,6 +25,7 @@ urlpatterns = [
                   path("accounts/", include("allauth.urls")),
                   path("repository/", include(("lrr.repository.urls", "lrr.repository"), namespace="repository")),
                   path("complexes/", include(("lrr.complexes.urls", "lrr.complexes"), namespace="complexes")),
+                  path("inspections/", include(("lrr.inspections.urls", "lrr.inspections"), namespace="inspections")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development

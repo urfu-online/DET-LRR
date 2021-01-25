@@ -11,41 +11,6 @@
     <h1>Мои цифровые ресурсы</h1>
   </header>
 
-
-  <div class="row p-2">
-
-    {% if my_resources %}
-      {% for object in my_resources %}
-        <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-          <div class="card h-100 shadow-1">
-            <div class="card-header pb-0">
-              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>
-                {{ object.copyright_holder }}
-              </p>
-              <p class="mb-2 text-muted">{{ object.get_type_display }}</p>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">{{ object.title }}</h5>
-            </div>
-            <div class="card-footer">
-              {% if object.get_url %}
-                <a href="{{ object.get_url }}" class="card-link">К материалам</a>
-              {% else %}
-                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>
-              {% endif %}
-              <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>
-            </div>
-
-          </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p>У вас нет ресурсов</p>
-    {% endif %}
-
-  </div>
-
-
   <div class="row mb-3 px-3" id="accordion">
     <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
             aria-controls="filters">
@@ -110,9 +75,42 @@
     </div>
   </div>
 
+  <a class="btn btn-primary mt-3 " href="{% url 'repository:repository_DigitalResource_create' %}">
+    Добавить ЭОР
+  </a>
+
+  {#  <div class="row p-2">#}
+  {#    {% if page_obj|length != 0 %}#}
+  {#      {% for object in page_obj %}#}
+  {#        <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">#}
+  {#          <div class="card h-100 shadow-1">#}
+  {#            <div class="card-header pb-0">#}
+  {#              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>#}
+  {#                {{ object.copyright_holder }}#}
+  {#              </p>#}
+  {#              <p class="mb-2 text-muted">{{ object.get_type_display }}</p>#}
+  {#            </div>#}
+  {#            <div class="card-body">#}
+  {#              <h5 class="card-title">{{ object.title }}</h5>#}
+  {#            </div>#}
+  {#            <div class="card-footer">#}
+  {#              {% if object.get_url %}#}
+  {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
+  {#              {% else %}#}
+  {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
+  {#              {% endif %}#}
+  {#              <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>#}
+  {#            </div>#}
+  {##}
+  {#          </div>#}
+  {#        </div>#}
+  {#      {% endfor %}#}
+  {#    {% endif %}#}
+  {#  </div>#}
+
   <div class="row p-2">
-    {% if page_obj|length != 0 %}
-      {% for object in page_obj %}
+    {% if my_resources %}
+      {% for object in my_resources %}
         <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
           <div class="card h-100 shadow-1">
             <div class="card-header pb-0">
@@ -136,55 +134,57 @@
           </div>
         </div>
       {% endfor %}
+      </div>
+      {% if page_obj|length != 0 %}
+        <div class="row p-2">
+          <nav>
+            <ul class="pagination justify-content-center">
+              {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?{% param_replace page=1 %}">&laquo; Начало</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="?{% param_replace page=page_obj.previous_page_number %}"
+                     tabindex="-1">Назад</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="?page=1">&laquo; Начало</a>
+                </li>
+                <li class="page-item disabled">
+                  <a class="page-link" href="/" tabindex="-1">Назад</a>
+                </li>
+              {% endif %}
+
+              {#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
+              <li class="page-item">
+                <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span
+                        class="sr-only">(current)</span></a>
+              </li>
+              {#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
+
+              {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="">Далее</a>
+                </li>
+                <li class="page-item disabled">
+                  <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
+                </li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+      {% endif %}
+    {% else %}
+      <p>У вас нет ресурсов</p>
     {% endif %}
-  </div>
-
-  {% if page_obj|length != 0 %}
-    <nav>
-      <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-          <li class="page-item">
-            <a class="page-link" href="?{% param_replace page=1 %}">&laquo; Начало</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="?{% param_replace page=page_obj.previous_page_number %}"
-               tabindex="-1">Назад</a>
-          </li>
-        {% else %}
-          <li class="page-item disabled">
-            <a class="page-link" href="?page=1">&laquo; Начало</a>
-          </li>
-          <li class="page-item disabled">
-            <a class="page-link" href="/" tabindex="-1">Назад</a>
-          </li>
-        {% endif %}
-
-        {#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
-        <li class="page-item">
-          <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span
-                  class="sr-only">(current)</span></a>
-        </li>
-        {#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
-
-        {% if page_obj.has_next %}
-          <li class="page-item">
-            <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
-          </li>
-        {% else %}
-          <li class="page-item disabled">
-            <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
-          </li>
-          <li class="page-item disabled">
-            <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
-          </li>
-        {% endif %}
-      </ul>
-    </nav>
-  {% endif %}
-
 
   </div>
 {% endblock %}

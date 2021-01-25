@@ -333,3 +333,8 @@ lrr/media/
 !.envs/.local/
 /.idea/
 /parsed/.idea/
+
+lrr/repository/migrations
+lrr/inspections/migrations
+lrr/users/migrations
+lrr/complexes/migrations

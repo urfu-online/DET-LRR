@@ -62,6 +62,14 @@ class Person(models.Model):
 
         return obj
 
+    @classmethod
+    def get_person(cls, user):
+        try:
+            obj = cls.objects.get(user=user)
+        except cls.DoesNotExist:
+            obj = None
+        return obj
+
 
 # TODO: add reciever
 
@@ -142,7 +150,7 @@ class Expert(models.Model):
         return str(self.person)
 
     def get_absolute_url(self):
-        return reverse("repository_Expert_detail", args=(self.pk,))
+        return reverse("users:expert_detail", args=(self.pk,))
 
-    def get_update_url(self):
-        return reverse("repository_Expert_update", args=(self.pk,))
+    # def get_update_url(self):
+    #     return reverse("", args=(self.pk,))

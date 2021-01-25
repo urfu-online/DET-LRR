@@ -37,13 +37,14 @@ class ExpertiseAdmin(admin.ModelAdmin):
         "digital_resource",
         "date",
         "subjects",
-        "direction",
-        "digital_complex",
+        "directions",
+        "digital_complexes",
         "expert",
         "date_end",
         "file",
         "remarks",
         "status",
+        "owner",
     ]
     list_display = [
         "digital_resource",

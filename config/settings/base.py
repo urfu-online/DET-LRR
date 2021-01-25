@@ -81,6 +81,8 @@ THIRD_PARTY_APPS = [
     "colorfield",
     'rest_framework_swagger',
     'polymorphic',
+    'dynamic_formsets',
+    'six',
 ]
 
 LOCAL_APPS = [

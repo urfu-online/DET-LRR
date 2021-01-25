@@ -10,13 +10,14 @@ class ExpertiseAdminForm(forms.ModelForm):
             "digital_resource",
             "date",
             "subjects",
-            "direction",
-            "digital_complex",
+            "directions",
+            "digital_complexes",
             "expert",
             "date_end",
             "file",
             "remarks",
             "status",
+            "owner",
         ]
 
 

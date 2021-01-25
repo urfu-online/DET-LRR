@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+  <div class="ui container">
+    <form class="ui form segment" method="post">
+      {% csrf_token %}
+      {{ form.errors }}
+{#                "keywords",#}
+{#            "description",#}
+{#            "language",#}
+{#            "format",#}
+{#            "subjects",#}
+{#            "directions",#}
+{#            "competences",#}
+{#            "results_edu",#}
+{#            "digital_resources",#}
+      <div class="four fields">
+        <div class="field">
+          <label>{{ form.keywords.label }}</label>
+          {{ form.keywords }}
+        </div>
+        <div class="field">
+          <label>{{ form.description.label }}</label>
+          {{ form.description }}
+        </div>
+        <div class="field">
+          <label>{{ form.language.label }}</label>
+          {{ form.language }}
+        </div>
+        <div class="field">
+          <label>{{ form.format.label }}</label>
+          {{ form.format }}
+        </div>
+      </div>
+      <div class="three fields">
+        {#        <div class="field">#}
+        {#          <label>{{ form.owner.label }}</label>#}
+        {#          {{ form.owner }}#}
+        {#        </div>#}
+        <div class="field">
+          <label>{{ form.subjects.label }}</label>
+          {{ form.subjects }}
+        </div>
+        <div class="field">
+          <label>{{ form.directions.label }}</label>
+          {{ form.directions }}
+        </div>
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <label>{{ form.competences.label }}</label>
+          {{ form.competences }}
+        </div>
+        <div class="field">
+          <label>{{ form.results_edu.label }}</label>
+          {{ form.results_edu }}
+        </div>
+        <div class="field">
+          <label>{{ form.digital_resources.label }}</label>
+          {{ form.digital_resources }}
+        </div>
+      </div>
+{#      <div class="three fields">#}
+{#        <div class="field">#}
+{#          <label>{{ form.provided_disciplines.label }}</label>#}
+{#          {{ form.provided_disciplines }}#}
+{#        </div>#}
+{#        <div class="field">#}
+{#          <label>{{ form.result_edu.label }}</label>#}
+{#          {{ form.result_edu }}#}
+{#        </div>#}
+{#      </div>#}
+{#      <div class="field">#}
+{#        <label>{{ form.description.label }}</label>#}
+{#        {{ form.description }}#}
+{#      </div>#}
+{#      <h4>Компоненты ЭОР</h4>#}
+{#      <div class="three fields">#}
+{#        {% for item_source in source %}#}
+{#          <div class="field">#}
+{#            <label>{{ item_source.label }}</label>#}
+{#            {{ item_source }}#}
+{#          </div>#}
+{#        {% endfor %}#}
+{#      </div>#}
+      <input type="submit" value="Сохранить" class="ui button secondary">
+    </form>
+  </div>
+{% endblock %}
