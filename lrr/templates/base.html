@@ -18,21 +18,14 @@
   <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
 
   {% block css %}
-
-    <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-
-    <!-- Your stuff: Third-party CSS libraries go here -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css">
-
-    <!-- This file stores project-specific CSS -->
-
-    <link href="{% static 'css/project.css' %}" rel="stylesheet">
 
 
   {% endblock %}
+
 
 </head>
 <body class="back">
@@ -50,38 +43,92 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
-        <li class="nav-item">
-          <a class="nav-link" href="/repository/resource">{% trans "Мои ЭОР" %}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/">{% trans "Поиск ЭОР" %}</a>
-        </li>
+      {#      {% if request.user|has_group:"student" %}#}
+      {#        <li class="nav-item">#}
+      {#          <a class="nav-link" href="{% url 'complexes:complexes_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>#}
+      {#        </li>#}
+      {#      {% endif %}#}
 
-      {% endif %}
-
-      {% if request.user|has_group:"student" %}
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'repository:repository_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>
-        </li>
-      {% endif %}
-
-      {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" %}
+      {% if request.user|has_group:"teacher" %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">
-            Сотруднику
+            Кабинет преподавателя
+          </a>
+          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
+            {% if request.user|has_group:"teacher" %}
+              <a class="dropdown-item" href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a>
+              <a class="dropdown-item" href="/">{% trans "Поиск ЭОР" %}</a>
+              <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои ЭМУК</a>
+            {% endif %}
+          </div>
+        </li>
+      {% endif %}
+
+      {% if request.user|has_group:"expert" or request.user|has_group:"rop" or request.user|has_group:"teacher" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Кабинет секретаря комиссии
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
             {% if request.user|has_group:"expert" %}
-              <a class="dropdown-item" href="{% url 'repository:repository_Expertise' %}">Экспертизы ЭОР</a>
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Активные
+                заявки</a>
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseCloseSecretary_list' %}">Закрытые
+                заявки</a>
+              <a class="dropdown-item" href="{% url 'users:expert_list' %}">Эксперты</a>
             {% endif %}
-            {% if request.user|has_group:"staff" %}
-              <a class="dropdown-item" href="">Компановка рабочего плана</a>
+          </div>
+        </li>
+      {% endif %}
+
+      {% if request.user|has_group:"expert" or request.user|has_group:"rop" or request.user|has_group:"teacher" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Кабинет эксперта
+          </a>
+          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
+            {% if request.user|has_group:"expert" %}
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseMy_list' %}">Мои экспертизы</a>
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveExpert_list' %}">Активные
+                заявки</a>
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseMyClose_list' %}">Мои
+                заключения</a>
             {% endif %}
-            {% if request.user|has_group:"teacher" %}
-              <a class="dropdown-item" href="{% url 'repository:repository_Resource' %}">Создание паспорта ЭОР</a>
+          </div>
+        </li>
+      {% endif %}
+
+      {% if request.user|has_group:"rop" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Кабинет РОП
+          </a>
+          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
+            {% if request.user|has_group:"rop" %}
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Статистика
+                ЭОР</a>
+              <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭМУК</a>
+              <a class="dropdown-item" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>
+              <a class="dropdown-item" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>
+            {% endif %}
+          </div>
+        </li>
+      {% endif %}
+
+      {% if request.user|has_group:"student" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Кабинет студента
+          </a>
+          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
+            {% if request.user|has_group:"student" %}
+              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Мои
+                дисциплины</a>
             {% endif %}
           </div>
         </li>
@@ -93,7 +140,7 @@
           <a class="nav-link" href="/">{% trans "Список ЭОР" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/repository/statistics/">{% trans "Статистика" %}</a>
+          <a class="nav-link" href="{% url 'repository:repository_statistics' %}">{% trans "Статистика" %}</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -175,26 +222,25 @@
 <!-- Placed at the end of the document so the pages load faster -->
 {% block javascript %}
 
-  <!-- Bootstrap JS and its dependencies-->
-
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-          crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
           integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
           crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
           integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
           crossorigin="anonymous"></script>
-
-
-  <!-- Your stuff: Third-party javascript libraries go here -->
-  <!-- place project specific Javascript in this file -->
-
   <script src="{% static 'js/project.js' %}"></script>
+  <script src="{% static 'js/jquery.formset.js' %}"></script>
+
+  {% if source_formset %}
+    <script>
+      $('.source_form').formset();
+    </script>
+  {% endif %}
 
 
 {% endblock javascript %}
+
+<link href="{% static 'css/project.css' %}" rel="stylesheet">
 </body>
 </html>
 

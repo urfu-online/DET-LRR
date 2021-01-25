@@ -10,7 +10,6 @@ from rest_framework_swagger.views import get_swagger_view
 
 from lrr.repository.views import DigitalResourceListView
 
-
 schema_view = get_swagger_view(title='LRR API')
 
 urlpatterns = [
@@ -25,6 +24,10 @@ urlpatterns = [
                   path("users/", include("lrr.users.urls", namespace="users")),
                   path("accounts/", include("allauth.urls")),
                   path("repository/", include(("lrr.repository.urls", "lrr.repository"), namespace="repository")),
+                  path("complexes/", include(("lrr.complexes.urls", "lrr.complexes"), namespace="complexes")),
+                  path("inspections/", include(("lrr.inspections.urls", "lrr.inspections"), namespace="inspections")),
+
+                  path("select2/", include("django_select2.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development

@@ -1,12 +1,10 @@
 version: '3'
-
 volumes:
   production_postgres_data: {}
   production_postgres_data_backups: {}
   production_traefik: {}
-
 services:
-  django: &django
+  django:
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
@@ -18,18 +16,16 @@ services:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
     command: /start
-
   postgres:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
     image: lrr_production_postgres
     volumes:
-      - production_postgres_data:/var/lib/postgresql/data
-      - production_postgres_data_backups:/backups
+      - 'production_postgres_data:/var/lib/postgresql/data'
+      - 'production_postgres_data_backups:/backups'
     env_file:
       - ./.envs/.production/.postgres
-
   traefik:
     build:
       context: .
@@ -38,28 +34,46 @@ services:
     depends_on:
       - django
     volumes:
-      - production_traefik:/etc/traefik/acme
+      - 'production_traefik:/etc/traefik/acme'
     ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
-      - "0.0.0.0:5555:5555"
-
+      - '0.0.0.0:80:80'
+      - '0.0.0.0:443:443'
+      - '0.0.0.0:5555:5555'
   redis:
-    image: redis:5.0
-
+    image: 'redis:5.0'
   celeryworker:
-    <<: *django
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
     image: lrr_production_celeryworker
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
     command: /start-celeryworker
-
   celerybeat:
-    <<: *django
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
     image: lrr_production_celerybeat
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
     command: /start-celerybeat
-
   flower:
-    <<: *django
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
     image: lrr_production_flower
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
     command: /start-flower
-
-  

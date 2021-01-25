@@ -2,7 +2,9 @@
 @import "bootstrap";
 @import "bootswatch";
 @import "navbar-fixed-left";
+
 @import "colors";
+@import "select2_layout";
 
 
 a.disabled {
@@ -96,10 +98,11 @@ a.disabled {
 
 .btn-primary:hover {
   background: #DC1A54;
+  border-color:  #DC1A54;
 }
 
 .page-link {
-  border-radius: 0px !important;
+  border-radius: 2px !important;
 }
 
 .card {
@@ -107,11 +110,10 @@ a.disabled {
 }
 
 .card:hover {
-  border-color: lighten(#DC1A54, 30%);
+  //border-color: lighten(#DC1A54, 30%);
 }
 
 hr.dotted {
-  border-top: 1px dotted #30364A;
   width: 100%;
 }
 
@@ -122,7 +124,7 @@ img.author {
 .resource-card {
   margin-top: 5px;
   background-color: #e8e8e8;
-  border-radius: 3px;
+  border-radius: 2px;
   padding: 5px;
 }
 
@@ -136,4 +138,11 @@ img.author {
     height: calc(100vh - 100px);
 }
 
+.main-container {
+  margin-bottom: 1em;
+}
 
+//Костыль для плавающей кнопки Удалить
+.source_form {
+  padding-bottom: 4em !important;
+}

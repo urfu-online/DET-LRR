@@ -1,76 +1,97 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
 
-  <div class="ui container">
-    <form class="ui form segment" method="post">
-      {% csrf_token %}
-      {{ form.errors }}
-      <div class="four fields">
-        <div class="field">
-          <label>{{ form.title.label }}</label>
-          {{ form.title }}
+  <div class="ui container main-container">
+    <form class="ui form" method="post">
+      <div class="ui segments">
+        <div class="ui segment">
+          {% csrf_token %}
+          {{ form.errors }}
+          {{ form.non_field_errors }}
+          {{ form.media.css }}
+          <div class="field">
+              <label>{{ form.title.label }}</label>
+              {{ form.title }}
+            </div>
+          <div class="fields">
+
+            <div class="eight wide field">
+              <label>{{ form.type.label }}</label>
+              {{ form.type }}
+            </div>
+            <div class="four wide field">
+              <label>{{ form.source_data.label }}</label>
+              {{ form.source_data }}
+            </div>
+            <div class="four wide field">
+              <label>{{ form.language.label }}</label>
+              {{ form.language }}
+            </div>
+          </div>
+          <div class="two fields">
+            {#        <div class="field">#}
+            {#          <label>{{ form.owner.label }}</label>#}
+            {#          {{ form.owner }}#}
+            {#        </div>#}
+            <div class="field">
+              <label>{{ form.copyright_holder.label }}</label>
+              {{ form.copyright_holder }}
+            </div>
+            <div class="field">
+              <label>{{ form.platform.label }}</label>
+              {{ form.platform }}
+            </div>
+          </div>
+          <div class="fields">
+            <div class="eight wide field">
+              <label>{{ form.subjects_tags.label }}</label>
+              {{ form.subjects_tags }}
+            </div>
+            <div class="eight wide field">
+              <label>{{ form.edu_programs_tags.label }}</label>
+              {{ form.edu_programs_tags }}
+            </div>
+          </div>
+
+            <div class="eight wide field">
+              <label>{{ form.authors.label }}</label>
+              {{ form.authors }}
+            </div>
+          <div class="fields">
+            <div class="eight wide field">
+              <label>{{ form.provided_disciplines.label }}</label>
+              {{ form.provided_disciplines }}
+            </div>
+            <div class="eight wide field">
+              <label>{{ form.result_edu.label }}</label>
+              {{ form.result_edu }}
+            </div>
+          </div>
+          <div class="field">
+            <label>{{ form.description.label }}</label>
+            {{ form.description }}
+          </div>
         </div>
-        <div class="field">
-          <label>{{ form.type.label }}</label>
-          {{ form.type }}
+        <div class="ui segment">
+          <h4>Компоненты ЭОР</h4>
+          {{ source_formset.management_form }}
+          {% for source in source_formset.forms %}
+            <div class="ui segment source_form">
+              <div class="field">
+                {{ source }}
+              </div>
+            </div>
+          {% endfor %}
         </div>
-        <div class="field">
-          <label>{{ form.source_data.label }}</label>
-          {{ form.source_data }}
-        </div>
-        <div class="field">
-          <label>{{ form.language.label }}</label>
-          {{ form.language }}
-        </div>
+
+
       </div>
-      <div class="three fields">
-        <div class="field">
-          <label>{{ form.owner.label }}</label>
-          {{ form.owner }}
-        </div>
-        <div class="field">
-          <label>{{ form.copyright_holder.label }}</label>
-          {{ form.copyright_holder }}
-        </div>
-        <div class="field">
-          <label>{{ form.platform.label }}</label>
-          {{ form.platform }}
-        </div>
-      </div>
-      <div class="three fields">
-        <div class="field">
-          <label>{{ form.subjects_tags.label }}</label>
-          {{ form.subjects_tags }}
-        </div>
-        <div class="field">
-          <label>{{ form.edu_programs_tags.label }}</label>
-          {{ form.edu_programs_tags }}
-        </div>
-        <div class="field">
-          <label>{{ form.authors.label }}</label>
-          {{ form.authors }}
-        </div>
-      </div>
-      <div class="three fields">
-        <div class="field">
-          <label>{{ form.provided_disciplines.label }}</label>
-          {{ form.provided_disciplines }}
-        </div>
-        <div class="field">
-          <label>{{ form.result_edu.label }}</label>
-          {{ form.result_edu }}
-        </div>
-        <div class="field">
-          <label>{{ form.authors.label }}</label>
-          {{ form.authors }}
-        </div>
-      </div>
-      <div class="field">
-        <label>{{ form.description.label }}</label>
-        {{ form.description }}
-      </div>
-      <input type="submit" value="Сохранить" class="ui button secondary">
+
+        <button class="ui button" type="submit">Сохранить</button>
+
     </form>
+    {{ form.media.js }}
   </div>
 {% endblock %}

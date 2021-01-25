@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import inlineformset_factory
+from django_select2 import forms as s2forms
 
 from . import models
 
@@ -77,6 +79,40 @@ class ResultEduForm(forms.ModelForm):
         ]
 
 
+class EduProgramsWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["tag__title__icontains"]
+    max_results = 50
+
+
+class SubjectsWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["tag__title__icontains"]
+    max_results = 50
+
+
+class ResultEduWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["title__icontains"]
+    max_results = 50
+
+
+class AuthorsWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = [
+        "last_name__icontains",
+        "first_name__icontains",
+        "middle_name__icontains",
+        "user__email__icontains",
+        "user__username__icontains",
+    ]
+    max_results = 50
+
+
+class ProvidedDisciplinesWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = [
+        "edu_program__title__icontains",
+        "subject__title__icontains",
+    ]
+    max_results = 50
+
+
 class DigitalResourceForm(forms.ModelForm):
     class Meta:
         model = models.DigitalResource
@@ -94,12 +130,43 @@ class DigitalResourceForm(forms.ModelForm):
             "language",
             "provided_disciplines",
             "platform",
+            "result_edu",
         ]
+        widgets = {
+            "edu_programs_tags": EduProgramsWidget,
+            "subjects_tags": SubjectsWidget,
+            "authors": AuthorsWidget,
+            "provided_disciplines": ProvidedDisciplinesWidget,
+            "result_edu": ResultEduWidget,
+        }
+
+        # def __init__(self, *args, **kwargs):
+        #     super(DigitalResourceForm, self).__init__(*args, **kwargs)
+        #     self.helper = FormHelper()
+        #     self.helper.form_tag = True
+        #     self.helper.form_class = 'form-horizontal'
+        #     self.helper.label_class = 'col-md-3 create-label'
+        #     self.helper.field_class = 'col-md-9'
+        #     self.helper.layout = Layout(
+        #         Div(
+        #             Fieldset('Добавить источники',
+        #                      Formset('source')),
+        #             HTML("<br>"),
+        #         )
+        #     )
 
 
-class DirectionForm(forms.ModelForm):
+SourceFormset = inlineformset_factory(
+    models.DigitalResource,
+    models.Source,
+    fields=('link_name', 'URL', 'file', 'type'),
+    extra=1
+)
+
+
+class CompetenceForm(forms.ModelForm):
     class Meta:
-        model = models.Direction
+        model = models.Competence
         fields = [
             "title",
             "code",

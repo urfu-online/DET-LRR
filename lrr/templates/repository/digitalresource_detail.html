@@ -25,20 +25,19 @@
             <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
             <p> {{ object.description }}</p>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Образовательный результат:</h6>
-            <h5 class="card-title"></h5>
-              {% if object.result_edu.all %}
-                <ul class="list-unstyled">
-                  {% for object in object.result_edu.all %}
-                    {% include "repository/result_edu.html"  with object=object %}
-                  {% endfor %}
-                </ul>
-              {% endif %}
-
+            <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
+            <p>{{ object.keywords }}</p>
             <hr>
-
-
-
+            <h6 class="card-subtitle mb-2 text-muted">Компетенции / Результаты обучения ЭОР:</h6>
+            <h5 class="card-title"></h5>
+            {% if object.result_edu.all %}
+              <ul class="list-unstyled">
+                {% for object in object.result_edu.all %}
+                  {% include "repository/result_edu.html"  with object=object %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+            <hr>
             {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" or request.user.is_superuser %}
               <h6 class="card-subtitle mb-2 text-muted">ЭОР рекомендован в качестве обеспечения дисциплины</h6>
               {% for obj in object.provided_disciplines.all %}
@@ -57,6 +56,7 @@
                   </tbody>
                 </table>
               {% endfor %}
+              <hr/>
               <h6 class="card-subtitle mb-2 text-muted">Соответствие ЭОР темам дисциплины</h6>
               {% for obj in object.conformity_theme.all %}
                 <table class="ui compact table">
@@ -89,6 +89,59 @@
                 </table>
               {% endfor %}
             {% endif %}
+            <hr/>
+            <h6 class="card-subtitle mb-2 text-muted">Статусы ЭОР:</h6>
+            {% if expertise %}
+              <table class="ui compact table">
+                <thead>
+                <tr>
+                  {#                <th>Наимкенование</th>#}
+                  <th>Дата</th>
+                  <th>Статус</th>
+                </tr>
+                </thead>
+                {% for item in expertise %}
+                  <tbody>
+                  <tr>
+                    {#                  <td>{{ item.quality_category }} {{ item.interactive_category }} {{ item.subjects }} {{ item.direction }}</td>#}
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.get_status_display }}</td>
+                  </tr>
+                  </tbody>
+                {% endfor %}
+              </table>
+            {% else %}
+              <h4>Статусы отсутсвуют</h4>
+            {% endif %}
+            {#            {% if expertise is not None %}#}
+            {#            {% else %}#}
+            <a href="{{ object.get_create_expertise_url }}" class="btn btn-block btn-primary mb-3"><i
+                    class="envelope outline icon"></i> Подать заявку на экспертизу</a>
+            {#            {% endif %}#}
+            <hr/>
+            <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭОР:</h6>
+            {% if source %}
+              <table class="ui compact table">
+                <thead>
+                <tr>
+                  <th>Наименоваие компонента</th>
+                  <th>URL компонента</th>
+                  <th>Тип компонента</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item_source in source %}
+                  <tr>
+                    <td>{{ item_source }}</td>
+                    <td><a href="{{ item_source.URL }}">{{ item_source.URL }}</a></td>
+                    <td>{{ item_source.type }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <h4>Компоненты отсутсвуют</h4>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -108,8 +161,12 @@
         </div>
         <div class="card shadow-1">
           <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-muted">Формат ресурса:</h6>
-            <h5 class="card-title"> Online</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Владелец:</h6>
+            {% if object.owner is None %}
+              <h5 class="card-title">Владелец отсутсвует</h5>
+            {% else %}
+              <h5 class="card-title"> {{ object.owner }}</h5>
+            {% endif %}
             <hr>
             <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
             <h5 class="card-title"> {{ object.get_type_display }}</h5>

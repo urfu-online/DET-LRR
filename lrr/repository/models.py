@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+import logging
 import uuid
 
 from django.db import models as models
 from django.urls import reverse
 
 from lrr.users.models import Person, Student
+
+logger = logging.getLogger(__name__)
 
 
 class BaseModel(models.Model):
@@ -16,6 +19,7 @@ class BaseModel(models.Model):
         abstract = True
 
 
+# TODO: устаревшая модель. подумать убрать или нет.
 class DRStatus(BaseModel):
     # quality_category
     INNER = 'INNER'
@@ -68,7 +72,12 @@ class DRStatus(BaseModel):
     def get_update_url(self):
         return reverse("repository:repository_DRStatus_update", args=(self.pk,))
 
+    @classmethod
+    def get_by_status(cls, drstatus):
+        return cls.objects.filter(drstatus__expertise_status=drstatus.expertise_status)
 
+
+# TODO: устаревшая модель.
 class ExpertiseStatus(BaseModel):
     # status
     NO_INIT = 'NO_INIT'
@@ -83,9 +92,9 @@ class ExpertiseStatus(BaseModel):
         (ON_EXPERTISE, 'на экспертизе'),
         (ON_REVISION, 'на доработку'),
         (ASSIGNED_STATUS, 'присвоен статус'),
-    ]
+        # Fields
 
-    # Fields
+    ]
 
     end_date = models.DateTimeField("Срок действия")
     status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES, default=NO_INIT)
@@ -204,8 +213,8 @@ class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", max_length=500, blank=True)
-    direction = models.ForeignKey("repository.Direction", verbose_name="Компетенция", null=True, blank=True,
-                                  on_delete=models.PROTECT)
+    competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
+                                   on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = u"Образовательный результат"
@@ -290,6 +299,16 @@ class DigitalResource(BaseModel):
         else:
             return ""
 
+    def get_create_expertise_url(self):
+        return reverse("inspections:inspections_Expertise_create", args=(self.pk,))
+
+    def get_source(self):
+        try:
+            obj = Source.objects.filter(digital_resource=self)
+        except:
+            obj = None
+        return obj
+
     @classmethod
     def get_resources_by_subject(cls, subject):
         if isinstance(subject, Subject):
@@ -303,24 +322,25 @@ class DigitalResource(BaseModel):
         if isinstance(subject, Subject) and isinstance(edu_program, EduProgram):
             return cls.objects.filter(provided_disciplines__subject=subject,
                                       provided_disciplines__edu_program=edu_program,
-                                      drstatus__expertise_status__accepted_status=True)
+                                      expertise__status='ASSIGNED_STATUS')
         else:
             return None
 
-    def get_status(self):
-        return self.drstatus_set.all()
-
 
 class Source(BaseModel):
-    link_name = models.CharField("Наименование файла", max_length=150, null=True, blank=True)
+    link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
     URL = models.URLField("Ссылка", null=True, blank=True)
-    file = models.FileField(upload_to="upload/files", null=True, blank=True)
+    file = models.FileField(verbose_name="Файл", upload_to="upload/files", null=True, blank=True)
     digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
                                          on_delete=models.CASCADE)
+    type = models.CharField("Тип", max_length=150, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Источник"
         verbose_name_plural = u"Источники"
+
+    def __str__(self):
+        return f"{self.link_name} {self.digital_resource.title}"
 
     def get_format(self):
         if self.URL:
@@ -350,42 +370,23 @@ class Source(BaseModel):
 #         return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
 
 
-# class Competence(BaseModel):
-#     # Fields
-#     description = models.TextField("Наименование", max_length=1024)
-#     code = models.CharField("Код направления", max_length=8)
-#
-#     class Meta:
-#         verbose_name = u"Компетенция"
-#         verbose_name_plural = u"Компетенции"
-#
-#     def __str__(self):
-#         return f"{self.code} {self.description}"
-#
-#     def get_absolute_url(self):
-#         return reverse("repository_Competence_detail", args=(self.pk,))
-#
-#     def get_update_url(self):
-#         return reverse("repository_Competence_update", args=(self.pk,))
-
-
-class Direction(BaseModel):
+class Competence(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
-    code = models.CharField("Код направления", max_length=8)
+    code = models.CharField("Код", max_length=8)
 
     class Meta:
-        verbose_name = u"Направление"
-        verbose_name_plural = u"Направления"
+        verbose_name = u"Компетенция"
+        verbose_name_plural = u"Компетенции"
 
     def __str__(self):
         return f"{self.code} {self.title}"
 
     def get_absolute_url(self):
-        return reverse("repository_Direction_detail", args=(self.pk,))
+        return reverse("repository_Competence_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_Direction_update", args=(self.pk,))
+        return reverse("repository_Competence_update", args=(self.pk,))
 
 
 class Platform(BaseModel):
@@ -434,6 +435,7 @@ class Language(models.Model):
         return reverse("repository_Language_update", args=(self.code,))
 
 
+# TODO: Карасик спросил для чего эта модель
 class SubjectTag(BaseModel):
     # Relationships
     tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
@@ -463,8 +465,8 @@ class ConformityTheme(BaseModel):
                                              verbose_name="Рекомендация ЭОР в качестве обеспечения дисциплины")  # TODO: Должно ли это быть тут ?
 
     # Fields
-    practice = models.NullBooleanField("Практика")
-    theory = models.NullBooleanField("Теория")
+    practice = models.BooleanField("Практика", null=True)
+    theory = models.BooleanField("Теория", null=True)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
@@ -482,6 +484,7 @@ class ConformityTheme(BaseModel):
         return reverse("repository_ConformityTheme_update", args=(self.pk,))
 
 
+# TODO: Карасик спросил для чего эта модель
 class EduProgramTag(BaseModel):
     # Relationships
     tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
@@ -541,27 +544,19 @@ class ThematicPlan(BaseModel):
         return reverse("repository_ThematicPlan_update", args=(self.pk,))
 
 
-class WorkPlanAcademicGroup(BaseModel):
-    digital_resource = models.ManyToManyField("repository.DigitalResource", verbose_name="Ресурсное обеспечение")
-    academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
-                                       verbose_name="Академическая группа")
-    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
-                                    verbose_name="Образовательная программа")
-    subject = models.ManyToManyField("repository.Subject", verbose_name="Дисциплины")
-    semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
+class Direction(BaseModel):
+    title = models.CharField("Наименование", max_length=150)
+    code = models.CharField("Код направления", max_length=8)
 
     class Meta:
-        verbose_name = u"Ресурсное обеспечение академической группы"
-        verbose_name_plural = u"Ресурсное обеспечение академических групп"
+        verbose_name = u"Направление подготовки"
+        verbose_name_plural = u"Направления подготовки"
 
     def __str__(self):
-        return str(self.pk)
+        return f"{self.code} {self.title}"
 
     def get_absolute_url(self):
-        return reverse("repository_WorkPlanAcademicGroup_detail", args=(self.pk,))
+        return reverse("repository_Competence_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
-
-    def get_resources_by_subject(self):
-        return DigitalResource.get_resources_by_subject(self.subject)
+        return reverse("repository_Competence_update", args=(self.pk,))

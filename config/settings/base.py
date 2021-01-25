@@ -1,9 +1,10 @@
 """
 Base settings to build other settings files upon.
 """
-import environ
 import os
 from pathlib import Path
+
+import environ
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # lrr/
@@ -80,12 +81,17 @@ THIRD_PARTY_APPS = [
     "colorfield",
     'rest_framework_swagger',
     'polymorphic',
+    'dynamic_formsets',
+    'six',
+    'django_select2',
 ]
 
 LOCAL_APPS = [
     "lrr.apps.LRRAdminConfig",
     "lrr.users.apps.UsersConfig",
     'lrr.repository.apps.RepositoryConfig',
+    'lrr.complexes.apps.ComplexesConfig',
+    'lrr.inspections.apps.InspectionsConfig',
     'lrr.templatetags.user_tags'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -332,3 +338,9 @@ DATETIME_INPUT_FORMATS = ["iso-8601"]
 DATE_INPUT_FORMATS = ["iso-8601"]
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# IMPORT_EXPORT_CELERY_INIT_MODULE = "lrr.repository.celery_app"
+#
+# IMPORT_EXPORT_CELERY_MODELS = {
+#     "DigitalResource": {"app_label": "lrr.repository", "model_name": "DigitalResource"}
+# }

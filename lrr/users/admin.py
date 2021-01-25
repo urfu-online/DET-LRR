@@ -4,7 +4,7 @@ from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 
 from lrr.users import models
-from lrr.users.forms import UserChangeForm
+from lrr.users.forms import UserChangeForm, UserSignupForm
 
 User = get_user_model()
 
@@ -12,7 +12,7 @@ User = get_user_model()
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
-    # add_form = UserSignupForm
+    add_form = UserSignupForm
     fieldsets = (("User", {"fields": ("name",)}),) + auth_admin.UserAdmin.fieldsets
     list_display = ["username", "name", "is_superuser"]
     search_fields = ["name"]
@@ -71,6 +71,22 @@ class AcademicGroupAdmin(admin.ModelAdmin):
     ]
 
 
+class ExpertAdminForm(form.ModelForm):
+    class Meta:
+        model = models.Expert
+        fields = "__all__"
+
+
+class ExpertAdmin(admin.ModelAdmin):
+    form = ExpertAdminForm
+    list_display = [
+        "person",
+        "type",
+        "subdivision",
+    ]
+
+
+admin.site.register(models.Expert, ExpertAdmin)
 admin.site.register(models.AcademicGroup, AcademicGroupAdmin)
 admin.site.register(models.Student, StudentAdmin)
 admin.site.register(models.Person, PersonAdmin)

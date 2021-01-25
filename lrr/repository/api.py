@@ -86,10 +86,10 @@ class DigitalResourceViewSet(viewsets.ModelViewSet):
     #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class DirectionViewSet(viewsets.ModelViewSet):
+class CompetenceViewSet(viewsets.ModelViewSet):
     """ViewSet for the Competence class"""
 
-    queryset = models.Direction.objects.all()
+    queryset = models.Competence.objects.all()
     serializer_class = serializers.CompetenceSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -157,12 +157,6 @@ class ThematicPlanViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ThematicPlanSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-# class PersonViewSet(viewsets.ModelViewSet):
-#     """ViewSet for the Person class"""
-#
-#     queryset = models.Person.objects.all()
-#     serializer_class = serializers.PersonSerializer
-#     permission_classes = [permissions.IsAuthenticated]
 
 class SourceViewSet(viewsets.ModelViewSet):
     """ViewSet for the SubjectTag class"""

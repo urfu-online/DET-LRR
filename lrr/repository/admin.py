@@ -168,6 +168,24 @@ class ResultEduAdmin(admin.ModelAdmin):
         "last_updated",
         "created",
     ]
+    search_fields = ["title", ]
+
+
+class SourceAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.Source
+        fields = "__all__"
+
+
+@admin.register(models.Source)
+class SourceAdmin(admin.ModelAdmin):
+    form = SourceAdminForm
+    search_fields = ["link_name", "digital_resource__title", "URL"]
+    list_display = [
+        "link_name",
+        "digital_resource",
+        "URL",
+    ]
 
 
 class DigitalResourceAdminForm(forms.ModelForm):
@@ -250,14 +268,14 @@ class DigitalResourceAdmin(admin.ModelAdmin):
 #     form = DigitalResourceAdminForm
 
 
-class DirectionAdminForm(forms.ModelForm):
+class CompetenceAdminForm(forms.ModelForm):
     class Meta:
-        model = models.Direction
+        model = models.Competence
         fields = "__all__"
 
 
-class DirectionAdmin(admin.ModelAdmin):
-    form = DirectionAdminForm
+class CompetenceAdmin(admin.ModelAdmin):
+    form = CompetenceAdminForm
     list_display = [
         "title",
         "code",
@@ -265,6 +283,7 @@ class DirectionAdmin(admin.ModelAdmin):
     readonly_fields = [
         "created",
     ]
+    search_fields = ["title", "code"]
 
 
 class PlatformAdminForm(forms.ModelForm):
@@ -400,23 +419,22 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     autocomplete_fields = ["subject", ]
 
 
-class WorkPlanAcademicGroupForm(forms.ModelForm):
+class DirectionAdminForm(forms.ModelForm):
     class Meta:
-        model = models.WorkPlanAcademicGroup
+        model = models.Direction
         fields = "__all__"
 
 
-class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
-    form = WorkPlanAcademicGroupForm
+class DirectionAdmin(admin.ModelAdmin):
+    form = DirectionAdminForm
     list_display = [
-        "academic_group",
-        "semestr"
+        "title",
+        "code"
     ]
     readonly_fields = [
         "created",
     ]
-
-    autocomplete_fields = ["subject", "digital_resource"]
+    search_fields = ["title", "code"]
 
 
 # admin.site.register(models.DRStatus, DRStatusAdmin)
@@ -426,7 +444,7 @@ admin.site.register(models.Organization, OrganizationAdmin)
 admin.site.register(models.EduProgram, EduProgramAdmin)
 admin.site.register(models.ProvidingDiscipline, ProvidingDisciplineAdmin)
 admin.site.register(models.ResultEdu, ResultEduAdmin)
-admin.site.register(models.Direction, CompetenceAdmin)
+admin.site.register(models.Competence, CompetenceAdmin)
 admin.site.register(models.Platform, PlatformAdmin)
 admin.site.register(models.Language, LanguageAdmin)
 admin.site.register(models.SubjectTag, SubjectTagAdmin)
@@ -434,4 +452,4 @@ admin.site.register(models.ConformityTheme, ConformityThemeAdmin)
 admin.site.register(models.EduProgramTag, EduProgramTagAdmin)
 admin.site.register(models.SubjectTheme, SubjectThemeAdmin)
 admin.site.register(models.ThematicPlan, ThematicPlanAdmin)
-admin.site.register(models.WorkPlanAcademicGroup, WorkPlanAcademicGroupAdmin)
+admin.site.register(models.Direction, DirectionAdmin)

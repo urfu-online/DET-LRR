@@ -19,6 +19,7 @@ class SourceSerializer(serializers.ModelSerializer):
             "digital_resource",
         ]
 
+
 class DRStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DRStatus
@@ -216,6 +217,16 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
 class DirectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Direction
+        fields = [
+            "id",
+            "title",
+            "code",
+        ]
+
+
+class CompetenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Competence
         fields = [
             "id",
             "title",

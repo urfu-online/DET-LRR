@@ -1,9 +1,9 @@
-import logging
-
 import django_filters
+import logging
 from django.views import generic
 
-from lrr.users.models import Person, Student
+from lrr.inspections.models import Expertise
+from lrr.users.models import Person
 from . import forms
 from . import models
 from .filters import FilteredListView
@@ -55,7 +55,9 @@ class ExpertiseStatusUpdateView(generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ExpertiseStatusUpdateView, self).get_context_data(**kwargs)
-        drstatus = get_object_or_404(models.DRStatus, expertise_status=self.get_object())
+        drstatus = models.DRStatus.objects.filter(expertise_status__pk=self.kwargs['pk']).first()
+        # logger.warning()
+
         context['digital_resource'] = drstatus.digital_resource
         return context
 
@@ -203,15 +205,42 @@ class ResourceListView(FilteredListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['my_resources'] = models.DigitalResource.objects.filter(
-            owner__user=self.request.user)
+        context['my_resources'] = models.DigitalResource.objects.filter(owner__user=self.request.user)
         return context
+
+    def get_queryset(self):
+        queryset = models.DigitalResource.objects.filter(owner__user=self.request.user)
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
 
 
 class DigitalResourceCreateView(generic.CreateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
     permission_class = []
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        source = context['source']
+        person = Person.get_person(user=self.request.user)
+        form.instance.owner = person
+        if source.is_valid():
+            source.instance = self.object
+            source.save()
+        form.save()
+        form_valid = super(DigitalResourceCreateView, self).form_valid(form)
+        return form_valid
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data["source_formset"] = forms.SourceFormset(self.request.POST)
+        else:
+            data["source_formset"] = forms.SourceFormset()
+        return data
 
 
 class DigitalResourceDetailView(generic.DetailView):
@@ -220,7 +249,8 @@ class DigitalResourceDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
-        context['status'] = models.DRStatus.objects.filter(digital_resource=self.object)
+        context['expertise'] = Expertise.get_digital_resource_status(self.object)
+        context['source'] = models.DigitalResource.get_source(self.object)
         return context
 
 
@@ -229,47 +259,51 @@ class DigitalResourceUpdateView(generic.UpdateView):
     form_class = forms.DigitalResourceForm
     pk_url_kwarg = "pk"
 
+    def form_valid(self, form):
+        context = self.get_context_data()
+        source_formset = context['source_formset']
+        person = Person.get_person(user=self.request.user)
+        form.instance.owner = person
+        logger.warning(self.object)
+        # self.object = form.save()
+        if source_formset.is_valid():
+            self.object = form.save()
+            source_formset.instance = self.object
+            source_formset.save()
+        form.save()
+        form_valid = super(DigitalResourceUpdateView, self).form_valid(form)
+        return form_valid
 
-class DirectionListView(generic.ListView):
-    model = models.Direction
-    form_class = forms.DirectionForm
+    def get_context_data(self, **kwargs):
+        context = super(DigitalResourceUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.DigitalResourceForm(self.request.POST, instance=self.object)
+            context["source_formset"] = forms.SourceFormset(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context["form"] = forms.DigitalResourceForm(instance=self.object)
+            context["source_formset"] = forms.SourceFormset(instance=self.object)
+        return context
 
 
-class DirectionCreateView(generic.CreateView):
-    model = models.Direction
-    form_class = forms.DirectionForm
+class CompetenceListView(generic.ListView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
 
 
-class DirectionDetailView(generic.DetailView):
-    model = models.Direction
-    form_class = forms.DirectionForm
+class CompetenceCreateView(generic.CreateView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
 
 
-class DirectioneUpdateView(generic.UpdateView):
-    model = models.Direction
-    form_class = forms.DirectionForm
+class CompetenceDetailView(generic.DetailView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
+
+
+class CompetenceUpdateView(generic.UpdateView):
+    model = models.Competence
+    form_class = forms.CompetenceForm
     pk_url_kwarg = "pk"
-
-
-# class CompetenceListView(generic.ListView):
-#     model = models.Competence
-#     form_class = forms.CompetenceForm
-#
-#
-# class CompetenceCreateView(generic.CreateView):
-#     model = models.Competence
-#     form_class = forms.DirectionForm
-#
-#
-# class CompetenceDetailView(generic.DetailView):
-#     model = models.Competence
-#     form_class = forms.CompetenceForm
-#
-#
-# class CompetenceUpdateView(generic.UpdateView):
-#     model = models.Competence
-#     form_class = forms.CompetenceForm
-#     pk_url_kwarg = "pk"
 
 
 class PlatformListView(generic.ListView):
@@ -440,86 +474,7 @@ class ThematicPlanUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-# class PersonListView(generic.ListView):
-#     model = models.Person
-#     form_class = forms.PersonForm
-#
-#
-# class PersonCreateView(generic.CreateView):
-#     model = models.Person
-#     form_class = forms.PersonForm
-#
-#
-# class PersonDetailView(generic.DetailView):
-#     model = models.Person
-#     form_class = forms.PersonForm
-#
-#
-# class PersonUpdateView(generic.UpdateView):
-#     model = models.Person
-#     form_class = forms.PersonForm
-#     pk_url_kwarg = "pk"
-from django.shortcuts import render, get_object_or_404
-import logging
-
-logger = logging.getLogger(__name__)
-
-
-def WorkPlanView(request):
-    person = get_object_or_404(Person, user=request.user)
-    academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
-    obj_plan = models.WorkPlanAcademicGroup.objects.filter(academic_group=academic_group)
-    # status = []
-    # for i in obj_plan:
-    #     for k in i.digital_resource.all():
-    #         status.append(models.DRStatus.objects.get(digital_resource=k))
-    # obj_plan = get_object_or_404(models.WorkPlanAcademicGroup, academic_group=academic_group)
-    # digital_resource = obj_plan.digital_resource
-    # thematic_paln = obj_plan.thematic_paln
-    # academic_group = []
-    # digital_resource = []
-    # thematic_plans = models.WorkPlanAcademicGroup.objects.all()
-    # for plan in thematic_plans:
-    #     academic_group.append(plan.academic_group)
-
-    return render(request, 'pages/work_plan_list.html',
-                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person,  # 'status': status,
-                   'DR': obj_plan[0].digital_resource.first()})
-
-
-# class ResourceListView(generic.ListView):
-#     paginate_by = 12
-#     model = models.DigitalResource
-#     template_name = 'pages/resource_list.html'
-#
-#     def get(self, request, *args, **kwargs):
-#         self.object_list = self.get_queryset()
-#         allow_empty = self.get_allow_empty()
-#         # person = get_object_or_404(Person, user=request.user)
-#         # my_resource = models.DigitalResource.objects.filter(owner=person)
-#         if not allow_empty:
-#             # When pagination is enabled and object_list is a queryset,
-#             # it's better to do a cheap query than to load the unpaginated
-#             # queryset in memory.
-#             if self.get_paginate_by(self.object_list) is not None and hasattr(self.object_list, 'exists'):
-#                 is_empty = not self.object_list.exists()
-#             else:
-#                 is_empty = not self.object_list
-#             if is_empty:
-#                 raise Http404(_('Empty list and “%(class_name)s.allow_empty” is False.') % {
-#                     'class_name': self.__class__.__name__,
-#                 })
-#         context = self.get_context_data()
-#         # context['my_resource']: my_resource
-#         return self.render_to_response(context)
-
-
-#
-# def ResourceListView(request):
-#     person = get_object_or_404(Person, user=request.user)
-#     my_resource = models.DigitalResource.objects.filter(owner=person)
-#     # status = models.DRStatus.objects.filter(digital_resource=for i in
-#     return render(request, 'pages/resource_list.html', {'my_resource': my_resource})
+from django.shortcuts import render
 
 
 def ExpertiseListView(request):

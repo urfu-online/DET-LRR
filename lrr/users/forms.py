@@ -51,6 +51,16 @@ class PersonForm(form.ModelForm):
             "user",
         ]
 
+
+class ExpertForm(form.ModelForm):
+    class Meta:
+        model = models.Expert
+        fields = [
+            "person",
+            "type",
+            "subdivision",
+        ]
+
 # class SignupForm(form.Form):
 #     class Meta:
 #         model = models.Person
