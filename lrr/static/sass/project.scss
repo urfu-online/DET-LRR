@@ -2,6 +2,7 @@
 @import "bootstrap";
 @import "bootswatch";
 @import "navbar-fixed-left";
+
 @import "colors";
 
 
@@ -96,6 +97,7 @@ a.disabled {
 
 .btn-primary:hover {
   background: #DC1A54;
+  border-color:  #DC1A54;
 }
 
 .page-link {
@@ -107,11 +109,10 @@ a.disabled {
 }
 
 .card:hover {
-  border-color: lighten(#DC1A54, 30%);
+  //border-color: lighten(#DC1A54, 30%);
 }
 
 hr.dotted {
-  border-top: 1px dotted #30364A;
   width: 100%;
 }
 
