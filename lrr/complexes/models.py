@@ -38,6 +38,14 @@ class DigitalComplex(BaseModel):
     def get_count_complex(cls):
         return cls.objects.all().count()
 
+    # @classmethod
+    # def get_self_pk(cls, pk):
+    #     try:
+    #         obj = cls.objects.get(pk=pk)
+    #     except:
+    #         obj = None
+    #     return obj
+
 
 class Cell(BaseModel):
     ASYNC = 'ASYNC'

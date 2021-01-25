@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+  {#  <p>#}
+  {#    <a class="btn btn-light" href="{% url 'inspections:inspections_ExpertiseActive_list' %}">#}
+  {#      Перейти к списку Экспертиз#}
+  {#    </a>#}
+  {#  </p>#}
+
+  <h2>Заявка на экспертизу ЭОР "{{ object.digital_resource.title }}"</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    <div class="form-group">
+      <label>{{ form.subjects.label }}</label>
+      <div class="ui segment">
+        {% if object.subjects.all %}
+          {% for obj in object.subjects.all %}
+            <p>{{ obj }}</p>
+          {% endfor %}
+        {% else %}
+          <h4>{{ form.subjects.label }} отсутсвуют</h4>
+        {% endif %}
+      </div>
+    </div>
+    <div class="form-group">
+      <label>{{ form.directions.label }}</label>
+      <div class="ui segment">
+        {% if object.directions.all %}
+          {% for obj in object.directions.all %}
+            <li>{{ obj }}</li>
+          {% endfor %}
+        {% else %}
+          <h4>{{ form.directions.label }} отсутсвуют</h4>
+        {% endif %}
+      </div>
+    </div>
+    <div class="form-group">
+      <label>{{ form.digital_complexes.label }}</label>
+      <div class="ui segment">
+        {% if object.digital_complexes.all %}
+          {% for obj in object.digital_complexes.all %}
+            <li>{{ obj }}</li>
+          {% endfor %}
+        {% else %}
+          <h4>{{ form.digital_complexes.label }} отсутсвуют</h4>
+        {% endif %}
+      </div>
+    </div>
+    <div class="form-group">
+      <label>{{ form.expert.label }}</label>
+      {{ form.expert }}
+    </div>
+    <div class="form-group">
+      <label>{{ form.date_end.label }}</label>
+      {{ form.date_end }}
+    </div>
+    <div class="form-group">
+      <label>{{ form.file.label }}</label>
+      {{ form.file }}
+    </div>
+    <div class="form-group">
+      <label>{{ form.remarks.label }}</label>
+      {{ form.remarks }}
+    </div>
+    <div class="form-group">
+      <label>{{ form.status.label }}</label>
+      {{ form.status }}
+    </div>
+    <input type="submit" value="Завершить экспертизу" class="btn btn-primary">
+    <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
+  </form>
+
+
+{% endblock %}

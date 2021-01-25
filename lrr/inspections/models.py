@@ -112,9 +112,11 @@ class Expertise(repository_model.BaseModel):
         return cls.objects.filter(digital_resource=digital_resource)
 
     def save(self, *args, **kwargs):
-        ''' On save, update timestamps '''
-        self.date = timezone.now()
-        return super(Expertise, self).save(*args, **kwargs)
+        if self.date is None:
+            self.date = timezone.now()
+        elif self.date is not None:
+            self.date = None
+        super(Expertise, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = u"Экспертиза"

@@ -71,6 +71,7 @@ class ExpertiseCreateView(generic.CreateView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseForm
     pk_url_kwarg = "pk"
+    template_name = 'inspections/expertise_form_create.html'
 
     def form_valid(self, form):
         form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
@@ -105,12 +106,13 @@ class ExpertiseUpdateView(generic.UpdateView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseForm
     pk_url_kwarg = "pk"
+    template_name = 'inspections/expertise_form_update.html'
 
     def form_valid(self, form):
-        self.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
-        person = Person.get_person(user=self.request.user)
-        form.instance.owner = person
-        form.save()
+        # self.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
+        # person = Person.get_person(user=self.request.user)
+        # form.instance.owner = person
+        # form.save()
         form_valid = super(ExpertiseUpdateView, self).form_valid(form)
         return form_valid
 
@@ -119,14 +121,16 @@ class ExpertiseUpdateView(generic.UpdateView):
         Returns the initial data to use for forms on this view.
         """
         initial = super().get_initial()
-        initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
-        initial['status'] = "SUB_APP"
+        # initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
+        # initial['status'] = "SUB_APP"
         return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        dig_res = inspections_models.Expertise.get_digital_resource(self)
-        context['dig_res'] = dig_res
+        # dig_res = inspections_models.Expertise.get_digital_resource(self)
+        # context['dig_res'] = dig_res
+        logger.warning(type(self.object.digital_complexes.all))
+        # self.object.digital_complex = inspections_models.Expertise.get_digital_resource(self)
         return context
 
 
