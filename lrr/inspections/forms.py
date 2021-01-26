@@ -15,6 +15,7 @@ class DirectionsWidget(s2forms.ModelSelect2MultipleWidget):
 class SubjectsWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
+    help_texts = 'Начните вводить название дисциплины.'
 
 
 class DigitalComplexesWidget(s2forms.ModelSelect2MultipleWidget):
@@ -36,13 +37,13 @@ class ExpertiseCreateForm(forms.ModelForm):
             "file",
             "remarks",
         ]
+        # subjects = SubjectsWidget(help_texts='Начните вводить название дисциплины.')
         widgets = {
             "subjects": SubjectsWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+                    'required': 'false',
                 },
-                help_text='Начните вводить название дисциплины.'
             ),
             "directions": DirectionsWidget(
                 attrs={
