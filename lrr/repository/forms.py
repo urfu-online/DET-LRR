@@ -140,21 +140,6 @@ class DigitalResourceForm(forms.ModelForm):
             "result_edu": ResultEduWidget,
         }
 
-        # def __init__(self, *args, **kwargs):
-        #     super(DigitalResourceForm, self).__init__(*args, **kwargs)
-        #     self.helper = FormHelper()
-        #     self.helper.form_tag = True
-        #     self.helper.form_class = 'form-horizontal'
-        #     self.helper.label_class = 'col-md-3 create-label'
-        #     self.helper.field_class = 'col-md-9'
-        #     self.helper.layout = Layout(
-        #         Div(
-        #             Fieldset('Добавить источники',
-        #                      Formset('source')),
-        #             HTML("<br>"),
-        #         )
-        #     )
-
 
 SourceFormset = inlineformset_factory(
     models.DigitalResource,

@@ -6,7 +6,7 @@
     <ol class="breadcrumb px-2 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
-      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'repository:repository_DigitalResource_detail' pk=dig_res.pk %}">Паспорт ЭОР: {{ dig_res }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу ресурса</li>
     </ol>
   </nav>
