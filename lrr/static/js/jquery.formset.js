@@ -237,7 +237,7 @@
         addText: 'Добавить',          // Text for the add link
         deleteText: 'Удалить',            // Text for the delete link
         addContainerClass: null,         // Container CSS class for the add link
-        deleteContainerClass: null,      // Container CSS class for the delete link
+        deleteContainerClass: 'card-body',      // Container CSS class for the delete link
         addCssClass: 'btn btn-primary',          // CSS class applied to the add link
         deleteCssClass: 'btn btn-danger',    // CSS class applied to the delete link
         formCssClass: 'dynamic-form',    // CSS class applied to each form in a formset

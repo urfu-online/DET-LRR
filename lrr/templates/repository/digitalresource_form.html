@@ -17,7 +17,7 @@
 
   <div class="row p-2">
     <div class="col-12 p-2">
-      <form class="ui form" method="post">
+      <form class="" method="post">
         <div class="card h-100 shadow-3">
           <div class="card-body">
             {% csrf_token %}
@@ -92,10 +92,11 @@
         <div class="card h-100 shadow-3">
           <div class="card-body">
             <h4>Компоненты ЭОР</h4>
+
             {{ source_formset.management_form }}
             {% for source in source_formset.forms %}
 
-              <div class="card source_form shadow-3">
+              <div class="card source_form shadow-3 mb-3">
                 <div class="card-body">
                   <div class="form-group">
                     <label>{{ source.link_name.label }}</label>
@@ -118,12 +119,11 @@
                   {#                </div>#}
                 </div>
               </div>
-
             {% endfor %}
           </div>
         </div>
-
-        <button class="ui button" type="submit">Сохранить</button>
+        <br/>
+        <button class="btn btn-primary" type="submit">Сохранить</button>
 
 
       </form>
