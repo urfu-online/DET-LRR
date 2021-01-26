@@ -2,6 +2,14 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
+      <li class="breadcrumb-item"><a href="/">{{ object.title }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Редавтирование паспорта ЭОР</li>
+    </ol>
+  </nav>
 
   <div class="ui container main-container">
     <form class="ui form" method="post">
