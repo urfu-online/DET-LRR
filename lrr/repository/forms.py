@@ -133,11 +133,85 @@ class DigitalResourceForm(forms.ModelForm):
             "result_edu",
         ]
         widgets = {
-            "edu_programs_tags": EduProgramsWidget,
-            "subjects_tags": SubjectsWidget,
-            "authors": AuthorsWidget,
-            "provided_disciplines": ProvidedDisciplinesWidget,
-            "result_edu": ResultEduWidget,
+            "title": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "type": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "source_data": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "keywords": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "description": forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "copyright_holder": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "language": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "platform": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "edu_programs_tags": EduProgramsWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "subjects_tags": SubjectsWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "authors": AuthorsWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "provided_disciplines": ProvidedDisciplinesWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "result_edu": ResultEduWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+
         }
 
 

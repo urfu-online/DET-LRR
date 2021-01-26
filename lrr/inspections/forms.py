@@ -4,6 +4,25 @@ from lrr.inspections import models as inspections_models
 from lrr.repository import models as repository_models
 from lrr.complexes import models as complexes_models
 from lrr.users.models import Expert
+from django_select2 import forms as s2forms
+
+
+class DirectionsWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["title__icontains"]
+    max_results = 50
+
+
+class SubjectsWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["title__icontains"]
+    max_results = 50
+
+
+class DigitalComplexesWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = [
+        "keywords__icontains",
+        "format__icontains"
+    ]
+    max_results = 50
 
 
 class ExpertiseCreateForm(forms.ModelForm):
@@ -18,6 +37,27 @@ class ExpertiseCreateForm(forms.ModelForm):
             "remarks",
         ]
         widgets = {
+            "subjects": SubjectsWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+                help_text='Начните вводить название дисциплины.'
+            ),
+            "directions": DirectionsWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+                help_text='Начните вводить название направления или код направления.'
+            ),
+            "digital_complexes": DigitalComplexesWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+                help_text='Начните вводить ключевые слова или формат использования.'
+            ),
             # 'digital_resource': forms.MultipleChoiceField(
             #     attrs={
             #         'class': 'form-control',
@@ -27,24 +67,6 @@ class ExpertiseCreateForm(forms.ModelForm):
             'file': forms.FileInput(
                 attrs={
                     'class': 'form-control-file',
-                    'required': 'false'
-                }
-            ),
-            'subjects': forms.SelectMultiple(
-                attrs={
-                    'class': 'form-control',
-                    'required': 'false'
-                }
-            ),
-            'directions': forms.SelectMultiple(
-                attrs={
-                    'class': 'form-control',
-                    'required': 'false'
-                }
-            ),
-            'digital_complexes': forms.SelectMultiple(
-                attrs={
-                    'class': 'form-control',
                     'required': 'false'
                 }
             ),

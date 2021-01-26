@@ -87,24 +87,31 @@ class ExpertiseCreateView(GroupRequiredMixin, generic.CreateView):
         form_valid = super(ExpertiseCreateView, self).form_valid(form)
         return form_valid
 
-    def get_initial(self):
-        """
-        Returns the initial data to use for forms on this view.
-        """
-        initial = super().get_initial()
-        logger.warning(inspections_models.Expertise.get_digital_resource(self))
-        # initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
-        initial['status'] = "SUB_APP"
-        return initial
+    # def get_initial(self):
+    #     """
+    #     Returns the initial data to use for forms on this view.
+    #     """
+    #     initial = super().get_initial()
+    #     logger.warning(inspections_models.Expertise.get_digital_resource(self))
+    #     # initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
+    #     initial['status'] = "SUB_APP"
+    #     return initial
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        dig_res = inspections_models.Expertise.get_digital_resource(self)
-        context['dig_res'] = dig_res
-        context['directions'] = inspections_models.Expertise.check_empty_queryset(self, 'directions')
-        context['subjects'] = inspections_models.Expertise.check_empty_queryset(self, 'subjects')
-        context['digital_complexes'] = inspections_models.Expertise.check_empty_queryset(self, 'digital_complexes')
+        context = super(ExpertiseCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.ExpertiseCreateForm(self.request.POST, instance=self.object)
+            # context["source_formset"] = forms.SourceFormset(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            dig_res = inspections_models.Expertise.get_digital_resource(self)
+            context['dig_res'] = dig_res
+            context["form"] = forms.ExpertiseCreateForm(instance=self.object)
+            # context["source_formset"] = forms.SourceFormset(instance=self.object)
         return context
+
+        # context['directions'] = inspections_models.Expertise.check_empty_queryset(self, 'directions')
+        # context['subjects'] = inspections_models.Expertise.check_empty_queryset(self, 'subjects')
+        # context['digital_complexes'] = inspections_models.Expertise.check_empty_queryset(self, 'digital_complexes')
 
 
 class ExpertiseDetailView(generic.DetailView):
