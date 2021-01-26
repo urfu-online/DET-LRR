@@ -56,12 +56,7 @@
               <p>{{ obj }}</p>
               <hr>
             {% endfor %}
-
-            <a href="{{ object.get_create_expertise_url }}" class="btn btn-block btn-primary mb-3"><i
-                    class="envelope outline icon"></i> Подать заявку на экспертизу</a>
-
-            <hr/>
-            <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭОР:</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
             {% if source is not None %}
               <table class="ui compact table">
                 <thead>
@@ -86,49 +81,50 @@
         </div>
       </div>
       <div class="col-12 col-md-6 col-lg-5 col-xl-4 p-2">
-        <a href="{{ object.get_url }}" class="btn btn-block btn-primary mb-3"><i
-                class="user graduate icon"></i> Перейти</a>
-        <div class="card shadow-1 mb-3">
-          <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-muted">Авторы:</h6>
-            <h5 class="card-title">{% for obj in object.authors.all %}
-              {% include "repository/author.html" with object=obj %}
-            {% endfor %}</h5>
-            <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
-            <h5 class="card-title"> {{ object.get_type_display }}</h5>
-          </div>
-        </div>
+        {#        <a href="{{ object.get_url }}" class="btn btn-block btn-primary mb-3"><i#}
+        {#                class="user graduate icon"></i> Перейти</a>#}
+        {#        <div class="card shadow-1 mb-3">#}
+        {#          <div class="card-body">#}
+        {#            <h6 class="card-subtitle mb-2 text-muted">Авторы:</h6>#}
+        {#            <h5 class="card-title">{% for obj in object.authors.all %}#}
+        {#              {% include "repository/author.html" with object=obj %}#}
+        {#            {% endfor %}</h5>#}
+        {#            <hr>#}
+        {#            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>#}
+        {#            <h5 class="card-title"> {{ object.get_type_display }}</h5>#}
+        {#          </div>#}
+        {#        </div>#}
         <div class="card shadow-1">
           <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted">Владелец:</h6>
             <h5 class="card-title"> {{ object.owner }}</h5>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
-            <h5 class="card-title"> {{ object.get_type_display }}</h5>
-            <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Платформа:</h6>
-            <h5 class="card-title"> {{ object.platform }}</h5>
-            <hr>
+            {#            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>#}
+            {#            <h5 class="card-title"> {{ object.get_type_display }}</h5>#}
+            {#            <hr>#}
+            {#            <h6 class="card-subtitle mb-2 text-muted">Платформа:</h6>#}
+            {#            <h5 class="card-title"> {{ object.platform }}</h5>#}
+            {#            <hr>#}
             <h6 class="card-subtitle mb-2 text-muted">Язык ресурса:</h6>
             <h5 class="card-title"> {{ object.language.title }}</h5>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Правообладатель:</h6>
-            <h5 class="card-title"> {{ object.copyright_holder }}</h5>
-            <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Направление/ОП:</h6>
-            <h5 class="card-title"> {% for state in status.all %}{{ state.edu_program }}{% endfor %}</h5>
-            <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Дисциплина:</h6>
-            <h5 class="card-title"> {% for state in status.all %}{{ state.subject }}{% endfor %}</h5>
-            <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Теги:</h6>
-            <h5 class="card-title">
-              {% for tag in object.subjects_tags.all %}
-                {% include "repository/tag.html" with tag=tag %}
-              {% endfor %}
-            </h5>
-
+            {#            <h6 class="card-subtitle mb-2 text-muted">Правообладатель:</h6>#}
+            {#            <h5 class="card-title"> {{ object.copyright_holder }}</h5>#}
+            {#            <hr>#}
+            {#            <h6 class="card-subtitle mb-2 text-muted">Направление/ОП:</h6>#}
+            {#            <h5 class="card-title"> {% for state in status.all %}{{ state.edu_program }}{% endfor %}</h5>#}
+            {#            <hr>#}
+            {#            <h6 class="card-subtitle mb-2 text-muted">Дисциплина:</h6>#}
+            {#            <h5 class="card-title"> {% for state in status.all %}{{ state.subject }}{% endfor %}</h5>#}
+            {#            <hr>#}
+            {#            <h6 class="card-subtitle mb-2 text-muted">Теги:</h6>#}
+            {#            <h5 class="card-title">#}
+            {#              {% for tag in object.subjects_tags.all %}#}
+            {#                {% include "repository/tag.html" with tag=tag %}#}
+            {#              {% endfor %}#}
+            {#            </h5>#}
+            <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
+               class="btn btn-block btn-primary">Добавить компонент</a>
 
           </div>
         </div>

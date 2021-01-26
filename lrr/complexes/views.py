@@ -63,6 +63,7 @@ class DigitalComplexMyListView(FilteredListView):
     paginate_by = 12
     filterset_class = DigitalComplexFilter
     template_name = 'complexes/teacher/digitalcomplex_my_list.html'
+    group_required = [u"teacher", u"admins"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,6 +83,7 @@ class DigitalComplexCreateView(generic.CreateView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_form.html'
+    group_required = [u"teacher", u"admins"]
 
     def form_valid(self, form):
         person = Person.get_person(user=self.request.user)
@@ -95,12 +97,14 @@ class DigitalComplexDetailView(generic.DetailView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_detail.html'
+    group_required = [u"teacher", u"admins"]
 
 
 class DigitalComplexUpdateView(generic.UpdateView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_form.html'
+    group_required = [u"teacher", u"admins"]
 
     def form_valid(self, form):
         person = Person.get_person(user=self.request.user)
@@ -108,3 +112,24 @@ class DigitalComplexUpdateView(generic.UpdateView):
         form.save()
         form_valid = super(DigitalComplexUpdateView, self).form_valid(form)
         return form_valid
+
+
+class ComponentComplexCreateView(generic.CreateView):
+    model = complex_model.ComponentComplex
+    form_class = forms.ComponentComplexForm
+    template_name = 'complexes/teacher/componentcomplex_form_create.html'
+    group_required = [u"teacher", u"admins"]
+
+    def get_context_data(self, **kwargs):
+        context = super(ComponentComplexCreateView, self).get_context_data(**kwargs)
+        dig_complex = complex_model.DigitalComplex.get_digital_complex(self)
+        context['dig_complex'] = dig_complex
+        context["form"] = forms.ComponentComplexForm(instance=self.object)
+        # context["source_formset"] = forms.SourceFormset(instance=self.object)
+        return context
+
+
+class ComponentComplexUpdateView(generic.UpdateView):
+    model = complex_model.ComponentComplex
+    form_class = forms.ComponentComplexForm
+    template_name = 'complexes/teacher/componentcomplex_form_update.html'

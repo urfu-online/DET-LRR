@@ -7,13 +7,16 @@
     <ol class="breadcrumb px-2 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
-      {#      <li class="breadcrumb-item"><a href="{% url 'repository:repository_DigitalResource_detail' pk=dig_res.pk %}">Паспорт#}
-      {#        ЭОР: {{ dig_res }}</a></li>#}
-      <li class="breadcrumb-item active" aria-current="page">Создание ЭУМК</li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои
+        ЭУМК</a></li>
+      <li class="breadcrumb-item"><a
+              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">ЭУМК {{ dig_complex.keywords }}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Добавление компонентов ЭУМК</li>
     </ol>
   </nav>
   <header class="pb-4 px-2">
-    <h1>Создание ЭУМК</h1>
+    <h1>Добавление компонентов ЭУМК</h1>
   </header>
   <div class="row p-2">
     <div class="col-12 p-2">
@@ -24,6 +27,25 @@
             {{ form.errors }}
             {{ form.non_field_errors }}
             {{ form.media.css }}
+
+            {{ form }}
+            <table class="ui compact table">
+              <thead>
+              <tr>
+                <th>Наименоваие компонента</th>
+                <th>URL компонента</th>
+                <th>Тип компонента</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in form %}
+                <tr>
+                  <td>{{ item }}</td>
+                  <td>{{ item }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
 
             <div class="form-group">
               <label>{{ form.keywords.label }}</label>

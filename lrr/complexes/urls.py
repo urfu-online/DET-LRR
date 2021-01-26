@@ -9,6 +9,10 @@ urlpatterns = (
     path("DigitalComplex/create/", views.DigitalComplexCreateView.as_view(), name="complexes_DigitalComplex_create"),
     path("DigitalComplexDetail/<uuid:pk>/", views.DigitalComplexDetailView.as_view(),
          name="complexes_DigitalComplex_detail"),
-    path("DigitalComplexUpdate/<uuid:pk>/", views.DigitalComplexUpdateView.as_view(),
+    path("DigitalComplex/update/<uuid:pk>/", views.DigitalComplexUpdateView.as_view(),
          name="complexes_DigitalComplex_update"),
+    path("ComponentComplex/create/<uuid:pk>/", views.ComponentComplexCreateView.as_view(),
+         name="complexes_ComponentComplex_create"),
+    path("ComponentComplex/update/<uuid:pk>/", views.ComponentComplexUpdateView.as_view(),
+         name="complexes_ComponentComplex_update"),
 )

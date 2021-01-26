@@ -34,6 +34,11 @@ class DigitalComplex(BaseModel):
     def get_update_url(self):
         return reverse("complexes:complexes_DigitalComplex_update", args=(self.pk,))
 
+    def get_digital_complex(self):
+        digital_complex_pk = self.request.path.split('/')[4]
+        digital_complex = DigitalComplex.objects.get(pk=digital_complex_pk)
+        return digital_complex
+
     @classmethod
     def get_count_complex(cls):
         return cls.objects.all().count()
