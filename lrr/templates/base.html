@@ -111,7 +111,7 @@
             {% if request.user|has_group:"rop" %}
               <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Статистика
                 ЭОР</a>
-              <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭМУК</a>
+              <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭУМК</a>
               <a class="dropdown-item" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>
               <a class="dropdown-item" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>
             {% endif %}

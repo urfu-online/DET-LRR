@@ -215,11 +215,48 @@ class DigitalResourceForm(forms.ModelForm):
         }
 
 
+# class SourceForm(forms.ModelForm):
+#     class Meta:
+#         model = models.Source
+#
+#     fields = ['link_name', 'URL', 'file', 'type']
+#
+#     widgets = {
+#
+#     }
+
+
 SourceFormset = inlineformset_factory(
     models.DigitalResource,
     models.Source,
     fields=('link_name', 'URL', 'file', 'type'),
-    extra=1
+    extra=1,
+    widgets={
+        'link_name': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+        'URL': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+        'file': forms.FileInput(
+            attrs={
+                'class': 'form-control-file',
+                'required': 'false'
+            },
+        ),
+        'type': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+    }
 )
 
 
