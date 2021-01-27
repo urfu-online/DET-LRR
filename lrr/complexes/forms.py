@@ -1,5 +1,6 @@
 from django import forms
 from django_select2 import forms as s2forms
+from polymorphic.formsets import polymorphic_modelformset_factory, PolymorphicFormSetChild
 
 from lrr.complexes import models as complex_models
 
@@ -142,3 +143,60 @@ class ComponentComplexForm(forms.ModelForm):
     class Meta:
         model = complex_models.ComponentComplex
         fields = "__all__"
+
+
+class ResourceComponentWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = [
+        "title__icontains",
+    ]
+    max_results = 50
+
+
+class ResourceComponentForm(forms.ModelForm):
+    class Meta:
+        model = complex_models.ResourceComponent
+        fields = ['digital_resource', 'description']
+        widgets = {
+            "digital_resource": ResourceComponentWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "description": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            )
+        }
+
+
+ComponentComplexFormSet = polymorphic_modelformset_factory(
+    complex_models.ComponentComplex,
+    fields='__all__',
+    extra=1,
+    formset_children=(
+        PolymorphicFormSetChild(
+            model=complex_models.ResourceComponent,
+            form=ResourceComponentForm,
+            # widgets={
+            #     "digital_resource": ResourceComponentWidget(
+            #         attrs={
+            #             'class': 'form-control',
+            #             'required': 'false'
+            #         },
+            #     ),
+            #     "description": forms.TextInput(
+            #         attrs={
+            #             'class': 'form-control',
+            #             'required': 'false'
+            #         },
+            #     )
+            # },
+        ),
+        # PolymorphicFormSetChild(
+        #     complex_models.PlatformComponent),
+        # PolymorphicFormSetChild(
+        #     complex_models.TraditionalSessionComponent),
+    ))

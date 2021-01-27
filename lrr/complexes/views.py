@@ -120,11 +120,28 @@ class ComponentComplexCreateView(generic.CreateView):
     template_name = 'complexes/teacher/componentcomplex_form_create.html'
     group_required = [u"teacher", u"admins"]
 
+    def form_valid(self, form):
+        form.instance.digital_complex = complex_model.DigitalComplex.get_digital_complex(self)
+        form.save()
+        form_valid = super(ComponentComplexCreateView, self).form_valid(form)
+        return form_valid
+
     def get_context_data(self, **kwargs):
         context = super(ComponentComplexCreateView, self).get_context_data(**kwargs)
-        dig_complex = complex_model.DigitalComplex.get_digital_complex(self)
-        context['dig_complex'] = dig_complex
-        context["form"] = forms.ComponentComplexForm(instance=self.object)
+        if self.request.method == "POST":
+            formset = forms.ComponentComplexFormSet(self.request.POST, self.request.FILES,
+                                                    queryset=complex_model.ComponentComplex.objects.all())
+            if formset.is_valid():
+                formset.save()
+        else:
+            context["formset"] = forms.ComponentComplexFormSet(queryset=complex_model.ComponentComplex.objects.all())
+            dig_complex = complex_model.DigitalComplex.get_digital_complex(self)
+            context['dig_complex'] = dig_complex
+            context['resource_components'] = complex_model.ResourceComponent.objects.filter(digital_complex=dig_complex)
+            context['platform_components'] = complex_model.PlatformComponent.objects.filter(digital_complex=dig_complex)
+            context['traditional_components'] = complex_model.TraditionalSessionComponent.objects.filter(
+                digital_complex=dig_complex)
+            # context["form"] = forms.ComponentComplexForm(instance=self.object)
         # context["source_formset"] = forms.SourceFormset(instance=self.object)
         return context
 

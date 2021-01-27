@@ -17,6 +17,16 @@
   </nav>
   <header class="pb-4 px-2">
     <h1>Добавление компонентов ЭУМК</h1>
+    <h4>
+      По дисциплине(ам)
+      {% for subject in dig_complex.subjects.all %}
+        {{ subject }}
+      {% endfor %}
+      образовательной программы
+      {% for direction in dig_complex.directions.all %}
+        {{ direction }}
+      {% endfor %}
+    </h4>
   </header>
   <div class="row p-2">
     <div class="col-12 p-2">
@@ -27,54 +37,63 @@
             {{ form.errors }}
             {{ form.non_field_errors }}
             {{ form.media.css }}
-
-            {{ form }}
             <table class="ui compact table">
               <thead>
               <tr>
-                <th>Наименоваие компонента</th>
-                <th>URL компонента</th>
-                <th>Тип компонента</th>
+                <th>ЭОР / Платформа</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
               </tr>
               </thead>
               <tbody>
-              {% for item in form %}
-                <tr>
-                  <td>{{ item }}</td>
-                  <td>{{ item }}</td>
-                </tr>
+              {% for component in resource_components %}
+                <td>{{ component.digital_resource }}</td>
+                <td>{{ component.description }}</td>
+                <td><a class="btn " href="">X</a></td>
               {% endfor %}
               </tbody>
             </table>
 
-            <div class="form-group">
-              <label>{{ form.keywords.label }}</label>
-              {{ form.keywords }}
-            </div>
-            <div class="form-group">
-              <label>{{ form.language.label }}</label>
-              {{ form.language }}
-            </div>
-            <div class="form-group">
-              <label>{{ form.subjects.label }}</label>
-              {{ form.subjects }}
-              <p class="text-muted">Начните вводить название дисциплины.</p>
-            </div>
-            <div class="form-group">
-              <label>{{ form.directions.label }}</label>
-              {{ form.directions }}
-              <p class="text-muted">Начните вводить название направления или код направления.</p>
-            </div>
-            <div class="form-group">
-              <label>{{ form.competences.label }}</label>
-              {{ form.competences }}
-              <p class="text-muted">Начните вводить название компетенции или код компетенции.</p>
-            </div>
-            <div class="form-group">
-              <label>{{ form.results_edu.label }}</label>
-              {{ form.results_edu }}
-              <p class="text-muted">Начните вводить название результата обучения.</p>
-            </div>
+
+            {#            <div class="form-group">#}
+            {#              <label>{{ form.keywords.label }}</label>#}
+            {#              {{ form.keywords }}#}
+            {#            </div>#}
+            {#            <div class="form-group">#}
+            {#              <label>{{ form.language.label }}</label>#}
+            {#              {{ form.language }}#}
+            {#            </div>#}
+            {#            <div class="form-group">#}
+            {#              <label>{{ form.subjects.label }}</label>#}
+            {#              {{ form.subjects }}#}
+            {#              <p class="text-muted">Начните вводить название дисциплины.</p>#}
+            {#            </div>#}
+            {#            <div class="form-group">#}
+            {#              <label>{{ form.directions.label }}</label>#}
+            {#              {{ form.directions }}#}
+            {#              <p class="text-muted">Начните вводить название направления или код направления.</p>#}
+            {#            </div>#}
+            {#            <div class="form-group">#}
+            {#              <label>{{ form.competences.label }}</label>#}
+            {#              {{ form.competences }}#}
+            {#              <p class="text-muted">Начните вводить название компетенции или код компетенции.</p>#}
+            {#            </div>#}
+            {#            <div class="form-group">#}
+            {#              <label>{{ form.results_edu.label }}</label>#}
+            {#              {{ form.results_edu }}#}
+            {#              <p class="text-muted">Начните вводить название результата обучения.</p>#}
+            {#            </div>#}
+            {% for source in formset.forms %}
+
+              <div class="card source_form shadow-3 mb-3">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>{{ source.label }}</label>
+                    {{ source }}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
             <input type="submit" value="Сохранить" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>

@@ -9,6 +9,7 @@ from lrr.users.models import Person
 
 
 class DigitalComplex(BaseModel):
+    title = models.CharField("Наименогвание комплекса", max_length=150, blank=True, null=True)
     subjects = models.ManyToManyField(Subject, verbose_name="Дисциплина(ы)", blank=True)
     directions = models.ManyToManyField(Direction, verbose_name="Направления подготовки", blank=True)
     description = models.TextField('Описание', blank=True)
@@ -26,7 +27,7 @@ class DigitalComplex(BaseModel):
         verbose_name_plural = u"Цифровые Комплексы (ЭУМК)"
 
     def __str__(self):
-        return str(self.keywords)
+        return f"{self.title}/{self.keywords}"
 
     def get_absolute_url(self):
         return reverse("complexes:complexes_DigitalComplex_detail", args=(self.pk,))
@@ -159,11 +160,25 @@ class WorkPlanAcademicGroup(BaseModel):
 
 class ComponentComplex(BaseModel, PolymorphicModel):
     digital_complex = models.ForeignKey(DigitalComplex, verbose_name="ЭУМК", on_delete=models.CASCADE, blank=True)
-    description = models.TextField("Описание / Методика применения")
+    description = models.CharField("Описание / Методика применения", max_length=1024, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.digital_complex.title} - {self.digital_complex.keywords} - {self.digital_complex.format}"
+
+    class Meta:
+        verbose_name = 'компонент комплекса'
+        verbose_name_plural = 'компоненты комплексов'
 
 
 class ResourceComponent(ComponentComplex):
     digital_resource = models.ForeignKey(DigitalResource, verbose_name="ЭОР", on_delete=models.CASCADE, blank=True)
+
+    def __str__(self):
+        return self.digital_resource.title
+
+    class Meta:
+        verbose_name = 'Компонент ЭОР'
+        verbose_name_plural = 'Компоненты ЭОР'
 
 
 class LiterarySourcesComponent(ComponentComplex):
@@ -173,8 +188,22 @@ class LiterarySourcesComponent(ComponentComplex):
 class PlatformComponent(ComponentComplex):
     platform = models.ForeignKey(Platform, verbose_name="Платформа", on_delete=models.CASCADE, blank=True)
 
+    def __str__(self):
+        return self.platform.title
+
+    class Meta:
+        verbose_name = 'Компонент платформы'
+        verbose_name_plural = 'Компоненты платформ'
+
 
 class TraditionalSessionComponent(ComponentComplex):
     title = models.CharField("Наименование вида занятий", max_length=150, blank=True)
     description_session = models.TextField("Описание занятий", max_length=2024, blank=True)
     url = models.URLField("Ссылка на онлайн-расписание занятий", null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'компонент традиционных занятий'
+        verbose_name_plural = 'компоненты традиционных занятий'
