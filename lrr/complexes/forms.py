@@ -145,7 +145,7 @@ class ComponentComplexForm(forms.ModelForm):
         fields = "__all__"
 
 
-class ResourceComponentWidget(s2forms.ModelSelect2MultipleWidget):
+class ResourceComponentWidget(s2forms.ModelSelect2Widget):
     search_fields = [
         "title__icontains",
     ]

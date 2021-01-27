@@ -231,7 +231,7 @@
   <script src="{% static 'js/project.js' %}"></script>
   <script src="{% static 'js/jquery.formset.js' %}"></script>
 
-  {% if source_formset %}
+  {% if source_formset or formset or resource_components %}
     <script>
       $('.source_form').formset();
     </script>
