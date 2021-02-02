@@ -1,10 +1,7 @@
 from django import forms
+from django_select2 import forms as s2forms
 
 from lrr.inspections import models as inspections_models
-from lrr.repository import models as repository_models
-from lrr.complexes import models as complexes_models
-from lrr.users.models import Expert
-from django_select2 import forms as s2forms
 
 
 class DirectionsWidget(s2forms.ModelSelect2MultipleWidget):
@@ -40,19 +37,16 @@ class ExpertiseCreateForm(forms.ModelForm):
             "subjects": SubjectsWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
             "directions": DirectionsWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
             "digital_complexes": DigitalComplexesWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
             # 'digital_resource': forms.MultipleChoiceField(

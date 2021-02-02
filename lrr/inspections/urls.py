@@ -1,4 +1,5 @@
 from django.urls import path
+
 from lrr.inspections import views
 
 urlpatterns = (
@@ -20,7 +21,10 @@ urlpatterns = (
     path("CheckList/create/<uuid:digital_resource_pk>/<uuid:expertise_pk>/", views.CheckListCreateView.as_view(),
          name="inspections_CheckList_create"),
     path("CheckList/detail/<uuid:pk>/", views.CheckListDetailView.as_view(), name="inspections_CheckList_detail"),
-    path("CheckList/update/<uuid:pk>/", views.CheckListUpdateView.as_view(), name="inspections_CheckList_update"),
+    path("CheckList/expert/update/<uuid:pk>/", views.CheckListUpdateExpertView.as_view(),
+         name="inspections_CheckList_expert_update"),
+    path("CheckList/update/<uuid:pk>/", views.CheckListUpdateView.as_view(),
+         name="inspections_CheckList_update"),
 
     path("Question/", views.QuestionListView.as_view(), name="inspections_Question_list"),
     path("Question/create/", views.QuestionCreateView.as_view(), name="inspections_Question_create"),
