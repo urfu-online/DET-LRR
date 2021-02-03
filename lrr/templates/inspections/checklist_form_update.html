@@ -1,10 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
 
-</body>
-</html>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      {#      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>#}
+      {#      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>#}
+      <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу
+        "{{ object.expertise.digital_resource }}"
+      </li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    <h1>Заявка на экспертизу "{{ object.expertise.digital_resource }}"</h1>
+  </header>
+  <div class="row p-2">
+    <div class="col-12 p-2">
+      <div class="card h-100 shadow-1">
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+            {{ form.media.css }}
+            <a class="btn btn-primary"
+               href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}">Паспорт
+              ЭОР</a>
+            <div class="form-group">
+              <label>Тип заявки</label>
+              {{ object.get_type_display }}
+            </div>
+            <div class="form-group">
+              <label>Инициатор</label>
+              {{ object.expertise.owner }}
+            </div>
+            <div class="form-group">
+              <label>Дата заявки</label>
+              {{ object.expertise.date }}
+            </div>
+            <div class="form-group">
+              <label>Дисциплина(ы)</label>
+              {% for subject in object.expertise.subjects.all %}
+                {{ subject }}
+              {% endfor %}
+            </div>
+            <div class="form-group">
+              <label>Направления подготовки/Образовательная программа</label>
+              {% for direction in object.expertise.directions.all %}
+                {{ direction }}
+              {% endfor %}
+            </div>
+            <div class="form-group">
+              <label>ЭУМК</label>
+              <div class="ui segment">
+                {% if object.digital_complexes.all %}
+                  {% for digital_complex in object.digital_complexes.all %}
+                    <p>{{ obj }}</p>
+                  {% endfor %}
+                {% else %}
+                  <h4>{{ form.subjects.label }} отсутсвуют</h4>
+                {% endif %}
+              </div>
+              {% for digital_complex in object.expertise.digital_complexes.all %}
+                {{ digital_complex }}
+              {% endfor %}
+            </div>
+            <input type="submit" value="Взять на экспертизу" class="btn btn-primary">
+            <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
+            <div class="form-group">
+              <h5>Экспертные заключения</h5>
+              <table class="ui compact table">
+                <thead>
+                <tr>
+                  <th>Тип экспертизы</th>
+                  <th>Дата экспертизы</th>
+                  <th>Эксперт</th>
+                  <th>Состояние</th>
+                </tr>
+                </thead>
+                <tbody>
+                {#                {% for component in resource_components %}#}
+                {#                  <td>{{ component.digital_resource }}</td>#}
+                {#                  <td>{{ component.description }}</td>#}
+                {#                  <td><a class="btn " href="">X</a></td>#}
+                {#                {% endfor %}#}
+                </tbody>
+              </table>
+              {% for digital_complex in object.expertise.digital_complexes.all %}
+                {{ digital_complex }}
+              {% endfor %}
+            </div>
+          </form>
+
+        </div>
+      </div>
+      {{ form.media.js }}
+    </div>
+  </div>
+{% endblock %}
