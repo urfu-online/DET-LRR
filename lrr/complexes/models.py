@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import logging
+
 from django.db import models
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
@@ -6,6 +8,8 @@ from polymorphic.models import PolymorphicModel
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
 from lrr.users.models import Person
+
+logger = logging.getLogger(__name__)
 
 
 class DigitalComplex(BaseModel):
@@ -165,6 +169,9 @@ class ComponentComplex(BaseModel, PolymorphicModel):
     def __str__(self):
         return f"{self.digital_complex.title} - {self.digital_complex.keywords} - {self.digital_complex.format}"
 
+    def get_absolute_url(self):
+        return reverse("complexes:complexes_DigitalComplex_detail", args=(self.digital_complex.pk,))
+
     class Meta:
         verbose_name = 'компонент комплекса'
         verbose_name_plural = 'компоненты комплексов'
@@ -175,6 +182,9 @@ class ResourceComponent(ComponentComplex):
 
     def __str__(self):
         return self.digital_resource.title
+
+    def get_absolute_url(self):
+        return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
 
     class Meta:
         verbose_name = 'Компонент ЭОР'
@@ -191,6 +201,9 @@ class PlatformComponent(ComponentComplex):
     def __str__(self):
         return self.platform.title
 
+    def get_absolute_url(self):
+        return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
+
     class Meta:
         verbose_name = 'Компонент платформы'
         verbose_name_plural = 'Компоненты платформ'
@@ -200,6 +213,9 @@ class TraditionalSessionComponent(ComponentComplex):
     title = models.CharField("Наименование вида занятий", max_length=150, blank=True)
     description_session = models.TextField("Описание занятий", max_length=2024, blank=True)
     url = models.URLField("Ссылка на онлайн-расписание занятий", null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
 
     def __str__(self):
         return self.title

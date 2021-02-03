@@ -39,21 +39,67 @@
             {{ form.media.css }}
             <table class="ui compact table">
               <thead>
+              <h5>Комопоненты ЭОР: </h5>
               <tr>
-                <th>ЭОР / Платформа</th>
+                <th>ЭОР</th>
                 <th>Описание / Методика применения</th>
                 <th></th>
               </tr>
               </thead>
               <tbody>
               {% for component in resource_components %}
-                <td>{{ component.digital_resource }}</td>
-                <td>{{ component.description }}</td>
-                <td><a class="btn " href="">X</a></td>
+                <tr>
+                  <td>{{ component.digital_resource }}</td>
+                  <td>{{ component.description }}</td>
+                  <td><a class="btn "
+                         href="{% url 'complexes:complexes_ResourceComponent_delete' pk=component.pk %}">X</a></td>
+                </tr>
               {% endfor %}
               </tbody>
             </table>
 
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты Платформ: </h5>
+              <tr>
+                <th>Платформа</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in platform_components %}
+                <tr>
+                  <td>{{ component.platform }}</td>
+                  <td>{{ component.description }}</td>
+                  <td><a class="btn "
+                         href="{% url 'complexes:complexes_PlatformComponent_delete' pk=component.pk %}">X</a></td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты традиционных занятий:</h5>
+              <tr>
+                <th>Наименование</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in traditional_components %}
+                <tr>
+                  <td>{{ component.title }}</td>
+                  <td>{{ component.description }}</td>
+                  <td><a class="btn "
+                         href="{% url 'complexes:complexes_TraditionalSessionComponent_delete' pk=component.pk %}">X</a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
 
             {#            <div class="form-group">#}
             {#              <label>{{ form.keywords.label }}</label>#}
@@ -83,17 +129,14 @@
             {#              {{ form.results_edu }}#}
             {#              <p class="text-muted">Начните вводить название результата обучения.</p>#}
             {#            </div>#}
-            {% for source in formset.forms %}
-
-              <div class="card source_form shadow-3 mb-3">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label>{{ source.label }}</label>
-                    {{ source }}
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
+            <div class="ui segment">
+              <a class="btn btn-primary"
+                 href="{% url 'complexes:complexes_ResourceComponent_create' pk=dig_complex.pk %}">+ ЭОР</a>
+              <a class="btn btn-primary"
+                 href="{% url 'complexes:complexes_PlatformComponent_create' pk=dig_complex.pk %}">+ Платформа</a>
+              <a class="btn btn-primary"
+                 href="{% url 'complexes:complexes_TraditionalSessionComponent_create' pk=dig_complex.pk %}">+ Традиционные занятия</a>
+            </div>
             <input type="submit" value="Сохранить" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>

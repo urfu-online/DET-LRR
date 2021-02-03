@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои
+        ЭУМК</a></li>
+      <li class="breadcrumb-item"><a
+              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">ЭУМК
+        {{ dig_complex.keywords }} {{ dig_complex.title }}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Добавление компонента Платформы</li>
+    </ol>
+  </nav>
+
+  <div class="row p-2">
+    <div class="col-12 p-2">
+      <div class="card h-100 shadow-1">
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+            {{ form.media.css }}
+            {{ form }}
+            <input type="submit" value="Сохранить" class="btn btn-primary">
+            <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
+            <a class="btn btn-secondary" href="{% url 'repository:repository_Platform_create' %}">Создать платформу</a>
+          </form>
+          {{ form.media.js }}
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+  </div>
+{% endblock %}

@@ -145,7 +145,7 @@ class ComponentComplexForm(forms.ModelForm):
         fields = "__all__"
 
 
-class ResourceComponentWidget(s2forms.ModelSelect2MultipleWidget):
+class ResourceComponentWidget(s2forms.ModelSelect2Widget):
     search_fields = [
         "title__icontains",
     ]
@@ -158,6 +158,65 @@ class ResourceComponentForm(forms.ModelForm):
         fields = ['digital_resource', 'description']
         widgets = {
             "digital_resource": ResourceComponentWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "description": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            )
+        }
+
+
+class PlatformComponentWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "title__icontains",
+    ]
+    max_results = 50
+
+
+class PlatformComponentForm(forms.ModelForm):
+    class Meta:
+        model = complex_models.PlatformComponent
+        fields = ['platform', 'description']
+        widgets = {
+            "platform": PlatformComponentWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "description": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            )
+        }
+
+
+class TraditionalSessionComponentForm(forms.ModelForm):
+    class Meta:
+        model = complex_models.TraditionalSessionComponent
+        fields = ['title', 'description_session', 'url', 'description']
+        widgets = {
+            "title": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "description_session": forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "url": forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'required': 'false'

@@ -56,27 +56,7 @@
               <p>{{ obj }}</p>
               <hr>
             {% endfor %}
-            <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
-            {% if source is not None %}
-              <table class="ui compact table">
-                <thead>
-                <tr>
-                  <th>Наименоваие компонента</th>
-                  <th>URL компонента</th>
-                  <th>Тип компонента</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for item_source in source %}
-                  <tr>
-                    <td>{{ item_source }}</td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-            {% else %}
-              Компоненты Отсутсвуют
-            {% endif %}
+
           </div>
         </div>
       </div>
@@ -123,10 +103,80 @@
             {#                {% include "repository/tag.html" with tag=tag %}#}
             {#              {% endfor %}#}
             {#            </h5>#}
-            <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
-               class="btn btn-block btn-primary">Добавить компонент</a>
-
+            {% if resource_components or platform_components or traditional_components is not None %}
+              <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=component_complex.pk %}"
+                 class="btn btn-block btn-primary">Изминить состав компонентов</a>
+            {% else %}
+              <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
+                 class="btn btn-block btn-primary">Добавить компонент</a>
+            {% endif %}
           </div>
+        </div>
+        <br/>
+        <div class="card shadow-1">
+          <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
+          {% if resource_components or platform_components or traditional_components is not None %}
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты ЭОР: </h5>
+              <tr>
+                <th>ЭОР</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in resource_components %}
+                <tr>
+                <td>
+                  <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>
+                </td>
+                <td>{{ component.description }}</td>
+              {% endfor %}
+              </tbody>
+            </table>
+
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты Платформ: </h5>
+              <tr>
+                <th>Платформа</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in platform_components %}
+                <tr>
+                <td>
+                  <a href="{% url 'repository:repository_Platform_detail' pk=component.platform.pk %}">{{ component.platform }}</a>
+                </td>
+                <td>{{ component.description }}</td>
+              {% endfor %}
+              </tbody>
+            </table>
+
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты традиционных занятий:</h5>
+              <tr>
+                <th>Наименование</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in traditional_components %}
+                <tr>
+                  <td>{{ component.title }}</td>
+                  <td>{{ component.description }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            Компоненты Отсутсвуют
+          {% endif %}
         </div>
       </div>
     </div>

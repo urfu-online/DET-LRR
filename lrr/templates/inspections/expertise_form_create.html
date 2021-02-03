@@ -47,9 +47,6 @@
               {{ form.digital_complexes }}
               <p class="text-muted">Начните вводить ключевые слова или формат использования.</p>
             </div>
-            <div class="form-group">
-              <a class="btn btn-primary" href="{% url 'complexes:complexes_DigitalComplex_create' %}">Создать ЭУМК</a>
-            </div>
             <input type="submit" value="Подать заявку" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>

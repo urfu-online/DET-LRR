@@ -2,13 +2,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
+
 <p>
-    <a class="btn btn-light" href="{% url 'repository_Platform_list' %}">
+    <a class="btn btn-light" href="{% url 'repository:repository_Platform_list' %}">
     Platform Listing
     </a>
 </p>
-    
+
 <table class="table">
     <tr><td>created</td><td>{{ object.created }}</td></tr>
     <tr><td>url</td><td>{{ object.url }}</td></tr>
