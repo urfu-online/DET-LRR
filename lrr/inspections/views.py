@@ -1,6 +1,7 @@
 import logging
 
 import django_filters
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
@@ -230,6 +231,9 @@ class CheckListCreateView(GroupRequiredMixin, generic.CreateView):
         context['dig_res'] = dig_res
         context['checklists'] = inspections_models.Expertise.get_checklists(expertise)
         return context
+
+    def get_success_url(self):
+        return reverse_lazy("inspections:inspections_Expertise_update", args=(self.object.expertise.pk,))
 
 
 class CheckListDetailView(generic.DetailView):

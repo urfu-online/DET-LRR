@@ -1,5 +1,6 @@
-import django_filters
 import logging
+
+import django_filters
 from django.views import generic
 
 from lrr.inspections.models import Expertise
@@ -221,6 +222,7 @@ class DigitalResourceCreateView(generic.CreateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
     permission_class = []
+    template_name = 'repository/digitalresource_form_create.html'
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -258,6 +260,7 @@ class DigitalResourceUpdateView(generic.UpdateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
     pk_url_kwarg = "pk"
+    template_name = 'repository/digitalresource_form_update.html'
 
     def form_valid(self, form):
         context = self.get_context_data()
