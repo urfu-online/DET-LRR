@@ -4,7 +4,6 @@
 import logging
 
 import django_filters
-from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -12,18 +11,18 @@ from lrr.complexes import forms
 from lrr.complexes import models as complex_model
 from lrr.repository.filters import FilteredListView
 from lrr.users.mixins import GroupRequiredMixin
-from lrr.users.models import Person, Student
+from lrr.users.models import Person
 
 logger = logging.getLogger(__name__)
 
 
-def WorkPlanView(request):
-    person = get_object_or_404(Person, user=request.user)
-    academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
-    obj_plan = complex_model.WorkPlanAcademicGroup.objects.filter(academic_group=academic_group)
-    return render(request, 'pages/work_plan_list.html',
-                  {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person,  # 'status': status,
-                   'DR': obj_plan[0].digital_resource.first()})
+# def WorkPlanView(request):
+#     person = get_object_or_404(Person, user=request.user)
+#     academic_group = get_object_or_404(Student, person=Person.objects.get(user=request.user)).academic_group
+#     obj_plan = complex_model.AssignmentAcademicGroup.objects.filter(academic_group=academic_group)
+#     return render(request, 'pages/work_plan_list.html',
+#                   {'academic_group': academic_group, 'obj_plan': obj_plan, 'person': person,  # 'status': status,
+#                    'DR': obj_plan[0].digital_resource.first()})
 
 
 class DigitalComplexFilter(django_filters.FilterSet):
@@ -105,10 +104,15 @@ class DigitalComplexDetailView(generic.DetailView, GroupRequiredMixin):
         component_complex = complex_model.ComponentComplex.objects.not_instance_of(complex_model.ResourceComponent,
                                                                                    complex_model.PlatformComponent,
                                                                                    complex_model.TraditionalSessionComponent)
-        context['component_complex'] = component_complex.get(digital_complex=self.object)
+        try:
+            context['component_complex'] = component_complex.get(digital_complex=self.object)
+        except:
+            pass
         context['resource_components'] = complex_model.ResourceComponent.objects.filter(digital_complex=self.object)
         context['platform_components'] = complex_model.PlatformComponent.objects.filter(digital_complex=self.object)
         context['traditional_components'] = complex_model.TraditionalSessionComponent.objects.filter(
+            digital_complex=self.object)
+        context['assigment_academic_group'] = complex_model.AssignmentAcademicGroup.objects.filter(
             digital_complex=self.object)
         return context
 
@@ -250,7 +254,6 @@ class PlatformComponentDeleteView(generic.DeleteView, GroupRequiredMixin):
     pk_url_kwarg = "pk"
 
     def get_success_url(self):
-        logger.warning(self)
         dig_complex_id = self.object.digital_complex.pk
         return reverse_lazy("complexes:complexes_ComponentComplex_create", args=(dig_complex_id,))
 
@@ -282,6 +285,115 @@ class TraditionalSessionComponentDeleteView(generic.DeleteView, GroupRequiredMix
     pk_url_kwarg = "pk"
 
     def get_success_url(self):
-        logger.warning(self)
         dig_complex_id = self.object.digital_complex.pk
         return reverse_lazy("complexes:complexes_ComponentComplex_create", args=(dig_complex_id,))
+
+
+class AssignmentAcademicGroupListView(FilteredListView, GroupRequiredMixin):
+    model = complex_model.AssignmentAcademicGroup
+    group_required = [u"teacher", u"admins"]
+    template_name = 'complexes/teacher/assigment_academic_group/list.html'
+    allow_empty = True
+    paginate_by = 12
+    filterset_class = DigitalComplexFilter
+
+    def get_queryset(self, **kwargs):
+        request = self.request
+        queryset = complex_model.AssignmentAcademicGroup.get_assignment_group_digital_complex(request)
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignmentAcademicGroupListView, self).get_context_data(**kwargs)
+        dig_complex = complex_model.DigitalComplex.get_digital_complex(self)
+        context['dig_complex'] = dig_complex
+        return context
+
+
+class AssignmentAcademicGroupDetailView(generic.DetailView, GroupRequiredMixin):
+    model = complex_model.AssignmentAcademicGroup
+    group_required = [u"teacher", u"admins"]
+    template_name = 'complexes/teacher/assigment_academic_group/detail.html'
+
+
+class AssignmentAcademicGroupDeleteView(generic.DeleteView, GroupRequiredMixin):
+    model = complex_model.AssignmentAcademicGroup
+    form_class = forms.AssignmentAcademicGroupForm
+    template_name = 'complexes/teacher/resource_component/component_form_delete.html'
+    group_required = [u"teacher", u"admins"]
+    pk_url_kwarg = "pk"
+
+    def get_success_url(self):
+        dig_complex_pk = self.object.digital_complex.pk
+        return reverse_lazy("complexes:complexes_AssignmentAcademicGroup_list", args=(dig_complex_pk,))
+
+
+class AssignmentAcademicGroupCreateView(generic.CreateView, GroupRequiredMixin):
+    model = complex_model.AssignmentAcademicGroup
+    form_class = forms.AssignmentAcademicGroupForm
+    group_required = [u"teacher", u"admins"]
+    template_name = 'complexes/teacher/assigment_academic_group/form_create.html'
+
+    def get_success_url(self):
+        dig_complex_id = self.object.digital_complex.pk
+        return reverse_lazy("complexes:complexes_DigitalComplex_detail", args=(dig_complex_id,))
+
+    def form_valid(self, form):
+        # context = self.get_context_data()
+        form.instance.digital_complex = complex_model.DigitalComplex.get_digital_complex(self)
+        # assignment_formset = context['assignment_formset']
+        self.object = form.save()
+        # if assignment_formset.is_valid():
+        #     assignment_formset.instance = self.object
+        #     assignment_formset.save()
+        form_valid = super(AssignmentAcademicGroupCreateView, self).form_valid(form)
+        return form_valid
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignmentAcademicGroupCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.AssignmentAcademicGroupForm(self.request.POST)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST)
+        else:
+            context["form"] = forms.AssignmentAcademicGroupForm()
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset()
+            dig_complex = complex_model.DigitalComplex.get_digital_complex(self)
+            context['dig_complex'] = dig_complex
+        return context
+
+
+class AssignmentAcademicGroupUpdateView(generic.UpdateView, GroupRequiredMixin):
+    model = complex_model.AssignmentAcademicGroup
+    form_class = forms.AssignmentAcademicGroupForm
+    group_required = [u"teacher", u"admins"]
+    template_name = 'complexes/teacher/assigment_academic_group/form_update.html'
+
+    def get_success_url(self):
+        dig_complex_id = self.object.digital_complex.pk
+        return reverse_lazy("complexes:complexes_DigitalComplex_detail", args=(dig_complex_id,))
+
+    def form_valid(self, form):
+        # context = self.get_context_data()
+        form.instance.digital_complex = complex_model.DigitalComplex.get_digital_complex(self)
+        # assignment_formset = context['assignment_formset']
+        self.object = form.save()
+        # if assignment_formset.is_valid():
+        #     assignment_formset.instance = self.object
+        #     assignment_formset.save()
+        form_valid = super(AssignmentAcademicGroupUpdateView, self).form_valid(form)
+        return form_valid
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignmentAcademicGroupUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.AssignmentAcademicGroupForm(self.request.POST, instance=self.object)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
+            #                                                                      instance=self.object)
+        else:
+            context["form"] = forms.AssignmentAcademicGroupForm(instance=self.object)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
+            context['dig_complex'] = self.object.digital_complex
+        return context

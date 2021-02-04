@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% load user_tags %}
+{% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭМУК</a></li>
+      <li class="breadcrumb-item"><a
+              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Назначение акдамических групп для {{ dig_complex }}</li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    {#    {% if request.user.is_superuser %}#}
+    {#      <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i#}
+    {#              class="pen icon"></i>Редактировать</a>#}
+    {#    {% endif %}#}
+    <h1>Назначение акдамических групп для {{ dig_complex }}</h1>
+  </header>
+  {% if request.user.is_authenticated %}
+    <div class="row p-2">
+      <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
+        <div class="card h-100 shadow-1">
+          <div class="card-body">
+            {#            <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>#}
+            {#            <p> {{ object.description }}</p>#}
+            {#            {% if assigment_academic_group.all %}#}
+            {#              <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' %}"#}
+            {#                 class="btn btn-block btn-primary">Изминить состав академических групп</a>#}
+            {#            {% else %}#}
+            {#              <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' pk=object.pk %}"#}
+            {#                 class="btn btn-block btn-primary">Назначить академические группы</a>#}
+            {#            {% endif %}#}
+            {% if object_list %}
+              <table class="ui compact table">
+                <thead>
+                <h5>Назначение академическим группам: </h5>
+                <th>Академическая группа</th>
+                <th>Дисциплина</th>
+                <th>Учебный год</th>
+                <th></th>
+                <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in object_list %}
+                  <tr>
+                  <td>{{ object.academic_group }}</td>
+                  <td>{{ object.subject }}</td>
+                  <td>{{ object.learn_date }}</td>
+                  <td><a class="btn btn-secondary"
+                         href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}">Редактировать</a>
+                  </td>
+                  <td><a class="btn btn-secondary"
+                         href="{% url 'complexes:complexes_AssignmentAcademicGroup_delete' pk=object.pk %}">X</a></td>
+                {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              Назначенные группы отсутсвуют
+            {% endif %}
+          </div>
+          <a class="btn btn-secondary"
+             href="{% url 'complexes:complexes_AssignmentAcademicGroup_create' digital_complex_pk=dig_complex.pk %}"> +
+            Добавить</a>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+
+{% endblock %}

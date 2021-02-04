@@ -103,9 +103,9 @@ class CellAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(models.WorkPlanAcademicGroup)
-class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
-    form = forms_admin.WorkPlanAcademicGroupAdminForm
+@admin.register(models.AssignmentAcademicGroup)
+class AssignmentAcademicGroupAdmin(admin.ModelAdmin):
+    form = forms_admin.AssignmentAcademicGroupForm
     list_display = [
         "academic_group",
         "learn_date"
@@ -141,8 +141,8 @@ class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
 @admin.register(models.ComponentComplex)
 class ComponentComplexChiledAdmin(ComponentComplexChildAdmin):
     base_model = models.ComponentComplex
-    search_fields = ["digital_resource__title", ]
-    autocomplete_fields = ["digital_resource", ]
+    search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format" ]
+    # autocomplete_fields = ["digital_resource", ]
     # show_in_index = True
 
 

@@ -3,7 +3,6 @@ from django.urls import path
 from lrr.complexes import views
 
 urlpatterns = (
-    path("WorkPlan/", views.WorkPlanView, name="complexes_WorkPlan"),
     path("DigitalComplex/", views.DigitalComplexMyListView.as_view(), name="complexes_DigitalComplex_list"),
     path("DigitalComplex/my/", views.DigitalComplexMyListView.as_view(), name="complexes_DigitalComplexMy_list"),
     path("DigitalComplex/create/", views.DigitalComplexCreateView.as_view(), name="complexes_DigitalComplex_create"),
@@ -27,4 +26,15 @@ urlpatterns = (
          name="complexes_TraditionalSessionComponent_create"),
     path("TraditionalSessionComponent/delete/<uuid:pk>/", views.TraditionalSessionComponentDeleteView.as_view(),
          name="complexes_TraditionalSessionComponent_delete"),
+    path("AssignmentAcademicGroup/update/<uuid:pk>/",
+         views.AssignmentAcademicGroupUpdateView.as_view(),
+         name="complexes_AssignmentAcademicGroup_update"),
+    path("AssignmentAcademicGroup/create/<uuid:digital_complex_pk>/", views.AssignmentAcademicGroupCreateView.as_view(),
+         name="complexes_AssignmentAcademicGroup_create"),
+    path("AssignmentAcademicGroup/list/<uuid:digital_complex_pk>/",
+         views.AssignmentAcademicGroupListView.as_view(),
+         name="complexes_AssignmentAcademicGroup_list"),
+    path("AssignmentAcademicGroup/delete/<uuid:pk>/",
+         views.AssignmentAcademicGroupDeleteView.as_view(),
+         name="complexes_AssignmentAcademicGroup_delete"),
 )

@@ -103,7 +103,7 @@
             {#                {% include "repository/tag.html" with tag=tag %}#}
             {#              {% endfor %}#}
             {#            </h5>#}
-            {% if resource_components or platform_components or traditional_components is not None %}
+            {% if resource_components.all or platform_components.all or traditional_components.all or component_complex is not None %}
               <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=component_complex.pk %}"
                  class="btn btn-block btn-primary">Изминить состав компонентов</a>
             {% else %}
@@ -115,7 +115,7 @@
         <br/>
         <div class="card shadow-1">
           <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
-          {% if resource_components or platform_components or traditional_components is not None %}
+          {% if resource_components.all or platform_component.all or traditional_components.all or component_complex is not None %}
             <table class="ui compact table">
               <thead>
               <h5>Комопоненты ЭОР: </h5>
@@ -176,6 +176,38 @@
             </table>
           {% else %}
             Компоненты Отсутсвуют
+          {% endif %}
+        </div>
+        <div class="card shadow-1">
+          {% if assigment_academic_group.all %}
+            <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+               class="btn btn-block btn-primary">Изминить состав академических групп</a>
+          {% else %}
+            <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+               class="btn btn-block btn-primary">Назначить академические группы</a>
+          {% endif %}
+          {% if assigment_academic_group.all %}
+            <table class="ui compact table">
+              <thead>
+              <h5>Назначение академическим группам: </h5>
+              <tr>
+                <th>Академическая группа</th>
+                <th>Дисциплина</th>
+                <th>Учебный год</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in assigment_academic_group %}
+                <tr>
+                <td>{{ component.academic_group }}</td>
+                <td>{{ component.subject }}</td>
+                <td>{{ component.learn_date }}</td>
+                {#                <td>{{ component.semestr }}</td>#}
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            Назначенные группы отсутсвуют
           {% endif %}
         </div>
       </div>

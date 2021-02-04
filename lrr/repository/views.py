@@ -226,23 +226,25 @@ class DigitalResourceCreateView(generic.CreateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        source = context['source']
+        source_formset = context['source_formset']
         person = Person.get_person(user=self.request.user)
         form.instance.owner = person
-        if source.is_valid():
-            source.instance = self.object
-            source.save()
-        form.save()
+        self.object = form.save()
+        if source_formset.is_valid():
+            source_formset.instance = self.object
+            source_formset.save()
         form_valid = super(DigitalResourceCreateView, self).form_valid(form)
         return form_valid
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
-            data["source_formset"] = forms.SourceFormset(self.request.POST)
+            context["form"] = forms.DigitalResourceForm(self.request.POST)
+            context["source_formset"] = forms.SourceFormset(self.request.POST, self.request.FILES)
         else:
-            data["source_formset"] = forms.SourceFormset()
-        return data
+            context["form"] = forms.DigitalResourceForm()
+            context["source_formset"] = forms.SourceFormset()
+        return context
 
 
 class DigitalResourceDetailView(generic.DetailView):
@@ -267,13 +269,11 @@ class DigitalResourceUpdateView(generic.UpdateView):
         source_formset = context['source_formset']
         person = Person.get_person(user=self.request.user)
         form.instance.owner = person
-        logger.warning(self.object)
-        # self.object = form.save()
+        self.object = form.save()
         if source_formset.is_valid():
             self.object = form.save()
             source_formset.instance = self.object
             source_formset.save()
-        form.save()
         form_valid = super(DigitalResourceUpdateView, self).form_valid(form)
         return form_valid
 

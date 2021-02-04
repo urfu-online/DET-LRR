@@ -32,6 +32,7 @@ class DigitalComplexForm(forms.ModelForm):
     class Meta:
         model = complex_models.DigitalComplex
         fields = [
+            "title",
             "keywords",
             "description",
             "language",
@@ -44,19 +45,25 @@ class DigitalComplexForm(forms.ModelForm):
         exclude = ["owner", "digital_resources"]
 
         widgets = {
+            "title": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false',
+                },
+            ),
             "keywords": forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'required': 'false',
                 },
             ),
-            "description": forms.Textarea(
+            "description": forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'required': 'false',
                 },
             ),
-            "format": forms.Textarea(
+            "format": forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'required': 'false',
@@ -133,10 +140,105 @@ class ComplexThemeForm(forms.ModelForm):
         ]
 
 
-class WorkPlanAcademicGroupForm(forms.ModelForm):
+class DigitalComplexWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "title__icontains",
+        "keywords__icontains",
+        "format__icontains",
+    ]
+    max_results = 50
+
+
+class AcademicGroupWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "number__icontains",
+    ]
+    max_results = 50
+
+
+class SubjectWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "title__icontains",
+    ]
+    max_results = 50
+
+
+class AssignmentAcademicGroupForm(forms.ModelForm):
     class Meta:
-        model = complex_models.WorkPlanAcademicGroup
-        fields = "__all__"
+        model = complex_models.AssignmentAcademicGroup
+        fields = ['academic_group', 'subject', 'learn_date', 'semestr']
+        widgets = {
+            # "digital_complex": DigitalComplexWidget(
+            #     attrs={
+            #         'class': 'form-control',
+            #         'required': 'false'
+            #     },
+            # ),
+            "academic_group": AcademicGroupWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "subject": SubjectWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "learn_date": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "semestr": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+        }
+
+
+AssignmentAcademicGroupFormset = forms.inlineformset_factory(
+    complex_models.DigitalComplex,
+    complex_models.AssignmentAcademicGroup,
+    fields=('academic_group', 'subject', 'learn_date', 'semestr'),
+    extra=1,
+    widgets={
+        # "digital_complex": DigitalComplexWidget(
+        #     attrs={
+        #         'class': 'form-control',
+        #         'required': 'false'
+        #     },
+        # ),
+        "academic_group": AcademicGroupWidget(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+        "subject": SubjectWidget(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+        "learn_date": forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+        "semestr": forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+    }
+)
 
 
 class ComponentComplexForm(forms.ModelForm):

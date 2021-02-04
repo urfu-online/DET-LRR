@@ -138,13 +138,13 @@ class CellWeeks(BaseModel):
         return str(self.edu_form)
 
 
-class WorkPlanAcademicGroup(BaseModel):
-    digital_complex = models.ManyToManyField("complexes.DigitalComplex", verbose_name="Ресурсное обеспечение")
+class AssignmentAcademicGroup(BaseModel):
+    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="ЭУМКи", on_delete=models.CASCADE,
+                                        blank=True, null=True)
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
-                                       verbose_name="Академическая группа")
-    direction = models.ForeignKey("repository.Direction", on_delete=models.PROTECT,
-                                  verbose_name="Направление подготовки", null=True)
-    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплины", on_delete=models.PROTECT, null=True)
+                                       verbose_name="Академическая группа", blank=True, null=True)
+    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", blank=True, on_delete=models.PROTECT,
+                                null=True)
     learn_date = models.PositiveSmallIntegerField("Учебный год", null=True, blank=True)
     semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
 
@@ -156,10 +156,18 @@ class WorkPlanAcademicGroup(BaseModel):
         return str(self.academic_group)
 
     def get_absolute_url(self):
-        return reverse("repository_WorkPlanAcademicGroup_detail", args=(self.pk,))
+        return reverse("repository_AssignmentAcademicGroup_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_AssignmentAcademicGroup_update", args=(self.pk,))
 
     def get_update_url(self):
         return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
+
+    @classmethod
+    def get_assignment_group_digital_complex(cls, request):
+        digital_complex_pk = request.path.split('/')[4]
+        return cls.objects.filter(digital_complex__pk=digital_complex_pk)
 
 
 class ComponentComplex(BaseModel, PolymorphicModel):

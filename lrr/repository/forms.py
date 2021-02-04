@@ -247,7 +247,6 @@ SourceFormset = inlineformset_factory(
         'file': forms.FileInput(
             attrs={
                 'class': 'form-control-file',
-                'required': 'false'
             },
         ),
         'type': forms.TextInput(

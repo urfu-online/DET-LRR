@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class WorkPlanAcademicGroupSerializer(serializers.ModelSerializer):
     class Meta:
-        model = complexes_models.WorkPlanAcademicGroup
+        model = complexes_models.AssignmentAcademicGroup
         fields = [
             "academic_group",
             "learn_date",

@@ -26,8 +26,20 @@
             {{ form.media.css }}
 
             <div class="form-group">
+              <label>{{ form.title.label }}</label>
+              {{ form.title }}
+            </div>
+            <div class="form-group">
               <label>{{ form.keywords.label }}</label>
               {{ form.keywords }}
+            </div>
+            <div class="form-group">
+              <label>{{ form.format.label }}</label>
+              {{ form.format }}
+            </div>
+            <div class="form-group">
+              <label>{{ form.description.label }}</label>
+              {{ form.description }}
             </div>
             <div class="form-group">
               <label>{{ form.language.label }}</label>
