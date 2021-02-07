@@ -7,7 +7,7 @@ from polymorphic.models import PolymorphicModel
 
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
-from lrr.users.models import Person
+from lrr.users.models import Person, Student
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +47,7 @@ class DigitalComplex(BaseModel):
     @classmethod
     def get_count_complex(cls):
         return cls.objects.all().count()
+
 
 
 class Cell(BaseModel):
@@ -139,6 +140,14 @@ class CellWeeks(BaseModel):
 
 
 class AssignmentAcademicGroup(BaseModel):
+    FIRST = 'FIRST'
+    SECOND = 'SECOND'
+
+    NUMBER_SEMESTR_TYPE = [
+        (FIRST, 'Первый семестр'),
+        (SECOND, 'Второй семестр'),
+    ]
+
     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="ЭУМКи", on_delete=models.CASCADE,
                                         blank=True, null=True)
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
@@ -146,28 +155,31 @@ class AssignmentAcademicGroup(BaseModel):
     subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", blank=True, on_delete=models.PROTECT,
                                 null=True)
     learn_date = models.PositiveSmallIntegerField("Учебный год", null=True, blank=True)
-    semestr = models.PositiveSmallIntegerField("Семестр", null=True, blank=True)
+    semestr = models.CharField("Семестр", max_length=50, choices=NUMBER_SEMESTR_TYPE, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Ресурсное обеспечение академической группы"
         verbose_name_plural = u"Ресурсное обеспечение академических групп"
 
     def __str__(self):
-        return str(self.academic_group)
+        return f"{self.academic_group} {self.subject} {self.learn_date} {self.semestr}"
 
-    def get_absolute_url(self):
-        return reverse("repository_AssignmentAcademicGroup_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_AssignmentAcademicGroup_update", args=(self.pk,))
+    # def get_absolute_url(self):
+    #     return reverse("complexes:complexes_AssignmentAcademicGroup_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
+        return reverse("complexes:complexes_AssignmentAcademicGroup_update", args=(self.pk,))
+
+    # def get_update_url(self):
+    #     return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
 
     @classmethod
     def get_assignment_group_digital_complex(cls, request):
         digital_complex_pk = request.path.split('/')[4]
         return cls.objects.filter(digital_complex__pk=digital_complex_pk)
+
+    # @classmethod
+    # def get_direction(cls):
 
 
 class ComponentComplex(BaseModel, PolymorphicModel):

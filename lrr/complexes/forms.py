@@ -192,7 +192,7 @@ class AssignmentAcademicGroupForm(forms.ModelForm):
                     'required': 'false'
                 },
             ),
-            "semestr": forms.TextInput(
+            "semestr": forms.Select(
                 attrs={
                     'class': 'form-control',
                     'required': 'false'
@@ -231,7 +231,7 @@ AssignmentAcademicGroupFormset = forms.inlineformset_factory(
                 'required': 'false'
             },
         ),
-        "semestr": forms.TextInput(
+        "semestr": forms.Select(
             attrs={
                 'class': 'form-control',
                 'required': 'false'

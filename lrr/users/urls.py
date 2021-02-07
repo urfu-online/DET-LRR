@@ -1,7 +1,6 @@
 from django.urls import path
 from rest_framework import routers
 
-from lrr.users.api.views import StudentViewSet, PersonViewSet
 from lrr.users.views import (
     user_detail_view,
     user_redirect_view,

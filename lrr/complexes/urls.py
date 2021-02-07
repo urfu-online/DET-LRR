@@ -37,4 +37,6 @@ urlpatterns = (
     path("AssignmentAcademicGroup/delete/<uuid:pk>/",
          views.AssignmentAcademicGroupDeleteView.as_view(),
          name="complexes_AssignmentAcademicGroup_delete"),
+    path("my_subjects/<str:username>/", view=views.AssignmentAcademicGroupMyListView.as_view(),
+         name="complexes_AssignmentAcademicGroupMy_list"),
 )

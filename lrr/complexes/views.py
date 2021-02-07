@@ -11,7 +11,7 @@ from lrr.complexes import forms
 from lrr.complexes import models as complex_model
 from lrr.repository.filters import FilteredListView
 from lrr.users.mixins import GroupRequiredMixin
-from lrr.users.models import Person
+from lrr.users.models import Person, Student, AcademicGroup
 
 logger = logging.getLogger(__name__)
 
@@ -377,7 +377,7 @@ class AssignmentAcademicGroupUpdateView(generic.UpdateView, GroupRequiredMixin):
 
     def form_valid(self, form):
         # context = self.get_context_data()
-        form.instance.digital_complex = complex_model.DigitalComplex.get_digital_complex(self)
+        form.instance.digital_complex = self.object.digital_complex
         # assignment_formset = context['assignment_formset']
         self.object = form.save()
         # if assignment_formset.is_valid():
@@ -396,4 +396,39 @@ class AssignmentAcademicGroupUpdateView(generic.UpdateView, GroupRequiredMixin):
             context["form"] = forms.AssignmentAcademicGroupForm(instance=self.object)
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
             context['dig_complex'] = self.object.digital_complex
+        return context
+
+
+class AssignmentAcademicGroupMyFilter(django_filters.FilterSet):
+    class Meta:
+        model = complex_model.AssignmentAcademicGroup
+        fields = {
+            'semestr': ['exact'],
+        }
+
+
+class AssignmentAcademicGroupMyListView(FilteredListView, GroupRequiredMixin):
+    model = complex_model.AssignmentAcademicGroup
+    allow_empty = True
+    paginate_by = 12
+    group_required = ['student', 'admins']
+    filterset_class = AssignmentAcademicGroupMyFilter
+    template_name = 'complexes/student/my_subjects_list.html'
+
+    def get_queryset(self, **kwargs):
+        queryset = complex_model.AssignmentAcademicGroup.objects.all()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignmentAcademicGroupMyListView, self).get_context_data(**kwargs)
+        user = self.request.user
+        academic_group = Student.get_academic_group_for_user(user)
+        direction = AcademicGroup.get_direction_for_number(academic_group)
+        context['student'] = Student.get_student(user)
+        context['academic_group'] = academic_group
+        context['direction'] = direction
         return context

@@ -127,7 +127,8 @@
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
             {% if request.user|has_group:"student" %}
-              <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Мои
+              <a class="dropdown-item"
+                 href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user.username %}">Мои
                 дисциплины</a>
             {% endif %}
           </div>
@@ -237,11 +238,11 @@
     </script>
   {% endif %}
 
-{#  {% if assignment_formset %}#}
-{#    <script>#}
-{#      $('.assignment_formset').formset();#}
-{#    </script>#}
-{#  {% endif %}#}
+  {#  {% if assignment_formset %}#}
+  {#    <script>#}
+  {#      $('.assignment_formset').formset();#}
+  {#    </script>#}
+  {#  {% endif %}#}
 
 
 {% endblock javascript %}

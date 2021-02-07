@@ -1,18 +1,17 @@
+import logging
+
+# import the logging library
+import django_filters
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import DetailView, RedirectView, UpdateView, ListView
-from django.shortcuts import get_object_or_404
+from django.views.generic import DetailView, RedirectView, UpdateView
 
+from lrr.repository.filters import FilteredListView
 from lrr.users import forms
 from lrr.users import models
-from lrr.repository.filters import FilteredListView
-
-# import the logging library
-import django_filters
-import logging
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)

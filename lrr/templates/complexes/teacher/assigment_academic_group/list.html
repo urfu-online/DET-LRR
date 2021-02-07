@@ -12,10 +12,6 @@
     </ol>
   </nav>
   <header class="pb-4 px-2">
-    {#    {% if request.user.is_superuser %}#}
-    {#      <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i#}
-    {#              class="pen icon"></i>Редактировать</a>#}
-    {#    {% endif %}#}
     <h1>Назначение акдамических групп для {{ dig_complex }}</h1>
   </header>
   {% if request.user.is_authenticated %}
@@ -23,15 +19,6 @@
       <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
         <div class="card h-100 shadow-1">
           <div class="card-body">
-            {#            <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>#}
-            {#            <p> {{ object.description }}</p>#}
-            {#            {% if assigment_academic_group.all %}#}
-            {#              <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' %}"#}
-            {#                 class="btn btn-block btn-primary">Изминить состав академических групп</a>#}
-            {#            {% else %}#}
-            {#              <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' pk=object.pk %}"#}
-            {#                 class="btn btn-block btn-primary">Назначить академические группы</a>#}
-            {#            {% endif %}#}
             {% if object_list %}
               <table class="ui compact table">
                 <thead>
@@ -39,6 +26,7 @@
                 <th>Академическая группа</th>
                 <th>Дисциплина</th>
                 <th>Учебный год</th>
+                <th>Семестр</th>
                 <th></th>
                 <th></th>
                 </tr>
@@ -49,6 +37,7 @@
                   <td>{{ object.academic_group }}</td>
                   <td>{{ object.subject }}</td>
                   <td>{{ object.learn_date }}</td>
+                  <td>{{ object.get_semestr_display }}</td>
                   <td><a class="btn btn-secondary"
                          href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}">Редактировать</a>
                   </td>
