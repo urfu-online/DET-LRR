@@ -406,10 +406,10 @@ class Platform(BaseModel):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("repository_Platform_detail", args=(self.pk,))
+        return reverse("repository:repository_Platform_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("repository_Platform_update", args=(self.pk,))
+        return reverse("repository:repository_Platform_update", args=(self.pk,))
 
 
 class Language(models.Model):

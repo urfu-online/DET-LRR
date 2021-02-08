@@ -5,8 +5,8 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-2 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
-      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭМУК</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Паспорт ЭМУК</li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭУМК</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Паспорт ЭУМК</li>
     </ol>
   </nav>
   <header class="pb-4 px-2">
@@ -56,27 +56,7 @@
               <p>{{ obj }}</p>
               <hr>
             {% endfor %}
-            <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
-            {% if source is not None %}
-              <table class="ui compact table">
-                <thead>
-                <tr>
-                  <th>Наименоваие компонента</th>
-                  <th>URL компонента</th>
-                  <th>Тип компонента</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for item_source in source %}
-                  <tr>
-                    <td>{{ item_source }}</td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-            {% else %}
-              Компоненты Отсутсвуют
-            {% endif %}
+
           </div>
         </div>
       </div>
@@ -123,10 +103,112 @@
             {#                {% include "repository/tag.html" with tag=tag %}#}
             {#              {% endfor %}#}
             {#            </h5>#}
-            <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
-               class="btn btn-block btn-primary">Добавить компонент</a>
-
+            {% if resource_components.all or platform_components.all or traditional_components.all or component_complex is not None %}
+              <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=component_complex.pk %}"
+                 class="btn btn-block btn-primary">Изминить состав компонентов</a>
+            {% else %}
+              <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
+                 class="btn btn-block btn-primary">Добавить компонент</a>
+            {% endif %}
           </div>
+        </div>
+        <br/>
+        <div class="card shadow-1">
+          <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
+          {% if resource_components.all or platform_component.all or traditional_components.all or component_complex is not None %}
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты ЭОР: </h5>
+              <tr>
+                <th>ЭОР</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in resource_components %}
+                <tr>
+                <td>
+                  <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>
+                </td>
+                <td>{{ component.description }}</td>
+              {% endfor %}
+              </tbody>
+            </table>
+
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты Платформ: </h5>
+              <tr>
+                <th>Платформа</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in platform_components %}
+                <tr>
+                <td>
+                  <a href="{% url 'repository:repository_Platform_detail' pk=component.platform.pk %}">{{ component.platform }}</a>
+                </td>
+                <td>{{ component.description }}</td>
+              {% endfor %}
+              </tbody>
+            </table>
+
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты традиционных занятий:</h5>
+              <tr>
+                <th>Наименование</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in traditional_components %}
+                <tr>
+                  <td>{{ component.title }}</td>
+                  <td>{{ component.description }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            Компоненты Отсутсвуют
+          {% endif %}
+        </div>
+        <div class="card shadow-1">
+          {% if assigment_academic_group.all %}
+            <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+               class="btn btn-block btn-primary">Изминить состав академических групп</a>
+          {% else %}
+            <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+               class="btn btn-block btn-primary">Назначить академические группы</a>
+          {% endif %}
+          {% if assigment_academic_group.all %}
+            <table class="ui compact table">
+              <thead>
+              <h5>Назначение академическим группам: </h5>
+              <tr>
+                <th>Академическая группа</th>
+                <th>Дисциплина</th>
+                <th>Учебный год</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in assigment_academic_group %}
+                <tr>
+                <td>{{ component.academic_group }}</td>
+                <td>{{ component.subject }}</td>
+                <td>{{ component.learn_date }}</td>
+                {#                <td>{{ component.semestr }}</td>#}
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            Назначенные группы отсутсвуют
+          {% endif %}
         </div>
       </div>
     </div>

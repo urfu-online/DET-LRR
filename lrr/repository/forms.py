@@ -247,7 +247,6 @@ SourceFormset = inlineformset_factory(
         'file': forms.FileInput(
             attrs={
                 'class': 'form-control-file',
-                'required': 'false'
             },
         ),
         'type': forms.TextInput(
@@ -273,12 +272,43 @@ class PlatformForm(forms.ModelForm):
     class Meta:
         model = models.Platform
         fields = [
+            "title",
             "url",
             "logo",
             "description",
             "contacts",
-            "title",
         ]
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            'url': forms.URLInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            'logo': forms.FileInput(
+                attrs={
+                    'class': 'form-control-file'
+                },
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            'contacts': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+        }
 
 
 class LanguageForm(forms.ModelForm):

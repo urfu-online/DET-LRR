@@ -32,6 +32,6 @@ class ComplexSpaceCellViewSet(viewsets.ModelViewSet):
 class WorkPlanAcademicGroupViewSet(viewsets.ModelViewSet):
     """ViewSet for the Subject class"""
 
-    queryset = models.WorkPlanAcademicGroup.objects.all()
+    queryset = models.AssignmentAcademicGroup.objects.all()
     serializer_class = serializers.WorkPlanAcademicGroupSerializer
     permission_classes = [permissions.IsAuthenticated]

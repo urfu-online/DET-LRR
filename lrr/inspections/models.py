@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from django.db import models as models
+from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
 
@@ -8,8 +10,6 @@ from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
 from lrr.repository.models import DigitalResource
 from lrr.users.models import Person, Expert
-
-from django.db.models import Q
 
 logger = logging.getLogger(__name__)
 
@@ -218,6 +218,30 @@ class CheckList(repository_model.BaseModel):
 
     def get_update_url(self):
         return reverse("inspections:inspections_CheckList_update", args=(self.pk,))
+
+    def get_close_my_checklist(self, cls):
+        try:
+            usr = self.request.user
+            objs = cls.objects.filter(Q(status='END') & Q(expert__person__user=usr), )
+        except:
+            objs = cls.objects.all()
+        return objs
+
+    def get_my_checklist(self, cls):
+        try:
+            usr = self.request.user
+            objs = cls.objects.filter(Q(status='IN_PROCESS') & Q(expert__person__user=usr), )
+        except:
+            objs = cls.objects.all()
+        return objs
+
+    def get_active_my_checklist(self, cls):
+        try:
+            usr = self.request.user
+            objs = cls.objects.filter(Q(status='START') & Q(expert__person__user=usr), )
+        except:
+            objs = cls.objects.all()
+        return objs
 
 
 class Question(repository_model.BaseModel):

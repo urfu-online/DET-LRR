@@ -1,9 +1,6 @@
+from allauth.account.forms import SignupForm
 from django import forms as form
 from django.contrib.auth import forms, get_user_model
-from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
-
-from allauth.account.forms import SignupForm
 
 from lrr.users import models
 
@@ -80,3 +77,5 @@ class ExpertForm(form.ModelForm):
 #         user.person.last_name = self.cleaned_data['last_name']
 #         user.person.middle_name = self.cleaned_data['middle_name']
 #         user.person.save()
+
+

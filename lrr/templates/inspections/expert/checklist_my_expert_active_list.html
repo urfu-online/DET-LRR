@@ -2,56 +2,194 @@
 {% load static %}
 {% load user_tags %}
 {% block content %}
-  <div class="ui container">
-    <div class="ui segment">
-      <div class="ui grid ">
-        <div class="eleven wide column "><h2>Мои экспертизы</h2></div>
-      </div>
-      <div class="ui relaxed divided items">
-        {% for object in object_list %}
-          <div class="item">
-            <div class="content">
-              <div class="header">{{ object.digital_resource.title }}</div>
-              <div class="meta">
-                <span class="category">Тип ресура: {{ object.digital_resource.get_type_display }}</span>
-              </div>
-              <div class="meta">
-                <span class="category">Категория качества: {{ object.get_quality_category_display }}</span>
-              </div>
-              <div class="meta">
-                <span class="category">Категория интерактивности: {{ object.get_interactive_category_display }}</span>
-              </div>
-              <div class="description">
-                <h5>Статус экспертизы: </h5>
-              </div>
-              <div class="description">
-                Утверждено (присвоен статус):
-                {% if object.expertise_status.accepted_status %}
-                  <i class="check circle outline icon"></i>
-                {% else %}
-                  <i class="circle outline icon"></i>
-                {% endif %}
-              </div>
-              <div class="description">
-                Состояние экспертизы: {{ object.expertise_status.get_status_display }}
-              </div>
-              <div class="description">
-                Срок действия: {{ object.expertise_status.end_date }}
-              </div>
-              <div class="extra">
-                <div class="left floated author">
-                  <i class="graduation cap icon"></i>
-                  {{ object.digital_resource.copyright_holder }}
-                </div>
-                <div class="right floated author">
-                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>
-                  <a class="ui button mini" href="{{ object.get_update_url }}"><i class="pen icon"></i>Выставить статус</a>
-                </div>
-              </div>
-            </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item active" aria-current="page">Мои экспертизы</li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    <h1>Мои экспертизы</h1>
+  </header>
+  <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
+          aria-controls="filters">
+    Фильтры и поиск
+  </button>
+  <div class="row mb-3 px-3" id="accordion">
+
+    <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
+
+      <form action="" method="get">
+        <div class="form-row p-2 align-items-end">
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_person__last_name__contains">Фамилия эксперта</label>
+            <input type="text" name="person__last_name__contains" class="form-control" value=""
+                   id="id_person__last_name__contains">
           </div>
-        {% endfor %}
-      </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_person__first_name__contains">Имя эксперта</label>
+            <input type="text" name="person__first_name__contains" class="form-control" value=""
+                   id="id_person__first_name__contains">
+          </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_person__middle_name__contains">Отчество эксперта</label>
+            <input type="text" name="person__middle_name__contains" class="form-control" value=""
+                   id="id_person__middle_name__contains">
+          </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_format__contains">Подразделение / Отрасль: </label>
+            <input type="text" name="format__contains" class="form-control" value="" id="id_format__contains">
+          </div>
+
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_type">Вид экспертизы:</label> <select name="type" class="custom-select"
+                                                                 id="id_type">
+            <option value="" selected="">---------</option>
+            <option value="METHODIGAL">Методическая</option>
+            <option value="CONTENT">Содержательная</option>
+            <option value="TECH">Техническая</option>
+          </select>
+          </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <input class="btn btn-primary btn-block pt-3" type="submit">
+          </div>
+        </div>
+
+      </form>
     </div>
   </div>
-{% endblock content %}
+
+  <div class="row p-2">
+    {% for object in object_list %}
+      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+        <div class="card h-100 shadow-1">
+          <div class="card-header pb-0">
+            {#              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>#}
+            {#                #}
+            {#              </p>#}
+            <p class="mb-2 text-muted">Статус заявки: {{ object.get_status_display }}</p>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ object.expertise.digital_resource.title }}</h5>
+            <p>Дата подачи: {{ object.expertise.date }}</p>
+            <p>Инициатор: {{ object.expertise.owner }}</p>
+            <p>Эксперт: {{ object.expert }}</p>
+            <p>Тип заявки: {{ object.get_type_display }}</p>
+          </div>
+          <div class="card-footer">
+            {#              {% if object.get_url %}#}
+            {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
+            {#              {% else %}#}
+            {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
+            {#              {% endif %}#}
+            <a href="{{ object.get_update_url }}" class="card-link">Подробнее</a>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if page_obj|length != 0 %}
+    <div class="row p-2">
+      <nav>
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=1 %}">&laquo; Начало</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.previous_page_number %}"
+                 tabindex="-1">Назад</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="?page=1">&laquo; Начало</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="/" tabindex="-1">Назад</a>
+            </li>
+          {% endif %}
+
+          {#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
+          <li class="page-item">
+            <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span
+                    class="sr-only">(current)</span></a>
+          </li>
+          {#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
+
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="">Далее</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  {% endif %}
+
+  </div>
+{% endblock %}
+
+
+{#  <div class="ui container">#}
+{#    <div class="ui segment">#}
+{#      <div class="ui grid ">#}
+{#        <div class="eleven wide column "><h2>Активные заявки</h2></div>#}
+{#      </div>#}
+{#      <div class="ui relaxed divided items">#}
+{#        {% for object in object_list %}#}
+{#          <div class="item">#}
+{#            <div class="content">#}
+{#              <div class="header">{{ object.digital_resource.title }}</div>#}
+{#              <div class="meta">#}
+{#                <span class="category">Тип ресура: {{ object.digital_resource.get_type_display }}</span>#}
+{#              </div>#}
+{#              <div class="meta">#}
+{#                <span class="category">Категория качества: {{ object.get_quality_category_display }}</span>#}
+{#              </div>#}
+{#              <div class="meta">#}
+{#                <span class="category">Категория интерактивности: {{ object.get_interactive_category_display }}</span>#}
+{#              </div>#}
+{#              <div class="description">#}
+{#                <h5>Статус экспертизы: </h5>#}
+{#              </div>#}
+{#              <div class="description">#}
+{#                Утверждено (присвоен статус):#}
+{#                {% if object.expertise_status.accepted_status %}#}
+{#                  <i class="check circle outline icon"></i>#}
+{#                {% else %}#}
+{#                  <i class="circle outline icon"></i>#}
+{#                {% endif %}#}
+{#              </div>#}
+{#              <div class="description">#}
+{#                Состояние экспертизы: {{ object.expertise_status.get_status_display }}#}
+{#              </div>#}
+{#              <div class="description">#}
+{#                Срок действия: {{ object.expertise_status.end_date }}#}
+{#              </div>#}
+{#              <div class="extra">#}
+{#                <div class="left floated author">#}
+{#                  <i class="graduation cap icon"></i>#}
+{#                  {{ object.digital_resource.copyright_holder }}#}
+{#                </div>#}
+{#                <div class="right floated author">#}
+{#                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>#}
+{#                  <a class="ui button mini" href="{{ object.get_update_url }}"><i class="pen icon"></i>Выставить статус</a>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        {% endfor %}#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
