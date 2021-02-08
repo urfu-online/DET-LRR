@@ -24,12 +24,13 @@ class DigitalResourceFilter(django_filters.FilterSet):
         }
 
 
-class ExpertiseActiveSecretaryListView(FilteredListView):
+class ExpertiseActiveSecretaryListView(GroupRequiredMixin, FilteredListView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseCreateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
+    group_required = ['secretary', 'admins']
     template_name = 'inspections/secretary/expertiseactive_secretary_list.html'
 
     def get_queryset(self):
@@ -41,12 +42,13 @@ class ExpertiseActiveSecretaryListView(FilteredListView):
         return qs
 
 
-class ExpertiseCloseSecretaryListView(FilteredListView):
+class ExpertiseCloseSecretaryListView(GroupRequiredMixin, FilteredListView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseCreateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
+    group_required = ['secretary', 'admins']
     template_name = 'inspections/secretary/expertiseclose_secretary_list.html'
 
     def get_queryset(self):
@@ -58,7 +60,7 @@ class ExpertiseCloseSecretaryListView(FilteredListView):
         return qs
 
 
-class ExpertiseActiveExpert(FilteredListView, GroupRequiredMixin):
+class ExpertiseActiveExpert(GroupRequiredMixin, FilteredListView):
     model = inspections_models.CheckList
     form_class = forms.CheckListUpdateForm
     allow_empty = True
@@ -125,12 +127,12 @@ class ExpertiseDetailView(generic.DetailView):
     form_class = forms.ExpertiseCreateForm
 
 
-class ExpertiseUpdateView(generic.UpdateView):
+class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseUpdateForm
     pk_url_kwarg = "pk"
     template_name = 'inspections/expertise_form_update.html'
-    group_required = ["rop", "admins", ]
+    group_required = ["secretary", "admins", ]
 
     def form_valid(self, form):
         # self.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
@@ -163,7 +165,7 @@ class CheckListListView(generic.ListView):
     form_class = forms.CheckListUpdateForm
 
 
-class CheckListMyExpertListView(FilteredListView, GroupRequiredMixin):
+class CheckListMyExpertListView(GroupRequiredMixin, FilteredListView):
     model = inspections_models.CheckList
     form_class = forms.CheckListUpdateForm
     allow_empty = True
@@ -181,7 +183,7 @@ class CheckListMyExpertListView(FilteredListView, GroupRequiredMixin):
         return qs
 
 
-class CheckListMyCloseExpertListView(FilteredListView, GroupRequiredMixin):
+class CheckListMyCloseExpertListView(GroupRequiredMixin, FilteredListView):
     model = inspections_models.CheckList
     form_class = forms.CheckListUpdateForm
     allow_empty = True
@@ -203,7 +205,7 @@ class CheckListCreateView(GroupRequiredMixin, generic.CreateView):
     model = inspections_models.CheckList
     form_class = forms.CheckListCreateForm
     template_name = 'inspections/checklist_form_create.html'
-    group_required = [u"expert", u"admins", u"rop"]
+    group_required = [u"expert", u"admins", u"secretary"]
 
     def form_valid(self, form):
         form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)

@@ -56,7 +56,7 @@ class DigitalComplexListView(FilteredListView):
     filterset_class = DigitalComplexFilter
 
 
-class DigitalComplexMyListView(FilteredListView, GroupRequiredMixin):
+class DigitalComplexMyListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     allow_empty = True
@@ -79,7 +79,7 @@ class DigitalComplexMyListView(FilteredListView, GroupRequiredMixin):
         return qs
 
 
-class DigitalComplexCreateView(generic.CreateView, GroupRequiredMixin):
+class DigitalComplexCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_form.html'
@@ -93,7 +93,7 @@ class DigitalComplexCreateView(generic.CreateView, GroupRequiredMixin):
         return form_valid
 
 
-class DigitalComplexDetailView(generic.DetailView, GroupRequiredMixin):
+class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_detail.html'
@@ -117,7 +117,7 @@ class DigitalComplexDetailView(generic.DetailView, GroupRequiredMixin):
         return context
 
 
-class DigitalComplexUpdateView(generic.UpdateView, GroupRequiredMixin):
+class DigitalComplexUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_form.html'
@@ -131,7 +131,7 @@ class DigitalComplexUpdateView(generic.UpdateView, GroupRequiredMixin):
         return form_valid
 
 
-class ComponentComplexCreateView(generic.CreateView, GroupRequiredMixin):
+class ComponentComplexCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.ComponentComplex
     form_class = forms.ComponentComplexForm
     template_name = 'complexes/teacher/componentcomplex_form_create.html'
@@ -163,7 +163,7 @@ class ComponentComplexCreateView(generic.CreateView, GroupRequiredMixin):
         return context
 
 
-class ComponentComplexUpdateView(generic.UpdateView, GroupRequiredMixin):
+class ComponentComplexUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.ComponentComplex
     form_class = forms.ComponentComplexForm
     template_name = 'complexes/teacher/componentcomplex_form_update.html'
@@ -195,7 +195,7 @@ class ComponentComplexUpdateView(generic.UpdateView, GroupRequiredMixin):
         return context
 
 
-class ResourceComponentCreateView(generic.CreateView, GroupRequiredMixin):
+class ResourceComponentCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.ResourceComponent
     form_class = forms.ResourceComponentForm
     template_name = 'complexes/teacher/resource_component/component_form_create.html'
@@ -214,7 +214,7 @@ class ResourceComponentCreateView(generic.CreateView, GroupRequiredMixin):
         return context
 
 
-class ResourceComponentDeleteView(generic.DeleteView, GroupRequiredMixin):
+class ResourceComponentDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = complex_model.ResourceComponent
     form_class = forms.ResourceComponentForm
     template_name = 'complexes/teacher/resource_component/component_form_delete.html'
@@ -227,7 +227,7 @@ class ResourceComponentDeleteView(generic.DeleteView, GroupRequiredMixin):
         return reverse_lazy("complexes:complexes_ComponentComplex_create", args=(dig_complex_id,))
 
 
-class PlatformComponentCreateView(generic.CreateView, GroupRequiredMixin):
+class PlatformComponentCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.PlatformComponent
     form_class = forms.PlatformComponentForm
     template_name = 'complexes/teacher/platform_component/component_form_create.html'
@@ -246,7 +246,7 @@ class PlatformComponentCreateView(generic.CreateView, GroupRequiredMixin):
         return context
 
 
-class PlatformComponentDeleteView(generic.DeleteView, GroupRequiredMixin):
+class PlatformComponentDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = complex_model.PlatformComponent
     form_class = forms.PlatformComponentForm
     template_name = 'complexes/teacher/platform_component/component_form_delete.html'
@@ -258,7 +258,7 @@ class PlatformComponentDeleteView(generic.DeleteView, GroupRequiredMixin):
         return reverse_lazy("complexes:complexes_ComponentComplex_create", args=(dig_complex_id,))
 
 
-class TraditionalSessionComponentCreateView(generic.CreateView, GroupRequiredMixin):
+class TraditionalSessionComponentCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.TraditionalSessionComponent
     form_class = forms.TraditionalSessionComponentForm
     template_name = 'complexes/teacher/traditional_component/component_form_create.html'
@@ -277,7 +277,7 @@ class TraditionalSessionComponentCreateView(generic.CreateView, GroupRequiredMix
         return context
 
 
-class TraditionalSessionComponentDeleteView(generic.DeleteView, GroupRequiredMixin):
+class TraditionalSessionComponentDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = complex_model.TraditionalSessionComponent
     form_class = forms.TraditionalSessionComponentForm
     template_name = 'complexes/teacher/traditional_component/component_form_delete.html'
@@ -289,7 +289,7 @@ class TraditionalSessionComponentDeleteView(generic.DeleteView, GroupRequiredMix
         return reverse_lazy("complexes:complexes_ComponentComplex_create", args=(dig_complex_id,))
 
 
-class AssignmentAcademicGroupListView(FilteredListView, GroupRequiredMixin):
+class AssignmentAcademicGroupListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.AssignmentAcademicGroup
     group_required = [u"teacher", u"admins"]
     template_name = 'complexes/teacher/assigment_academic_group/list.html'
@@ -313,13 +313,13 @@ class AssignmentAcademicGroupListView(FilteredListView, GroupRequiredMixin):
         return context
 
 
-class AssignmentAcademicGroupDetailView(generic.DetailView, GroupRequiredMixin):
+class AssignmentAcademicGroupDetailView(GroupRequiredMixin, generic.DetailView):
     model = complex_model.AssignmentAcademicGroup
     group_required = [u"teacher", u"admins"]
     template_name = 'complexes/teacher/assigment_academic_group/detail.html'
 
 
-class AssignmentAcademicGroupDeleteView(generic.DeleteView, GroupRequiredMixin):
+class AssignmentAcademicGroupDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = complex_model.AssignmentAcademicGroup
     form_class = forms.AssignmentAcademicGroupForm
     template_name = 'complexes/teacher/resource_component/component_form_delete.html'
@@ -331,7 +331,7 @@ class AssignmentAcademicGroupDeleteView(generic.DeleteView, GroupRequiredMixin):
         return reverse_lazy("complexes:complexes_AssignmentAcademicGroup_list", args=(dig_complex_pk,))
 
 
-class AssignmentAcademicGroupCreateView(generic.CreateView, GroupRequiredMixin):
+class AssignmentAcademicGroupCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.AssignmentAcademicGroup
     form_class = forms.AssignmentAcademicGroupForm
     group_required = [u"teacher", u"admins"]
@@ -365,7 +365,7 @@ class AssignmentAcademicGroupCreateView(generic.CreateView, GroupRequiredMixin):
         return context
 
 
-class AssignmentAcademicGroupUpdateView(generic.UpdateView, GroupRequiredMixin):
+class AssignmentAcademicGroupUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.AssignmentAcademicGroup
     form_class = forms.AssignmentAcademicGroupForm
     group_required = [u"teacher", u"admins"]
@@ -407,7 +407,7 @@ class AssignmentAcademicGroupMyFilter(django_filters.FilterSet):
         }
 
 
-class AssignmentAcademicGroupMyListView(FilteredListView, GroupRequiredMixin):
+class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.AssignmentAcademicGroup
     allow_empty = True
     paginate_by = 12

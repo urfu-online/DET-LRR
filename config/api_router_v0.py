@@ -43,7 +43,9 @@ router.register("Source", repository_api.SourceViewSet)
 router.register("digitalComplex", complexes_api.DigitalComplexViewSet)
 router.register("cell", complexes_api.CellViewSet)
 router.register("complexSpaceCell", complexes_api.ComplexSpaceCellViewSet)
-router.register("workPlanAcademicGroup", complexes_api.WorkPlanAcademicGroupViewSet)
+router.register("my_sbuject/digital_complex", complexes_api.AssignmentAcademicGroupComplexListViewSet)
+router.register("my_sbuject/resource_recomend", complexes_api.ComponentsSerializer)
+router.register("my_sbuject", complexes_api.ResourceAssignedStatusTag)
 
 # INSPECTIONS
 

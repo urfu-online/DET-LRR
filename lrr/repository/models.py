@@ -136,8 +136,8 @@ class Subject(BaseModel):
     def get_resources(self):
         return DigitalResource.get_resources_by_subject(self)
 
-    def get_recommended_resources(self, edu_program):
-        return DigitalResource.get_recommended_resources_by_subject(self, edu_program)
+    def get_recommended_resources(self):
+        return DigitalResource.get_recommended_resources_by_subject(self)
 
 
 class Organization(BaseModel):
@@ -318,11 +318,9 @@ class DigitalResource(BaseModel):
             return None
 
     @classmethod
-    def get_recommended_resources_by_subject(cls, subject, edu_program):
-        if isinstance(subject, Subject) and isinstance(edu_program, EduProgram):
-            return cls.objects.filter(provided_disciplines__subject=subject,
-                                      provided_disciplines__edu_program=edu_program,
-                                      expertise__status='ASSIGNED_STATUS')
+    def get_recommended_resources_by_subject(cls, subject):
+        if isinstance(subject, Subject):
+            return cls.objects.filter(provided_disciplines__subject=subject, expertise__status='ASSIGNED_STATUS')
         else:
             return None
 

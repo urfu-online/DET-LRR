@@ -31,3 +31,4 @@ django-import-export
 django-dynamic-formsets==0.0.8
 six==1.15.0 # https://pypi.org/project/six/1.15.0/
 django-select2
+django-rest-polymorphic # https://github.com/apirobot/django-rest-polymorphic https://django-polymorphic.readthedocs.io/en/stable/third-party.html#example

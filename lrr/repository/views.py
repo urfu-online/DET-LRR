@@ -2,9 +2,11 @@ import logging
 
 import django_filters
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from lrr.inspections.models import Expertise
 from lrr.users.models import Person
+from lrr.users.mixins import GroupRequiredMixin
 from . import forms
 from . import models
 from .filters import FilteredListView
@@ -194,12 +196,13 @@ class DigitalResourceListView(FilteredListView):
     #     return product_filtered_list.qs
 
 
-class ResourceListView(FilteredListView):
+class ResourceListView(GroupRequiredMixin, FilteredListView):
     allow_empty = True
     paginate_by = 12
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
     filterset_class = DigitalResourceFilter
+    group_required = ['teacher', 'admins']
     template_name = "repository/digitalresource_list_owner.html"
 
     def get_context_data(self, **kwargs):
@@ -218,10 +221,10 @@ class ResourceListView(FilteredListView):
         return qs
 
 
-class DigitalResourceCreateView(generic.CreateView):
+class DigitalResourceCreateView(GroupRequiredMixin, generic.CreateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
-    permission_class = []
+    group_required = ['teacher', 'admins']
     template_name = 'repository/digitalresource_form_create.html'
 
     def form_valid(self, form):
@@ -247,9 +250,10 @@ class DigitalResourceCreateView(generic.CreateView):
         return context
 
 
-class DigitalResourceDetailView(generic.DetailView):
+class DigitalResourceDetailView(GroupRequiredMixin, generic.DetailView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
+    group_required = ['teacher', 'admins']
 
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
@@ -258,9 +262,10 @@ class DigitalResourceDetailView(generic.DetailView):
         return context
 
 
-class DigitalResourceUpdateView(generic.UpdateView):
+class DigitalResourceUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
+    group_required = ['teacher', 'admins']
     pk_url_kwarg = "pk"
     template_name = 'repository/digitalresource_form_update.html'
 

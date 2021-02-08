@@ -7,7 +7,7 @@ from polymorphic.models import PolymorphicModel
 
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
-from lrr.users.models import Person, Student
+from lrr.users.models import Person, Student, AcademicGroup
 
 logger = logging.getLogger(__name__)
 
@@ -150,7 +150,7 @@ class AssignmentAcademicGroup(BaseModel):
 
     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="ЭУМКи", on_delete=models.CASCADE,
                                         blank=True, null=True)
-    academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
+    academic_group = models.ForeignKey(AcademicGroup, on_delete=models.PROTECT,
                                        verbose_name="Академическая группа", blank=True, null=True)
     subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", blank=True, on_delete=models.PROTECT,
                                 null=True)
@@ -170,8 +170,13 @@ class AssignmentAcademicGroup(BaseModel):
     def get_update_url(self):
         return reverse("complexes:complexes_AssignmentAcademicGroup_update", args=(self.pk,))
 
-    # def get_update_url(self):
-    #     return reverse("repository_WorkPlanAcademicGroup_update", args=(self.pk,))
+    # @classmethod
+    # def get_recommended_resources_by_subject(cls, subject, academic_group):
+    #     if isinstance(subject, Subject) and isinstance(academic_group, AcademicGroup):
+    #         return cls.objects.filter(subject=subject,
+    #                                   academic_group__direction=academic_group)
+    #     else:
+    #         return None
 
     @classmethod
     def get_assignment_group_digital_complex(cls, request):

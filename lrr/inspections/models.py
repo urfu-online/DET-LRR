@@ -90,6 +90,14 @@ class Expertise(repository_model.BaseModel):
         return cls.objects.filter(status='ASSIGNED_STATUS').count()
 
     @classmethod
+    def get_expertise_assigned_status_assigned(cls, subjects_tags):
+        try:
+            objs = cls.objects.filter(status='ASSIGNED_STATUS', digital_resource__subjects_tags=subjects_tags)
+        except:
+            objs = cls.objects.all()
+        return objs
+
+    @classmethod
     def get_expertise_assigned_status(cls):
         try:
             objs = cls.objects.filter(Q(status='ASSIGNED_STATUS') | Q(status='NOT_ASSIGNED_STATUS'), )

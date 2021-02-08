@@ -96,20 +96,10 @@
                   <tr>
                     <td>{{ object.subject }}</td>
                     <td>
-                      <div class="panel-heading">
-                        <form action="" method="get">
-                          <button class="btn" data-toggle="collapse" data-target="#complex" aria-expanded="false"
-                                  aria-controls="complex-{{ object.subject }}" type="submit" name="subject" id="subject" value="{{ object.subject }}">
-                            Электронное обеспечение дисциплины определенное
-                            преподавателем.
-                          </button>
-                          <div id="complex-{{ object.subject }}" class="mb-3" aria-labelledby="complex-{{ object.subject }}" data-parent="#accordion">
-                            <div class="row mb-3 px-3" id="accordion">
-                              {{ digital_complex }}
-                            </div>
-                          </div>
-                        </form>
-                      </div>
+                      <a class="btn btn-secondary">
+                        Электронное обеспечение дисциплины определенное
+                        преподавателем.
+                      </a>
                     </td>
                   </tr>
                 {% endfor %}
