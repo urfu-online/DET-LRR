@@ -19,61 +19,6 @@ logger = logging.getLogger(__name__)
 #             "academic_group",
 #             "direction",
 #         ]
-class ComponentComplexSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = complexes_models.ComponentComplex
-        fields = '__all__'
-
-
-class ResourceComponentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = complexes_models.ResourceComponent
-        fields = '__all__'
-
-
-class PlatformComponentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = complexes_models.PlatformComponent
-        fields = '__all__'
-
-
-class TraditionalSessionComponentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = complexes_models.TraditionalSessionComponent
-        fields = '__all__'
-
-
-class ComponentsPolymorphicSerializer(PolymorphicSerializer):
-    model_serializer_mapping = {
-        complexes_models.ComponentComplex: ComponentComplexSerializer,
-        complexes_models.ResourceComponent: ResourceComponentSerializer,
-        complexes_models.PlatformComponent: PlatformComponentSerializer,
-        complexes_models.TraditionalSessionComponent: TraditionalSessionComponentSerializer
-    }
-
-
-class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
-    direction = serializers.CharField(source='academic_group.direction')
-    academic_group = serializers.CharField(source='academic_group.number')
-    subject = serializers.CharField(source='subject.title')
-    digital_complex_pk = serializers.CharField(source='digital_complex.pk')
-    digital_complex_title = serializers.CharField(source='digital_complex.title')
-    digital_complex_format = serializers.CharField(source='digital_complex.format')
-    digital_complex_keywords = serializers.CharField(source='digital_complex.keywords')
-
-    class Meta:
-        model = complexes_models.AssignmentAcademicGroup
-        fields = [
-            "digital_complex_pk",
-            "digital_complex_title",
-            "digital_complex_format",
-            "digital_complex_keywords",
-            "academic_group",
-            "learn_date",
-            "direction",
-            "subject",
-            "semestr",
-        ]
 
 
 class ResourceListSerializer(serializers.ModelSerializer):
@@ -129,6 +74,30 @@ class ComplexSpaceCellSerializer(serializers.ModelSerializer):
         ]
 
 
+class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
+    direction = serializers.CharField(source='academic_group.direction')
+    academic_group = serializers.CharField(source='academic_group.number')
+    subject = serializers.CharField(source='subject.title')
+    digital_complex_pk = serializers.CharField(source='digital_complex.pk')
+    digital_complex_title = serializers.CharField(source='digital_complex.title')
+    digital_complex_format = serializers.CharField(source='digital_complex.format')
+    digital_complex_keywords = serializers.CharField(source='digital_complex.keywords')
+
+    class Meta:
+        model = complexes_models.AssignmentAcademicGroup
+        fields = [
+            "digital_complex_pk",
+            "digital_complex_title",
+            "digital_complex_format",
+            "digital_complex_keywords",
+            "academic_group",
+            "learn_date",
+            "direction",
+            "subject",
+            "semestr",
+        ]
+
+
 class DigitalComplexSerializer(serializers.ModelSerializer):
     subjects = repo_serializers.SubjectSerializer(many=True, read_only=True)
     competences = repo_serializers.CompetenceSerializer(many=True, read_only=True)
@@ -155,3 +124,36 @@ class DigitalComplexSerializer(serializers.ModelSerializer):
             "assignment_group",
             "owner"
         ]
+
+
+class ComponentComplexSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = complexes_models.ComponentComplex
+        fields = '__all__'
+
+
+class ResourceComponentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = complexes_models.ResourceComponent
+        fields = '__all__'
+
+
+class PlatformComponentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = complexes_models.PlatformComponent
+        fields = '__all__'
+
+
+class TraditionalSessionComponentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = complexes_models.TraditionalSessionComponent
+        fields = '__all__'
+
+
+class ComponentsPolymorphicSerializer(PolymorphicSerializer):
+    model_serializer_mapping = {
+        complexes_models.ComponentComplex: ComponentComplexSerializer,
+        complexes_models.ResourceComponent: ResourceComponentSerializer,
+        complexes_models.PlatformComponent: PlatformComponentSerializer,
+        complexes_models.TraditionalSessionComponent: TraditionalSessionComponentSerializer
+    }

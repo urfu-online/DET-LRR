@@ -416,7 +416,9 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
     template_name = 'complexes/student/my_subjects_list.html'
 
     def get_queryset(self, **kwargs):
-        queryset = complex_model.AssignmentAcademicGroup.objects.all()
+        user = self.request.user
+        academic_group = Student.get_academic_group_for_user(user)
+        queryset = complex_model.AssignmentAcademicGroup.objects.filter(academic_group=academic_group)
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
         if qs.count() == 0:
@@ -428,6 +430,7 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         user = self.request.user
         academic_group = Student.get_academic_group_for_user(user)
         direction = AcademicGroup.get_direction_for_number(academic_group)
+        # context['DR'] = complex_model.AssignmentAcademicGroup.get_digital_resource(self, object_list=self.object_list)
         context['student'] = Student.get_student(user)
         context['academic_group'] = academic_group
         context['direction'] = direction

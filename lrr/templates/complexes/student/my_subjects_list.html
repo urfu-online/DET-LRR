@@ -79,6 +79,23 @@
   {#    </div>#}
   {#  </div>#}
 
+  {% for object in object_list %}
+    <tr>
+      <td data-label="Дисциплина"><p class="font-weight-bold align-right">{{ object.subject }}
+        {% if object.subject.labor != "None" %}
+          <span class="d-block text-secondary">{{ object.subject.labor }} ч.</span>
+        {% endif %}
+      </p></td>
+    {{ DR }}
+      <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем" class="not-implemented"></td>
+{#      <td data-label="Рекомендуемые цифровые ресурсы">#}
+{#        {% get_resources DR subject=object.subject edu_program=item.edu_program %}#}
+{#      </td>#}
+{#      <td data-label="Цифровые ресурсы, имеющиеся в каталоге">#}
+{#        {% get_resources DR subject=object.subject %}#}
+{#      </td>#}
+    </tr>
+  {% endfor %}
   {% if request.user.is_authenticated %}
     <div class="row p-2">
       <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">

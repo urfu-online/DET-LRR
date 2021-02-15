@@ -49,7 +49,6 @@ class DigitalComplex(BaseModel):
         return cls.objects.all().count()
 
 
-
 class Cell(BaseModel):
     ASYNC = 'ASYNC'
     SYNC = 'SYNC'
@@ -169,6 +168,12 @@ class AssignmentAcademicGroup(BaseModel):
 
     def get_update_url(self):
         return reverse("complexes:complexes_AssignmentAcademicGroup_update", args=(self.pk,))
+
+    # def get_digital_resource(self, object_list):
+    #     for obj in object_list:
+    #         logger.warning(obj.digital_complex)
+    #         resource_component = ResourceComponent.objects.filter(digital_complex=obj.digital_complex)
+    #     return resource_component
 
     # @classmethod
     # def get_recommended_resources_by_subject(cls, subject, academic_group):
