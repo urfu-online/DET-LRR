@@ -33,21 +33,21 @@
   <p>Студент: {{ student }}</p>
   <p>Образовательная программа/Направление подготовки: {{ direction }}</p>
   <p>Группа: {{ academic_group }}</p>
-  <div id="filters" class="mb-3" aria-labelledby="filters" data-parent="">
-    <form action="" method="get">
-      <div class="form-group col-12 col-xl-2 col-md-6">
-        <label for="id_semestr">Семестр:</label>
-        <select name="semestr" class="custom-select" id="id_semestr">
-          <option value="" selected="">---------</option>
-          <option value="FIRST">Первый семестр</option>
-          <option value="SECOND">Второй семестр</option>
-        </select>
-      </div>
-      <div class="form-group col-12 col-xl-2 col-md-6">
-        <input class="btn btn-secondary" type="submit">
-      </div>
-    </form>
-  </div>
+{#  <div id="filters" class="mb-3" aria-labelledby="filters" data-parent="">#}
+{#    <form action="" method="get">#}
+{#      <div class="form-group col-12 col-xl-2 col-md-6">#}
+{#        <label for="id_semestr">Семестр:</label>#}
+{#        <select name="semestr" class="custom-select" id="id_semestr">#}
+{#          <option value="" selected="">---------</option>#}
+{#          <option value="FIRST">Первый семестр</option>#}
+{#          <option value="SECOND">Второй семестр</option>#}
+{#        </select>#}
+{#      </div>#}
+{#      <div class="form-group col-12 col-xl-2 col-md-6">#}
+{#        <input class="btn btn-secondary" type="submit">#}
+{#      </div>#}
+{#    </form>#}
+{#  </div>#}
 
   {#  <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"#}
   {#          aria-controls="filters">#}
@@ -97,23 +97,7 @@
   {#    </div>#}
   {#  </div>#}
 
-  {% for object in object_list %}
-    <tr>
-      <td data-label="Дисциплина"><p class="font-weight-bold align-right">{{ object.subject }}
-        {% if object.subject.labor != "None" %}
-          <span class="d-block text-secondary">{{ object.subject.labor }} ч.</span>
-        {% endif %}
-      </p></td>
-      {{ DR }}
-      <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем" class="not-implemented"></td>
-      {#      <td data-label="Рекомендуемые цифровые ресурсы">#}
-      {#        {% get_resources DR subject=object.subject edu_program=item.edu_program %}#}
-      {#      </td>#}
-      {#      <td data-label="Цифровые ресурсы, имеющиеся в каталоге">#}
-      {#        {% get_resources DR subject=object.subject %}#}
-      {#      </td>#}
-    </tr>
-  {% endfor %}
+
   {% if request.user.is_authenticated %}
     <div class="row p-2">
       <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
@@ -127,7 +111,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for sub in subjects %}
+                {% for sub in subjects.all %}
                   <tr>
                     <td>{{ sub }}</td>
                     <td>

@@ -408,6 +408,7 @@ class AssignmentAcademicGroupMyFilter(django_filters.FilterSet):
         }
 
 
+# TODO: change complex_model.AssignmentAcademicGroup to repository_models.Subject ?
 class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.AssignmentAcademicGroup
     allow_empty = True
@@ -427,12 +428,13 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
             self.paginate_by = None
         return qs
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super(AssignmentAcademicGroupMyListView, self).get_context_data(**kwargs)
         user = self.request.user
         academic_group = Student.get_academic_group_for_user(user)
         direction = AcademicGroup.get_direction_for_number(academic_group)
-        self.subjects = complex_model.AssignmentAcademicGroup.objects.filter(academic_group=academic_group).values_list('subject', flat=True).distinct()
+        self.subjects = complex_model.AssignmentAcademicGroup.objects.filter(academic_group=academic_group).values_list(
+            'subject', flat=True).distinct()
         context['subjects'] = Subject.objects.filter(pk__in=self.subjects)
         context['student'] = Student.get_student(user)
         context['academic_group'] = academic_group
