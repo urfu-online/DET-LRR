@@ -12,6 +12,7 @@ from lrr.complexes import models as complex_model
 from lrr.repository.filters import FilteredListView
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Student, AcademicGroup
+from lrr.repository.models import Subject
 
 logger = logging.getLogger(__name__)
 
@@ -414,6 +415,7 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
     group_required = ['student', 'admins']
     filterset_class = AssignmentAcademicGroupMyFilter
     template_name = 'complexes/student/my_subjects_list.html'
+    subjects = []
 
     def get_queryset(self, **kwargs):
         user = self.request.user
@@ -430,7 +432,8 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         user = self.request.user
         academic_group = Student.get_academic_group_for_user(user)
         direction = AcademicGroup.get_direction_for_number(academic_group)
-        # context['DR'] = complex_model.AssignmentAcademicGroup.get_digital_resource(self, object_list=self.object_list)
+        self.subjects = complex_model.AssignmentAcademicGroup.objects.filter(academic_group=academic_group).values_list('subject', flat=True).distinct()
+        context['subjects'] = Subject.objects.filter(pk__in=self.subjects)
         context['student'] = Student.get_student(user)
         context['academic_group'] = academic_group
         context['direction'] = direction

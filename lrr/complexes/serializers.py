@@ -78,6 +78,7 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
     direction = serializers.CharField(source='academic_group.direction')
     academic_group = serializers.CharField(source='academic_group.number')
     subject = serializers.CharField(source='subject.title')
+    subject_pk = serializers.CharField(source='subject.pk')
     digital_complex_pk = serializers.CharField(source='digital_complex.pk')
     digital_complex_title = serializers.CharField(source='digital_complex.title')
     digital_complex_format = serializers.CharField(source='digital_complex.format')
@@ -94,6 +95,7 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
             "learn_date",
             "direction",
             "subject",
+            "subject_pk",
             "semestr",
         ]
 

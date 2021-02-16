@@ -2,6 +2,24 @@
 {% load static %}
 {% load user_tags %}
 {% block content %}
+  <script>
+    url_global = "http://localhost:8000/api/v0/my_sbuject/"
+
+    function ApiEUMK(sub) {
+      url = url_global + "digital_complex/?subject__title=" + sub;
+      $.get(url);
+    }
+
+    function ApiRecomendedEOR(sub) {
+      url = url_global + "digital_resource_recomend/?subjects=" + sub;
+      $.get(url);
+    }
+
+    function ApiEOR(sub) {
+      url = url_global + "digital_resource/?subjects=" + sub;
+      $.get(url);
+    }
+  </script>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-2 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
@@ -86,14 +104,14 @@
           <span class="d-block text-secondary">{{ object.subject.labor }} ч.</span>
         {% endif %}
       </p></td>
-    {{ DR }}
+      {{ DR }}
       <td data-label="Цифровое обеспечение дисциплины, определенное преподавателем" class="not-implemented"></td>
-{#      <td data-label="Рекомендуемые цифровые ресурсы">#}
-{#        {% get_resources DR subject=object.subject edu_program=item.edu_program %}#}
-{#      </td>#}
-{#      <td data-label="Цифровые ресурсы, имеющиеся в каталоге">#}
-{#        {% get_resources DR subject=object.subject %}#}
-{#      </td>#}
+      {#      <td data-label="Рекомендуемые цифровые ресурсы">#}
+      {#        {% get_resources DR subject=object.subject edu_program=item.edu_program %}#}
+      {#      </td>#}
+      {#      <td data-label="Цифровые ресурсы, имеющиеся в каталоге">#}
+      {#        {% get_resources DR subject=object.subject %}#}
+      {#      </td>#}
     </tr>
   {% endfor %}
   {% if request.user.is_authenticated %}
@@ -109,14 +127,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for object in object_list %}
+                {% for sub in subjects %}
                   <tr>
-                    <td>{{ object.subject }}</td>
+                    <td>{{ sub }}</td>
                     <td>
-                      <a class="btn btn-secondary">
+                      <button class="btn" type="button" onclick="ApiEUMK(`{{ sub }}`)">
                         Электронное обеспечение дисциплины определенное
                         преподавателем.
-                      </a>
+                      </button>
+                      <button class="btn" type="button" onclick="ApiRecomendedEOR(`{{ sub }}`)">
+                        Рекомендованые ЭОР
+                      </button>
+                      <button class="btn" type="button" onclick="ApiEOR(`{{ sub }}`)">
+                        ЭОР в каталоге
+                      </button>
+                      {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}
+                      {#                        {% for object in object_list %}#}
+                      {#                          {% if object.subject == item.subject %}#}
+                      {#                            {{ item }}#}
+                      {##}
+                      {#                          {% endif %}#}
+                      {#                        {% endfor %}#}
+                      {#                      {% endfor %}#}
                     </td>
                   </tr>
                 {% endfor %}
@@ -181,4 +213,5 @@
   {% endif %}
 
   </div>
+
 {% endblock %}
