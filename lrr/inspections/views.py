@@ -91,6 +91,7 @@ class ExpertiseCreateView(GroupRequiredMixin, generic.CreateView):
         form.instance.owner = person
         form.instance.date = timezone.now()
         form.instance.status = "SUB_APP"
+        form.instance.type = "FULL"
         form.save()
         form_valid = super(ExpertiseCreateView, self).form_valid(form)
         return form_valid
@@ -122,9 +123,10 @@ class ExpertiseCreateView(GroupRequiredMixin, generic.CreateView):
         # context['digital_complexes'] = inspections_models.Expertise.check_empty_queryset(self, 'digital_complexes')
 
 
-class ExpertiseDetailView(generic.DetailView):
+class ExpertiseDetailView(GroupRequiredMixin, generic.DetailView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseCreateForm
+    group_required = ["teacher", "secretary", "admins", ]
 
 
 class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):

@@ -2,78 +2,84 @@
 {% load static %}
 {% block content %}
 
-  {#  <p>#}
-  {#    <a class="btn btn-light" href="{% url 'inspections:inspections_ExpertiseActive_list' %}">#}
-  {#      Перейти к списку Экспертиз#}
-  {#    </a>#}
-  {#  </p>#}
-
-  <h2>Заявка на экспертизу ЭОР "{{ object.digital_resource.title }}"</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.errors }}
-    <div class="form-group">
-      <label>{{ form.subjects.label }}</label>
-      <div class="ui segment">
-        {% if object.subjects.all %}
-          {% for obj in object.subjects.all %}
-            <p>{{ obj }}</p>
-          {% endfor %}
-        {% else %}
-          <h4>{{ form.subjects.label }} отсутсвуют</h4>
-        {% endif %}
-      </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭУМК</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Паспорт ЭУМК</li>
+    </ol>
+  </nav>
+  <div class="row p-2">
+    <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
+      <h2>Заявка на экспертизу ЭОР "{{ object.digital_resource.title }}"</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.errors }}
+        <div class="form-group">
+          <label>{{ form.subjects.label }}</label>
+          <div class="ui segment">
+            {% if object.subjects.all %}
+              {% for obj in object.subjects.all %}
+                <p>{{ obj }}</p>
+              {% endfor %}
+            {% else %}
+              <h4>{{ form.subjects.label }} отсутсвуют</h4>
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{ form.directions.label }}</label>
+          <div class="ui segment">
+            {% if object.directions.all %}
+              {% for obj in object.directions.all %}
+                  <li style="list-style-type: none;">{{ obj }}</li>
+              {% endfor %}
+            {% else %}
+              <h4>{{ form.directions.label }} отсутсвуют</h4>
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{ form.digital_complexes.label }}</label>
+          <div class="ui segment">
+            {% if object.digital_complexes.all %}
+              {% for obj in object.digital_complexes.all %}
+                <li style="list-style-type: none;">{{ obj }}</li>
+              {% endfor %}
+            {% else %}
+              <h4>{{ form.digital_complexes.label }} отсутсвуют</h4>
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Экспертные заключения</label>
+          <a class="btn btn-secondary"
+             href="{% url 'inspections:inspections_CheckList_create' digital_resource_pk=object.digital_resource.pk expertise_pk=object.pk %}">Назначить
+            эксперта</a>
+{#          {% for item in checklist.assignmentacademicgroup_set.all %}#}
+{#            #}
+{#          {% endfor %}#}
+        </div>
+        <div class="form-group">
+          <label>{{ form.date_end.label }}</label>
+          {{ form.date_end }}
+        </div>
+        <div class="form-group">
+          <label>{{ form.file.label }}</label>
+          {{ form.file }}
+        </div>
+        <div class="form-group">
+          <label>{{ form.remarks.label }}</label>
+          {{ form.remarks }}
+        </div>
+        <div class="form-group">
+          <label>{{ form.status.label }}</label>
+          {{ form.status }}
+        </div>
+        <input type="submit" value="Завершить экспертизу" class="btn btn-primary">
+        <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
+      </form>
     </div>
-    <div class="form-group">
-      <label>{{ form.directions.label }}</label>
-      <div class="ui segment">
-        {% if object.directions.all %}
-          {% for obj in object.directions.all %}
-            <li>{{ obj }}</li>
-          {% endfor %}
-        {% else %}
-          <h4>{{ form.directions.label }} отсутсвуют</h4>
-        {% endif %}
-      </div>
-    </div>
-    <div class="form-group">
-      <label>{{ form.digital_complexes.label }}</label>
-      <div class="ui segment">
-        {% if object.digital_complexes.all %}
-          {% for obj in object.digital_complexes.all %}
-            <li>{{ obj }}</li>
-          {% endfor %}
-        {% else %}
-          <h4>{{ form.digital_complexes.label }} отсутсвуют</h4>
-        {% endif %}
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Экспертные заключения</label>
-      <a class="btn btn-primary"
-         href="{% url 'inspections:inspections_CheckList_create' digital_resource_pk=object.digital_resource.pk expertise_pk=object.pk %}">Назначить
-        эксперта</a>
-        <p>Список экспертных заключений TODO</p>
-    </div>
-    <div class="form-group">
-      <label>{{ form.date_end.label }}</label>
-      {{ form.date_end }}
-    </div>
-    <div class="form-group">
-      <label>{{ form.file.label }}</label>
-      {{ form.file }}
-    </div>
-    <div class="form-group">
-      <label>{{ form.remarks.label }}</label>
-      {{ form.remarks }}
-    </div>
-    <div class="form-group">
-      <label>{{ form.status.label }}</label>
-      {{ form.status }}
-    </div>
-    <input type="submit" value="Завершить экспертизу" class="btn btn-primary">
-    <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
-  </form>
-
+  </div>
 
 {% endblock %}

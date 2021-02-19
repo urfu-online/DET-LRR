@@ -1,24 +1,54 @@
 {% extends "base.html" %}
 {% load static %}
+{% load user_tags %}
 {% block content %}
-  <div class="ui segment container">
-    <div class="ui middle aligned stackable grid container">
-      <div class="row">
-        <div class="eight wide column">
-          <h3 class="ui header">Заявка на экспертизу ЭОР "{{ object.digital_resource }}"</h3>
-          <p>Тип заявки: {{ person.last_name }}</p>
-          <p>Инициатор: {{ person.country }}</p>
-          <p>Дисциплина(ы): {{ person.city }}</p>
-          <p>Направление подготовки/Образовательная программа: {{ person.location }}</p>
-          <p>ЭМУК: {{ person.date_birthday }}</p>
-          <p>Вид экспертизы: {{ object.type }}</p>
-          <p>Подразделение/отрасль: {{ object.subdivision }}</p>
-          <p>Экспертные заключения: {{ object.type }}</p>
-          <a class="btn btn-primary"
-             href="{% url 'repository:repository_DigitalResource_detail' pk=object.digital_resource.pk %}">Паспорт
-            ЭОР</a>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Паспотр ЭОР "{{ object.digital_resource }}"</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу ЭОР "{{ object.digital_resource }}"</li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    {% if request.user.is_superuser %}
+      <a class="btn btn-primary float-right" href="{% url 'repository:repository_DigitalResource_detail' pk=object.digital_resource.pk %}">Паспотр ЭОР</a>
+    {% endif %}
+    <h1>Заявка на экспертизу ЭОР "{{ object.digital_resource }}"</h1>
+  </header>
+  {% if request.user.is_authenticated %}
+    <div class="row p-2">
+      <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
+        <div class="card h-100 shadow-1">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Тип заявки:</h6>
+            <p> {{ object.get_type_display }}</p>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Инициатор:</h6>
+            <p>{{ object.owner }}</p>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Дата заявки:</h6>
+            <p>{{ object.date }}</p>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Дисциплина(ы):</h6>
+            {% for obj in object.subjects.all %}
+              <p>{{ obj }}</p>
+              <hr>
+            {% endfor %}
+            <h6 class="card-subtitle mb-2 text-muted">Направления подготовки/Образовательная программа:</h6>
+            {% for obj in object.directions.all %}
+              <p>{{ obj }}</p>
+            {% endfor %}
+            <h6 class="card-subtitle mb-2 text-muted">ЭУМК:</h6>
+            {% for obj in object.digital_complexes.all %}
+              <p>{{ obj }}</p>
+            {% endfor %}
+
+          </div>
         </div>
       </div>
+      </div>
     </div>
-  </div>
-{% endblock content %}
+  {% endif %}
+
+
+{% endblock %}

@@ -164,10 +164,29 @@ class Organization(BaseModel):
 
 
 class EduProgram(BaseModel):
+    # NO_INIT = 'NO_INIT'
+    # SUB_APP = 'SUB_APP'
+    # ON_EXPERTISE = 'ON_EXPERTISE'
+    # ON_REVISION = 'ON_REVISION'
+    # ASSIGNED_STATUS = 'ASSIGNED_STATUS'
+    #
+    # LEVEL_EDU_TYPES = [
+    #     (NO_INIT, 'не инициирована'),
+    #     (SUB_APP, 'подана заявка'),
+    #     (ON_EXPERTISE, 'на экспертизе'),
+    #     (ON_REVISION, 'на доработку'),
+    #     (ASSIGNED_STATUS, 'присвоен статус'),
+    #     # Fields
+    #
+    # ]
+
     # Fields
     title = models.CharField("Наименование", max_length=450)
     short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
     description = models.TextField("Описание", max_length=1024, null=True, blank=True)
+    # TODO:
+    # level_edu = models.CharField()
+    # direction = ForiginKey
 
     class Meta:
         verbose_name = u"Образовательная программа"
@@ -482,7 +501,6 @@ class ConformityTheme(BaseModel):
         return reverse("repository_ConformityTheme_update", args=(self.pk,))
 
 
-# TODO: Карасик спросил для чего эта модель
 class EduProgramTag(BaseModel):
     # Relationships
     tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
