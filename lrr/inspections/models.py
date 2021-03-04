@@ -5,13 +5,39 @@ from django.db import models as models
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
+from django.conf import settings
+from django.core.exceptions import ValidationError
 
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
 from lrr.repository.models import DigitalResource
 from lrr.users.models import Person, Expert
 
+from polymorphic.models import PolymorphicModel
+
 logger = logging.getLogger(__name__)
+
+CHOICES_HELP_TEXT = (
+    """Поле выбора используется только в том случае, если тип вопроса
+если тип вопроса - "радио", "выбор" или
+'select multiple' - список разделенных запятыми
+варианты этого вопроса ."""
+)
+
+
+def validate_choices(choices):
+    """  Verifies that there is at least two choices in choices
+    :param String choices: The string representing the user choices.
+    """
+    values = choices.split(settings.CHOICES_SEPARATOR)
+    empty = 0
+    for value in values:
+        if value.replace(" ", "") == "":
+            empty += 1
+    if len(values) < 2 + empty:
+        msg = "The selected field requires an associated list of choices."
+        msg += " Choices must contain more than one item."
+        raise ValidationError(msg)
 
 
 class Expertise(repository_model.BaseModel):
@@ -180,6 +206,37 @@ class Expertise(repository_model.BaseModel):
             return queryset
 
 
+class CheckListBase(repository_model.BaseModel, PolymorphicModel):
+    # status
+    START = 'START'
+    IN_PROCESS = 'IN_PROCESS'
+    END = 'END'
+
+    STATUS_CHOICES = [
+        (START, 'Назначена'),
+        (IN_PROCESS, 'В процессе'),
+        (END, 'Завершена')
+        # Fields
+    ]
+
+    expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)
+    protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424)
+    date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
+    status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
+
+
+class CheckListMethodical(CheckListBase):
+    pass
+
+
+class CheckListTechnical(CheckListBase):
+    pass
+
+
+class CheckListContent(CheckListBase):
+    pass
+
+
 class CheckList(repository_model.BaseModel):
     # type
     METHODIGAL = 'METHODIGAL'
@@ -272,9 +329,32 @@ class Question(repository_model.BaseModel):
 
     ]
 
-    title = models.CharField("Показатель", max_length=300)
-    checklist = models.ForeignKey(CheckList, verbose_name="Чек-лист эеспертизы", on_delete=models.CASCADE)
-    answer = models.CharField("Тип чек-листа", max_length=30, choices=ANSWER_CHOICE, blank=True)
+    TEXT = "text"
+    SHORT_TEXT = "short-text"
+    RADIO = "radio"
+    SELECT = "select"
+    SELECT_IMAGE = "select_image"
+    SELECT_MULTIPLE = "select-multiple"
+    INTEGER = "integer"
+    FLOAT = "float"
+    DATE = "date"
+
+    QUESTION_TYPES = (
+        (TEXT, "text (multiple line)"),
+        (SHORT_TEXT, "short text (one line)"),
+        (RADIO, "radio"),
+        (SELECT, "select"),
+        (SELECT_MULTIPLE, "Select Multiple"),
+        (SELECT_IMAGE, "Select Image"),
+        (INTEGER, "integer"),
+        (FLOAT, "float"),
+        (DATE, "date"),
+    )
+
+    title = models.CharField("Наименование показателя", max_length=300)
+    checklist = models.ForeignKey(CheckListBase, verbose_name="Чек-лист эеспертизы", on_delete=models.CASCADE)
+    type = models.CharField("Тип", max_length=200, choices=QUESTION_TYPES, default=TEXT)
+    choices = models.TextField("Выбор типа вопроса", blank=True, null=True, help_text=CHOICES_HELP_TEXT)
 
     class Meta:
         verbose_name = u"Чек-лист экспертизы"
@@ -290,3 +370,8 @@ class Question(repository_model.BaseModel):
 
     def get_update_url(self):
         return reverse("inspections:inspections_CheckList_update", args=(self.pk,))
+
+    def save(self, *args, **kwargs):
+        if self.type in [Question.RADIO, Question.SELECT, Question.SELECT_MULTIPLE]:
+            validate_choices(self.choices)
+        super(Question, self).save(*args, **kwargs)
