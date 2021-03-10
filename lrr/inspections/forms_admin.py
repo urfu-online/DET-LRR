@@ -28,6 +28,7 @@ class CheckListAdminForm(forms.ModelForm):
             "expertise",
             "type",
             "expert",
+            "status",
             "date",
             "protocol",
         ]

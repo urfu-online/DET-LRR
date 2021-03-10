@@ -180,5 +180,13 @@ class Expert(models.Model):
     def get_absolute_url(self):
         return reverse("users:expert_detail", args=(self.pk,))
 
+    @classmethod
+    def get_expert(cls, user):
+        try:
+            obj = cls.objects.get(person__user=user)
+        except cls.DoesNotExist:
+            obj = None
+        return obj
+
     # def get_update_url(self):
     #     return reverse("", args=(self.pk,))

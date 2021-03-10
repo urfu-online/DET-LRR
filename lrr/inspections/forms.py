@@ -190,5 +190,6 @@ class QuestionForm(forms.ModelForm):
         fields = [
             "title",
             "checklist",
-            "answer",
+            "type",
+            "choices"
         ]

@@ -9,7 +9,7 @@ from lrr.inspections import forms
 from lrr.inspections import models as inspections_models
 from lrr.repository.filters import FilteredListView
 from lrr.users.mixins import GroupRequiredMixin
-from lrr.users.models import Person
+from lrr.users.models import Person, Expert
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -252,32 +252,28 @@ class CheckListUpdateView(GroupRequiredMixin, generic.UpdateView):
     group_required = [u"expert", u"admins"]
     template_name = 'inspections/checklist_form_update.html'
 
-    # def form_valid(self, form):
-    #     form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
-    #     # form.instance.expertise = inspections_models.Expertise.get_expertise(self)
-    #     # form.instance.status = "START"
-    #     form.save()
-    #     form_valid = super(CheckListUpdateExpertView, self).form_valid(form)
-    #     return form_valid
-    #
-    # def get_initial(self):
-    #     """
-    #     Returns the initial data to use for forms on this view.
-    #     """
-    #     initial = super().get_initial()
-    #     logger.warning(inspections_models.Expertise.get_expertise(self))
-    #     initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
-    #     # initial['expertise'] = inspections_models.Expertise.get_expertise(self)
-    #     # initial['status'] = "START"
-    #     return initial
-    #
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     dig_res = inspections_models.Expertise.get_digital_resource(self)
-    #     # expertise = inspections_models.Expertise.get_expertise(self)
-    #     context['dig_res'] = dig_res
-    #     # context['checklists'] = inspections_models.Expertise.get_checklists(expertise)
-    #     return context
+    def form_valid(self, form):
+        # form.instance.expertise = inspections_models.Expertise.get_expertise(self)
+        person = Expert.get_expert(user=self.request.user)
+        form.instance.status = "IN_PROCESS"
+        form.instance.expert = person
+        self.object = form.save()
+        form_valid = super(CheckListUpdateView, self).form_valid(form)
+        return form_valid
+
+    def get_success_url(self):
+        return reverse_lazy("inspections:inspections_ExpertiseMy_list")
+
+    def get_context_data(self, **kwargs):
+        context = super(CheckListUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.CheckListUpdateForm(self.request.POST, instance=self.object)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
+            #                                                                      instance=self.object)
+        else:
+            context["form"] = forms.CheckListUpdateForm(instance=self.object)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
+        return context
 
 
 class CheckListUpdateExpertView(GroupRequiredMixin, generic.UpdateView):

@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 import logging
 
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models as models
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
-from django.conf import settings
-from django.core.exceptions import ValidationError
+from polymorphic.models import PolymorphicModel
 
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
 from lrr.repository.models import DigitalResource
 from lrr.users.models import Person, Expert
-
-from polymorphic.models import PolymorphicModel
 
 logger = logging.getLogger(__name__)
 
@@ -219,6 +218,7 @@ class CheckListBase(repository_model.BaseModel, PolymorphicModel):
         # Fields
     ]
 
+    expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
     expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)
     protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424)
     date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
@@ -226,15 +226,30 @@ class CheckListBase(repository_model.BaseModel, PolymorphicModel):
 
 
 class CheckListMethodical(CheckListBase):
-    pass
+    class Meta:
+        verbose_name = u"Чек-лист методической экспертизы"
+        verbose_name_plural = u"Чек-листы методических экспертиз"
+
+    def __str__(self):
+        return self.status
 
 
 class CheckListTechnical(CheckListBase):
-    pass
+    class Meta:
+        verbose_name = u"Чек-лист технической экспертизы"
+        verbose_name_plural = u"Чек-листы технических экспертиз"
+
+    def __str__(self):
+        return self.status
 
 
 class CheckListContent(CheckListBase):
-    pass
+    class Meta:
+        verbose_name = u"Чек-лист содержательной экспертизы"
+        verbose_name_plural = u"Чек-листы содержательных экспертиз"
+
+    def __str__(self):
+        return self.status
 
 
 class CheckList(repository_model.BaseModel):
@@ -264,10 +279,10 @@ class CheckList(repository_model.BaseModel):
         # Fields
     ]
 
-    type = models.CharField("Тип чек-листа", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE)
-    expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)
+    type = models.CharField("Тип чек-листа", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE, null=True, blank=True)
+    expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
-    protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424)
+    protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424, null=True, blank=True)
     expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
     status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
 
@@ -357,8 +372,8 @@ class Question(repository_model.BaseModel):
     choices = models.TextField("Выбор типа вопроса", blank=True, null=True, help_text=CHOICES_HELP_TEXT)
 
     class Meta:
-        verbose_name = u"Чек-лист экспертизы"
-        verbose_name_plural = u"Чек-листы экспертиз"
+        verbose_name = u"Вопрос"
+        verbose_name_plural = u"Вопросы"
 
     def __str__(self):
         return self.title
@@ -375,3 +390,14 @@ class Question(repository_model.BaseModel):
         if self.type in [Question.RADIO, Question.SELECT, Question.SELECT_MULTIPLE]:
             validate_choices(self.choices)
         super(Question, self).save(*args, **kwargs)
+
+
+class QuestionBase(repository_model.BaseModel, PolymorphicModel):
+    checklist = models.ForeignKey(CheckListBase, verbose_name="Чек-лист эеспертизы", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = u"Базовый опросник"
+        verbose_name_plural = u"Базовые опросники"
+
+    def __str__(self):
+        return self.title
