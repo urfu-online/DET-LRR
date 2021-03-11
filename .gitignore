@@ -334,7 +334,7 @@ lrr/media/
 /.idea/
 /parsed/.idea/
 
-#lrr/repository/migrations
-#lrr/inspections/migrations
-#lrr/users/migrations
-#lrr/complexes/migrations
+lrr/repository/migrations
+lrr/inspections/migrations
+lrr/users/migrations
+lrr/complexes/migrations
