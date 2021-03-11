@@ -392,12 +392,12 @@ class Question(repository_model.BaseModel):
         super(Question, self).save(*args, **kwargs)
 
 
-class QuestionBase(repository_model.BaseModel, PolymorphicModel):
-    checklist = models.ForeignKey(CheckListBase, verbose_name="Чек-лист эеспертизы", on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = u"Базовый опросник"
-        verbose_name_plural = u"Базовые опросники"
-
-    def __str__(self):
-        return self.title
+# class QuestionBase(repository_model.BaseModel, PolymorphicModel):
+#     checklist = models.ForeignKey(CheckListBase, verbose_name="Чек-лист эеспертизы", on_delete=models.CASCADE)
+#
+#     class Meta:
+#         verbose_name = u"Базовый опросник"
+#         verbose_name_plural = u"Базовые опросники"
+#
+#     def __str__(self):
+#         return self.title

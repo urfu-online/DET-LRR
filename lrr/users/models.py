@@ -6,6 +6,7 @@ from django.db import models as models
 from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+# from lrr.repository.models import Direction
 
 
 class User(AbstractUser):
@@ -128,6 +129,7 @@ class AcademicGroup(models.Model):
     number = models.CharField("Номер академической группы", max_length=30)
     direction = models.ForeignKey("repository.Direction",
                                   verbose_name="Образовательная программа/Направление подготовки",
+                                  related_name="direction_academic_group",
                                   on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:

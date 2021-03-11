@@ -5,7 +5,7 @@ import uuid
 from django.db import models as models
 from django.urls import reverse
 
-from lrr.users.models import Person, Student
+# from lrr.users.models import Person
 
 logger = logging.getLogger(__name__)
 
