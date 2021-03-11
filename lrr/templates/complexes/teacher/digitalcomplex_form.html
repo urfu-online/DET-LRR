@@ -3,89 +3,76 @@
 {% load static %}
 {% block content %}
 
-  <div class="ui container">
-    <form class="ui form segment" method="post">
-      {% csrf_token %}
-      {{ form.errors }}
-{#                "keywords",#}
-{#            "description",#}
-{#            "language",#}
-{#            "format",#}
-{#            "subjects",#}
-{#            "directions",#}
-{#            "competences",#}
-{#            "results_edu",#}
-{#            "digital_resources",#}
-      <div class="four fields">
-        <div class="field">
-          <label>{{ form.keywords.label }}</label>
-          {{ form.keywords }}
-        </div>
-        <div class="field">
-          <label>{{ form.description.label }}</label>
-          {{ form.description }}
-        </div>
-        <div class="field">
-          <label>{{ form.language.label }}</label>
-          {{ form.language }}
-        </div>
-        <div class="field">
-          <label>{{ form.format.label }}</label>
-          {{ form.format }}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
+      {#      <li class="breadcrumb-item"><a href="{% url 'repository:repository_DigitalResource_detail' pk=dig_res.pk %}">Паспорт#}
+      {#        ЭОР: {{ dig_res }}</a></li>#}
+      <li class="breadcrumb-item active" aria-current="page">Создание ЭУМК</li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    <h1>Создание ЭУМК</h1>
+  </header>
+  <div class="row p-2">
+    <div class="col-12 p-2">
+      <div class="card h-100 shadow-1">
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+            {{ form.media.css }}
+
+            <div class="form-group">
+              <label>{{ form.title.label }}</label>
+              {{ form.title }}
+            </div>
+            <div class="form-group">
+              <label>{{ form.keywords.label }}</label>
+              {{ form.keywords }}
+            </div>
+            <div class="form-group">
+              <label>{{ form.format.label }}</label>
+              {{ form.format }}
+            </div>
+            <div class="form-group">
+              <label>{{ form.description.label }}</label>
+              {{ form.description }}
+            </div>
+            <div class="form-group">
+              <label>{{ form.language.label }}</label>
+              {{ form.language }}
+            </div>
+            <div class="form-group">
+              <label>{{ form.subjects.label }}</label>
+              {{ form.subjects }}
+              <p class="text-muted">Начните вводить название дисциплины.</p>
+            </div>
+            <div class="form-group">
+              <label>{{ form.directions.label }}</label>
+              {{ form.directions }}
+              <p class="text-muted">Начните вводить название направления или код направления.</p>
+            </div>
+            <div class="form-group">
+              <label>{{ form.competences.label }}</label>
+              {{ form.competences }}
+              <p class="text-muted">Начните вводить название компетенции или код компетенции.</p>
+            </div>
+            <div class="form-group">
+              <label>{{ form.results_edu.label }}</label>
+              {{ form.results_edu }}
+              <p class="text-muted">Начните вводить название результата обучения.</p>
+            </div>
+            <input type="submit" value="Сохранить" class="btn btn-primary">
+            <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
+          </form>
+          {{ form.media.js }}
         </div>
       </div>
-      <div class="three fields">
-        {#        <div class="field">#}
-        {#          <label>{{ form.owner.label }}</label>#}
-        {#          {{ form.owner }}#}
-        {#        </div>#}
-        <div class="field">
-          <label>{{ form.subjects.label }}</label>
-          {{ form.subjects }}
-        </div>
-        <div class="field">
-          <label>{{ form.directions.label }}</label>
-          {{ form.directions }}
-        </div>
-      </div>
-      <div class="three fields">
-        <div class="field">
-          <label>{{ form.competences.label }}</label>
-          {{ form.competences }}
-        </div>
-        <div class="field">
-          <label>{{ form.results_edu.label }}</label>
-          {{ form.results_edu }}
-        </div>
-        <div class="field">
-          <label>{{ form.digital_resources.label }}</label>
-          {{ form.digital_resources }}
-        </div>
-      </div>
-{#      <div class="three fields">#}
-{#        <div class="field">#}
-{#          <label>{{ form.provided_disciplines.label }}</label>#}
-{#          {{ form.provided_disciplines }}#}
-{#        </div>#}
-{#        <div class="field">#}
-{#          <label>{{ form.result_edu.label }}</label>#}
-{#          {{ form.result_edu }}#}
-{#        </div>#}
-{#      </div>#}
-{#      <div class="field">#}
-{#        <label>{{ form.description.label }}</label>#}
-{#        {{ form.description }}#}
-{#      </div>#}
-{#      <h4>Компоненты ЭОР</h4>#}
-{#      <div class="three fields">#}
-{#        {% for item_source in source %}#}
-{#          <div class="field">#}
-{#            <label>{{ item_source.label }}</label>#}
-{#            {{ item_source }}#}
-{#          </div>#}
-{#        {% endfor %}#}
-{#      </div>#}
-      <input type="submit" value="Сохранить" class="ui button secondary">
-    </form>
+    </div>
+  </div>
+  </form>
   </div>
 {% endblock %}

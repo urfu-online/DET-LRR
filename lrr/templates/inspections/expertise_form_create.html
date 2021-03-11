@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
 
@@ -6,7 +7,8 @@
     <ol class="breadcrumb px-2 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
-      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'repository:repository_DigitalResource_detail' pk=dig_res.pk %}">Паспорт
+        ЭОР: {{ dig_res }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу ресурса</li>
     </ol>
   </nav>
@@ -20,7 +22,8 @@
           <form method="post">
             {% csrf_token %}
             {{ form.errors }}
-
+            {{ form.non_field_errors }}
+            {{ form.media.css }}
             <div class="form-group">
               <h2>{{ dig_res }}</h2>
             </div>
@@ -30,36 +33,26 @@
             </div>
             <div class="form-group">
               <label>{{ form.subjects.label }}</label>
-              {% if subjects is None %}
-                <h4>{{ form.subjects.label }} отсутсвуют</h4>
-              {% else %}
-                {{ form.subjects }}
-              {% endif %}
+              {{ form.subjects }}
+              <p class="text-muted">Начните вводить название дисциплины.</p>
             </div>
             <div class="form-group">
+              {{ form.directions.help_texts }}
               <label>{{ form.directions.label }}</label>
-              {% if directions is None %}
-                <h4>{{ form.directions.label }} отсутсвуют</h4>
-              {% else %}
-                {{ form.directions }}
-              {% endif %}
+              {{ form.directions }}
+              <p class="text-muted">Начните вводить название направления или код направления.</p>
             </div>
             <div class="form-group">
               <label>{{ form.digital_complexes.label }}</label>
-              {% if digital_complexes is None %}
-                <h4>{{ form.digital_complexes.label }} отсутсвуют</h4>
-              {% else %}
-                {{ form.digital_complexes }}
-              {% endif %}
-              <a class="btn btn-primary" href="{% url 'complexes:complexes_DigitalComplex_create' %}">Создать ЭУМК</a>
+              {{ form.digital_complexes }}
+              <p class="text-muted">Начните вводить ключевые слова или формат использования.</p>
             </div>
             <input type="submit" value="Подать заявку" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>
-
+          {{ form.media.js }}
         </div>
       </div>
-
     </div>
   </div>
 {% endblock %}

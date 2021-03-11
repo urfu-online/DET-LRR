@@ -28,6 +28,25 @@ class ExpertiseSerializer(serializers.ModelSerializer):
         ]
 
 
+class ExpertiseSubjectListSerializer(serializers.ModelSerializer):
+    # subjects = repo_serializers.SubjectSerializer(many=True, read_only=True)
+    pk = serializers.CharField(source='digital_resource.pk')
+    title = serializers.CharField(source='digital_resource.title')
+    platform = serializers.CharField(source='digital_resource.platform')
+    type = serializers.CharField(source='digital_resource.get_type_display')
+    copyright_holder = serializers.CharField(source='digital_resource.copyright_holder')
+
+    class Meta:
+        model = inspections_models.Expertise
+        fields = [
+            "pk",
+            "title",
+            "platform",
+            "type",
+            "copyright_holder",
+        ]
+
+
 class CheckListSerializer(serializers.ModelSerializer):
     class Meta:
         model = inspections_models.CheckList

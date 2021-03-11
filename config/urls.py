@@ -7,6 +7,7 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_swagger.views import get_swagger_view
+from lrr.complexes import api as complexes_api
 
 from lrr.repository.views import DigitalResourceListView
 

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from polymorphic.admin import (
+    PolymorphicParentModelAdmin,
+    PolymorphicChildModelAdmin,
+    PolymorphicChildModelFilter)
 
 from lrr.complexes import forms_admin
 from lrr.complexes import models
@@ -55,6 +59,7 @@ class WorkPlanAcademicGroupAdminInline(admin.TabularInline):
 class DigitalComplexAdmin(admin.ModelAdmin):
     form = forms_admin.DigitalComplexAdminForm
     fields = [
+        "title",
         "keywords",
         "description",
         "language",
@@ -98,9 +103,9 @@ class CellAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(models.WorkPlanAcademicGroup)
-class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
-    form = forms_admin.WorkPlanAcademicGroupAdminForm
+@admin.register(models.AssignmentAcademicGroup)
+class AssignmentAcademicGroupAdmin(admin.ModelAdmin):
+    form = forms_admin.AssignmentAcademicGroupForm
     list_display = [
         "academic_group",
         "learn_date"
@@ -110,3 +115,56 @@ class WorkPlanAcademicGroupAdmin(admin.ModelAdmin):
     ]
 
     autocomplete_fields = ["subject", "digital_complex"]
+
+
+class ComponentComplexChildAdmin(PolymorphicChildModelAdmin):
+    base_model = models.ComponentComplex
+
+
+# @admin.register(models.ComponentComplex)
+class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
+    base_model = models.ComponentComplex
+    search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]
+    # form = ProgramComponentForm
+    # autocomplete_fields = ["logistical_resource", "personnel_resource", "digital_resource", "competence"]
+    child_models = (
+        models.ResourceComponent,
+        models.PlatformComponent,
+        models.TraditionalSessionComponent,
+        models.ComponentComplex
+    )
+
+    list_filter = (PolymorphicChildModelFilter,)
+    fields = ("digital_complex", "description")
+
+
+@admin.register(models.ComponentComplex)
+class ComponentComplexChiledAdmin(ComponentComplexChildAdmin):
+    base_model = models.ComponentComplex
+    search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format" ]
+    # autocomplete_fields = ["digital_resource", ]
+    # show_in_index = True
+
+
+@admin.register(models.ResourceComponent)
+class ResourceComponentAdmin(ComponentComplexChildAdmin):
+    base_model = models.ResourceComponent
+    search_fields = ["digital_resource__title", ]
+    autocomplete_fields = ["digital_resource", ]
+    # show_in_index = True
+
+
+@admin.register(models.PlatformComponent)
+class PlatformComponentAdmin(ComponentComplexChildAdmin):
+    base_model = models.PlatformComponent
+    search_fields = ["platform__title", ]
+    autocomplete_fields = ["platform", ]
+    # show_in_index = True
+
+
+@admin.register(models.TraditionalSessionComponent)
+class TraditionalSessionComponentAdmin(ComponentComplexChildAdmin):
+    base_model = models.TraditionalSessionComponent
+    search_fields = ["title", ]
+    # autocomplete_fields = ["title", ]
+    # show_in_index = True

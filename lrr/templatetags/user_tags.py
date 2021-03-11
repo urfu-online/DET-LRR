@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from __future__ import unicode_literals
+
 from django import template
 
 register = template.Library()
@@ -13,6 +14,16 @@ def get_resources(res, *args, **kwargs):
         return {'objects': res.get_recommended_resources_by_subject(subject, edu_program)}
     elif subject and not edu_program:
         return {'objects': res.get_resources_by_subject(subject)}
+
+
+# @register.filter('has_owner')
+# def has_owner(user):
+#     try:
+#         person =
+#         groups = user.groups.all().values_list('name', flat=True)
+#         return True if group_name in groups else False
+#     except:
+#         return None
 
 
 @register.filter('has_group')

@@ -1,9 +1,12 @@
-import django_filters
 import logging
+
+import django_filters
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from lrr.inspections.models import Expertise
 from lrr.users.models import Person
+from lrr.users.mixins import GroupRequiredMixin
 from . import forms
 from . import models
 from .filters import FilteredListView
@@ -193,12 +196,13 @@ class DigitalResourceListView(FilteredListView):
     #     return product_filtered_list.qs
 
 
-class ResourceListView(FilteredListView):
+class ResourceListView(GroupRequiredMixin, FilteredListView):
     allow_empty = True
     paginate_by = 12
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
     filterset_class = DigitalResourceFilter
+    group_required = ['teacher', 'admins']
     template_name = "repository/digitalresource_list_owner.html"
 
     def get_context_data(self, **kwargs):
@@ -217,35 +221,39 @@ class ResourceListView(FilteredListView):
         return qs
 
 
-class DigitalResourceCreateView(generic.CreateView):
+class DigitalResourceCreateView(GroupRequiredMixin, generic.CreateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
-    permission_class = []
+    group_required = ['teacher', 'admins']
+    template_name = 'repository/digitalresource_form_create.html'
 
     def form_valid(self, form):
         context = self.get_context_data()
-        source = context['source']
+        source_formset = context['source_formset']
         person = Person.get_person(user=self.request.user)
         form.instance.owner = person
-        if source.is_valid():
-            source.instance = self.object
-            source.save()
-        form.save()
+        self.object = form.save()
+        if source_formset.is_valid():
+            source_formset.instance = self.object
+            source_formset.save()
         form_valid = super(DigitalResourceCreateView, self).form_valid(form)
         return form_valid
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
-            data["source_formset"] = forms.SourceFormset(self.request.POST)
+            context["form"] = forms.DigitalResourceForm(self.request.POST)
+            context["source_formset"] = forms.SourceFormset(self.request.POST, self.request.FILES)
         else:
-            data["source_formset"] = forms.SourceFormset()
-        return data
+            context["form"] = forms.DigitalResourceForm()
+            context["source_formset"] = forms.SourceFormset()
+        return context
 
 
-class DigitalResourceDetailView(generic.DetailView):
+class DigitalResourceDetailView(GroupRequiredMixin, generic.DetailView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
+    group_required = ['teacher', 'admins']
 
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
@@ -254,23 +262,23 @@ class DigitalResourceDetailView(generic.DetailView):
         return context
 
 
-class DigitalResourceUpdateView(generic.UpdateView):
+class DigitalResourceUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
+    group_required = ['teacher', 'admins']
     pk_url_kwarg = "pk"
+    template_name = 'repository/digitalresource_form_update.html'
 
     def form_valid(self, form):
         context = self.get_context_data()
         source_formset = context['source_formset']
         person = Person.get_person(user=self.request.user)
         form.instance.owner = person
-        logger.warning(self.object)
-        # self.object = form.save()
+        self.object = form.save()
         if source_formset.is_valid():
             self.object = form.save()
             source_formset.instance = self.object
             source_formset.save()
-        form.save()
         form_valid = super(DigitalResourceUpdateView, self).form_valid(form)
         return form_valid
 

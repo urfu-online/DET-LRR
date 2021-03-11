@@ -1,18 +1,15 @@
-import django_filters
 import logging
+
+import django_filters
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
 from lrr.inspections import forms
 from lrr.inspections import models as inspections_models
-from lrr.users.models import Person
-from .filters import FilteredListView
-from django.urls import reverse
-import django_filters
-
 from lrr.repository.filters import FilteredListView
-
 from lrr.users.mixins import GroupRequiredMixin
+from lrr.users.models import Person, Expert
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -27,12 +24,13 @@ class DigitalResourceFilter(django_filters.FilterSet):
         }
 
 
-class ExpertiseActiveSecretaryListView(FilteredListView):
+class ExpertiseActiveSecretaryListView(GroupRequiredMixin, FilteredListView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseCreateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
+    group_required = ['secretary', 'admins']
     template_name = 'inspections/secretary/expertiseactive_secretary_list.html'
 
     def get_queryset(self):
@@ -44,12 +42,13 @@ class ExpertiseActiveSecretaryListView(FilteredListView):
         return qs
 
 
-class ExpertiseCloseSecretaryListView(FilteredListView):
+class ExpertiseCloseSecretaryListView(GroupRequiredMixin, FilteredListView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseCreateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
+    group_required = ['secretary', 'admins']
     template_name = 'inspections/secretary/expertiseclose_secretary_list.html'
 
     def get_queryset(self):
@@ -61,13 +60,22 @@ class ExpertiseCloseSecretaryListView(FilteredListView):
         return qs
 
 
-class ExpertiseActiveExpert(generic.ListView):
-    model = inspections_models.Expertise
-    form_class = forms.ExpertiseCreateForm
+class ExpertiseActiveExpert(GroupRequiredMixin, FilteredListView):
+    model = inspections_models.CheckList
+    form_class = forms.CheckListUpdateForm
+    allow_empty = True
+    paginate_by = 12
+    filterset_class = DigitalResourceFilter
+    group_required = ['expert', 'admins']
     template_name = 'inspections/expert/expertise_active_expert_list.html'
 
     def get_queryset(self):
-        return inspections_models.Expertise.get_expertise_assigned_status()
+        queryset = inspections_models.CheckList.get_active_my_checklist(self, inspections_models.CheckList)
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
 
 
 class ExpertiseCreateView(GroupRequiredMixin, generic.CreateView):
@@ -83,41 +91,50 @@ class ExpertiseCreateView(GroupRequiredMixin, generic.CreateView):
         form.instance.owner = person
         form.instance.date = timezone.now()
         form.instance.status = "SUB_APP"
+        form.instance.type = "FULL"
         form.save()
         form_valid = super(ExpertiseCreateView, self).form_valid(form)
         return form_valid
 
-    def get_initial(self):
-        """
-        Returns the initial data to use for forms on this view.
-        """
-        initial = super().get_initial()
-        logger.warning(inspections_models.Expertise.get_digital_resource(self))
-        # initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
-        initial['status'] = "SUB_APP"
-        return initial
+    # def get_initial(self):
+    #     """
+    #     Returns the initial data to use for forms on this view.
+    #     """
+    #     initial = super().get_initial()
+    #     logger.warning(inspections_models.Expertise.get_digital_resource(self))
+    #     # initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
+    #     initial['status'] = "SUB_APP"
+    #     return initial
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        dig_res = inspections_models.Expertise.get_digital_resource(self)
-        context['dig_res'] = dig_res
-        context['directions'] = inspections_models.Expertise.check_empty_queryset(self, 'directions')
-        context['subjects'] = inspections_models.Expertise.check_empty_queryset(self, 'subjects')
-        context['digital_complexes'] = inspections_models.Expertise.check_empty_queryset(self, 'digital_complexes')
+        context = super(ExpertiseCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.ExpertiseCreateForm(self.request.POST, instance=self.object)
+            # context["source_formset"] = forms.SourceFormset(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            dig_res = inspections_models.Expertise.get_digital_resource(self)
+            context['dig_res'] = dig_res
+            context["form"] = forms.ExpertiseCreateForm(instance=self.object)
+            # context["source_formset"] = forms.SourceFormset(instance=self.object)
         return context
 
+        # context['directions'] = inspections_models.Expertise.check_empty_queryset(self, 'directions')
+        # context['subjects'] = inspections_models.Expertise.check_empty_queryset(self, 'subjects')
+        # context['digital_complexes'] = inspections_models.Expertise.check_empty_queryset(self, 'digital_complexes')
 
-class ExpertiseDetailView(generic.DetailView):
+
+class ExpertiseDetailView(GroupRequiredMixin, generic.DetailView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseCreateForm
+    group_required = ["teacher", "secretary", "admins", ]
 
 
-class ExpertiseUpdateView(generic.UpdateView):
+class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = inspections_models.Expertise
     form_class = forms.ExpertiseUpdateForm
     pk_url_kwarg = "pk"
     template_name = 'inspections/expertise_form_update.html'
-    group_required = [u"rop", u"admins", ]
+    group_required = ["secretary", "admins", ]
 
     def form_valid(self, form):
         # self.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
@@ -150,23 +167,47 @@ class CheckListListView(generic.ListView):
     form_class = forms.CheckListUpdateForm
 
 
-class CheckListMyExpertListView(generic.ListView):
+class CheckListMyExpertListView(GroupRequiredMixin, FilteredListView):
     model = inspections_models.CheckList
     form_class = forms.CheckListUpdateForm
+    allow_empty = True
+    paginate_by = 12
+    filterset_class = DigitalResourceFilter
     template_name = 'inspections/expert/checklist_my_expert_active_list.html'
+    group_required = ['expert', 'admins']
+
+    def get_queryset(self):
+        queryset = inspections_models.CheckList.get_my_checklist(self, inspections_models.CheckList)
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
 
 
-class CheckListMyCloseExpertListView(generic.ListView):
+class CheckListMyCloseExpertListView(GroupRequiredMixin, FilteredListView):
     model = inspections_models.CheckList
     form_class = forms.CheckListUpdateForm
+    allow_empty = True
+    paginate_by = 12
+    filterset_class = DigitalResourceFilter
     template_name = 'inspections/expert/checklist_my_expert_close_list.html'
+    group_required = ['expert', 'admins']
+
+    def get_queryset(self):
+        queryset = inspections_models.CheckList.get_close_my_checklist(self, inspections_models.CheckList)
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
 
 
 class CheckListCreateView(GroupRequiredMixin, generic.CreateView):
     model = inspections_models.CheckList
     form_class = forms.CheckListCreateForm
     template_name = 'inspections/checklist_form_create.html'
-    group_required = [u"expert", u"admins", u"rop"]
+    group_required = [u"expert", u"admins", u"secretary"]
 
     def form_valid(self, form):
         form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
@@ -195,16 +236,79 @@ class CheckListCreateView(GroupRequiredMixin, generic.CreateView):
         context['checklists'] = inspections_models.Expertise.get_checklists(expertise)
         return context
 
+    def get_success_url(self):
+        return reverse_lazy("inspections:inspections_Expertise_update", args=(self.object.expertise.pk,))
+
 
 class CheckListDetailView(generic.DetailView):
     model = inspections_models.CheckList
     form_class = forms.CheckListUpdateForm
 
 
-class CheckListUpdateView(generic.UpdateView):
+class CheckListUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = inspections_models.CheckList
     form_class = forms.CheckListUpdateForm
     pk_url_kwarg = "pk"
+    group_required = [u"expert", u"admins"]
+    template_name = 'inspections/checklist_form_update.html'
+
+    def form_valid(self, form):
+        # form.instance.expertise = inspections_models.Expertise.get_expertise(self)
+        person = Expert.get_expert(user=self.request.user)
+        form.instance.status = "IN_PROCESS"
+        form.instance.expert = person
+        self.object = form.save()
+        form_valid = super(CheckListUpdateView, self).form_valid(form)
+        return form_valid
+
+    def get_success_url(self):
+        return reverse_lazy("inspections:inspections_ExpertiseMy_list")
+
+    def get_context_data(self, **kwargs):
+        context = super(CheckListUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.CheckListUpdateForm(self.request.POST, instance=self.object)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
+            #                                                                      instance=self.object)
+        else:
+            context["form"] = forms.CheckListUpdateForm(instance=self.object)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
+        return context
+
+
+class CheckListUpdateExpertView(GroupRequiredMixin, generic.UpdateView):
+    model = inspections_models.CheckList
+    form_class = forms.CheckListUpdateForm
+    pk_url_kwarg = "pk"
+    group_required = [u"expert", u"admins"]
+    template_name = 'inspections/checklist_form_update_expert.html'
+
+    def form_valid(self, form):
+        form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
+        # form.instance.expertise = inspections_models.Expertise.get_expertise(self)
+        # form.instance.status = "START"
+        form.save()
+        form_valid = super(CheckListUpdateExpertView, self).form_valid(form)
+        return form_valid
+
+    def get_initial(self):
+        """
+        Returns the initial data to use for forms on this view.
+        """
+        initial = super().get_initial()
+        logger.warning(inspections_models.Expertise.get_expertise(self))
+        initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
+        # initial['expertise'] = inspections_models.Expertise.get_expertise(self)
+        # initial['status'] = "START"
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dig_res = inspections_models.Expertise.get_digital_resource(self)
+        # expertise = inspections_models.Expertise.get_expertise(self)
+        context['dig_res'] = dig_res
+        # context['checklists'] = inspections_models.Expertise.get_checklists(expertise)
+        return context
 
 
 class QuestionListView(generic.ListView):

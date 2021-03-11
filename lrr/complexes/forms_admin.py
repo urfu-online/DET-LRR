@@ -57,7 +57,7 @@ class ComplexThemeAdminForm(forms.ModelForm):
         ]
 
 
-class WorkPlanAcademicGroupAdminForm(forms.ModelForm):
+class AssignmentAcademicGroupForm(forms.ModelForm):
     class Meta:
-        model = complex_models.WorkPlanAcademicGroup
+        model = complex_models.AssignmentAcademicGroup
         fields = "__all__"

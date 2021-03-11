@@ -133,34 +133,129 @@ class DigitalResourceForm(forms.ModelForm):
             "result_edu",
         ]
         widgets = {
-            "edu_programs_tags": EduProgramsWidget,
-            "subjects_tags": SubjectsWidget,
-            "authors": AuthorsWidget,
-            "provided_disciplines": ProvidedDisciplinesWidget,
-            "result_edu": ResultEduWidget,
+            "title": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "type": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "source_data": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "keywords": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "description": forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "copyright_holder": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "language": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "platform": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            "edu_programs_tags": EduProgramsWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "subjects_tags": SubjectsWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "authors": AuthorsWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "provided_disciplines": ProvidedDisciplinesWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "result_edu": ResultEduWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+
         }
 
-        # def __init__(self, *args, **kwargs):
-        #     super(DigitalResourceForm, self).__init__(*args, **kwargs)
-        #     self.helper = FormHelper()
-        #     self.helper.form_tag = True
-        #     self.helper.form_class = 'form-horizontal'
-        #     self.helper.label_class = 'col-md-3 create-label'
-        #     self.helper.field_class = 'col-md-9'
-        #     self.helper.layout = Layout(
-        #         Div(
-        #             Fieldset('Добавить источники',
-        #                      Formset('source')),
-        #             HTML("<br>"),
-        #         )
-        #     )
+
+# class SourceForm(forms.ModelForm):
+#     class Meta:
+#         model = models.Source
+#
+#     fields = ['link_name', 'URL', 'file', 'type']
+#
+#     widgets = {
+#
+#     }
 
 
 SourceFormset = inlineformset_factory(
     models.DigitalResource,
     models.Source,
     fields=('link_name', 'URL', 'file', 'type'),
-    extra=1
+    extra=1,
+    widgets={
+        'link_name': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+        'URL': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+        'file': forms.FileInput(
+            attrs={
+                'class': 'form-control-file',
+            },
+        ),
+        'type': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'required': 'false'
+            },
+        ),
+    }
 )
 
 
@@ -177,12 +272,43 @@ class PlatformForm(forms.ModelForm):
     class Meta:
         model = models.Platform
         fields = [
+            "title",
             "url",
             "logo",
             "description",
             "contacts",
-            "title",
         ]
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            'url': forms.URLInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            'logo': forms.FileInput(
+                attrs={
+                    'class': 'form-control-file'
+                },
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            'contacts': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+        }
 
 
 class LanguageForm(forms.ModelForm):

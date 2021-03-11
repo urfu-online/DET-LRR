@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import MultipleObjectsReturned
@@ -98,7 +99,7 @@ class Student(models.Model):
         verbose_name_plural = u"Студенты"
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.person)
 
     def get_absolute_url(self):
         return reverse("repository_Student_detail", args=(self.pk,))
@@ -106,9 +107,28 @@ class Student(models.Model):
     def get_update_url(self):
         return reverse("repository_Student_update", args=(self.pk,))
 
+    @classmethod
+    def get_academic_group_for_user(cls, user):
+        try:
+            obj = cls.objects.get(person__user=user)
+        except cls.DoesNotExist:
+            obj = None
+        return obj.academic_group
+
+    @classmethod
+    def get_student(cls, user):
+        try:
+            obj = cls.objects.get(person__user=user)
+        except cls.DoesNotExist:
+            obj = None
+        return obj
+
 
 class AcademicGroup(models.Model):
     number = models.CharField("Номер академической группы", max_length=30)
+    direction = models.ForeignKey("repository.Direction",
+                                  verbose_name="Образовательная программа/Направление подготовки",
+                                  on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:
         verbose_name = u"Академическая группа"
@@ -122,6 +142,14 @@ class AcademicGroup(models.Model):
 
     def get_update_url(self):
         return reverse("repository_AcademicGroup_update", args=(self.pk,))
+
+    @classmethod
+    def get_direction_for_number(cls, number):
+        try:
+            obj = cls.objects.get(number=number)
+        except cls.DoesNotExist:
+            obj = None
+        return obj.direction
 
 
 class Expert(models.Model):
@@ -151,6 +179,14 @@ class Expert(models.Model):
 
     def get_absolute_url(self):
         return reverse("users:expert_detail", args=(self.pk,))
+
+    @classmethod
+    def get_expert(cls, user):
+        try:
+            obj = cls.objects.get(person__user=user)
+        except cls.DoesNotExist:
+            obj = None
+        return obj
 
     # def get_update_url(self):
     #     return reverse("", args=(self.pk,))

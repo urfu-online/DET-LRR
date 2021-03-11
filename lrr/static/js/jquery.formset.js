@@ -237,9 +237,9 @@
         addText: 'Добавить',          // Text for the add link
         deleteText: 'Удалить',            // Text for the delete link
         addContainerClass: null,         // Container CSS class for the add link
-        deleteContainerClass: null,      // Container CSS class for the delete link
-        addCssClass: 'fluid ui secondary basic button',          // CSS class applied to the add link
-        deleteCssClass: 'ui red negative basic right labeled icon right floated  button',    // CSS class applied to the delete link
+        deleteContainerClass: 'card-body',      // Container CSS class for the delete link
+        addCssClass: 'btn btn-primary',          // CSS class applied to the add link
+        deleteCssClass: 'btn btn-danger',    // CSS class applied to the delete link
         formCssClass: 'dynamic-form',    // CSS class applied to each form in a formset
         extraClasses: [],                // Additional CSS classes, which will be applied to each form in turn
         keepFieldValues: '',             // jQuery selector for fields whose values should be kept when the form is cloned
