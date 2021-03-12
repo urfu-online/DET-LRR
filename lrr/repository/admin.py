@@ -105,8 +105,14 @@ class EduProgramAdmin(admin.ModelAdmin):
     search_fields = ["title"]
     list_display = [
         "title",
-        "created",
+        "cipher",
+        "standard",
+        "approve_year",
+        "admission_years",
+        "head",
+        "site_admin"
     ]
+    list_filter = ["standard"]
     readonly_fields = [
         "last_updated",
         "created",
@@ -428,13 +434,28 @@ class DirectionAdminForm(forms.ModelForm):
 class DirectionAdmin(admin.ModelAdmin):
     form = DirectionAdminForm
     list_display = [
+        "code",
         "title",
-        "code"
     ]
     readonly_fields = [
         "created",
     ]
+    list_filter = ["scientific_branch"]
     search_fields = ["title", "code"]
+
+
+class ScientificBranchAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.ScientificBranch
+        fields = "__all__"
+
+
+@admin.register(models.ScientificBranch)
+class ScientificBranchAdmin(admin.ModelAdmin):
+    form = ScientificBranchAdminForm
+    list_display = ["code", "title", ]
+    readonly_fields = ["created", ]
+    search_fields = ["title"]
 
 
 # admin.site.register(models.DRStatus, DRStatusAdmin)
