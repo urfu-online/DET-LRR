@@ -9,11 +9,17 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('users', '0001_initial'),
         ('repository', '0001_initial'),
     ]
 
     operations = [
 
+        migrations.AddField(
+            model_name='digitalresource',
+            name='authors',
+            field=models.ManyToManyField(blank=True, related_name='authors_digital_resource', to='users.Person', verbose_name='Авторы'),
+        ),
         migrations.AddField(
             model_name='digitalresource',
             name='conformity_theme',
