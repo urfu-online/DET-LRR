@@ -252,8 +252,11 @@ class EduProgram(BaseModel):
 
     @property
     def cipher(self):
-        d, c = self._cipher, self.direction.code
-        return f"{d}/{c}"
+        try:
+            d, c = self._cipher, self.direction.code
+            return f"{d}/{c}"
+        except:
+            return ""
 
     class Meta:
         verbose_name = u"Образовательная программа"
