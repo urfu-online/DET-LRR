@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
 import uuid
-
+# from lrr.users.models import Person
+from django.contrib.postgres.fields import ArrayField
 from django.db import models as models
 from django.urls import reverse
-
-# from lrr.users.models import Person
 
 logger = logging.getLogger(__name__)
 
@@ -117,7 +116,7 @@ class ExpertiseStatus(BaseModel):
 class Subject(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=255)
-    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    description = models.TextField("Описание", null=True, blank=True)
     labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
 
     class Meta:
@@ -143,10 +142,10 @@ class Subject(BaseModel):
 class Organization(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
-    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    description = models.TextField("Описание", null=True, blank=True)
     url_logo = models.URLField("Ссылка на логотип", blank=True, null=True)
     logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
-    contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
+    contacts = models.TextField("Контакты", null=True, blank=True)
     url = models.URLField("URL", null=True, blank=True)
 
     class Meta:
@@ -163,7 +162,62 @@ class Organization(BaseModel):
         return reverse("repository_Organization_update", args=(self.pk,))
 
 
+class ScientificBranch(BaseModel):
+    title = models.CharField("Наименование", max_length=64)
+    code = models.PositiveSmallIntegerField("Код", blank=True, null=True, unique=True)
+
+    class Meta:
+        verbose_name = u"научная отрасль"
+        verbose_name_plural = u"научные отрасли"
+
+    def __str__(self):
+        return f"{self.code} {self.title}"
+
+
+class DirectionsEnlargedGroup(BaseModel):
+    title = models.CharField("Наименование УГН", max_length=128)
+    code = models.CharField("Код УГН", max_length=64, unique=True)
+
+    class Meta:
+        verbose_name = u"укрупненная группа направлений"
+        verbose_name_plural = u"укрупненные группа направлений"
+
+    def __str__(self):
+        return f"{self.code} {self.title}"
+
+
+class Direction(BaseModel):
+    title = models.CharField("Наименование", max_length=150)
+    code = models.CharField("Код направления", max_length=8)
+    scientific_branch = models.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions", null=True, blank=True, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = u"Направление подготовки"
+        verbose_name_plural = u"Направления подготовки"
+
+    def __str__(self):
+        return f"{self.code} {self.title}"
+
+    def get_absolute_url(self):
+        return reverse("repository_Competence_detail", args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse("repository_Competence_update", args=(self.pk,))
+
+
 class EduProgram(BaseModel):
+    STANDARDS = (
+        ("SUOS", "СУОС"),
+        ("FGOS3++", "ФГОС 3++"),
+        ("FGOS VO", "ФГОС ВО"),
+    )
+    LEVELS = (
+        ("0", "бакалавриат"),
+        ("1", "прикладной бакалавриат"),
+        ("2", "магистратура"),
+        ("3", "аспирантура"),
+        ("4", "специалитет"),
+    )
     # NO_INIT = 'NO_INIT'
     # SUB_APP = 'SUB_APP'
     # ON_EXPERTISE = 'ON_EXPERTISE'
@@ -182,11 +236,24 @@ class EduProgram(BaseModel):
 
     # Fields
     title = models.CharField("Наименование", max_length=450)
+    _cipher = models.CharField("Шифр ОП", max_length=5, blank=True, null=True)
     short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
-    description = models.TextField("Описание", max_length=1024, null=True, blank=True)
-    # TODO:
-    # level_edu = models.CharField()
-    # direction = ForiginKey
+    description = models.TextField("Описание", null=True, blank=True)
+    standard = models.CharField("Стандарт", choices=STANDARDS, max_length=9, null=True, blank=True)
+    edu_level = models.CharField("Уровень подготовки", choices=LEVELS, max_length=1, null=True, blank=True)
+
+    admission_years = ArrayField(models.PositiveSmallIntegerField(blank=True, null=True), null=True)
+    approve_year = models.PositiveSmallIntegerField("Год утверждения", blank=True, null=True)
+
+    head = models.CharField("Руководитель", max_length=300, null=True, blank=True)
+    site_admin = models.CharField("Администратор сайта ОП", max_length=300, null=True, blank=True)
+
+    direction = models.ForeignKey(Direction, verbose_name="Направление подготовки", related_name="programs", null=True, blank=True, on_delete=models.CASCADE)
+
+    @property
+    def cipher(self):
+        d, c = self._cipher, self.direction.code
+        return f"{d}/{c}"
 
     class Meta:
         verbose_name = u"Образовательная программа"
@@ -207,10 +274,8 @@ class EduProgram(BaseModel):
 
 class ProvidingDiscipline(BaseModel):
     # Relationships
-    edu_program = models.ForeignKey("repository.EduProgram", verbose_name="Образовательная программа",
-                                    on_delete=models.PROTECT)
+    edu_program = models.ForeignKey("repository.EduProgram", verbose_name="Образовательная программа", on_delete=models.PROTECT)
     subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", on_delete=models.PROTECT)
-
     # Fields
     rate = models.PositiveIntegerField("Процент покрытия")
 
@@ -231,7 +296,7 @@ class ProvidingDiscipline(BaseModel):
 class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
-    description = models.TextField("Описание", max_length=500, blank=True)
+    description = models.TextField("Описание", blank=True)
     competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
                                    on_delete=models.PROTECT)
 
@@ -295,7 +360,7 @@ class DigitalResource(BaseModel):
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
     keywords = models.CharField("Ключевые слова", max_length=6024, null=True, blank=True)
-    description = models.TextField("Описание", max_length=6024, null=True, blank=True)
+    description = models.TextField("Описание", null=True, blank=True)
 
     class Meta:
         verbose_name = u"Паспорт ЭОР"
@@ -409,11 +474,11 @@ class Competence(BaseModel):
 class Platform(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
-    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    description = models.TextField("Описание", null=True, blank=True)
     url = models.URLField("Ссылка")
     url_logo = models.URLField("Ссылка на логотип", null=True, blank=True)
     logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
-    contacts = models.TextField("Контакты", max_length=500, null=True, blank=True)
+    contacts = models.TextField("Контакты", null=True, blank=True)
 
     class Meta:
         verbose_name = u"Платформа"
@@ -522,7 +587,7 @@ class EduProgramTag(BaseModel):
 class SubjectTheme(BaseModel):
     # Fields
     title = models.CharField("Наимаенование", max_length=150)
-    description = models.TextField("Описание", max_length=500, null=True, blank=True)
+    description = models.TextField("Описание", null=True, blank=True)
     thematic_plan = models.ForeignKey("repository.ThematicPlan", on_delete=models.PROTECT,
                                       verbose_name="Тематический план")
 
@@ -558,21 +623,3 @@ class ThematicPlan(BaseModel):
 
     def get_update_url(self):
         return reverse("repository_ThematicPlan_update", args=(self.pk,))
-
-
-class Direction(BaseModel):
-    title = models.CharField("Наименование", max_length=150)
-    code = models.CharField("Код направления", max_length=8)
-
-    class Meta:
-        verbose_name = u"Направление подготовки"
-        verbose_name_plural = u"Направления подготовки"
-
-    def __str__(self):
-        return f"{self.code} {self.title}"
-
-    def get_absolute_url(self):
-        return reverse("repository_Competence_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_Competence_update", args=(self.pk,))
