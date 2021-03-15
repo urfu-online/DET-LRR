@@ -204,6 +204,14 @@ class Direction(BaseModel):
     def get_update_url(self):
         return reverse("repository_Competence_update", args=(self.pk,))
 
+    @classmethod
+    def by_code(cls, code):
+        qs = cls.objects.filter(code=code)
+        if qs.exists():
+            return qs[0]
+        else:
+            return None
+
 
 class EduProgram(BaseModel):
     STANDARDS = (
@@ -239,8 +247,8 @@ class EduProgram(BaseModel):
     _cipher = models.CharField("Шифр ОП", max_length=5, blank=True, null=True)
     short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
     description = models.TextField("Описание", null=True, blank=True)
-    standard = models.CharField("Стандарт", choices=STANDARDS, max_length=9, null=True, blank=True)
-    edu_level = models.CharField("Уровень подготовки", choices=LEVELS, max_length=1, null=True, blank=True)
+    standard = models.CharField("Стандарт", max_length=9, null=True, blank=True)
+    edu_level = models.CharField("Уровень подготовки", max_length=32, null=True, blank=True)
 
     admission_years = ArrayField(models.PositiveSmallIntegerField(blank=True, null=True), null=True)
     approve_year = models.PositiveSmallIntegerField("Год утверждения", blank=True, null=True)
@@ -253,7 +261,7 @@ class EduProgram(BaseModel):
     @property
     def cipher(self):
         try:
-            d, c = self._cipher, self.direction.code
+            c, d = self._cipher, self.direction.code
             return f"{d}/{c}"
         except:
             return ""
