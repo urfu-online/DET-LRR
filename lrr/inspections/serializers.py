@@ -49,7 +49,7 @@ class ExpertiseSubjectListSerializer(serializers.ModelSerializer):
 
 class CheckListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = inspections_models.CheckList
+        model = inspections_models.ExpertiseRequest
         fields = [
             "expertise",
             "type",

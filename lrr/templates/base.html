@@ -60,7 +60,7 @@
           {% if request.user|has_group:"teacher" %}
             <a class="dropdown-item" href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a>
             <a class="dropdown-item" href="/">{% trans "Поиск ЭОР" %}</a>
-            <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои ЭМУК</a>
+            <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои ЭУМК</a>
           {% endif %}
         </li>
       {% endif %}

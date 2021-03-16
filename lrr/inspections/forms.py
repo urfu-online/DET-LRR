@@ -163,7 +163,7 @@ class ExpertiseUpdateForm(forms.ModelForm):
 
 class CheckListCreateForm(forms.ModelForm):
     class Meta:
-        model = inspections_models.CheckList
+        model = inspections_models.ExpertiseRequest
         fields = [
             "type",
             "expert",
@@ -171,17 +171,17 @@ class CheckListCreateForm(forms.ModelForm):
         exclude = ["expertise", "date", "protocol", "status"]
 
 
-class CheckListUpdateForm(forms.ModelForm):
+class ExpertiseRequestUpdateForm(forms.ModelForm):
     class Meta:
-        model = inspections_models.CheckList
+        model = inspections_models.ExpertiseRequest
         fields = [
             "type",
             "expert",
             "date",
             "protocol",
-            "status"
+            "status",
+            "expertise"
         ]
-        exclude = ["expertise", ]
 
 
 class QuestionForm(forms.ModelForm):
@@ -193,3 +193,15 @@ class QuestionForm(forms.ModelForm):
             "type",
             "choices"
         ]
+
+
+class CheckListQestionForm(forms.ModelForm):
+    class Meta:
+        model = inspections_models.CheckListQestion
+        fields = '__all__'
+
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = inspections_models.Answer
+        fields = "__all__"

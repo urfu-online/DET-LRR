@@ -5,7 +5,10 @@
     <div class="ui middle aligned stackable grid container">
       <div class="row">
         <div class="eight wide column">
+          {% if object.digital_resource is not None %}
           <h3 class="ui header">Заявка на экспертизу ЭОР "{{ object.digital_resource }}"</h3>
+          {% else %}
+          {% endif %}
           <p>Тип заявки: {{ person.last_name }}</p>
           <p>Инициатор: {{ person.country }}</p>
           <p>Дисциплина(ы): {{ person.city }}</p>
@@ -14,9 +17,10 @@
           <p>Вид экспертизы: {{ object.type }}</p>
           <p>Подразделение/отрасль: {{ object.subdivision }}</p>
           <p>Экспертные заключения: {{ object.type }}</p>
-          <a class="btn btn-primary"
-             href="{% url 'repository:repository_DigitalResource_detail' pk=object.digital_resource.pk %}">Паспорт
-            ЭОР</a>
+          {{ dig_res }}
+{#          <a class="btn btn-primary"#}
+{#             href="{% url 'repository:repository_DigitalResource_detail' pk=dig_res.pk %}">Паспорт#}
+{#            ЭОР</a>#}
         </div>
       </div>
     </div>

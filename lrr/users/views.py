@@ -6,8 +6,9 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import DetailView, RedirectView, UpdateView
+from django.views.generic import DetailView, RedirectView, UpdateView, CreateView
 
 from lrr.repository.filters import FilteredListView
 from lrr.users import forms
@@ -137,3 +138,14 @@ class ExpertDetailView(DetailView):
 
 
 expert_detail_view = ExpertDetailView.as_view()
+
+
+class ExpertCreateView(CreateView):
+    model = models.Expert
+    form_class = forms.ExpertForm
+
+    def get_success_url(self):
+        return reverse_lazy("users:expert_list")
+
+
+expert_create_view = ExpertCreateView.as_view()

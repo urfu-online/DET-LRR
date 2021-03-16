@@ -347,3 +347,5 @@ DATE_INPUT_FORMATS = ["iso-8601"]
 #     "DigitalResource": {"app_label": "lrr.repository", "model_name": "DigitalResource"}
 # }
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
+CHOICES_SEPARATOR = ","

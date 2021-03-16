@@ -56,9 +56,9 @@
     </div>
   </div>
 
-  {#  <a class="btn btn-primary mt-3 " href="{% url 'complexes:complexes_DigitalComplex_create' %}">#}
-  {#    Добавить эксперта#}
-  {#  </a>#}
+    <a class="btn btn-primary mt-3 " href="{% url 'users:expert_create' %}">
+      Добавить эксперта
+    </a>
 
   {#  <div class="row p-2">#}
   {#    {% if page_obj|length != 0 %}#}
@@ -101,7 +101,7 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">{{ object.person.first_name }} {{ object.person.middle_name }} {{ object.person.last_name }}</h5>
-            <p>Подразделение / Отрасль: {{ object.get_subdivision_display }}</p>
+            <p>Подразделение / Отрасль: {{ object.subdivision }}</p>
           </div>
           <div class="card-footer">
             {#              {% if object.get_url %}#}

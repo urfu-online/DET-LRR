@@ -10,9 +10,9 @@ from django.views import generic
 from lrr.complexes import forms
 from lrr.complexes import models as complex_model
 from lrr.repository.filters import FilteredListView
+from lrr.repository.models import Subject
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Student, AcademicGroup
-from lrr.repository.models import Subject
 
 logger = logging.getLogger(__name__)
 
@@ -223,7 +223,6 @@ class ResourceComponentDeleteView(GroupRequiredMixin, generic.DeleteView):
     pk_url_kwarg = "pk"
 
     def get_success_url(self):
-        logger.warning(self)
         dig_complex_id = self.object.digital_complex.pk
         return reverse_lazy("complexes:complexes_ComponentComplex_create", args=(dig_complex_id,))
 

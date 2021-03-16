@@ -168,7 +168,7 @@ class Expert(models.Model):
 
     ]
 
-    person = models.ForeignKey("users.Person", on_delete=models.CASCADE)
+    person = models.ForeignKey("users.Person", on_delete=models.CASCADE, verbose_name="Пользователь")
     type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)
     subdivision = models.CharField('Подразделение/отрасль', max_length=500)
 
