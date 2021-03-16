@@ -346,3 +346,4 @@ DATE_INPUT_FORMATS = ["iso-8601"]
 # IMPORT_EXPORT_CELERY_MODELS = {
 #     "DigitalResource": {"app_label": "lrr.repository", "model_name": "DigitalResource"}
 # }
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000

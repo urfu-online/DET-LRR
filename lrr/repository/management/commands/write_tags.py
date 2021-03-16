@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         resources = DigitalResource.objects.all()
         subjects = Subject.objects.all()
-        edu_programs = EduProgram.objects.all()
+        edu_programs = EduProgram.objects.filter(standard="ФГОС ВО")
 
         for subject in subjects:
             if not SubjectTag.objects.filter(tag=subject):
