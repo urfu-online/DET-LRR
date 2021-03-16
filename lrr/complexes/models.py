@@ -154,7 +154,7 @@ class AssignmentAcademicGroup(BaseModel):
     subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", blank=True, on_delete=models.PROTECT,
                                 null=True)
     learn_date = models.PositiveSmallIntegerField("Учебный год", null=True, blank=True)
-    semestr = models.CharField("Семестр", max_length=50, choices=NUMBER_SEMESTR_TYPE, null=True, blank=True)
+    semestr = models.CharField("Семестр", max_length=12, choices=NUMBER_SEMESTR_TYPE, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Ресурсное обеспечение академической группы"
