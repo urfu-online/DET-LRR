@@ -138,9 +138,10 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
     group_required = ["secretary", "admins", ]
 
     def form_valid(self, form):
-        # self.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
+        # form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
         # person = Person.get_person(user=self.request.user)
         # form.instance.owner = person
+        form.instance.digital_resource = self.get_object().digital_resource
         # form.save()
         form_valid = super(ExpertiseUpdateView, self).form_valid(form)
         return form_valid
@@ -156,10 +157,8 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        logger.warning(context['object'])
         checklist = inspections_models.Expertise.get_checklists(self, expertise=context['object'])
         context['checklist'] = checklist
-        logger.warning(type(self.object.digital_complexes.all))
         # self.object.digital_complex = inspections_models.Expertise.get_digital_resource(self)
         return context
 

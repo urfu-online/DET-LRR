@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
+{% load user_tags %}
 {% block content %}
-
+  <script>
+    $(document).ready(function () {
+      $(".datepicker").datepicker({
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        changeYear: true,
+        changeMonth: true
+      });
+    });
+  </script>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-2 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
@@ -73,7 +83,8 @@
                 <td>{{ item }}</td>
                 <td>{{ item.expert }}</td>
                 <td>{{ item.get_status_display }}</td>
-                <td><a class="" href="{% url 'inspections:inspections_ExpertiseRequest_detail' pk=item.pk %}">Подробнее</a></td>
+                <td><a class=""
+                       href="{% url 'inspections:inspections_ExpertiseRequest_detail' pk=item.pk %}">Подробнее</a></td>
               {% endfor %}
               </tbody>
             </table>

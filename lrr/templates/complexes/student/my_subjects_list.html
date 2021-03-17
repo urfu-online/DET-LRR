@@ -8,21 +8,21 @@
 
     function ApiEUMK(event, sub) {
       url = url_global + "digital_complex/?subject__title=" + sub;
-      $.get(url, function(data){
+      $.get(url, function (data) {
         $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.subject}</a></div>`)))
       });
     }
 
     function ApiRecomendedEOR(event, sub) {
       url = url_global + "digital_resource_recomend/?subjects=" + sub;
-      $.get(url, function(data){
+      $.get(url, function (data) {
         $(event.target).parent().append(data.results.map(el => $(`<div>${el.subject}</div>`)))
       });
     }
 
     function ApiEOR(event, sub) {
       url = url_global + "digital_resource/?subjects=" + sub;
-      $.get(url, function(data){
+      $.get(url, function (data) {
         $(event.target).parent().append(data.results.map(el => $(`<div>${el.subject}</div>`)))
       });
     }
@@ -40,21 +40,21 @@
   <p>Студент: {{ student }}</p>
   <p>Образовательная программа/Направление подготовки: {{ direction }}</p>
   <p>Группа: {{ academic_group }}</p>
-{#  <div id="filters" class="mb-3" aria-labelledby="filters" data-parent="">#}
-{#    <form action="" method="get">#}
-{#      <div class="form-group col-12 col-xl-2 col-md-6">#}
-{#        <label for="id_semestr">Семестр:</label>#}
-{#        <select name="semestr" class="custom-select" id="id_semestr">#}
-{#          <option value="" selected="">---------</option>#}
-{#          <option value="FIRST">Первый семестр</option>#}
-{#          <option value="SECOND">Второй семестр</option>#}
-{#        </select>#}
-{#      </div>#}
-{#      <div class="form-group col-12 col-xl-2 col-md-6">#}
-{#        <input class="btn btn-secondary" type="submit">#}
-{#      </div>#}
-{#    </form>#}
-{#  </div>#}
+  {#  <div id="filters" class="mb-3" aria-labelledby="filters" data-parent="">#}
+  {#    <form action="" method="get">#}
+  {#      <div class="form-group col-12 col-xl-2 col-md-6">#}
+  {#        <label for="id_semestr">Семестр:</label>#}
+  {#        <select name="semestr" class="custom-select" id="id_semestr">#}
+  {#          <option value="" selected="">---------</option>#}
+  {#          <option value="FIRST">Первый семестр</option>#}
+  {#          <option value="SECOND">Второй семестр</option>#}
+  {#        </select>#}
+  {#      </div>#}
+  {#      <div class="form-group col-12 col-xl-2 col-md-6">#}
+  {#        <input class="btn btn-secondary" type="submit">#}
+  {#      </div>#}
+  {#    </form>#}
+  {#  </div>#}
 
   {#  <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"#}
   {#          aria-controls="filters">#}
@@ -121,21 +121,22 @@
                 {% for sub in subjects.all %}
                   <tr>
                     <td>{{ sub }}</td>
-                    <td><div>
-                      <button class="btn" type="button" onclick="ApiEUMK(event, `{{ sub }}`)">
-                        Электронное обеспечение дисциплины определенное
-                        преподавателем.
-                      </button>
+                    <td>
+                      <div>
+                        <button class="btn" type="button" onclick="ApiEUMK(event, `{{ sub }}`)">
+                          Электронное обеспечение дисциплины определенное
+                          преподавателем.
+                        </button>
                       </div>
                       <div>
                         <button class="btn" type="button" onclick="ApiRecomendedEOR(event,`{{ sub }}`)">
-                        Рекомендованые ЭОР
-                      </button>
+                          Рекомендованые ЭОР
+                        </button>
                       </div>
                       <div>
-                         <button class="btn" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
-                        ЭОР в каталоге
-                      </button>
+                        <button class="btn" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
+                          ЭОР в каталоге
+                        </button>
                       </div>
 
                       {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}

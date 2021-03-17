@@ -119,7 +119,7 @@ class ExpertiseUpdateForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control',
                     'required': 'false'
-                }
+                },
             ),
             'directions': forms.SelectMultiple(
                 attrs={
@@ -139,11 +139,12 @@ class ExpertiseUpdateForm(forms.ModelForm):
                     'required': 'false'
                 }
             ),
-            'date_end': forms.TextInput(
+            'date_end': forms.DateInput(
                 attrs={
-                    'class': 'form-control',
+                    'class': 'datepicker form-control',
                     'required': 'true'
-                }
+                },
+                format='%d/%m/%Y'
             ),
             'remarks': forms.Textarea(
                 attrs={
