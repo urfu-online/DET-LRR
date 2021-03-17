@@ -9,21 +9,21 @@
     function ApiEUMK(event, sub) {
       url = url_global + "digital_complex/?subject__title=" + sub;
       $.get(url, function(data){
-        $(event.target).parent().html(data.results.map(el => $(`<div>${el.subject}</div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div>${el.subject}</div>`)))
       });
     }
 
     function ApiRecomendedEOR(event, sub) {
       url = url_global + "digital_resource_recomend/?subjects=" + sub;
       $.get(url, function(data){
-        $(event.target).parent().html(data.results.map(el => $(`<div>${el.subject}</div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div>${el.subject}</div>`)))
       });
     }
 
     function ApiEOR(event, sub) {
       url = url_global + "digital_resource/?subjects=" + sub;
       $.get(url, function(data){
-        $(event.target).parent().html(data.results.map(el => $(`<div>${el.subject}</div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div>${el.subject}</div>`)))
       });
     }
   </script>
