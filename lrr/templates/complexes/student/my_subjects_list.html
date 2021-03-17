@@ -9,7 +9,7 @@
     function ApiEUMK(event, sub) {
       url = url_global + "digital_complex/?subject__title=" + sub;
       $.get(url, function(data){
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="/${el.digital_complex_pk}">${el.subject}</a></div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.subject}</a></div>`)))
       });
     }
 
