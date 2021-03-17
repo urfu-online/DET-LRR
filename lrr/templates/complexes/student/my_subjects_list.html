@@ -8,6 +8,8 @@
 
     function ApiEUMK(event, sub) {
       url = url_global + "digital_complex/?subject__title=" + sub;
+      event.target.onclick = ''
+      event.target.disabled = true
       $.get(url, function(data){
         $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.subject}</a></div>`)))
       });
@@ -15,6 +17,8 @@
 
     function ApiRecomendedEOR(event, sub) {
       url = url_global + "digital_resource_recomend/?subjects=" + sub;
+      event.target.onclick = ''
+      event.target.disabled = true
       $.get(url, function(data){
         $(event.target).parent().append(data.results.map(el => $(`<div>${el.subject}</div>`)))
       });
@@ -22,6 +26,8 @@
 
     function ApiEOR(event, sub) {
       url = url_global + "digital_resource/?subjects=" + sub;
+      event.target.onclick = ''
+      event.target.disabled = true
       $.get(url, function(data){
         $(event.target).parent().append(data.results.map(el => $(`<div>${el.subject}</div>`)))
       });
@@ -122,19 +128,23 @@
                   <tr>
                     <td>{{ sub }}</td>
                     <td><div>
-                      <button class="btn" type="button" onclick="ApiEUMK(event, `{{ sub }}`)">
-                        Электронное обеспечение дисциплины определенное
-                        преподавателем.
+                      <h4>Электронное обеспечение дисциплины определенное
+                        преподавателем.</h4>
+                      <button class="btn btn-primary btn-sm" type="button" onclick="ApiEUMK(event, `{{ sub }}`)">
+                        Посмотреть
                       </button>
                       </div>
                       <div>
-                        <button class="btn" type="button" onclick="ApiRecomendedEOR(event,`{{ sub }}`)">
-                        Рекомендованые ЭОР
+                        <h4>Рекомендованые ЭОР</h4>
+                        <button class="btn btn-primary btn-sm" type="button" onclick="ApiRecomendedEOR(event,`{{ sub }}`)">
+                         Посмотреть
                       </button>
                       </div>
                       <div>
-                         <button class="btn" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
-                        ЭОР в каталоге
+                        <h4>ЭОР в каталоге</h4>
+                         <button class="btn btn-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
+
+                            Посмотреть
                       </button>
                       </div>
 
