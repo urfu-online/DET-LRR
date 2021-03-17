@@ -1,6 +1,7 @@
 from allauth.account.forms import SignupForm
 from django import forms as form
 from django.contrib.auth import forms, get_user_model
+from django_select2 import forms as s2forms
 
 from lrr.users import models
 
@@ -49,6 +50,15 @@ class PersonForm(form.ModelForm):
         ]
 
 
+class PersonWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "first_name__icontains",
+        "middle_name__icontains",
+        "last_name__icontains",
+    ]
+    max_results = 50
+
+
 class ExpertForm(form.ModelForm):
     class Meta:
         model = models.Expert
@@ -57,6 +67,26 @@ class ExpertForm(form.ModelForm):
             "type",
             "subdivision",
         ]
+        widgets = {
+            "person": form.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false',
+                },
+            ),
+            "type": form.Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false',
+                },
+            ),
+            "subdivision": form.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false',
+                },
+            ),
+        }
 
 # class SignupForm(form.Form):
 #     class Meta:
@@ -77,5 +107,3 @@ class ExpertForm(form.ModelForm):
 #         user.person.last_name = self.cleaned_data['last_name']
 #         user.person.middle_name = self.cleaned_data['middle_name']
 #         user.person.save()
-
-

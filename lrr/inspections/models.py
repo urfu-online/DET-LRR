@@ -7,7 +7,6 @@ from django.db import models as models
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
-from polymorphic.models import PolymorphicModel
 
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
@@ -171,13 +170,13 @@ class Expertise(repository_model.BaseModel):
 
     # choose type checklist
     # def get_checklists(self, type):
-    #     return CheckList.objects.filter(expertise=self.pk, type=type)
+    #     return ExpertiseRequest.objects.filter(expertise=self.pk, type=type)
 
     def get_checklists(self, expertise):
-        return CheckList.objects.filter(expertise=expertise)
+        return ExpertiseRequest.objects.filter(expertise=expertise)
 
-    def get_checklists(self):
-        return CheckList.objects.filter(expertise=self.pk)
+    def get_checklists_self(self):
+        return ExpertiseRequest.objects.filter(expertise=self.pk)
 
     def get_digital_resource(self):
         digital_resource_pk = self.request.path.split('/')[4]
@@ -205,54 +204,54 @@ class Expertise(repository_model.BaseModel):
             return queryset
 
 
-class CheckListBase(repository_model.BaseModel, PolymorphicModel):
-    # status
-    START = 'START'
-    IN_PROCESS = 'IN_PROCESS'
-    END = 'END'
+# class CheckListBase(repository_model.BaseModel, PolymorphicModel):
+#     # status
+#     START = 'START'
+#     IN_PROCESS = 'IN_PROCESS'
+#     END = 'END'
+#
+#     STATUS_CHOICES = [
+#         (START, 'Назначена'),
+#         (IN_PROCESS, 'В процессе'),
+#         (END, 'Завершена')
+#         # Fields
+#     ]
+#
+#     expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
+#     expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)
+#     protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424)
+#     date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
+#     status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
+#
+#
+# class CheckListMethodical(CheckListBase):
+#     class Meta:
+#         verbose_name = u"Чек-лист методической экспертизы"
+#         verbose_name_plural = u"Чек-листы методических экспертиз"
+#
+#     def __str__(self):
+#         return self.status
+#
+#
+# class CheckListTechnical(CheckListBase):
+#     class Meta:
+#         verbose_name = u"Чек-лист технической экспертизы"
+#         verbose_name_plural = u"Чек-листы технических экспертиз"
+#
+#     def __str__(self):
+#         return self.status
+#
+#
+# class CheckListContent(CheckListBase):
+#     class Meta:
+#         verbose_name = u"Чек-лист содержательной экспертизы"
+#         verbose_name_plural = u"Чек-листы содержательных экспертиз"
+#
+#     def __str__(self):
+#         return self.status
 
-    STATUS_CHOICES = [
-        (START, 'Назначена'),
-        (IN_PROCESS, 'В процессе'),
-        (END, 'Завершена')
-        # Fields
-    ]
 
-    expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
-    expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)
-    protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424)
-    date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
-    status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
-
-
-class CheckListMethodical(CheckListBase):
-    class Meta:
-        verbose_name = u"Чек-лист методической экспертизы"
-        verbose_name_plural = u"Чек-листы методических экспертиз"
-
-    def __str__(self):
-        return self.status
-
-
-class CheckListTechnical(CheckListBase):
-    class Meta:
-        verbose_name = u"Чек-лист технической экспертизы"
-        verbose_name_plural = u"Чек-листы технических экспертиз"
-
-    def __str__(self):
-        return self.status
-
-
-class CheckListContent(CheckListBase):
-    class Meta:
-        verbose_name = u"Чек-лист содержательной экспертизы"
-        verbose_name_plural = u"Чек-листы содержательных экспертиз"
-
-    def __str__(self):
-        return self.status
-
-
-class CheckList(repository_model.BaseModel):
+class ExpertiseRequest(repository_model.BaseModel):
     # type
     METHODIGAL = 'METHODIGAL'
     CONTENT = 'CONTENT'
@@ -279,25 +278,29 @@ class CheckList(repository_model.BaseModel):
         # Fields
     ]
 
-    type = models.CharField("Тип чек-листа", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE, null=True, blank=True)
+    type = models.CharField("Тип заявки", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE, null=True,
+                            blank=True)
     expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
-    protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424, null=True, blank=True)
+    protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424, null=True,
+                                blank=True)
     expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
     status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
+    checklist = models.ForeignKey("inspections.CheckListQestion", verbose_name="Чек-лист", on_delete=models.CASCADE,
+                                  blank=True, null=True)
 
     class Meta:
-        verbose_name = u"Чек-лист экспертизы"
-        verbose_name_plural = u"Чек-листы экспертиз"
+        verbose_name = u"Заявка"
+        verbose_name_plural = u"Заявка"
 
     def __str__(self):
         return self.get_type_display()
 
     def get_absolute_url(self):
-        return reverse("inspections:inspections_CheckList_detail", args=(self.pk,))
+        return reverse("inspections:inspections_ExpertiseRequest_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("inspections:inspections_CheckList_update", args=(self.pk,))
+        return reverse("inspections:inspections_ExpertiseRequest_update", args=(self.pk,))
 
     def get_close_my_checklist(self, cls):
         try:
@@ -322,6 +325,55 @@ class CheckList(repository_model.BaseModel):
         except:
             objs = cls.objects.all()
         return objs
+
+    @classmethod
+    def get_checklists(cls, expertise):
+        try:
+            objs = cls.objects.filter(expertise=expertise)
+        except:
+            objs = None
+        return objs
+
+    def get_expertise(self, expertise):
+        try:
+            obj = ExpertiseRequest.objects.get(expertise=expertise).expertise
+        except:
+            obj = None
+        return obj
+
+    def get_dig_res(self, expertise):
+        try:
+            expertise = ExpertiseRequest.objects.get(expertise=expertise).expertise
+            dig_res = expertise.digital_resource
+        except:
+            dig_res = None
+        return dig_res
+
+
+class CheckListQestion(repository_model.BaseModel):
+    # type
+    METHODIGAL = 'METHODIGAL'
+    CONTENT = 'CONTENT'
+    TECH = 'TECH'
+    NO_TYPE = 'NO_TYPE'
+
+    TYPE_CHOICES = [
+        (METHODIGAL, 'Методическая'),
+        (CONTENT, 'Содержательная'),
+        (TECH, 'Техническая'),
+        (NO_TYPE, 'Отсутствует тип экспертизы')
+        # Fields
+    ]
+
+    category = models.CharField("Категория чек-листа", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE, null=True,
+                                blank=True)
+
+    class Meta:
+        verbose_name = u"Чек-лист"
+        verbose_name_plural = u"Чек листы"
+
+    def __str__(self):
+        return str(self.get_category_display())
 
 
 class Question(repository_model.BaseModel):
@@ -367,9 +419,10 @@ class Question(repository_model.BaseModel):
     )
 
     title = models.CharField("Наименование показателя", max_length=300)
-    checklist = models.ForeignKey(CheckListBase, verbose_name="Чек-лист эеспертизы", on_delete=models.CASCADE)
+    checklist = models.ForeignKey(CheckListQestion, verbose_name="Чек-лист эеспертизы", on_delete=models.CASCADE)
     type = models.CharField("Тип", max_length=200, choices=QUESTION_TYPES, default=TEXT)
     choices = models.TextField("Выбор типа вопроса", blank=True, null=True, help_text=CHOICES_HELP_TEXT)
+    indicator_group = models.CharField("Группа показателя", max_length=300, blank=True, null=True)
 
     class Meta:
         verbose_name = u"Вопрос"
@@ -381,10 +434,10 @@ class Question(repository_model.BaseModel):
     # TODO: Поменять ПК
 
     def get_absolute_url(self):
-        return reverse("inspections:inspections_CheckList_detail", args=(self.pk,))
+        return reverse("inspections:inspections_ExpertiseRequest_detail", args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("inspections:inspections_CheckList_update", args=(self.pk,))
+        return reverse("inspections:inspections_ExpertiseRequest_update", args=(self.pk,))
 
     def save(self, *args, **kwargs):
         if self.type in [Question.RADIO, Question.SELECT, Question.SELECT_MULTIPLE]:
@@ -392,12 +445,63 @@ class Question(repository_model.BaseModel):
         super(Question, self).save(*args, **kwargs)
 
 
-# class QuestionBase(repository_model.BaseModel, PolymorphicModel):
-#     checklist = models.ForeignKey(CheckListBase, verbose_name="Чек-лист эеспертизы", on_delete=models.CASCADE)
-#
-#     class Meta:
-#         verbose_name = u"Базовый опросник"
-#         verbose_name_plural = u"Базовые опросники"
-#
-#     def __str__(self):
-#         return self.title
+class Answer(repository_model.BaseModel):
+    question = models.ForeignKey(Question, verbose_name="Вопрос", on_delete=models.CASCADE)
+    body = models.TextField("Значение показателя", blank=True, null=True)
+
+    class Meta:
+        verbose_name = u"Ответ"
+        verbose_name_plural = u"Ответы"
+
+    def get_checklist(self):
+        cheklist = Expertise.objects.filter()
+
+    def __init__(self, *args, **kwargs):
+        try:
+            question = Question.objects.get(pk=kwargs["question_id"])
+        except KeyError:
+            question = kwargs.get("question")
+        body = kwargs.get("body")
+        if question and body:
+            self.check_answer_body(question, body)
+        super(Answer, self).__init__(*args, **kwargs)
+
+    @property
+    def values(self):
+        if self.body is None:
+            return [None]
+        if len(self.body) < 3 or self.body[0:3] != "[u'":
+            return [self.body]
+        # We do not use eval for security reason but it could work with :
+        # eval(self.body)
+        # It would permit to inject code into answer though.
+        values = []
+        raw_values = self.body.split("', u'")
+        nb_values = len(raw_values)
+        for i, value in enumerate(raw_values):
+            if i == 0:
+                value = value[3:]
+            if i + 1 == nb_values:
+                value = value[:-2]
+            values.append(value)
+        return values
+
+    def check_answer_body(self, question, body):
+        if question.type in [Question.RADIO, Question.SELECT, Question.SELECT_MULTIPLE]:
+            choices = question.get_clean_choices()
+            if body:
+                if body[0] == "[":
+                    answers = []
+                    for i, part in enumerate(body.split("'")):
+                        if i % 2 == 1:
+                            answers.append(part)
+                else:
+                    answers = [body]
+            for answer in answers:
+                if answer not in choices:
+                    msg = "Impossible answer '{}'".format(body)
+                    msg += " should be in {} ".format(choices)
+                    raise ValidationError(msg)
+
+    def __str__(self):
+        return "{} to '{}' : '{}'".format(self.__class__.__name__, self.question, self.body)

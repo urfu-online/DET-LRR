@@ -16,7 +16,7 @@ class ExpertiseViewSet(viewsets.ModelViewSet):
 class CheckListViewSet(viewsets.ModelViewSet):
     """ViewSet for the Expertise_status class"""
 
-    queryset = models.CheckList.objects.all()
+    queryset = models.ExpertiseRequest.objects.all()
     serializer_class = serializers.CheckListSerializer
     permission_classes = [permissions.IsAuthenticated]
 

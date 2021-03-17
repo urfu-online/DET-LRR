@@ -32,7 +32,7 @@
           <div class="ui segment">
             {% if object.directions.all %}
               {% for obj in object.directions.all %}
-                  <li style="list-style-type: none;">{{ obj }}</li>
+                <li style="list-style-type: none;">{{ obj }}</li>
               {% endfor %}
             {% else %}
               <h4>{{ form.directions.label }} отсутсвуют</h4>
@@ -54,11 +54,32 @@
         <div class="form-group">
           <label>Экспертные заключения</label>
           <a class="btn btn-secondary"
-             href="{% url 'inspections:inspections_CheckList_create' digital_resource_pk=object.digital_resource.pk expertise_pk=object.pk %}">Назначить
+             href="{% url 'inspections:inspections_ExpertiseRequest_create' digital_resource_pk=object.digital_resource.pk expertise_pk=object.pk %}">Назначить
             эксперта</a>
-{#          {% for item in checklist.assignmentacademicgroup_set.all %}#}
-{#            #}
-{#          {% endfor %}#}
+          {% if checklist.all is not None %}
+            <table class="ui compact table">
+              <thead>
+              <h5>Экспертизы: </h5>
+              <tr>
+                <th>Тип</th>
+                <th>Эксперт</th>
+                <th>Статус</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in checklist.all %}
+                <tr>
+                <td>{{ item }}</td>
+                <td>{{ item.expert }}</td>
+                <td>{{ item.get_status_display }}</td>
+                <td><a class="" href="{% url 'inspections:inspections_ExpertiseRequest_detail' pk=item.pk %}">Подробнее</a></td>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            Экспертизы отсутвуют
+          {% endif %}
         </div>
         <div class="form-group">
           <label>{{ form.date_end.label }}</label>

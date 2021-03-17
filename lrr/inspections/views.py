@@ -61,8 +61,8 @@ class ExpertiseCloseSecretaryListView(GroupRequiredMixin, FilteredListView):
 
 
 class ExpertiseActiveExpert(GroupRequiredMixin, FilteredListView):
-    model = inspections_models.CheckList
-    form_class = forms.CheckListUpdateForm
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestUpdateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
@@ -70,7 +70,8 @@ class ExpertiseActiveExpert(GroupRequiredMixin, FilteredListView):
     template_name = 'inspections/expert/expertise_active_expert_list.html'
 
     def get_queryset(self):
-        queryset = inspections_models.CheckList.get_active_my_checklist(self, inspections_models.CheckList)
+        queryset = inspections_models.ExpertiseRequest.get_active_my_checklist(self,
+                                                                               inspections_models.ExpertiseRequest)
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
         if qs.count() == 0:
@@ -155,21 +156,22 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # dig_res = inspections_models.Expertise.get_digital_resource(self)
-        # context['dig_res'] = dig_res
+        logger.warning(context['object'])
+        checklist = inspections_models.Expertise.get_checklists(self, expertise=context['object'])
+        context['checklist'] = checklist
         logger.warning(type(self.object.digital_complexes.all))
         # self.object.digital_complex = inspections_models.Expertise.get_digital_resource(self)
         return context
 
 
 class CheckListListView(generic.ListView):
-    model = inspections_models.CheckList
-    form_class = forms.CheckListUpdateForm
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestUpdateForm
 
 
 class CheckListMyExpertListView(GroupRequiredMixin, FilteredListView):
-    model = inspections_models.CheckList
-    form_class = forms.CheckListUpdateForm
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestUpdateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
@@ -177,7 +179,7 @@ class CheckListMyExpertListView(GroupRequiredMixin, FilteredListView):
     group_required = ['expert', 'admins']
 
     def get_queryset(self):
-        queryset = inspections_models.CheckList.get_my_checklist(self, inspections_models.CheckList)
+        queryset = inspections_models.ExpertiseRequest.get_my_checklist(self, inspections_models.ExpertiseRequest)
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
         if qs.count() == 0:
@@ -186,8 +188,8 @@ class CheckListMyExpertListView(GroupRequiredMixin, FilteredListView):
 
 
 class CheckListMyCloseExpertListView(GroupRequiredMixin, FilteredListView):
-    model = inspections_models.CheckList
-    form_class = forms.CheckListUpdateForm
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestUpdateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
@@ -195,7 +197,7 @@ class CheckListMyCloseExpertListView(GroupRequiredMixin, FilteredListView):
     group_required = ['expert', 'admins']
 
     def get_queryset(self):
-        queryset = inspections_models.CheckList.get_close_my_checklist(self, inspections_models.CheckList)
+        queryset = inspections_models.ExpertiseRequest.get_close_my_checklist(self, inspections_models.ExpertiseRequest)
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
         if qs.count() == 0:
@@ -204,9 +206,9 @@ class CheckListMyCloseExpertListView(GroupRequiredMixin, FilteredListView):
 
 
 class CheckListCreateView(GroupRequiredMixin, generic.CreateView):
-    model = inspections_models.CheckList
+    model = inspections_models.ExpertiseRequest
     form_class = forms.CheckListCreateForm
-    template_name = 'inspections/checklist_form_create.html'
+    template_name = 'inspections/expertise_request_form_create.html'
     group_required = [u"expert", u"admins", u"secretary"]
 
     def form_valid(self, form):
@@ -233,62 +235,77 @@ class CheckListCreateView(GroupRequiredMixin, generic.CreateView):
         dig_res = inspections_models.Expertise.get_digital_resource(self)
         expertise = inspections_models.Expertise.get_expertise(self)
         context['dig_res'] = dig_res
-        context['checklists'] = inspections_models.Expertise.get_checklists(expertise)
+        context['checklists'] = inspections_models.Expertise.get_checklists_self(expertise)
         return context
 
     def get_success_url(self):
         return reverse_lazy("inspections:inspections_Expertise_update", args=(self.object.expertise.pk,))
 
 
-class CheckListDetailView(generic.DetailView):
-    model = inspections_models.CheckList
-    form_class = forms.CheckListUpdateForm
+class ExpertiseRequestDetailView(generic.DetailView):
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpertiseRequestDetailView, self).get_context_data(**kwargs)
+        expertise = self.object.expertise
+        dig_res = inspections_models.ExpertiseRequest.get_dig_res(self, expertise=expertise)
+        context['dig_res'] = dig_res
+        logger.warning(dig_res)
+        return context
 
 
-class CheckListUpdateView(GroupRequiredMixin, generic.UpdateView):
-    model = inspections_models.CheckList
-    form_class = forms.CheckListUpdateForm
+class ExpertiseRequestUpdateView(GroupRequiredMixin, generic.UpdateView):
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestUpdateForm
     pk_url_kwarg = "pk"
     group_required = [u"expert", u"admins"]
-    template_name = 'inspections/checklist_form_update.html'
+    template_name = 'inspections/expertise_request_form_update.html'
+
+    # METHODIGAL = 'METHODIGAL'
+    # CONTENT = 'CONTENT'
+    # TECH = 'TECH'
 
     def form_valid(self, form):
-        # form.instance.expertise = inspections_models.Expertise.get_expertise(self)
         person = Expert.get_expert(user=self.request.user)
         form.instance.status = "IN_PROCESS"
         form.instance.expert = person
-        self.object = form.save()
-        form_valid = super(CheckListUpdateView, self).form_valid(form)
+        form.instance.expertise = self.get_object().expertise
+        checklist = inspections_models.CheckListQestion.objects.get(category=self.get_object().type)
+        form.instance.checklist = checklist
+        form_valid = super(ExpertiseRequestUpdateView, self).form_valid(form)
         return form_valid
 
     def get_success_url(self):
         return reverse_lazy("inspections:inspections_ExpertiseMy_list")
 
     def get_context_data(self, **kwargs):
-        context = super(CheckListUpdateView, self).get_context_data(**kwargs)
+        context = super(ExpertiseRequestUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context["form"] = forms.CheckListUpdateForm(self.request.POST, instance=self.object)
+            context["form"] = forms.ExpertiseRequestUpdateForm(self.request.POST, instance=self.object)
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
             #                                                                      instance=self.object)
         else:
-            context["form"] = forms.CheckListUpdateForm(instance=self.object)
+            checklists = inspections_models.ExpertiseRequest.get_checklists(expertise=self.object.expertise)
+            context['checklists'] = checklists
+            context["form"] = forms.ExpertiseRequestUpdateForm(instance=self.object)
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
         return context
 
 
-class CheckListUpdateExpertView(GroupRequiredMixin, generic.UpdateView):
-    model = inspections_models.CheckList
-    form_class = forms.CheckListUpdateForm
+class ExpertiseRequestUpdateExpertView(GroupRequiredMixin, generic.UpdateView):
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestUpdateForm
     pk_url_kwarg = "pk"
     group_required = [u"expert", u"admins"]
-    template_name = 'inspections/checklist_form_update_expert.html'
+    template_name = 'inspections/expertise_request_form_update_expert.html'
 
     def form_valid(self, form):
         form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
         # form.instance.expertise = inspections_models.Expertise.get_expertise(self)
         # form.instance.status = "START"
         form.save()
-        form_valid = super(CheckListUpdateExpertView, self).form_valid(form)
+        form_valid = super(ExpertiseRequestUpdateExpertView, self).form_valid(form)
         return form_valid
 
     def get_initial(self):
@@ -330,3 +347,28 @@ class QuestionUpdateView(generic.UpdateView):
     model = inspections_models.Question
     form_class = forms.QuestionForm
     pk_url_kwarg = "pk"
+
+
+class AnswerView(generic.FormView):
+    template_name = 'inspections/expert/checklist_form_update.html'
+    form_class = forms.AnswerForm
+    success_url = '/ExpertiseMy/'
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        path_pk = self.request.path.split('/')[3]
+        logger.warning(path_pk)
+        expertise = inspections_models.ExpertiseRequest.objects.get(pk=path_pk)
+        # TODO VIEW CHECKLIST
+        context['expertise'] = expertise
+        # dig_res = inspections_models.Question.objects.get()
+        # expertise = inspections_models.Expertise.get_expertise(self)
+        # context['dig_res'] = dig_res
+        # context['checklists'] = inspections_models.Expertise.get_checklists(expertise)
+        return context
