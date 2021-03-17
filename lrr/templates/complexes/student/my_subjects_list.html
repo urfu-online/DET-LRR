@@ -5,19 +5,26 @@
   <script>
     url_global = "http://localhost:8000/api/v0/my_sbuject/"
 
-    function ApiEUMK(sub) {
+
+    function ApiEUMK(event, sub) {
       url = url_global + "digital_complex/?subject__title=" + sub;
-      $.get(url);
+      $.get(url, function(data){
+        $(event.target).parent().html(data.map(el => $(`<div>${el.subject}</div>`)))
+      });
     }
 
-    function ApiRecomendedEOR(sub) {
+    function ApiRecomendedEOR(event, sub) {
       url = url_global + "digital_resource_recomend/?subjects=" + sub;
-      $.get(url);
+      $.get(url, function(data){
+        $(event.target).parent().html(data.map(el => $(`<div>${el.subject}</div>`)))
+      });
     }
 
-    function ApiEOR(sub) {
+    function ApiEOR(event, sub) {
       url = url_global + "digital_resource/?subjects=" + sub;
-      $.get(url);
+      $.get(url, function(data){
+        $(event.target).parent().html(data.map(el => $(`<div>${el.subject}</div>`)))
+      });
     }
   </script>
   <nav aria-label="breadcrumb">
@@ -114,17 +121,23 @@
                 {% for sub in subjects.all %}
                   <tr>
                     <td>{{ sub }}</td>
-                    <td>
-                      <button class="btn" type="button" onclick="ApiEUMK(`{{ sub }}`)">
+                    <td><div>
+                      <button class="btn" type="button" onclick="ApiEUMK(event, `{{ sub }}`)">
                         Электронное обеспечение дисциплины определенное
                         преподавателем.
                       </button>
-                      <button class="btn" type="button" onclick="ApiRecomendedEOR(`{{ sub }}`)">
+                      </div>
+                      <div>
+                        <button class="btn" type="button" onclick="ApiRecomendedEOR(event,`{{ sub }}`)">
                         Рекомендованые ЭОР
                       </button>
-                      <button class="btn" type="button" onclick="ApiEOR(`{{ sub }}`)">
+                      </div>
+                      <div>
+                         <button class="btn" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
                         ЭОР в каталоге
                       </button>
+                      </div>
+
                       {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}
                       {#                        {% for object in object_list %}#}
                       {#                          {% if object.subject == item.subject %}#}
