@@ -20,7 +20,7 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function(data){
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/repository/DigitalResource/detail/${el.pk}/"${el.title}</a><</div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/repository/DigitalResource/detail/${el.pk}/">${el.title}</a><</div>`)))
       });
     }
 
@@ -29,7 +29,7 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function(data){
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/repository/DigitalResource/detail/${el.pk}/"${el.title}</a><</div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/repository/DigitalResource/detail/${el.pk}/">${el.title}</a><</div>`)))
       });
     }
   </script>
