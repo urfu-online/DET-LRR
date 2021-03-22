@@ -365,9 +365,13 @@ class AnswerView(generic.FormView):
         logger.warning(path_pk)
         expertise = inspections_models.ExpertiseRequest.objects.get(pk=path_pk)
         # TODO VIEW CHECKLIST
+        context['digital_resource'] = expertise.expertise.digital_resource
         context['expertise'] = expertise
+
         # dig_res = inspections_models.Question.objects.get()
         # expertise = inspections_models.Expertise.get_expertise(self)
         # context['dig_res'] = dig_res
         # context['checklists'] = inspections_models.Expertise.get_checklists(expertise)
         return context
+
+

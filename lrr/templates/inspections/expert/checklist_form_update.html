@@ -13,86 +13,41 @@
     </ol>
   </nav>
   <header class="pb-4 px-2">
-    <h1>Чек-лист экспертизы "{{ object.expertise.digital_resource }}"</h1>
+    <h1>Чек-лист экспертизы "{{ digital_resource }}"</h1>
   </header>
   <div class="row p-2">
     <div class="col-12 p-2">
-      <div class="card h-100 shadow-1">
-        <div class="card-body">
-          <form method="post">
-            {% csrf_token %}
-            {{ form.errors }}
-            {{ form.non_field_errors }}
-            {{ form.media.css }}
-            {{ form }}
-            {{ expertise }}
-            <a class="btn btn-primary"
-               href="">Паспорт
-              ЭОР</a>
-            <a class="btn btn-primary"
-               href="">Данные
-              заявки</a>
-            <div class="form-group">
-              <label>Тип заявки</label>
-              {{ object.get_type_display }}
-            </div>
-            <div class="form-group">
-              <label>Эксперт</label>
-              {{ object.expertise.owner }}
-            </div>
-            <div class="form-group">
-              <label>Дата экспертизы</label>
-              {{ object.expertise.date }}
-            </div>
-            <div class="form-group">
-              <label>№ протокола учебно-методического совета института</label>
-
-            </div>
-            <div class="form-group">
-              <label>Направления подготовки/Образовательная программа</label>
-              {% for direction in object.expertise.directions.all %}
-                {{ direction }}
-              {% endfor %}
-            </div>
-
-            <input type="submit" value="Взять на экспертизу" class="btn btn-primary">
-            <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
-          </form>
-
+      <form method="post">
+        {% csrf_token %}
+        {{ form.errors }}
+        {{ form.non_field_errors }}
+        {{ form.media.css }}
+        {#            {{ form }}#}
+        <a class="btn btn-primary" href="">Паспорт ЭОР</a>
+        <a class="btn btn-primary" href="">Данные заявки</a>
+        <div class="form-group">
+          <label>Эксперт:</label>
+          {{ expertise.expert }}
         </div>
-      </diV>
+        <div class="form-group">
+          <label>Дата экспертизы:</label>
+          {{ expertise.date }}
+        </div>
+        <div class="row p-2">
+          <div class="col-12 p-2">
+            <div class="card h-100 shadow-1">
+              <div class="card-body">
+                <h4>Значение показателей экспертизы:</h4>
+                  {{ form }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <input type="submit" value="Завершить экспертизу" class="btn btn-primary">
+        <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
+      </form>
+
     </div>
   </div>
-  <div class="card">
-    <diV class="card-body shadow-1">
-      <div class="form-group">
-        <h5>Экспертные заключения</h5>
-        {% if checklist is not None %}
-          <table class="ui compact table">
-            <thead>
-            <tr>
-              <th>Тип экспертизы</th>
-              <th>Дата экспертизы</th>
-              <th>Эксперт</th>
-              <th>Состояние</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for item in checklists %}
-              {% if item.status != 'START' %}
-                <td>{{ item }}</td>
-                <td>{{ item.date }}</td>
-                <td>{{ item.expert }}</td>
-                <td>{{ item.get_status_display }}</td>
-              {% endif %}
-            {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          Экспертизы отсутсвуют
-        {% endif %}
-      </div>
-    </div>
-    {{ form.media.js }}
-  </div>
+
 {% endblock %}
