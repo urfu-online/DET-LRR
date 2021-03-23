@@ -85,6 +85,11 @@ THIRD_PARTY_APPS = [
     'six',
     'django_select2',
     'rest_polymorphic',
+    "bootstrapform",
+    "pandas",
+    "matplotlib",
+    "pySankey",
+    "seaborn",
 ]
 
 LOCAL_APPS = [
@@ -93,6 +98,7 @@ LOCAL_APPS = [
     'lrr.repository.apps.RepositoryConfig',
     'lrr.complexes.apps.ComplexesConfig',
     'lrr.inspections.apps.InspectionsConfig',
+    'lrr.survey.apps.DjangoSurveyAndReportConfig',
     'lrr.templatetags.user_tags'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -346,6 +352,15 @@ DATE_INPUT_FORMATS = ["iso-8601"]
 # IMPORT_EXPORT_CELERY_MODELS = {
 #     "DigitalResource": {"app_label": "lrr.repository", "model_name": "DigitalResource"}
 # }
-DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+# Permit to open the csv in excel without problem with separator
+# Using this trick : https://superuser.com/a/686415/567417
+EXCEL_COMPATIBLE_CSV = True
 
+# The separator for questions (Default to ",")
 CHOICES_SEPARATOR = ","
+
+# What is shown in export when the user do not answer (Default to "Left blank")
+USER_DID_NOT_ANSWER = "NAA"
+
+# Default color for exported pdf pie (default to "red!50")
+SURVEY_DEFAULT_PIE_COLOR = "blue!50"
