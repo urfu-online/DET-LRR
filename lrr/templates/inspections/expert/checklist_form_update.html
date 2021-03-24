@@ -33,16 +33,16 @@
           <label>Дата экспертизы:</label>
           {{ expertise.date }}
         </div>
-        <div class="row p-2">
-          <div class="col-12 p-2">
-            <div class="card h-100 shadow-1">
-              <div class="card-body">
-                <h4>Значение показателей экспертизы:</h4>
-                  {{ form }}
-              </div>
-            </div>
-          </div>
-        </div>
+{#        <div class="row p-2">#}
+{#          <div class="col-12 p-2">#}
+{#            <div class="card h-100 shadow-1">#}
+{#              <div class="card-body">#}
+{#                <h4>Значение показателей экспертизы:</h4>#}
+{#                  #}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
         <input type="submit" value="Завершить экспертизу" class="btn btn-primary">
         <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
       </form>
