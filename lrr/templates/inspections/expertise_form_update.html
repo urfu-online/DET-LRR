@@ -80,7 +80,7 @@
               <tbody>
               {% for item in checklist.all %}
                 <tr>
-                <td>{{ item }}</td>
+                <td>{{ item.survey }}</td>
                 <td>{{ item.expert }}</td>
                 <td>{{ item.get_status_display }}</td>
                 <td><a class=""

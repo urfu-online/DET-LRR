@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from survey.models.category import Category
-from survey.tests import BaseTest
+from lrr.survey.models.category import Category
+from lrr.survey.tests import BaseTest
 
 
 class TestCategory(BaseTest):

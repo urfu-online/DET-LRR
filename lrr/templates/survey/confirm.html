@@ -1,9 +1,9 @@
-{% extends 'survey/base.html' %}
-{% load i18n %}
+{% extends 'base.html' %}
+{% load static i18n %}
 
 {% block title %}{% trans "Survey submitted" %}{% endblock title %}
 
-{% block body %}
+{% block content %}
 <h1>{% trans "Survey submitted"%}</h1>
 <p>
     <div class="alert alert-success">

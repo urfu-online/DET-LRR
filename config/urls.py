@@ -27,6 +27,7 @@ urlpatterns = [
                   path("repository/", include(("lrr.repository.urls", "lrr.repository"), namespace="repository")),
                   path("complexes/", include(("lrr.complexes.urls", "lrr.complexes"), namespace="complexes")),
                   path("inspections/", include(("lrr.inspections.urls", "lrr.inspections"), namespace="inspections")),
+                  path("survey/", include(("lrr.survey.urls", "lrr.survey"), namespace="survey")),
 
                   path("select2/", include("django_select2.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,8 +4,8 @@ from pathlib import Path
 
 from django.contrib.auth.models import User
 
-from survey.models import Answer, Question, Response, Survey
-from survey.tests import BaseTest
+from lrr.survey.models import Answer, Question, Response, Survey
+from lrr.survey.tests import BaseTest
 
 HERE = Path(__file__).parent
 

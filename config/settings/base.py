@@ -89,7 +89,7 @@ THIRD_PARTY_APPS = [
     "pandas",
     "matplotlib",
     "pySankey",
-    "seaborn",
+    "seaborn"
 ]
 
 LOCAL_APPS = [
@@ -99,7 +99,8 @@ LOCAL_APPS = [
     'lrr.complexes.apps.ComplexesConfig',
     'lrr.inspections.apps.InspectionsConfig',
     'lrr.survey.apps.DjangoSurveyAndReportConfig',
-    'lrr.templatetags.user_tags'
+    'lrr.templatetags.user_tags',
+    'lrr.templatetags.survey_extras',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -199,7 +200,8 @@ TEMPLATES = [
                 "django.template.loaders.app_directories.Loader",
             ],
             'libraries': {
-                'user_tags': 'lrr.templatetags.user_tags'
+                'user_tags': 'lrr.templatetags.user_tags',
+                'survey_extras': 'lrr.templatetags.survey_extras'
             },
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
@@ -364,3 +366,4 @@ USER_DID_NOT_ANSWER = "NAA"
 
 # Default color for exported pdf pie (default to "red!50")
 SURVEY_DEFAULT_PIE_COLOR = "blue!50"
+DEFAULT_SURVEY_PUBLISHING_DURATION = 7

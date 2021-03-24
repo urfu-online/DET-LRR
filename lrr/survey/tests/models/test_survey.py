@@ -4,7 +4,7 @@ from datetime import date
 
 from django.utils.timezone import now
 
-from survey.tests.models import BaseModelTest
+from lrr.survey.tests.models import BaseModelTest
 
 
 class TestSurvey(BaseModelTest):

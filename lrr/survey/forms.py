@@ -257,10 +257,10 @@ class ResponseForm(models.ModelForm):
     def next_step_url(self):
         if self.has_next_step():
             context = {"id": self.survey.id, "step": self.step + 1}
-            return reverse("survey-detail-step", kwargs=context)
+            return reverse("survey:survey-detail-step", kwargs=context)
 
     def current_step_url(self):
-        return reverse("survey-detail-step", kwargs={"id": self.survey.id, "step": self.step})
+        return reverse("survey:survey-detail-step", kwargs={"id": self.survey.id, "step": self.step})
 
     def save(self, commit=True):
         """ Save the response object """

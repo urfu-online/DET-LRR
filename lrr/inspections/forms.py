@@ -162,14 +162,46 @@ class ExpertiseUpdateForm(forms.ModelForm):
         exclude = ['status', 'date']
 
 
-class CheckListCreateForm(forms.ModelForm):
+class SurveyWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "name__icontains",
+    ]
+    max_results = 50
+
+
+class ExpertWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "person__first_name__icontains",
+        "person__middle_name__icontains",
+        "person__last_name__icontains",
+        "type__icontains",
+        "subdivision__icontains",
+    ]
+    max_results = 50
+
+
+class ExpertiseRequestCreateForm(forms.ModelForm):
     class Meta:
         model = inspections_models.ExpertiseRequest
         fields = [
-            "type",
+            "survey",
             "expert",
         ]
-        exclude = ["expertise", "date", "protocol", "status"]
+        exclude = ["expertise", "date", "protocol", "status", "type"],
+        widgets = {
+            'survey': SurveyWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+            'expert': ExpertWidget(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                }
+            ),
+        }
 
 
 class ExpertiseRequestUpdateForm(forms.ModelForm):

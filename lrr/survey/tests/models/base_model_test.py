@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from survey.models import Answer, Question, Response, Survey
-from survey.tests import BaseTest
+from lrr.survey.models import Answer, Question, Response, Survey
+from lrr.survey.tests import BaseTest
 
 
 class BaseModelTest(BaseTest):

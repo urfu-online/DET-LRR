@@ -2,8 +2,8 @@
 
 from django.conf.urls import url
 
-from survey.views import ConfirmView, IndexView, SurveyCompleted, SurveyDetail
-from survey.views.survey_result import serve_result_csv
+from lrr.survey.views import ConfirmView, IndexView, SurveyCompleted, SurveyDetail
+from lrr.survey.views.survey_result import serve_result_csv
 
 urlpatterns = [
     url(r"^$", IndexView.as_view(), name="survey-list"),

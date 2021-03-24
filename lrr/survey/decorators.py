@@ -4,7 +4,7 @@ from functools import wraps
 
 from django.shortcuts import Http404, get_object_or_404
 
-from survey.models import Survey
+from lrr.survey.models import Survey
 
 
 def survey_available(func):

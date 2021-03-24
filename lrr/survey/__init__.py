@@ -16,7 +16,7 @@ def set_default_settings():
     try:
         from django.conf import settings
 
-        from . import settings as app_settings
+        from lrr import settings as app_settings
 
         for setting in dir(app_settings):
             if setting in DEFAULT_SETTINGS:

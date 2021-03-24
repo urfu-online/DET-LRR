@@ -18,7 +18,7 @@ urlpatterns = (
     path("Expertise/update/<uuid:pk>/", views.ExpertiseUpdateView.as_view(), name="inspections_Expertise_update"),
 
     path("ExpertiseRequest/", views.CheckListListView.as_view(), name="inspections_ExpertiseRequest_list"),
-    path("ExpertiseRequest/create/<uuid:digital_resource_pk>/<uuid:expertise_pk>/", views.CheckListCreateView.as_view(),
+    path("ExpertiseRequest/create/<uuid:digital_resource_pk>/<uuid:expertise_pk>/", views.ExpertiseRequestCreateView.as_view(),
          name="inspections_ExpertiseRequest_create"),
     path("ExpertiseRequest/detail/<uuid:pk>/", views.ExpertiseRequestDetailView.as_view(),
          name="inspections_ExpertiseRequest_detail"),

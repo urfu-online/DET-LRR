@@ -2,8 +2,8 @@
 
 from django.core.exceptions import ValidationError
 
-from survey.models import Answer
-from survey.tests.models import BaseModelTest
+from lrr.survey.models import Answer
+from lrr.survey.tests.models import BaseModelTest
 
 
 class TestAnswer(BaseModelTest):

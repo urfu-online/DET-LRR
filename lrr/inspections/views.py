@@ -204,9 +204,9 @@ class CheckListMyCloseExpertListView(GroupRequiredMixin, FilteredListView):
         return qs
 
 
-class CheckListCreateView(GroupRequiredMixin, generic.CreateView):
+class ExpertiseRequestCreateView(GroupRequiredMixin, generic.CreateView):
     model = inspections_models.ExpertiseRequest
-    form_class = forms.CheckListCreateForm
+    form_class = forms.ExpertiseRequestCreateForm
     template_name = 'inspections/expertise_request_form_create.html'
     group_required = [u"expert", u"admins", u"secretary"]
 
@@ -215,7 +215,7 @@ class CheckListCreateView(GroupRequiredMixin, generic.CreateView):
         form.instance.expertise = inspections_models.Expertise.get_expertise(self)
         form.instance.status = "START"
         form.save()
-        form_valid = super(CheckListCreateView, self).form_valid(form)
+        form_valid = super(ExpertiseRequestCreateView, self).form_valid(form)
         return form_valid
 
     def get_initial(self):
@@ -270,8 +270,8 @@ class ExpertiseRequestUpdateView(GroupRequiredMixin, generic.UpdateView):
         form.instance.status = "IN_PROCESS"
         form.instance.expert = person
         form.instance.expertise = self.get_object().expertise
-        checklist = inspections_models.CheckListQestion.objects.get(category=self.get_object().type)
-        form.instance.checklist = checklist
+        # checklist = inspections_models.CheckListQestion.objects.get(category=self.get_object().type)
+        # form.instance.checklist = checklist
         form_valid = super(ExpertiseRequestUpdateView, self).form_valid(form)
         return form_valid
 

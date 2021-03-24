@@ -6,8 +6,8 @@ from django.core.exceptions import ValidationError
 from django.test import override_settings
 from django.utils.translation import gettext_lazy as _
 
-from survey.models import Answer, Question, Response, Survey
-from survey.tests.models import BaseModelTest
+from lrr.survey.models import Answer, Question, Response, Survey
+from lrr.survey.tests.models import BaseModelTest
 
 try:
     from _collections import OrderedDict

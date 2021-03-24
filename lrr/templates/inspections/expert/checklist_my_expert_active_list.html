@@ -74,7 +74,7 @@
             <p>Дата подачи: {{ object.expertise.date }}</p>
             <p>Инициатор: {{ object.expertise.owner }}</p>
             <p>Эксперт: {{ object.expert }}</p>
-            <p>Тип заявки: {{ object.get_type_display }}</p>
+            <p>Тип заявки: {{ object.survey }}</p>
           </div>
           <div class="card-footer">
             {#              {% if object.get_url %}#}
@@ -82,7 +82,7 @@
             {#              {% else %}#}
             {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
             {#              {% endif %}#}
-            <a href="{% url 'inspections:inspections_answer' request_pk=object.pk %}" class="card-link">Подробнее</a>
+            <a href="{% url 'survey:survey-detail' object.survey.pk %}" class="card-link">Подробнее</a>
           </div>
 
         </div>

@@ -3,8 +3,8 @@
 from django.conf import settings
 from django.urls.base import reverse
 
-from survey.models import Response, Survey
-from survey.tests import BaseTest
+from lrr.survey.models import Response, Survey
+from lrr.survey.tests import BaseTest
 
 
 class TestSurveyAuthRequired(BaseTest):

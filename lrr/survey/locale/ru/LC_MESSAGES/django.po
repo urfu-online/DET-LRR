@@ -386,4 +386,4 @@ msgstr ""
 
 #: survey/templates/survey/survey.html:73
 msgid "I'm done!"
-msgstr "Я завершил!"
+msgstr "Сохранить"

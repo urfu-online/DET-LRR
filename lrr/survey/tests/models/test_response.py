@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from survey.tests.models import BaseModelTest
+from lrr.survey.tests.models import BaseModelTest
 
 
 class TestResponse(BaseModelTest):
