@@ -6,17 +6,18 @@
     <div class="ui middle aligned stackable grid container">
       <div class="row">
         <div class="eight wide column">
+          <a class="btn btn-primary" href="{% url "users:expert_update" slug=object.person.user %}">Редактировать</a>
           <h3 class="ui header">Данные эксперта</h3>
-          <p>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p>
-          <p>Страна: {{ person.country }}</p>
-          <p>Город: {{ person.city }}</p>
-          <p>Адрес проживания: {{ person.location }}</p>
-          <p>Дата рождения: {{ person.date_birthday }}</p>
-          <p>Вид экспертизы: {{ object.type }}</p>
+          <p>ФИО: {{ object.person.last_name }} {{ object.person.first_name }} {{ object.person.middle_name }}</p>
+          <p>Страна: {{ object.person.country }}</p>
+          <p>Город: {{ object.person.city }}</p>
+          <p>Адрес проживания: {{ object.person.location }}</p>
+          <p>Дата рождения: {{ object.person.date_birthday }}</p>
+          <p>Вид экспертизы: {{ object.get_type_display }}</p>
           <p>Подразделение/отрасль: {{ object.subdivision }}</p>
         </div>
         <div class="six wide right floated column">
-          <img src='/media/{{ person.avatar }}' class="ui large bordered rounded image">
+          <img src='/media/{{ object.person.avatar }}' class="ui large bordered rounded image">
         </div>
       </div>
     </div>

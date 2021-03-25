@@ -30,60 +30,94 @@
       <li class="breadcrumb-item active" aria-current="page">Активные заявки</li>
     </ol>
   </nav>
-  <div class="container card shadow-1 p-3">
-    <h1> {{ survey.name }} </h1>
-    {% if  survey.description is not None %}
-      <div class="survey-description"> {{ survey.description|safe }} </div>
-    {% else %}
-    {% endif %}
-    <div style="padding-top: 1.5em">
-      {% if step and step != 0 %}
-        <form action="{% url 'survey:survey-detail-step' id=survey.id step=step %}" method="post">
-      {% else %}
-        <form action="{% url 'survey:survey-detail' id=survey.id %}" method="post">
-      {% endif %}
-      {% csrf_token %}
-      {% for category in categories %}
-        <h3> {{ category }} </h3>
-        {% if category.description is not None %}
-          <p> {{ category.description }} </p>
-        {% else %}
-        {% endif %}
-        <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h5 class="panel-title"><a
-                    data-toggle="collapse show"
-                    data-parent="#accordion"
-                    href="#collapse{{ category.slugify }}">
-              {% trans "Answer this part" %}
-            </a></h5>
-          </div>
-          <div class="category-container">
-            <div id="collapse{{ category.slugify }}"
-                 class="panel-collapse collapse show {% if not survey.editable_answers and response_form.response is not None %}in{% endif %}
+  <h1> {{ survey.name }} </h1>
+  {% if  survey.description is not None %}
+    <div class="survey-description"> {{ survey.description|safe }} </div>
+  {% else %}
+  {% endif %}
+  <div>
+    <div class="row">
+      <div class="col-8">
+        <div class="card shadow-1 p-2">
+          <div style="padding-top: 1.5em">
+            {% if step and step != 0 %}
+              <form action="{% url 'survey:survey-detail-step' id=survey.id step=step %}" method="post">
+            {% else %}
+              <form action="{% url 'survey:survey-detail' id=survey.id %}" method="post">
+            {% endif %}
+            {% csrf_token %}
+            {% for category in categories %}
+              <h5> {{ category }} </h5>
+              {% if category.description is not None %}
+                <p> {{ category.description }} </p>
+              {% else %}
+              {% endif %}
+              <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <p class="panel-title"><a
+                          data-toggle="collapse show"
+                          data-parent="#accordion"
+                          href="#collapse{{ category.slugify }}">
+                    {% trans "Answer this part" %}
+                  </a></p>
+                </div>
+                <div class="category-container">
+                  <div id="collapse{{ category.slugify }}"
+                       class="panel-collapse collapse show {% if not survey.editable_answers and response_form.response is not None %}in{% endif %}
 				        {{ response_form|collapse_form:category }}">
-              <div class="panel-body">
-                {% include "survey/question.html" %}
+                    <div class="panel-body">
+                      {% include "survey/question.html" %}
+                    </div>
+                  </div>
+                </div>
               </div>
+            {% empty %}
+              <h3> {% trans "Questions" %} </h3>
+              {% include "survey/question.html" %}
+            {% endfor %}
+
+            <br>
+
+            {% if survey.editable_answers or response_form.response is None %}
+              {% if response_form.has_next_step %}
+                <input class="btn btn-primary" type="submit" value="{% trans "Next!" %}">
+              {% else %}
+                <input class="btn btn-primary" style="float: left" type="submit" name="complete" value="{% trans "Завершить" %}">
+                <input class="btn btn-primary" style="float: right" type="submit" name="save" value="{% trans "Сохранить" %}">
+                {#          <input class="btn btn-primary" type="submit" value="{% trans "I'm done!" %}">#}
+              {% endif %}
+            {% endif %}
             </div>
+            </form>
           </div>
         </div>
-      {% empty %}
-        <h3> {% trans "Questions" %} </h3>
-        {% include "survey/question.html" %}
-      {% endfor %}
-
-      <br>
-      {% if survey.editable_answers or response_form.response is None %}
-        {% if response_form.has_next_step %}
-          <input class="btn btn-primary" type="submit" value="{% trans "Next!" %}">
-        {% else %}
-          <input class="btn btn-primary" type="submit" value="{% trans "Сохранить" %}">
-          {#          <input class="btn btn-primary" type="submit" value="{% trans "I'm done!" %}">#}
-        {% endif %}
-      {% endif %}
-      </form>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card shadow-1 p-2">
+        <h3>Паспорт ЭОР</h3>
+        <div class="form-group">
+          <label><b>{% get_verbose_field_name expertise_request.expertise.digital_resource "title" %}</b></label>
+          <br/>
+          {{ expertise_request.expertise.digital_resource }}
+        </div>
+        <a class="btn btn-primary"
+           href="{% url "repository:repository_DigitalResource_detail" pk=expertise_request.expertise.digital_resource.pk %}">Паспорт
+          ЭОР</a>
+      </div>
+      <br/>
+      <div class="card shadow-1 p-2">
+        <h3>Данные заявки</h3>
+        <div class="form-group">
+          <label><b>{% get_verbose_field_name expertise_request.expertise "date" %}</b></label>
+          <br/>
+          {{ expertise_request.expertise.date }}
+        </div>
+        <a class="btn btn-primary"
+           href="{% url "inspections:inspections_ExpertiseRequest_detail" pk=expertise_request.pk %}">Данные
+          заявки</a>
+      </div>
     </div>
   </div>
 {% endblock %}

@@ -56,33 +56,31 @@
     </div>
   </div>
 
-  <div class="row p-2">
-    {% for object in object_list %}
-      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-        <div class="card h-100 shadow-1">
-          <div class="card-header pb-0">
-            {#              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>#}
-            {#                #}
-            {#              </p>#}
-            <p class="mb-2 text-muted">Статус готовности: {{ object.get_status_display }}</p>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{ object.digital_resource.title }}</h5>
-            <p>Дата подачи: {{ object.date }}</p>
-            <p>Инициатор: {{ object.owner }}</p>
-          </div>
-          <div class="card-footer">
-            {#              {% if object.get_url %}#}
-            {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
-            {#              {% else %}#}
-            {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
-            {#              {% endif %}#}
-            <a href="{{ object.get_update_url }}" class="card-link">Подробнее</a>
-          </div>
-
-        </div>
-      </div>
-    {% endfor %}
+  <div class="container">
+      <table class="ui celled striped table">
+      <thead>
+      <tr>
+        <th>Наименование ЭОР</th>
+        <th>Автор</th>
+        <th>Дата заявки</th>
+        <th>Тип экспертизы</th>
+        <th>Дата экспертизы</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{ object.expertise.digital_resource.title }}</td>
+          <td>{{ object.expertise.owner }}</td>
+          <td>{{ object.expertise.date }}</td>
+          <td>{{ object.survey }}</td>
+          <td>{{ object.date }}</td>
+          <td><a href="{% url "inspections:inspections_ExpertiseRequestClose_detail" pk=object.pk %}">Подробнее</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
   {% if page_obj|length != 0 %}
     <div class="row p-2">

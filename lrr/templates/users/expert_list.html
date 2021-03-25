@@ -60,61 +60,27 @@
       Добавить эксперта
     </a>
 
-  {#  <div class="row p-2">#}
-  {#    {% if page_obj|length != 0 %}#}
-  {#      {% for object in page_obj %}#}
-  {#        <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">#}
-  {#          <div class="card h-100 shadow-1">#}
-  {#            <div class="card-header pb-0">#}
-  {#              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>#}
-  {#                {{ object.copyright_holder }}#}
-  {#              </p>#}
-  {#              <p class="mb-2 text-muted">{{ object.get_type_display }}</p>#}
-  {#            </div>#}
-  {#            <div class="card-body">#}
-  {#              <h5 class="card-title">{{ object.title }}</h5>#}
-  {#            </div>#}
-  {#            <div class="card-footer">#}
-  {#              {% if object.get_url %}#}
-  {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
-  {#              {% else %}#}
-  {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
-  {#              {% endif %}#}
-  {#              <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>#}
-  {#            </div>#}
-  {##}
-  {#          </div>#}
-  {#        </div>#}
-  {#      {% endfor %}#}
-  {#    {% endif %}#}
-  {#  </div>#}
-
-  <div class="row p-2">
-    {% for object in object_list %}
-      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-        <div class="card h-100 shadow-1">
-          <div class="card-header pb-0">
-            {#              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>#}
-            {#                #}
-            {#              </p>#}
-            <p class="mb-2 text-muted">Вид экспертизы: {{ object.get_type_display }}</p>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{ object.person.first_name }} {{ object.person.middle_name }} {{ object.person.last_name }}</h5>
-            <p>Подразделение / Отрасль: {{ object.subdivision }}</p>
-          </div>
-          <div class="card-footer">
-            {#              {% if object.get_url %}#}
-            {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
-            {#              {% else %}#}
-            {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
-            {#              {% endif %}#}
-            <a href="{{ object.get_absolute_url }}" class="card-link">Подробнее</a>
-          </div>
-
-        </div>
-      </div>
-    {% endfor %}
+  <div class="p-2 container">
+      <table class="ui celled striped table">
+      <thead>
+      <tr>
+        <th>ФИО эксперта</th>
+        <th>Вид экспертизы</th>
+        <th>Подразделение / Отрасль: </th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{ object.person.first_name }} {{ object.person.middle_name }} {{ object.person.last_name }}</td>
+          <td>{{ object.get_type_display }}</td>
+          <td>{{ object.subdivision }}</td>
+          <td><a href="{% url "users:expert_detail" slug=object.person.user %}">Подробнее</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
   {% if page_obj|length != 0 %}
     <div class="row p-2">

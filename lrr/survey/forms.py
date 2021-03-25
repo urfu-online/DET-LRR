@@ -13,11 +13,11 @@ from lrr.survey.models import Answer, Category, Question, Response, Survey
 from lrr.survey.signals import survey_completed
 from lrr.survey.widgets import ImageSelectWidget
 
+
 LOGGER = logging.getLogger(__name__)
 
 
 class ResponseForm(models.ModelForm):
-
     FIELDS = {
         Question.TEXT: forms.CharField,
         Question.SHORT_TEXT: forms.CharField,
@@ -69,6 +69,8 @@ class ResponseForm(models.ModelForm):
         if not self.survey.editable_answers and self.response is not None:
             for name in self.fields.keys():
                 self.fields[name].widget.attrs["disabled"] = True
+        for name in self.fields.keys():
+            self.fields[name].widget.attrs["class"] = "form-control"
 
     def add_questions(self, data):
         # add a field for each survey question, corresponding to the question

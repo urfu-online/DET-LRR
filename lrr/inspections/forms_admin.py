@@ -31,6 +31,7 @@ class ExpertiseRequestAdminForm(forms.ModelForm):
             "status",
             "date",
             "protocol",
+            "survey"
         ]
 
 

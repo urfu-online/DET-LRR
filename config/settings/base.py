@@ -3,6 +3,7 @@ Base settings to build other settings files upon.
 """
 import os
 from pathlib import Path
+from django.conf.global_settings import DATETIME_INPUT_FORMATS
 
 import environ
 
@@ -344,8 +345,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-DATETIME_INPUT_FORMATS = ["iso-8601"]
-DATE_INPUT_FORMATS = ["iso-8601"]
+DATETIME_INPUT_FORMATS += ('%d/%m/%Y %H:%M', )
+# DATE_INPUT_FORMATS = ["iso-8601"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 

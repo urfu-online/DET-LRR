@@ -9,10 +9,12 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView, CreateView
+from django.contrib.auth.models import Group
 
 from lrr.repository.filters import FilteredListView
 from lrr.users import forms
 from lrr.users import models
+from lrr.users.mixins import GroupRequiredMixin
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -135,17 +137,58 @@ expert_list_view = ExpertListView.as_view()
 class ExpertDetailView(DetailView):
     model = models.Expert
     form_class = forms.ExpertForm
+    template_name = 'users/expert_detail.html'
+
+    def get_slug_field(self):
+        return 'person__user__username'
 
 
 expert_detail_view = ExpertDetailView.as_view()
 
 
-class ExpertCreateView(CreateView):
+class ExpertCreateView(GroupRequiredMixin, CreateView):
     model = models.Expert
     form_class = forms.ExpertForm
+    group_required = [u"admins", u"secretary"]
 
     def get_success_url(self):
         return reverse_lazy("users:expert_list")
 
+    def form_valid(self, form):
+        expert = Group.objects.get(name='expert')
+        person = form.cleaned_data['person']
+        expert.user_set.add(person.user)
+        form.save()
+        form_valid = super(ExpertCreateView, self).form_valid(form)
+        return form_valid
+
 
 expert_create_view = ExpertCreateView.as_view()
+
+
+class ExpertUpdateView(GroupRequiredMixin, UpdateView):
+    model = models.Expert
+    form_class = forms.ExpertForm
+    group_required = [u"admins", u"secretary"]
+
+    def get_success_url(self):
+        return reverse_lazy("users:expert_list")
+
+    def get_slug_field(self):
+        return 'person__user__username'
+
+    # def form_valid(self, form):
+    #     form.instance = self.object
+    #     form_valid = super(ExpertUpdateView, self).form_valid(form)
+    #     return form_valid
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super(ExpertUpdateView, self).get_context_data(**kwargs)
+    #     if self.request.POST:
+    #         context["form"] = forms.ExpertForm(self.request.POST, instance=self.object)
+    #     else:
+    #         context["form"] = forms.ExpertForm(instance=self.object)
+    #     return context
+
+
+expert_update_view = ExpertUpdateView.as_view()

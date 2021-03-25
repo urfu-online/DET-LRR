@@ -6,6 +6,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Q
 
 
 def in_duration_day():
@@ -65,3 +66,6 @@ class Survey(models.Model):
 
     def is_all_in_one_page(self):
         return self.display_method == self.ALL_IN_ONE_PAGE
+
+    def get_expertise_requests(self, expert, survey):
+        return self.expertiserequest_set.filter(Q(expert=expert) & Q(survey=survey))

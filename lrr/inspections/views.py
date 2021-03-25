@@ -4,12 +4,14 @@ import django_filters
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
+from django.shortcuts import redirect, render, reverse
 
 from lrr.inspections import forms
 from lrr.inspections import models as inspections_models
 from lrr.repository.filters import FilteredListView
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Expert
+from lrr.survey.models.answer import Answer, Response, Question
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -141,24 +143,31 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
         # form.instance.digital_resource = inspections_models.Expertise.get_digital_resource(self)
         # person = Person.get_person(user=self.request.user)
         # form.instance.owner = person
-        form.instance.digital_resource = self.get_object().digital_resource
-        # form.save()
+        form.instance.status = "ASSIGNED_STATUS"
+        # form.instance.digital_resource = self.get_object().digital_resource
+        form.save()
         form_valid = super(ExpertiseUpdateView, self).form_valid(form)
         return form_valid
 
-    def get_initial(self):
-        """
-        Returns the initial data to use for forms on this view.
-        """
-        initial = super().get_initial()
-        # initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
-        # initial['status'] = "SUB_APP"
-        return initial
-
+    # def get_initial(self):
+    #     """
+    #     Returns the initial data to use for forms on this view.
+    #     """
+    #     initial = super().get_initial()
+    #     initial['digital_resource'] = inspections_models.Expertise.get_digital_resource(self)
+    #     initial['status'] = "ASSIGNED_STATUS"
+    #     return initial
+    # TODO: формат date + digital_resource + избавиться от Expertise.get_checklists
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        checklist = inspections_models.Expertise.get_checklists(self, expertise=context['object'])
-        context['checklist'] = checklist
+        context = super(ExpertiseUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.ExpertiseUpdateForm(self.request.POST, instance=self.object)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
+            #                                                                      instance=self.object)
+        else:
+            expertise_request = inspections_models.Expertise.get_checklists(self, expertise=context['object'])
+            context['expertise_request'] = expertise_request
+            context["form"] = forms.ExpertiseUpdateForm(instance=self.object)
         # self.object.digital_complex = inspections_models.Expertise.get_digital_resource(self)
         return context
 
@@ -245,12 +254,18 @@ class ExpertiseRequestDetailView(generic.DetailView):
     model = inspections_models.ExpertiseRequest
     form_class = forms.ExpertiseRequestUpdateForm
 
+
+class ExpertiseRequestDetailCloseView(generic.DetailView):
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestUpdateForm
+    template_name = 'inspections/expert/expertiserequest_close_detail.html'
+
     def get_context_data(self, **kwargs):
-        context = super(ExpertiseRequestDetailView, self).get_context_data(**kwargs)
-        expertise = self.object.expertise
-        dig_res = inspections_models.ExpertiseRequest.get_dig_res(self, expertise=expertise)
-        context['dig_res'] = dig_res
-        logger.warning(dig_res)
+        context = super(ExpertiseRequestDetailCloseView, self).get_context_data(**kwargs)
+        survey = self.object.survey
+        response = Response.objects.filter(survey=survey, user=self.request.user)
+        answers = Answer.objects.filter(response=response.first())
+        context['answers'] = answers
         return context
 
 
@@ -348,30 +363,6 @@ class QuestionUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-class AnswerView(generic.FormView):
+class ExpertiseRequestView(generic.View):
     template_name = 'inspections/expert/checklist_form_update.html'
-    form_class = forms.AnswerForm
     success_url = '/ExpertiseMy/'
-
-    def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
-        form.save()
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        path_pk = self.request.path.split('/')[3]
-        logger.warning(path_pk)
-        expertise = inspections_models.ExpertiseRequest.objects.get(pk=path_pk)
-        # TODO VIEW CHECKLIST
-        context['digital_resource'] = expertise.expertise.digital_resource
-        context['expertise'] = expertise
-
-        # dig_res = inspections_models.Question.objects.get()
-        # expertise = inspections_models.Expertise.get_expertise(self)
-        # context['dig_res'] = dig_res
-        # context['checklists'] = inspections_models.Expertise.get_checklists(expertise)
-        return context
-
-

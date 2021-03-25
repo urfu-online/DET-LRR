@@ -139,12 +139,12 @@ class ExpertiseUpdateForm(forms.ModelForm):
                     'required': 'false'
                 }
             ),
-            'date_end': forms.DateInput(
+            'date_end': forms.DateTimeInput(
                 attrs={
-                    'class': 'datepicker form-control',
+                    'class': 'datetimepicker form-control',
                     'required': 'true'
                 },
-                format='%d/%m/%Y'
+                format='%d/%m/%Y %H:%M'
             ),
             'remarks': forms.Textarea(
                 attrs={

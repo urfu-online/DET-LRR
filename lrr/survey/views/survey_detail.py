@@ -4,9 +4,12 @@ import logging
 from django.conf import settings
 from django.shortcuts import redirect, render, reverse
 from django.views.generic import View
+from django.utils import timezone
 
 from lrr.survey.decorators import survey_available
 from lrr.survey.forms import ResponseForm
+from lrr.users.models import Expert
+from lrr.inspections.models import ExpertiseRequest
 
 LOGGER = logging.getLogger(__name__)
 
@@ -16,6 +19,7 @@ class SurveyDetail(View):
     def get(self, request, *args, **kwargs):
         survey = kwargs.get("survey")
         step = kwargs.get("step", 0)
+        expert = Expert.get_expert(user=request.user)
         if survey.template is not None and len(survey.template) > 4:
             template_name = survey.template
         else:
@@ -39,6 +43,7 @@ class SurveyDetail(View):
             "categories": categories,
             "step": step,
             "asset_context": asset_context,
+            "expertise_request": survey.get_expertise_requests(expert=expert, survey=survey).first(),
         }
 
         return render(request, template_name, context)
@@ -46,19 +51,37 @@ class SurveyDetail(View):
     @survey_available
     def post(self, request, *args, **kwargs):
         survey = kwargs.get("survey")
-        if survey.need_logged_user and not request.user.is_authenticated:
-            return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
+        if 'save' in request.POST:
+            if survey.need_logged_user and not request.user.is_authenticated:
+                return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
 
-        form = ResponseForm(request.POST, survey=survey, user=request.user, step=kwargs.get("step", 0))
-        categories = form.current_categories()
+            form = ResponseForm(request.POST, survey=survey, user=request.user, step=kwargs.get("step", 0))
+            categories = form.current_categories()
 
-        if not survey.editable_answers and form.response is not None:
-            LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
-            return redirect(reverse("survey:survey-list"))
-        context = {"response_form": form, "survey": survey, "categories": categories}
-        if form.is_valid():
-            return self.treat_valid_form(form, kwargs, request, survey)
-        return self.handle_invalid_form(context, form, request, survey)
+            if not survey.editable_answers and form.response is not None:
+                LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
+                return redirect(reverse("survey:survey-list"))
+            context = {"response_form": form, "survey": survey, "categories": categories}
+            if form.is_valid():
+                return self.treat_valid_form(form, kwargs, request, survey)
+            return self.handle_invalid_form(context, form, request, survey)
+        elif 'complete' in request.POST:
+            if survey.need_logged_user and not request.user.is_authenticated:
+                return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
+
+            form = ResponseForm(request.POST, survey=survey, user=request.user, step=kwargs.get("step", 0))
+            categories = form.current_categories()
+
+            if not survey.editable_answers and form.response is not None:
+                LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
+                return redirect(reverse("survey:survey-list"))
+            context = {"response_form": form, "survey": survey, "categories": categories}
+            if form.is_valid():
+                expert = Expert.get_expert(user=request.user)
+                exprtise_requests = survey.get_expertise_requests(expert=expert, survey=survey)
+                exprtise_requests.update(date=timezone.now(), status='END')
+                return self.treat_valid_form(form, kwargs, request, survey)
+            return self.handle_invalid_form(context, form, request, survey)
 
     @staticmethod
     def handle_invalid_form(context, form, request, survey):
@@ -102,4 +125,4 @@ class SurveyDetail(View):
             if "next" in request.session:
                 del request.session["next"]
             return redirect(next_)
-        return redirect("survey-confirmation", uuid=response.interview_uuid)
+        return redirect("survey:survey-confirmation", uuid=response.interview_uuid)

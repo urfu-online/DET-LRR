@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load user_tags %}
+{% load static %}
+{% block content %}
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      {#      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>#}
+      {#      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>#}
+      <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу
+        "{{ object.expertise.digital_resource }}"
+      </li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    <h1>чек-лист "{{ object.expertise.digital_resource }}"</h1>
+  </header>
+  <a class="btn btn-primary" style="float: right"
+     href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}">Паспорт
+    ЭОР</a>
+  <div class="row p-2">
+    <div class="col-12 p-2">
+      <div class="card h-100 shadow-1">
+        <div class="card-body">
+          {% csrf_token %}
+          {{ form.errors }}
+          {{ form.non_field_errors }}
+          {{ form.media.css }}
+          <div class="form-group">
+            <label><b>Тип экспертизы</b></label>
+            <br/>
+            {{ object.survey }}
+          </div>
+          <hr/>
+          <div class="form-group">
+            <label><b>Эксперт</b></label>
+            <br/>
+            {{ object.expert }}
+          </div>
+          <hr/>
+          <div class="form-group">
+            <label><b>Дата экспертизы</b></label>
+            <br/>
+            {{ object.date }}
+          </div>
+        </div>
+      </diV>
+    </div>
+  </div>
+  <div class="card">
+    <diV class="card-body shadow-1">
+      <div class="form-group">
+        <label><b>Значения показателей экспертизы</b></label>
+        <br/>
+        {% for answer in answers %}
+          <b>{{ answer.question.text }}</b>
+          <br/>
+          {{ answer.body }}
+          <br/>
+          <hr/>
+        {% endfor %}
+      </div>
+    </diV>
+  </div>
+  {% if request.user|has_group:"secretary" %}
+    <a class="btn btn-primary" href="{% url 'inspections:inspections_Expertise_update' pk=object.expertise.pk %}">Данные экспертизы</a>
+  {% endif %}
+{% endblock %}

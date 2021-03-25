@@ -15,6 +15,9 @@
   <!--[if lt IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
   <![endif]-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+          integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
 
   <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
 
@@ -27,12 +30,11 @@
 
 
   {% endblock %}
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
 
 </head>
 <body class="back">
@@ -72,7 +74,7 @@
         </li>
       {% endif %}
 
-      {% if request.user|has_group:"expert" or request.user|has_group:"rop" or request.user|has_group:"teacher" %}
+      {% if request.user|has_group:"secretary" %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">
@@ -80,7 +82,7 @@
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
           </div>
-          {% if request.user|has_group:"expert" %}
+          {% if request.user|has_group:"secretary" %}
             <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Активные
               заявки</a>
             <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseCloseSecretary_list' %}">Закрытые
@@ -90,7 +92,7 @@
         </li>
       {% endif %}
 
-      {% if request.user|has_group:"expert" or request.user|has_group:"rop" or request.user|has_group:"teacher" %}
+      {% if request.user|has_group:"expert" %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">

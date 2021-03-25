@@ -2,13 +2,11 @@
 {% load static %}
 {% load user_tags %}
 {% block content %}
+
   <script>
     $(document).ready(function () {
-      $(".datepicker").datepicker({
-        format: 'dd/mm/yyyy',
-        autoclose: true,
-        changeYear: true,
-        changeMonth: true
+      $(".datetimepicker").datetimepicker({
+        format: 'd/m/Y H:i',
       });
     });
   </script>
@@ -66,7 +64,7 @@
           <a class="btn btn-secondary"
              href="{% url 'inspections:inspections_ExpertiseRequest_create' digital_resource_pk=object.digital_resource.pk expertise_pk=object.pk %}">Назначить
             эксперта</a>
-          {% if checklist.all is not None %}
+          {% if expertise_request.all is not None %}
             <table class="ui compact table">
               <thead>
               <h5>Экспертизы: </h5>
@@ -78,13 +76,14 @@
               </tr>
               </thead>
               <tbody>
-              {% for item in checklist.all %}
+              {% for item in expertise_request.all %}
                 <tr>
                 <td>{{ item.survey }}</td>
                 <td>{{ item.expert }}</td>
                 <td>{{ item.get_status_display }}</td>
                 <td><a class=""
-                       href="{% url 'inspections:inspections_ExpertiseRequest_detail' pk=item.pk %}">Подробнее</a></td>
+                       href="{% url 'inspections:inspections_ExpertiseRequestClose_detail' pk=item.pk %}">Подробнее</a>
+                </td>
               {% endfor %}
               </tbody>
             </table>

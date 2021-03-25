@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      {#      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>#}
+      {#      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>#}
+      <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу
+        "{{ object.expertise.digital_resource }}"
+      </li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    <h1>Заявка на экспертизу "{{ object.expertise.digital_resource }}"</h1>
+  </header>
+  <a class="btn btn-primary" style="float: right"
+     href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}">Паспорт
+    ЭОР</a>
+  <div class="row p-2">
+    <div class="col-12 p-2">
+      <div class="card h-100 shadow-1">
+        <div class="card-body">
+          {% csrf_token %}
+          {{ form.errors }}
+          {{ form.non_field_errors }}
+          {{ form.media.css }}
+          <div class="form-group">
+            <label><b>Тип заявки</b></label>
+            <br/>
+            {{ object.survey }}
+          </div>
+          <hr/>
+          <div class="form-group">
+            <label><b>Инициатор</b></label>
+            <br/>
+            {{ object.expertise.owner }}
+          </div>
+          <hr/>
+          <div class="form-group">
+            <label><b>Дата заявки</b></label>
+            <br/>
+            {{ object.expertise.date }}
+          </div>
+          <hr/>
+          <div class="form-group">
+            <label><b>Дисциплина(ы)</b></label>
+            <div class="ui segment">
+              {% for subject in object.expertise.subjects.all %}
+                {{ subject }}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label><b>Направления подготовки/Образовательная программа</b></label>
+            <div class="ui segment">
+              {% for direction in object.expertise.directions.all %}
+                {{ direction }}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label><b>ЭУМК</b></label>
+            <div class="ui segment">
+              {% if object.expertise.digital_complexes.all is not None %}
+                {% for digital_complex in object.expertise.digital_complexes.all %}
+                  <p>
+                    <a href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}">{{ digital_complex }}</a>
+                  </p>
+                {% endfor %}
+              {% else %}
+                <h4>отсутсвуют</h4>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </diV>
+    </div>
+  </div>
+  <div class="card">
+    <diV class="card-body shadow-1">
+      <div class="form-group">
+        <h5>Экспертные заключения</h5>
+        {% if object.survey is not None %}
+          <table class="ui compact table">
+            <thead>
+            <tr>
+              <th>Тип экспертизы</th>
+              <th>Дата экспертизы</th>
+              <th>Эксперт</th>
+              <th>Состояние</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if object.status != 'START' %}
+              <td>{{ object.survey }}</td>
+              {% if object.date is not None %}
+                <td>{{ object.date }}</td>
+              {% else %}
+                <td>Дата отсутствует</td>
+              {% endif %}
+              <td>{{ object.expert }}</td>
+              <td>{{ object.get_status_display }}</td>
+            {% endif %}
+            </tbody>
+          </table>
+        {% else %}
+          Экспертизы отсутсвуют
+        {% endif %}
+      </div>
+    </div>
+    {{ form.media.js }}
+  </div>
+{% endblock %}

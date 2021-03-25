@@ -59,35 +59,29 @@
     </div>
   </div>
 
-  <div class="row p-2">
-    {% for object in object_list %}
-      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-        <div class="card h-100 shadow-1">
-          <div class="card-header pb-0">
-            {#              <p class="mb-2 text-muted float-right"><i class="graduation cap icon"></i>#}
-            {#                #}
-            {#              </p>#}
-            <p class="mb-2 text-muted">Статус заявки: {{ object.get_status_display }}</p>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{ object.expertise.digital_resource.title }}</h5>
-            <p>Дата подачи: {{ object.expertise.date }}</p>
-            <p>Инициатор: {{ object.expertise.owner }}</p>
-            <p>Эксперт: {{ object.expert }}</p>
-            <p>Тип заявки: {{ object.survey }}</p>
-          </div>
-          <div class="card-footer">
-            {#              {% if object.get_url %}#}
-            {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
-            {#              {% else %}#}
-            {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
-            {#              {% endif %}#}
-            <a href="{% url 'inspections:inspections_answer' request_pk=object.pk %}" class="card-link">Подробнее</a>
-          </div>
-
-        </div>
-      </div>
-    {% endfor %}
+  <div class="container">
+    <table class="ui celled striped table">
+      <thead>
+      <tr>
+        <th>Наименование ЭОР</th>
+        <th>Автор</th>
+        <th>Дата заявки</th>
+        <th>Тип экспертизы</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{ object.expertise.digital_resource.title }}</td>
+          <td>{{ object.expertise.owner }}</td>
+          <td>{{ object.expertise.date }}</td>
+          <td>{{ object.survey }}</td>
+          <td><a href="{% url 'survey:survey-detail' id=object.survey.pk %}">Подробнее</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
   {% if page_obj|length != 0 %}
     <div class="row p-2">
@@ -139,57 +133,3 @@
 
   </div>
 {% endblock %}
-
-
-{#  <div class="ui container">#}
-{#    <div class="ui segment">#}
-{#      <div class="ui grid ">#}
-{#        <div class="eleven wide column "><h2>Активные заявки</h2></div>#}
-{#      </div>#}
-{#      <div class="ui relaxed divided items">#}
-{#        {% for object in object_list %}#}
-{#          <div class="item">#}
-{#            <div class="content">#}
-{#              <div class="header">{{ object.digital_resource.title }}</div>#}
-{#              <div class="meta">#}
-{#                <span class="category">Тип ресура: {{ object.digital_resource.get_type_display }}</span>#}
-{#              </div>#}
-{#              <div class="meta">#}
-{#                <span class="category">Категория качества: {{ object.get_quality_category_display }}</span>#}
-{#              </div>#}
-{#              <div class="meta">#}
-{#                <span class="category">Категория интерактивности: {{ object.get_interactive_category_display }}</span>#}
-{#              </div>#}
-{#              <div class="description">#}
-{#                <h5>Статус экспертизы: </h5>#}
-{#              </div>#}
-{#              <div class="description">#}
-{#                Утверждено (присвоен статус):#}
-{#                {% if object.expertise_status.accepted_status %}#}
-{#                  <i class="check circle outline icon"></i>#}
-{#                {% else %}#}
-{#                  <i class="circle outline icon"></i>#}
-{#                {% endif %}#}
-{#              </div>#}
-{#              <div class="description">#}
-{#                Состояние экспертизы: {{ object.expertise_status.get_status_display }}#}
-{#              </div>#}
-{#              <div class="description">#}
-{#                Срок действия: {{ object.expertise_status.end_date }}#}
-{#              </div>#}
-{#              <div class="extra">#}
-{#                <div class="left floated author">#}
-{#                  <i class="graduation cap icon"></i>#}
-{#                  {{ object.digital_resource.copyright_holder }}#}
-{#                </div>#}
-{#                <div class="right floated author">#}
-{#                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>#}
-{#                  <a class="ui button mini" href="{{ object.get_update_url }}"><i class="pen icon"></i>Выставить статус</a>#}
-{#                </div>#}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#        {% endfor %}#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
