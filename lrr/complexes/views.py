@@ -115,6 +115,8 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
         context['platform_components'] = complex_model.PlatformComponent.objects.filter(digital_complex=self.object)
         context['traditional_components'] = complex_model.TraditionalSessionComponent.objects.filter(
             digital_complex=self.object)
+        context['literary_components'] = complex_model.LiterarySourcesComponent.objects.filter(
+            digital_complex=self.object)
         context['assigment_academic_group'] = complex_model.AssignmentAcademicGroup.objects.filter(
             digital_complex=self.object)
         return context

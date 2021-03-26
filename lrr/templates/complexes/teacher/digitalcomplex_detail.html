@@ -110,12 +110,21 @@
               <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
                  class="btn btn-block btn-primary">Добавить компонент</a>
             {% endif %}
+            <br/>
+            {% if assigment_academic_group.all %}
+              <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+                 class="btn btn-block btn-primary">Изминить состав академических групп</a>
+            {% else %}
+              <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+                 class="btn btn-block btn-primary">Назначить академические группы</a>
+            {% endif %}
           </div>
         </div>
         <br/>
-        <div class="card shadow-1">
+        <div class="card shadow-1 p-3">
           <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
-          {% if resource_components.all or platform_component.all or traditional_components.all or component_complex is not None %}
+          {#        {% if resource_components.all or platform_component.all or traditional_components.all or component_complex or literary_components.all is not None %}#}
+          {% if resource_components.all is not None %}
             <table class="ui compact table">
               <thead>
               <h5>Комопоненты ЭОР: </h5>
@@ -135,7 +144,7 @@
               {% endfor %}
               </tbody>
             </table>
-
+          {% elif platform_component.all is not None %}
             <table class="ui compact table">
               <thead>
               <h5>Комопоненты Платформ: </h5>
@@ -155,7 +164,7 @@
               {% endfor %}
               </tbody>
             </table>
-
+          {% elif traditional_components.all is not None %}
             <table class="ui compact table">
               <thead>
               <h5>Комопоненты традиционных занятий:</h5>
@@ -174,18 +183,31 @@
               {% endfor %}
               </tbody>
             </table>
+          {% elif literary_components.all is not None %}
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты литературные источники:</h5>
+              <tr>
+                <th>Наименование</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in literary_components %}
+                <tr>
+                  <td>{{ component.title }}</td>
+                  <td>{{ component.url }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
           {% else %}
             Компоненты Отсутсвуют
           {% endif %}
         </div>
-        <div class="card shadow-1">
-          {% if assigment_academic_group.all %}
-            <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-               class="btn btn-block btn-primary">Изминить состав академических групп</a>
-          {% else %}
-            <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-               class="btn btn-block btn-primary">Назначить академические группы</a>
-          {% endif %}
+        <br/>
+        <div class="card shadow-1 p-3">
           {% if assigment_academic_group.all %}
             <table class="ui compact table">
               <thead>
