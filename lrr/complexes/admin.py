@@ -141,7 +141,7 @@ class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
 @admin.register(models.ComponentComplex)
 class ComponentComplexChiledAdmin(ComponentComplexChildAdmin):
     base_model = models.ComponentComplex
-    search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format" ]
+    search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]
     # autocomplete_fields = ["digital_resource", ]
     # show_in_index = True
 
@@ -162,6 +162,14 @@ class PlatformComponentAdmin(ComponentComplexChildAdmin):
     # show_in_index = True
 
 
+@admin.register(models.LiterarySourcesComponent)
+class LiterarySourcesComponentAdmin(ComponentComplexChildAdmin):
+    base_model = models.LiterarySourcesComponent
+    search_fields = ["title", ]
+    # autocomplete_fields = ["title", ]
+
+
+#
 @admin.register(models.TraditionalSessionComponent)
 class TraditionalSessionComponentAdmin(ComponentComplexChildAdmin):
     base_model = models.TraditionalSessionComponent

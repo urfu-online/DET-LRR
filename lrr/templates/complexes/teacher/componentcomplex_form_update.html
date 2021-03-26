@@ -101,6 +101,28 @@
               </tbody>
             </table>
 
+            <table class="ui compact table">
+              <thead>
+              <h5>Комопоненты литературных источников:</h5>
+              <tr>
+                <th>Наименование</th>
+                <th>Описание / Методика применения</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in literary_components %}
+                <tr>
+                  <td>{{ component.title }}</td>
+                  <td>{{ component.description }}</td>
+                  <td><a class="btn "
+                         href="{% url 'complexes:complexes_LiterarySourcesComponent_delete' pk=component.pk %}">X</a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+
             {#            <div class="form-group">#}
             {#              <label>{{ form.keywords.label }}</label>#}
             {#              {{ form.keywords }}#}
@@ -138,6 +160,9 @@
               <a class="btn btn-primary"
                  href="{% url 'complexes:complexes_TraditionalSessionComponent_create' pk=object.digital_complex.pk %}">+
                 Традиционные занятия</a>
+                            <a class="btn btn-primary"
+                 href="{% url 'complexes:complexes_LiterarySourcesComponent_create' pk=object.digital_complex.pk %}">+
+                Литературные источники</a>
             </div>
             <input type="submit" value="Сохранить" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>

@@ -147,11 +147,10 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
             expertise = self.object
             expertise_request = expertise.get_expertise_request()
             context['expertise_request'] = expertise_request
-            for req in expertise_request:
-                if req.status == "END":
-                    response = Response.objects.get(survey=req.survey)
-                    answer = Answer.objects.filter(response=response)
-                    logger.warning(answer)
+            response = Response.objects.select_related('survey').all()
+            logger.warning(response)
+            answer = Answer.objects.filter(response=response)
+            logger.warning(answer)
             context["form"] = forms.ExpertiseUpdateForm(instance=self.object)
         # self.object.digital_complex = inspections_models.Expertise.get_digital_resource(self)
         return context

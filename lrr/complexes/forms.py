@@ -333,6 +333,26 @@ class TraditionalSessionComponentForm(forms.ModelForm):
         }
 
 
+class LiterarySourcesComponentForm(forms.ModelForm):
+    class Meta:
+        model = complex_models.LiterarySourcesComponent
+        fields = ['title', 'url']
+        widgets = {
+            "title": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "url": forms.URLInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+        }
+
+
 ComponentComplexFormSet = polymorphic_modelformset_factory(
     complex_models.ComponentComplex,
     fields='__all__',

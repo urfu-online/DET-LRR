@@ -222,7 +222,18 @@ class ResourceComponent(ComponentComplex):
 
 
 class LiterarySourcesComponent(ComponentComplex):
-    pass
+    title = models.CharField("Библиографическая ссылка", max_length=424, null=True, blank=True)
+    url = models.URLField("URL-ссылка", null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
+
+    class Meta:
+        verbose_name = 'Литературный источник'
+        verbose_name_plural = 'Литературные источники'
 
 
 class PlatformComponent(ComponentComplex):
