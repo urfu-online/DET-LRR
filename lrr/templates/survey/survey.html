@@ -30,6 +30,12 @@
       <li class="breadcrumb-item active" aria-current="page">Активные заявки</li>
     </ol>
   </nav>
+  <a class="btn btn-primary"
+     href="{% url "repository:repository_DigitalResource_detail" pk=expertise_request.expertise.digital_resource.pk %}">Паспорт
+    ЭОР</a>
+  <a class="btn btn-primary"
+     href="{% url "inspections:inspections_ExpertiseRequest_detail" pk=expertise_request.pk %}">Данные
+    заявки</a>
   <h1> {{ survey.name }} </h1>
   {% if  survey.description is not None %}
     <div class="survey-description"> {{ survey.description|safe }} </div>
@@ -38,7 +44,7 @@
   <div>
     <div class="row">
       <div class="col-8">
-        <div class="card shadow-1 p-2">
+        <div class="card shadow-1">
           <div style="padding-top: 1.5em">
             {% if step and step != 0 %}
               <form action="{% url 'survey:survey-detail-step' id=survey.id step=step %}" method="post">
@@ -83,8 +89,10 @@
               {% if response_form.has_next_step %}
                 <input class="btn btn-primary" type="submit" value="{% trans "Next!" %}">
               {% else %}
-                <input class="btn btn-primary" style="float: left" type="submit" name="complete" value="{% trans "Завершить" %}">
-                <input class="btn btn-primary" style="float: right" type="submit" name="save" value="{% trans "Сохранить" %}">
+                <input class="btn btn-primary" style="float: left" type="submit" name="complete"
+                       value="{% trans "Завершить" %}">
+                <input class="btn btn-primary" style="float: right" type="submit" name="save"
+                       value="{% trans "Сохранить" %}">
                 {#          <input class="btn btn-primary" type="submit" value="{% trans "I'm done!" %}">#}
               {% endif %}
             {% endif %}
@@ -92,31 +100,6 @@
             </form>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="card shadow-1 p-2">
-        <h3>Паспорт ЭОР</h3>
-        <div class="form-group">
-          <label><b>{% get_verbose_field_name expertise_request.expertise.digital_resource "title" %}</b></label>
-          <br/>
-          {{ expertise_request.expertise.digital_resource }}
-        </div>
-        <a class="btn btn-primary"
-           href="{% url "repository:repository_DigitalResource_detail" pk=expertise_request.expertise.digital_resource.pk %}">Паспорт
-          ЭОР</a>
-      </div>
-      <br/>
-      <div class="card shadow-1 p-2">
-        <h3>Данные заявки</h3>
-        <div class="form-group">
-          <label><b>{% get_verbose_field_name expertise_request.expertise "date" %}</b></label>
-          <br/>
-          {{ expertise_request.expertise.date }}
-        </div>
-        <a class="btn btn-primary"
-           href="{% url "inspections:inspections_ExpertiseRequest_detail" pk=expertise_request.pk %}">Данные
-          заявки</a>
       </div>
     </div>
   </div>

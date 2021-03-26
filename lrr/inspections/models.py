@@ -171,17 +171,11 @@ class Expertise(repository_model.BaseModel):
     # choose type checklist
     # def get_checklists(self, type):
     #     return ExpertiseRequest.objects.filter(expertise=self.pk, type=type)
-
-    def get_checklists(self, expertise):
-        return ExpertiseRequest.objects.filter(expertise=expertise)
+    def get_expertise_request(self):
+        return self.expertiserequest_set.all()
 
     def get_checklists_self(self):
         return ExpertiseRequest.objects.filter(expertise=self.pk)
-
-    def get_digital_resource(self):
-        digital_resource_pk = self.request.path.split('/')[4]
-        digital_resource = DigitalResource.objects.get(pk=digital_resource_pk)
-        return digital_resource
 
     def get_expertise(self):
         expertise_pk = self.request.path.split('/')[5]
@@ -202,6 +196,10 @@ class Expertise(repository_model.BaseModel):
             return None
         else:
             return queryset
+
+    @staticmethod
+    def get_digital_resource(digital_resource_pk):
+        return DigitalResource.objects.get(pk=digital_resource_pk)
 
 
 # class CheckListBase(repository_model.BaseModel, PolymorphicModel):
@@ -288,7 +286,8 @@ class ExpertiseRequest(repository_model.BaseModel):
     status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
     checklist = models.ForeignKey("inspections.CheckListQestion", verbose_name="Чек-лист", on_delete=models.CASCADE,
                                   blank=True, null=True)
-    survey = models.ForeignKey('survey.Survey', verbose_name="Опросник", on_delete=models.PROTECT, blank=True, null=True)
+    survey = models.ForeignKey('survey.Survey', verbose_name="Опросник", on_delete=models.PROTECT, blank=True,
+                               null=True)
 
     class Meta:
         verbose_name = u"Заявка"
@@ -303,26 +302,26 @@ class ExpertiseRequest(repository_model.BaseModel):
     def get_update_url(self):
         return reverse("inspections:inspections_ExpertiseRequest_update", args=(self.pk,))
 
-    def get_close_my_checklist(self, cls):
+    @classmethod
+    def get_close_my_checklist(cls, user):
         try:
-            usr = self.request.user
-            objs = cls.objects.filter(Q(status='END') & Q(expert__person__user=usr), )
+            objs = cls.objects.filter(Q(status='END') & Q(expert__person__user=user), )
         except:
             objs = cls.objects.all()
         return objs
 
-    def get_my_checklist(self, cls):
+    @classmethod
+    def get_my_checklist(cls, user):
         try:
-            usr = self.request.user
-            objs = cls.objects.filter(Q(status='IN_PROCESS') & Q(expert__person__user=usr), )
+            objs = cls.objects.filter(Q(status='IN_PROCESS') & Q(expert__person__user=user), )
         except:
             objs = cls.objects.all()
         return objs
 
-    def get_active_my_checklist(self, cls):
+    @classmethod
+    def get_active_my_checklist(cls, user):
         try:
-            usr = self.request.user
-            objs = cls.objects.filter(Q(status='START') & Q(expert__person__user=usr), )
+            objs = cls.objects.filter(Q(status='START') & Q(expert__person__user=user), )
         except:
             objs = cls.objects.all()
         return objs
