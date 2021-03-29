@@ -3,7 +3,7 @@
 bck_file="$1"
 profile="production"
 
-if [ -z "$bsc_file" ]
+if [ -z "$bck_file" ]
 then
   echo "Wrong backup filename!"
   exit 1
