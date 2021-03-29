@@ -2,14 +2,13 @@
 import logging
 
 from django.conf import settings
-from django.shortcuts import redirect, render, reverse
+from django.shortcuts import redirect, render, reverse, get_object_or_404
 from django.views.generic import View
 from django.utils import timezone
 
 from lrr.survey.decorators import survey_available
 from lrr.survey.forms import ResponseForm
 from lrr.users.models import Expert
-from lrr.inspections.models import ExpertiseRequest
 
 LOGGER = logging.getLogger(__name__)
 
@@ -19,7 +18,9 @@ class SurveyDetail(View):
     def get(self, request, *args, **kwargs):
         survey = kwargs.get("survey")
         step = kwargs.get("step", 0)
-        expert = Expert.get_expert(user=request.user)
+        expertise_request = kwargs.get("expertise_request")
+        # expert = Expert.get_expert(user=request.user)
+        logging.warning(expertise_request)
         if survey.template is not None and len(survey.template) > 4:
             template_name = survey.template
         else:
@@ -30,7 +31,7 @@ class SurveyDetail(View):
         if survey.need_logged_user and not request.user.is_authenticated:
             return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
 
-        form = ResponseForm(survey=survey, user=request.user, step=step)
+        form = ResponseForm(survey=survey, user=request.user, step=step, expertise_request=expertise_request)
         categories = form.current_categories()
 
         asset_context = {
@@ -43,7 +44,7 @@ class SurveyDetail(View):
             "categories": categories,
             "step": step,
             "asset_context": asset_context,
-            "expertise_request": survey.get_expertise_requests(expert=expert, survey=survey).first(),
+            "expertise_request": expertise_request,
         }
 
         return render(request, template_name, context)
@@ -51,37 +52,24 @@ class SurveyDetail(View):
     @survey_available
     def post(self, request, *args, **kwargs):
         survey = kwargs.get("survey")
-        if 'save' in request.POST:
-            if survey.need_logged_user and not request.user.is_authenticated:
-                return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
+        expertise_request = kwargs.get("expertise_request")
+        if survey.need_logged_user and not request.user.is_authenticated:
+            return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
 
-            form = ResponseForm(request.POST, survey=survey, user=request.user, step=kwargs.get("step", 0))
-            categories = form.current_categories()
+        form = ResponseForm(request.POST, survey=survey, user=request.user, step=kwargs.get("step", 0),
+                            expertise_request=expertise_request)
+        categories = form.current_categories()
 
-            if not survey.editable_answers and form.response is not None:
-                LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
-                return redirect(reverse("survey:survey-list"))
-            context = {"response_form": form, "survey": survey, "categories": categories}
-            if form.is_valid():
-                return self.treat_valid_form(form, kwargs, request, survey)
-            return self.handle_invalid_form(context, form, request, survey)
-        elif 'complete' in request.POST:
-            if survey.need_logged_user and not request.user.is_authenticated:
-                return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
-
-            form = ResponseForm(request.POST, survey=survey, user=request.user, step=kwargs.get("step", 0))
-            categories = form.current_categories()
-
-            if not survey.editable_answers and form.response is not None:
-                LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
-                return redirect(reverse("survey:survey-list"))
-            context = {"response_form": form, "survey": survey, "categories": categories}
-            if form.is_valid():
-                expert = Expert.get_expert(user=request.user)
-                exprtise_requests = survey.get_expertise_requests(expert=expert, survey=survey)
-                exprtise_requests.update(date=timezone.now(), status='END')
-                return self.treat_valid_form(form, kwargs, request, survey)
-            return self.handle_invalid_form(context, form, request, survey)
+        # if not survey.editable_answers and form.response is not None:
+        #     LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
+        #     return redirect(reverse("survey:survey-list"))
+        context = {"response_form": form, "survey": survey, "categories": categories}
+        if form.is_valid():
+            expertise_request.date = timezone.now()
+            expertise_request.status = 'END'
+            expertise_request.save()
+            return self.treat_valid_form(form, kwargs, request, survey, expertise_request)
+        return self.handle_invalid_form(context, form, request, survey)
 
     @staticmethod
     def handle_invalid_form(context, form, request, survey):
@@ -95,7 +83,10 @@ class SurveyDetail(View):
                 template_name = "survey/survey.html"
         return render(request, template_name, context)
 
-    def treat_valid_form(self, form, kwargs, request, survey):
+    def checking_answers(self, kwargs, request, survey, expertise_request):
+        pass  # TODO: статус экспертизы
+
+    def treat_valid_form(self, form, kwargs, request, survey, expertise_request):
         session_key = "survey_%s" % (kwargs["id"],)
         if session_key not in request.session:
             request.session[session_key] = {}
@@ -109,7 +100,8 @@ class SurveyDetail(View):
         else:
             # when it's the last step
             if not form.has_next_step():
-                save_form = ResponseForm(request.session[session_key], survey=survey, user=request.user)
+                save_form = ResponseForm(request.session[session_key], survey=survey, user=request.user,
+                                         expertise_request=expertise_request)
                 if save_form.is_valid():
                     response = save_form.save()
                 else:

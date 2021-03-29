@@ -67,5 +67,5 @@ class Survey(models.Model):
     def is_all_in_one_page(self):
         return self.display_method == self.ALL_IN_ONE_PAGE
 
-    def get_expertise_requests(self, expert, survey):
-        return self.expertiserequest_set.filter(Q(expert=expert) & Q(survey=survey))
+    def get_expertise_requests(self, expert, survey, expertise):
+        return self.expertiserequest_set.filter(Q(expert=expert) & Q(survey=survey) & Q(expertise=expertise))

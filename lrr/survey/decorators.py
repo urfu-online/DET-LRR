@@ -5,6 +5,7 @@ from functools import wraps
 from django.shortcuts import Http404, get_object_or_404
 
 from lrr.survey.models import Survey
+from lrr.inspections.models import ExpertiseRequest
 
 
 def survey_available(func):
@@ -27,6 +28,7 @@ def survey_available(func):
             msg = "Survey is not yet published. It is due: '%s'."
             logging.warning(msg, survey.publish_date)
             raise Http404
-        return func(self, request, *args, **kwargs, survey=survey)
+        expertise_request = get_object_or_404(ExpertiseRequest, pk=kwargs["expertise_request_pk"])
+        return func(self, request, *args, **kwargs, survey=survey, expertise_request=expertise_request)
 
     return survey_check

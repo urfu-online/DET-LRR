@@ -49,7 +49,7 @@
             {% if step and step != 0 %}
               <form action="{% url 'survey:survey-detail-step' id=survey.id step=step %}" method="post">
             {% else %}
-              <form action="{% url 'survey:survey-detail' id=survey.id %}" method="post">
+              <form action="{% url 'survey:survey-detail' id=survey.id expertise_request_pk=expertise_request.pk %}" method="post">
             {% endif %}
             {% csrf_token %}
             {% for category in categories %}
@@ -85,17 +85,17 @@
 
             <br>
 
-            {% if survey.editable_answers or response_form.response is None %}
+{#            {% if survey.editable_answers or response_form.response is None %}#}
               {% if response_form.has_next_step %}
                 <input class="btn btn-primary" type="submit" value="{% trans "Next!" %}">
               {% else %}
-                <input class="btn btn-primary" style="float: left" type="submit" name="complete"
-                       value="{% trans "Завершить" %}">
+{#                <input class="btn btn-primary" style="float: left" type="submit" name="complete"#}
+{#                       value="{% trans "Завершить" %}">#}
                 <input class="btn btn-primary" style="float: right" type="submit" name="save"
                        value="{% trans "Сохранить" %}">
                 {#          <input class="btn btn-primary" type="submit" value="{% trans "I'm done!" %}">#}
               {% endif %}
-            {% endif %}
+{#            {% endif %}#}
             </div>
             </form>
           </div>

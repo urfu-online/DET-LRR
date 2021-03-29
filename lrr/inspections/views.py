@@ -244,9 +244,11 @@ class ExpertiseRequestDetailCloseView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ExpertiseRequestDetailCloseView, self).get_context_data(**kwargs)
-        survey = self.object.survey
-        response = Response.objects.filter(survey=survey, user=self.request.user)
-        answers = Answer.objects.filter(response=response.first())
+        logger.warning(self.object.survey)
+        response = Response.objects.prefetch_related("user", "survey", "expertise_request").get(
+            survey=self.object.survey, expertise_request=self.object
+            )
+        answers = Answer.objects.filter(response=response)
         context['answers'] = answers
         return context
 

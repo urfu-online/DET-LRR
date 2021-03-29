@@ -294,7 +294,7 @@ class ExpertiseRequest(repository_model.BaseModel):
         verbose_name_plural = u"Заявка"
 
     def __str__(self):
-        return self.get_type_display()
+        return f"{self.expertise} {self.status} {self.survey}"
 
     def get_absolute_url(self):
         return reverse("inspections:inspections_ExpertiseRequest_detail", args=(self.pk,))

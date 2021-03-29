@@ -70,9 +70,7 @@ class ExpertiseAdmin(admin.ModelAdmin):
 class ExpertiseRequestAdmin(admin.ModelAdmin):
     form = forms_admin.ExpertiseRequestAdminForm
 
-    readonly_fields = [
-        "created",
-    ]
+    list_display = ['survey', 'expert', 'status', 'expertise', 'created']
     extra = 0
 
 

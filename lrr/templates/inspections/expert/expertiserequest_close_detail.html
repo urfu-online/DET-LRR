@@ -53,6 +53,7 @@
       <div class="form-group">
         <label><b>Значения показателей экспертизы</b></label>
         <br/>
+      {{ response }}
         {% for answer in answers %}
           <b>{{ answer.question.text }}</b>
           <br/>
@@ -64,6 +65,6 @@
     </diV>
   </div>
   {% if request.user|has_group:"secretary" %}
-    <a class="btn btn-primary" href="{% url 'inspections:inspections_Expertise_update' pk=object.expertise.pk %}">Данные экспертизы</a>
+    <a class="btn btn-primary" href="{% url 'inspections:inspections_Expertise_detail' pk=object.expertise.pk %}">Данные экспертизы</a>
   {% endif %}
 {% endblock %}

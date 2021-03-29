@@ -13,7 +13,6 @@ from lrr.survey.models import Answer, Category, Question, Response, Survey
 from lrr.survey.signals import survey_completed
 from lrr.survey.widgets import ImageSelectWidget
 
-
 LOGGER = logging.getLogger(__name__)
 
 
@@ -44,6 +43,7 @@ class ResponseForm(models.ModelForm):
         """ Expects a survey object to be passed in initially """
         self.survey = kwargs.pop("survey")
         self.user = kwargs.pop("user")
+        self.expertise_request = kwargs.pop("expertise_request")
         try:
             self.step = int(kwargs.pop("step"))
         except KeyError:
@@ -66,9 +66,13 @@ class ResponseForm(models.ModelForm):
 
         self._get_preexisting_response()
 
-        if not self.survey.editable_answers and self.response is not None:
+        if self.response is not None:
             for name in self.fields.keys():
-                self.fields[name].widget.attrs["disabled"] = True
+                self.fields[name].values = None
+
+        # if not self.survey.editable_answers and self.response is not None:
+        #     for name in self.fields.keys():
+        #         self.fields[name].widget.attrs["disabled"] = True
         for name in self.fields.keys():
             self.fields[name].widget.attrs["class"] = "form-control"
 
@@ -117,8 +121,8 @@ class ResponseForm(models.ModelForm):
             self.response = None
         else:
             try:
-                self.response = Response.objects.prefetch_related("user", "survey").get(
-                    user=self.user, survey=self.survey
+                self.response = Response.objects.prefetch_related("user", "survey", "expertise_request").get(
+                    user=self.user, survey=self.survey, expertise_request=self.expertise_request
                 )
             except Response.DoesNotExist:
                 LOGGER.debug("No saved response for '%s' for user %s", self.survey, self.user)
@@ -269,11 +273,12 @@ class ResponseForm(models.ModelForm):
         # Recover an existing response from the database if any
         #  There is only one response by logged user.
         response = self._get_preexisting_response()
-        if not self.survey.editable_answers and response is not None:
-            return None
-        if response is None:
-            response = super(ResponseForm, self).save(commit=False)
+        # if not self.survey.editable_answers and response is not None:
+        #     return None
+        # if response is None:
+        response = super(ResponseForm, self).save(commit=False)
         response.survey = self.survey
+        response.expertise_request = self.expertise_request
         response.interview_uuid = self.uuid
         if self.user.is_authenticated:
             response.user = self.user
