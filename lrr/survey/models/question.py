@@ -18,7 +18,6 @@ except ImportError:  # pragma: no cover
 
 LOGGER = logging.getLogger(__name__)
 
-
 CHOICES_HELP_TEXT = _(
     """The choices field is only used if the question type
 if the question type is 'radio', 'select', or
@@ -48,7 +47,6 @@ class SortAnswer:
 
 
 class Question(models.Model):
-
     TEXT = "text"
     SHORT_TEXT = "short-text"
     RADIO = "radio"

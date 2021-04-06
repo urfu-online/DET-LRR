@@ -14,7 +14,6 @@ def in_duration_day():
 
 
 class Survey(models.Model):
-
     ALL_IN_ONE_PAGE = 0
     BY_QUESTION = 1
     BY_CATEGORY = 2
@@ -69,3 +68,24 @@ class Survey(models.Model):
 
     def get_expertise_requests(self, expert, survey, expertise):
         return self.expertiserequest_set.filter(Q(expert=expert) & Q(survey=survey) & Q(expertise=expertise))
+
+    def is_methodic(self):
+        survey_name = self.name.lower()
+        if 'методическая' in survey_name:
+            return True
+        else:
+            return False
+
+    def is_content(self):
+        survey_name = self.name.lower()
+        if 'содержательная' in survey_name:
+            return True
+        else:
+            return False
+
+    def is_tech(self):
+        survey_name = self.name.lower()
+        if 'техническая' in survey_name:
+            return True
+        else:
+            return False

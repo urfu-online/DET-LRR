@@ -247,7 +247,7 @@ class ExpertiseRequestDetailCloseView(generic.DetailView):
         logger.warning(self.object.survey)
         response = Response.objects.prefetch_related("user", "survey", "expertise_request").get(
             survey=self.object.survey, expertise_request=self.object
-            )
+        )
         answers = Answer.objects.filter(response=response)
         context['answers'] = answers
         return context

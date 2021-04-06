@@ -505,3 +505,13 @@ class Answer(repository_model.BaseModel):
 
     def __str__(self):
         return "{} to '{}' : '{}'".format(self.__class__.__name__, self.question, self.body)
+
+
+# class StatusSurveyCategory(repository_model.BaseModel):
+#     name = models.CharField("Наименование", max_length=500, null=True)
+#     order = models.IntegerField("Порядок отображения", blank=True, null=True)
+#
+#
+# class StatusSurvey(repository_model.BaseModel):
+#     survey = models.ForeignKey('survey.Survey', verbose_name="Опросник", on_delete=models.PROTECT, blank=True,
+#                                null=True)

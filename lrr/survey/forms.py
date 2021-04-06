@@ -268,6 +268,16 @@ class ResponseForm(models.ModelForm):
     def current_step_url(self):
         return reverse("survey:survey-detail-step", kwargs={"id": self.survey.id, "step": self.step})
 
+    @staticmethod
+    def save_status(matrix, answer, question, survey):
+        if survey.is_methodic():
+            matrix.append([answer.question.category.order, answer.question.order, answer.body])
+            logging.warning(matrix)
+        if survey.is_content():
+            pass
+        if survey.is_tech():
+            pass
+
     def save(self, commit=True):
         """ Save the response object """
         # Recover an existing response from the database if any
@@ -276,6 +286,9 @@ class ResponseForm(models.ModelForm):
         # if not self.survey.editable_answers and response is not None:
         #     return None
         # if response is None:
+        matrix = []
+        result_matrix_eor_in = [[1, 1, 1], [1, 2, 1], [1, 3, 1], [1, 4, 0]]
+        # TODO check answer and set status.
         response = super(ResponseForm, self).save(commit=False)
         response.survey = self.survey
         response.expertise_request = self.expertise_request
@@ -305,6 +318,7 @@ class ResponseForm(models.ModelForm):
                 data["responses"].append((answer.question.id, answer.body))
                 LOGGER.debug("Creating answer for question %d of type %s : %s", q_id, answer.question.type, field_value)
                 answer.response = response
+                self.save_status(matrix, answer, question, self.survey)
                 answer.save()
         survey_completed.send(sender=Response, instance=response, data=data)
         return response

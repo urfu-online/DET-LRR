@@ -20,7 +20,6 @@ class SurveyDetail(View):
         step = kwargs.get("step", 0)
         expertise_request = kwargs.get("expertise_request")
         # expert = Expert.get_expert(user=request.user)
-        logging.warning(expertise_request)
         if survey.template is not None and len(survey.template) > 4:
             template_name = survey.template
         else:

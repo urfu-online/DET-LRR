@@ -5,8 +5,8 @@ import logging
 from django.conf import settings
 from django.urls.base import reverse
 
-from survey.models import Answer, Response
-from survey.tests import BaseTest
+from lrr.survey.models import Answer, Response
+from lrr.survey.tests import BaseTest
 
 LOGGER = logging.getLogger(__name__)
 
