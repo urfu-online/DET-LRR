@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models as models
@@ -99,7 +100,7 @@ class Expertise(repository_model.BaseModel):
     directions = models.ManyToManyField(repository_model.Direction, verbose_name="Направление подготовки", blank=True)
     digital_complexes = models.ManyToManyField(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True)
     expert = models.ManyToManyField(Expert, verbose_name="Назначенные эксперты", blank=True)
-    date_end = models.DateTimeField("До какого действует статус экспертизы", blank=True, null=True)
+    date_end = models.DateTimeField("Срок действия статуса экспертизы", blank=True, null=True)
     file = models.FileField(
         verbose_name="№ протокола комиссии по ресурсному обеспечению модулей и ЭО методического совета",
         upload_to="upload/files", null=True, blank=True)
@@ -377,13 +378,13 @@ class ExpertiseRequest(repository_model.BaseModel):
 
 class CheckListQestion(repository_model.BaseModel):
     # type
-    METHODIGAL = 'METHODICAL'
+    METHODICAL = 'METHODICAL'
     CONTENT = 'CONTENT'
     TECH = 'TECH'
     NO_TYPE = 'NO_TYPE'
 
     TYPE_CHOICES = [
-        (METHODIGAL, 'Методическая'),
+        (METHODICAL, 'Методическая'),
         (CONTENT, 'Содержательная'),
         (TECH, 'Техническая'),
         (NO_TYPE, 'Отсутствует тип экспертизы')

@@ -105,18 +105,18 @@
             {#            </h5>#}
             {% if resource_components.all or platform_components.all or traditional_components.all or component_complex is not None %}
               <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=component_complex.pk %}"
-                 class="btn btn-block btn-primary">Изминить состав компонентов</a>
+                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>
             {% else %}
               <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
-                 class="btn btn-block btn-primary">Добавить компонент</a>
+                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать компонент</a>
             {% endif %}
             <br/>
             {% if assigment_academic_group.all %}
               <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-                 class="btn btn-block btn-primary">Изминить состав академических групп</a>
+                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав академических групп</a>
             {% else %}
               <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-                 class="btn btn-block btn-primary">Назначить академические группы</a>
+                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать академические группы</a>
             {% endif %}
           </div>
         </div>
@@ -127,7 +127,7 @@
           {% if resource_components.all is not None %}
             <table class="ui compact table">
               <thead>
-              <h5>Комопоненты ЭОР: </h5>
+              <h5>Компоненты ЭОР: </h5>
               <tr>
                 <th>ЭОР</th>
                 <th>Описание / Методика применения</th>
@@ -147,7 +147,7 @@
           {% elif platform_component.all is not None %}
             <table class="ui compact table">
               <thead>
-              <h5>Комопоненты Платформ: </h5>
+              <h5>Компоненты Платформ: </h5>
               <tr>
                 <th>Платформа</th>
                 <th>Описание / Методика применения</th>
@@ -167,7 +167,7 @@
           {% elif traditional_components.all is not None %}
             <table class="ui compact table">
               <thead>
-              <h5>Комопоненты традиционных занятий:</h5>
+              <h5>Компоненты традиционных занятий:</h5>
               <tr>
                 <th>Наименование</th>
                 <th>Описание / Методика применения</th>
@@ -186,7 +186,7 @@
           {% elif literary_components.all is not None %}
             <table class="ui compact table">
               <thead>
-              <h5>Комопоненты литературные источники:</h5>
+              <h5>Компоненты литературные источники:</h5>
               <tr>
                 <th>Наименование</th>
                 <th>Описание / Методика применения</th>

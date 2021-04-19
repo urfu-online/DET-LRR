@@ -158,12 +158,12 @@ class AcademicGroup(models.Model):
 
 class Expert(models.Model):
     # status
-    METHODIGAL = 'METHODICAL'
+    METHODICAL = 'METHODICAL'
     CONTENT = 'CONTENT'
     TECH = 'TECH'
 
     STATUS_CHOICES = [
-        (METHODIGAL, 'Методическая'),
+        (METHODICAL, 'Методическая'),
         (CONTENT, 'Содержательная'),
         (TECH, 'Техническая'),
         # Fields
