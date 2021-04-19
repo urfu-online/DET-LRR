@@ -8,11 +8,11 @@
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭМУК</a></li>
       <li class="breadcrumb-item"><a
               href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Назначение акдамических групп для {{ dig_complex }}</li>
+      <li class="breadcrumb-item active" aria-current="page">Назначение академических групп для {{ dig_complex }}</li>
     </ol>
   </nav>
   <header class="pb-4 px-2">
-    <h1>Назначение акдамических групп для {{ dig_complex }}</h1>
+    <h1>Назначение академических групп для {{ dig_complex }}</h1>
   </header>
   {% if request.user.is_authenticated %}
     <div class="row p-2">

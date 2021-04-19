@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class DigitalComplex(BaseModel):
-    title = models.CharField("Наименогвание комплекса", max_length=150, blank=True, null=True)
+    title = models.CharField("Наименование комплекса", max_length=150, blank=True, null=True)
     subjects = models.ManyToManyField(Subject, verbose_name="Дисциплина(ы)", blank=True)
     directions = models.ManyToManyField(Direction, verbose_name="Направления подготовки", blank=True)
     description = models.TextField('Описание', blank=True)
