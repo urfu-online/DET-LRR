@@ -17,7 +17,12 @@
           <p>Подразделение/отрасль: {{ object.subdivision }}</p>
         </div>
         <div class="six wide right floated column">
+          {% if object.person.avatar %}
           <img src='/media/{{ object.person.avatar }}' class="ui large bordered rounded image">
+          {% else %}
+            <p>Нет аватара</p>
+          {% endif %}
+
         </div>
       </div>
     </div>

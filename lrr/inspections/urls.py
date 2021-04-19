@@ -3,6 +3,7 @@ from django.urls import path
 from lrr.inspections import views
 
 urlpatterns = (
+    path("expertise_completion/<str:uuid>/", views.ExpertiseCompletionView.as_view(), name="expertise_completion"),
     path("ExpertiseActiveSecretary/", views.ExpertiseActiveSecretaryListView.as_view(),
          name="inspections_ExpertiseActiveSecretary_list"),
     path("ExpertiseCloseSecretary/", views.ExpertiseCloseSecretaryListView.as_view(),

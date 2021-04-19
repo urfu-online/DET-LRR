@@ -23,4 +23,4 @@ class Category(models.Model):
         return self.name
 
     def slugify(self):
-        return slugify(str(self))
+        return slugify(str(self), allow_unicode=True)

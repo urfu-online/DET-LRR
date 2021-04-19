@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('created', models.DateTimeField(auto_now_add=True, verbose_name='Создано')),
                 ('last_updated', models.DateTimeField(auto_now=True, verbose_name='Последние обновление')),
-                ('category', models.CharField(blank=True, choices=[('METHODIGAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая'), ('NO_TYPE', 'Отсутствует тип экспертизы')], default='NO_TYPE', max_length=30, null=True, verbose_name='Категория чек-листа')),
+                ('category', models.CharField(blank=True, choices=[('METHODICAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая'), ('NO_TYPE', 'Отсутствует тип экспертизы')], default='NO_TYPE', max_length=30, null=True, verbose_name='Категория чек-листа')),
             ],
             options={
                 'verbose_name': 'Чек-лист',
@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('created', models.DateTimeField(auto_now_add=True, verbose_name='Создано')),
                 ('last_updated', models.DateTimeField(auto_now=True, verbose_name='Последние обновление')),
-                ('type', models.CharField(blank=True, choices=[('METHODIGAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая'), ('NO_TYPE', 'Отсутствует тип экспертизы')], default='NO_TYPE', max_length=30, null=True, verbose_name='Тип заявки')),
+                ('type', models.CharField(blank=True, choices=[('METHODICAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая'), ('NO_TYPE', 'Отсутствует тип экспертизы')], default='NO_TYPE', max_length=30, null=True, verbose_name='Тип заявки')),
                 ('date', models.DateTimeField(blank=True, null=True, verbose_name='Дата проведения экспертизы')),
                 ('protocol', models.CharField(blank=True, max_length=424, null=True, verbose_name='№ Протокола учебно-методического совета института')),
                 ('status', models.CharField(blank=True, choices=[('START', 'Назначена'), ('IN_PROCESS', 'В процессе'), ('END', 'Завершена')], default='START', max_length=30, verbose_name='Состояние')),

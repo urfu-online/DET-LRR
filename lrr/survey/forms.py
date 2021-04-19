@@ -121,9 +121,9 @@ class ResponseForm(models.ModelForm):
             self.response = None
         else:
             try:
-                self.response = Response.objects.prefetch_related("user", "survey", "expertise_request").get(
+                self.response = Response.objects.prefetch_related("user", "survey", "expertise_request").filter(
                     user=self.user, survey=self.survey, expertise_request=self.expertise_request
-                )
+                ).latest()
             except Response.DoesNotExist:
                 LOGGER.debug("No saved response for '%s' for user %s", self.survey, self.user)
                 self.response = None

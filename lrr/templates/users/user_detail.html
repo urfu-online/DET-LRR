@@ -4,20 +4,32 @@
 {% block title %}User: {{ object.username }}{% endblock %}
 
 {% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-2 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+      <li class="breadcrumb-item active" aria-current="page">Профиль</li>
+    </ol>
+  </nav>
+
   <div class="ui segment container">
     <div class="ui middle aligned stackable grid container">
       <div class="row">
         <div class="eight wide column">
-          <h3 class="ui header">{{ object.username }}</h3>
+          <h3 class="ui header">Профиль</h3>
+        <p>Имя пользователя: <strong>{{ object.username }}</strong></p>
           <p>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p>
-          <p>Страна: {{ person.country }}</p>
-          <p>Город: {{ person.city }}</p>
-          <p>Адрес проживания: {{ person.location }}</p>
-          <p>Дата рождения: {{ person.date_birthday }}</p>
+          <p>Страна: {% if person.country %}{{ person.country }}{% else %}<em>Не задана</em>{% endif %}</p>
+          <p>Город: {% if person.city %}{{ person.city }}{% else %}<em>Не задан</em>{% endif %}</p>
+          <p>Адрес проживания: {% if person.location %}{{ person.location }}{% else %}<em>Не задан</em>{% endif %}</p>
+          <p>Дата рождения: {% if person.date_birthday %}{{ person.date_birthday }}{% else %}<em>Не задан</em>{% endif %}</p>
           <p>Академическая группа: {{ student.academic_group }}</p>
         </div>
         <div class="six wide right floated column">
-          <img src='/media/{{ person.avatar }}' class="ui large bordered rounded image">
+          {% if person.avatar %}
+            <img src='/media/{{ person.avatar }}' class="ui large bordered rounded image">
+          {% else %}
+            <p>Нет аватара</p>
+          {% endif %}
         </div>
       </div>
       {% if object == request.user %}

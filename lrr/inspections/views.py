@@ -1,18 +1,19 @@
-import logging
-
 import django_filters
+import logging
+from django.shortcuts import redirect, render, reverse, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
-from django.shortcuts import redirect, render, reverse, get_object_or_404
+from django.views.generic import View
 
 from lrr.inspections import forms
 from lrr.inspections import models as inspections_models
 from lrr.repository.filters import FilteredListView
 from lrr.repository.models import DigitalResource
+from lrr.survey.models.answer import Answer, Response, Question
+from lrr.survey.models.survey import Survey
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Expert
-from lrr.survey.models.answer import Answer, Response, Question
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -25,6 +26,47 @@ class DigitalResourceFilter(django_filters.FilterSet):
             "digital_resource__title": ['contains'],
             "status": ['exact'],
         }
+
+
+class ExpertiseCompletionView(View):
+    url = reverse_lazy("inspections:inspections_ExpertiseMyClose_list")
+
+    def get(self, request, *args, **kwargs):
+        expertise_request_pk = kwargs.get("uuid", None)
+        try:
+            expertise_request = inspections_models.ExpertiseRequest.objects.get(pk=kwargs["uuid"])
+        except EmptyResultSet:
+            expertise_request = inspections_models.ExpertiseRequest.objects.none()
+
+        expertise = expertise_request.expertise
+        significant_surveys = expertise.get_significant_surveys()
+
+        methodical_response = significant_surveys["methodical"]
+        methodical_answers = Answer.objects.filter(response=methodical_response)
+
+        status = {
+            "all_expertise_types": all(significant_surveys.values()),
+            "significant_surveys": significant_surveys
+
+        }
+
+        context = {
+            "expertise_request": expertise_request,
+            "expertise": expertise,
+            "status": status,
+        }
+        logging.info(expertise_request)
+
+        return render(request, "test.html", context)
+
+        # return redirect(self.url)
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpertiseCompletionView, self).get_context_data(**kwargs)
+        response = Response.objects.get(interview_uuid=context["uuid"])
+        context["uuid"] = str(kwargs["uuid"])
+        context["response"] = response
+        return context
 
 
 class ExpertiseActiveSecretaryListView(GroupRequiredMixin, FilteredListView):
@@ -91,7 +133,7 @@ class ExpertiseCreateView(GroupRequiredMixin, generic.CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_resource = get_object_or_404(inspections_models.DigitalResource,
-                                                  pk=kwargs["digital_resource_pk"])
+                                                  pk=kwargs["pk"])
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -245,9 +287,9 @@ class ExpertiseRequestDetailCloseView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ExpertiseRequestDetailCloseView, self).get_context_data(**kwargs)
         logger.warning(self.object.survey)
-        response = Response.objects.prefetch_related("user", "survey", "expertise_request").get(
+        response = Response.objects.prefetch_related("user", "survey", "expertise_request").filter(
             survey=self.object.survey, expertise_request=self.object
-        )
+        ).latest()
         answers = Answer.objects.filter(response=response)
         context['answers'] = answers
         return context
@@ -260,7 +302,7 @@ class ExpertiseRequestUpdateView(GroupRequiredMixin, generic.UpdateView):
     group_required = [u"expert", u"admins"]
     template_name = 'inspections/expertise_request_form_update.html'
 
-    # METHODIGAL = 'METHODIGAL'
+    # METHODICAL = 'METHODICAL'
     # CONTENT = 'CONTENT'
     # TECH = 'TECH'
 

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models as models
@@ -11,6 +10,7 @@ from django.utils import timezone
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
 from lrr.repository.models import DigitalResource
+from lrr.survey.models.response import Response as SurveyResponse
 from lrr.users.models import Person, Expert
 
 logger = logging.getLogger(__name__)
@@ -21,6 +21,12 @@ CHOICES_HELP_TEXT = (
 'select multiple' - список разделенных запятыми
 варианты этого вопроса ."""
 )
+
+EXPERTISE_TYPES = {
+    "methodical": "Методическая экспертиза",
+    "contental": "Содержательная экспертиза",
+    "technical": "Техническая экспертиза"
+}
 
 
 def validate_choices(choices):
@@ -174,6 +180,25 @@ class Expertise(repository_model.BaseModel):
     def get_expertise_request(self):
         return self.expertiserequest_set.all()
 
+    def get_expertise_requests_ids(self):
+        return self.expertiserequest_set.all().values_list("pk")
+
+    def get_responses(self):
+        return SurveyResponse.objects.filter(expertise_request__in=self.get_expertise_requests_ids())
+
+    def get_significant_surveys(self):
+        responses = self.get_responses()
+        resp = dict()
+
+        for resp_type in EXPERTISE_TYPES.keys():
+            locals()[resp_type] = responses.filter(survey__name=EXPERTISE_TYPES[resp_type])
+            if locals()[resp_type].exists():
+                locals()[resp_type] = locals()[resp_type].latest()
+                resp[resp_type] = locals()[resp_type]
+            else:
+                resp[resp_type] = None
+        return resp
+
     def get_checklists_self(self):
         return ExpertiseRequest.objects.filter(expertise=self.pk)
 
@@ -251,13 +276,13 @@ class Expertise(repository_model.BaseModel):
 
 class ExpertiseRequest(repository_model.BaseModel):
     # type
-    METHODIGAL = 'METHODIGAL'
+    METHODICAL = 'METHODICAL'
     CONTENT = 'CONTENT'
     TECH = 'TECH'
     NO_TYPE = 'NO_TYPE'
 
     TYPE_CHOICES = [
-        (METHODIGAL, 'Методическая'),
+        (METHODICAL, 'Методическая'),
         (CONTENT, 'Содержательная'),
         (TECH, 'Техническая'),
         (NO_TYPE, 'Отсутствует тип экспертизы')
@@ -352,7 +377,7 @@ class ExpertiseRequest(repository_model.BaseModel):
 
 class CheckListQestion(repository_model.BaseModel):
     # type
-    METHODIGAL = 'METHODIGAL'
+    METHODIGAL = 'METHODICAL'
     CONTENT = 'CONTENT'
     TECH = 'TECH'
     NO_TYPE = 'NO_TYPE'
@@ -505,7 +530,6 @@ class Answer(repository_model.BaseModel):
 
     def __str__(self):
         return "{} to '{}' : '{}'".format(self.__class__.__name__, self.question, self.body)
-
 
 # class StatusSurveyCategory(repository_model.BaseModel):
 #     name = models.CharField("Наименование", max_length=500, null=True)

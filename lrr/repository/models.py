@@ -175,6 +175,9 @@ class ScientificBranch(BaseModel):
 
 
 class DirectionsEnlargedGroup(BaseModel):
+    """
+    AreaEducation
+    """
     title = models.CharField("Наименование УГН", max_length=128)
     code = models.CharField("Код УГН", max_length=64, unique=True)
 
@@ -187,6 +190,7 @@ class DirectionsEnlargedGroup(BaseModel):
 
 
 class Direction(BaseModel):
+    uni_id = models.CharField(db_index=True, max_length=64, null=True, blank=True)
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код направления", max_length=8)
     scientific_branch = models.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions", null=True, blank=True, on_delete=models.CASCADE)
@@ -219,6 +223,7 @@ class EduProgram(BaseModel):
         ("FGOS3++", "ФГОС 3++"),
         ("FGOS VO", "ФГОС ВО"),
     )
+
     LEVELS = (
         ("0", "бакалавриат"),
         ("1", "прикладной бакалавриат"),
@@ -461,13 +466,22 @@ class Source(BaseModel):
 #
 #     def get_update_url(self):
 #         return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
+class CompetenceGroup(models.Model):
+    name = models.CharField("Наименование", max_length=400)
 
+    def __str__(self):
+        return self.name
 
 class Competence(BaseModel):
+    TYPES = ("ОК", "ОПК", "ПК", "ПСК", "УК", "ДОК", "ДОПК", "ДПК")
     # Fields
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код", max_length=8)
-
+    # TODO: add fields
+    # type choices_to TYPES
+    # Standard
+    # Content
+    # Okso
     class Meta:
         verbose_name = u"Компетенция"
         verbose_name_plural = u"Компетенции"

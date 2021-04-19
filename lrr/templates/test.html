@@ -1,0 +1,9 @@
+{% extends "base.html"%}
+{% block content%}
+  <ul>
+  {% for i, k in status.items %}
+    <li>{{ i }}, {{ k }}</li>
+  {% endfor %}
+  </ul>
+{#{% debug %}#}
+{% endblock %}

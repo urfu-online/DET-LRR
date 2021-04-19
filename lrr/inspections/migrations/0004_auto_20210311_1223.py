@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='checklist',
             name='type',
-            field=models.CharField(blank=True, choices=[('METHODIGAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая'), ('NO_TYPE', 'Отсутствует тип экспертизы')], default='NO_TYPE', max_length=30, null=True, verbose_name='Тип чек-листа'),
+            field=models.CharField(blank=True, choices=[('METHODICAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая'), ('NO_TYPE', 'Отсутствует тип экспертизы')], default='NO_TYPE', max_length=30, null=True, verbose_name='Тип чек-листа'),
         ),
         migrations.AlterField(
             model_name='question',

@@ -158,7 +158,7 @@ class AcademicGroup(models.Model):
 
 class Expert(models.Model):
     # status
-    METHODIGAL = 'METHODIGAL'
+    METHODIGAL = 'METHODICAL'
     CONTENT = 'CONTENT'
     TECH = 'TECH'
 

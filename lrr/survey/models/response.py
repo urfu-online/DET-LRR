@@ -35,6 +35,7 @@ class Response(models.Model):
     class Meta:
         verbose_name = _("Set of answers to surveys")
         verbose_name_plural = _("Sets of answers to surveys")
+        get_latest_by = "created"
 
     def __str__(self):
         msg = "Response to {} by {}".format(self.survey, self.user)

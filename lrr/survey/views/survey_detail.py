@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
-
 from django.conf import settings
 from django.shortcuts import redirect, render, reverse, get_object_or_404
-from django.views.generic import View
 from django.utils import timezone
+from django.views.generic import View
 
 from lrr.survey.decorators import survey_available
 from lrr.survey.forms import ResponseForm
@@ -52,6 +51,7 @@ class SurveyDetail(View):
     def post(self, request, *args, **kwargs):
         survey = kwargs.get("survey")
         expertise_request = kwargs.get("expertise_request")
+        expertise_request_pk = kwargs.get("expertise_request_pk")
         if survey.need_logged_user and not request.user.is_authenticated:
             return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
 
@@ -62,7 +62,13 @@ class SurveyDetail(View):
         # if not survey.editable_answers and form.response is not None:
         #     LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
         #     return redirect(reverse("survey:survey-list"))
-        context = {"response_form": form, "survey": survey, "categories": categories}
+        context = {
+            "response_form": form,
+            "survey": survey,
+            "categories": categories,
+            "expertise_request": expertise_request,
+            "expertise_request_pk": expertise_request_pk
+        }
         if form.is_valid():
             expertise_request.date = timezone.now()
             expertise_request.status = 'END'
@@ -110,10 +116,10 @@ class SurveyDetail(View):
             return redirect(next_url)
         del request.session[session_key]
         if response is None:
-            return redirect(reverse("survey:survey-list"))
+            return redirect(reverse("inspections:expertise_completion"))
         next_ = request.session.get("next", None)
         if next_ is not None:
             if "next" in request.session:
                 del request.session["next"]
             return redirect(next_)
-        return redirect("survey:survey-confirmation", uuid=response.interview_uuid)
+        return redirect("inspections:expertise_completion", uuid=expertise_request.pk)

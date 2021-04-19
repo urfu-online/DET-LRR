@@ -94,7 +94,7 @@ class Migration(migrations.Migration):
             name='Expert',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[('METHODIGAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая')], max_length=30, verbose_name='Вид экспертизы')),
+                ('type', models.CharField(choices=[('METHODICAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая')], max_length=30, verbose_name='Вид экспертизы')),
                 ('subdivision', models.CharField(max_length=500, verbose_name='Подразделение/отрасль')),
                 ('person', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.person')),
             ],
