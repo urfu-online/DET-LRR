@@ -184,9 +184,10 @@ class Expertise(repository_model.BaseModel):
         return self.expertiserequest_set.all().values_list("pk")
 
     def get_responses(self):
-        return SurveyResponse.objects.filter(expertise_request__in=self.get_expertise_requests_ids())
+        responses = SurveyResponse.objects.filter(expertise_request__in=self.get_expertise_requests_ids()).order_by("survey", "-created").distinct("survey")
+        return responses
 
-    def get_significant_surveys(self):
+    def get_typed_responses(self):
         responses = self.get_responses()
         resp = dict()
 

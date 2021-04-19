@@ -31,6 +31,7 @@ class SurveyAdmin(admin.ModelAdmin):
     inlines = [CategoryInline, QuestionInline]
     actions = [make_published, Survey2Csv.export_as_csv, Survey2Tex.export_as_tex]
     search_fields = ['name']
+    save_on_top = True
 
 
 class AnswerBaseInline(admin.StackedInline):

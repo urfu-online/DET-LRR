@@ -1,9 +1,55 @@
-{% extends "base.html"%}
-{% block content%}
-  <ul>
-  {% for i, k in status.items %}
-    <li>{{ i }}, {{ k }}</li>
-  {% endfor %}
-  </ul>
-{#{% debug %}#}
+{% extends "base.html" %}
+{% block content %}
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+  <h1 class="display-4">Значения индикаторов({{ status.achievments|length }})</h1>
+  <div class="card-columns">
+    {% for i in status.achievments %}
+      <div class="card text-white d-inline-block {% if i.SCORE > 0.5 %}bg-success{% else %}bg-danger{% endif %} mb-3">
+        <h5 class="card-header">{{ i.title|truncatewords:5  }}</h5>
+        <div class="card-body text-white">
+          <dl class="row">
+            {% for key,value in i.items %}
+              <dt class="col-sm-3">{{ key }}</dt>
+              <dd class="col-sm-9">{{ value|truncatewords:6  }}</dd>
+            {% endfor %}
+          </dl>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+    <h1 class="display-4">Значения индикаторов не определены ({{ status.achievments_wait|length }})</h1>
+  <div class="card-columns">
+    {% for i in status.achievments_wait %}
+      <div class="card text-white bg-dark mb-3">
+        <h5 class="card-header">{{ i.title|truncatewords:5 }}</h5>
+        <div class="card-body bg-dark text-white">
+          <dl class="row">
+            {% for key,value in i.items %}
+              <dt class="col-sm-3">{{ key }}</dt>
+              <dd class="col-sm-9">{{ value|truncatewords:6 }}</dd>
+            {% endfor %}
+          </dl>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {#  <ul>#}
+  {#    {% for i in status.methodical_answers %}#}
+  {#      <li>{{ i.question.text }}, {{ i.body }}</li>#}
+  {#    {% endfor %}#}
+  {#  </ul>#}
+  {##}
+  {#  <ul>#}
+  {#    {% for i in status.contental_answers %}#}
+  {#      <li>{{ i.question.text }}, {{ i.body }}</li>#}
+  {#    {% endfor %}#}
+  {#  </ul>#}
+  {##}
+  {#  <ul>#}
+  {#    {% for i in status.technical_answers %}#}
+  {#      <li>{{ i.question.text }}, {{ i.body }}</li>#}
+  {#    {% endfor %}#}
+  {#  </ul>#}
+  {#{% debug %}#}
 {% endblock %}

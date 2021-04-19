@@ -1,8 +1,10 @@
 import django_filters
 import logging
+from copy import copy
 from django.shortcuts import redirect, render, reverse, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.text import slugify
 from django.views import generic
 from django.views.generic import View
 
@@ -14,6 +16,7 @@ from lrr.survey.models.answer import Answer, Response, Question
 from lrr.survey.models.survey import Survey
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Expert
+from .indicators import indicators
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -30,24 +33,58 @@ class DigitalResourceFilter(django_filters.FilterSet):
 
 class ExpertiseCompletionView(View):
     url = reverse_lazy("inspections:inspections_ExpertiseMyClose_list")
+    allow_heap = True
 
     def get(self, request, *args, **kwargs):
-        expertise_request_pk = kwargs.get("uuid", None)
         try:
             expertise_request = inspections_models.ExpertiseRequest.objects.get(pk=kwargs["uuid"])
         except EmptyResultSet:
             expertise_request = inspections_models.ExpertiseRequest.objects.none()
 
         expertise = expertise_request.expertise
-        significant_surveys = expertise.get_significant_surveys()
 
-        methodical_response = significant_surveys["methodical"]
-        methodical_answers = Answer.objects.filter(response=methodical_response)
+        if self.allow_heap:
+            answers = Answer.objects.filter(response__in=expertise.get_responses())
+        else:
+            typed_responses = expertise.get_typed_responses()
+            methodical_response = typed_responses["methodical"]
+            methodical_answers = Answer.objects.filter(response=methodical_response)
 
+            contental_response = typed_responses["contental"]
+            contental_answers = Answer.objects.filter(response=contental_response)
+
+            technical_response = typed_responses["technical"]
+            technical_answers = Answer.objects.filter(response=technical_response)
+
+            answers = methodical_answers | contental_answers | technical_answers
+
+        achievments_wait = list()
+        achievments = list()
+        for indicator in indicators:
+            achievment = copy(indicator)
+            ans = answers.filter(question__text=indicator["title"]).first()
+            if ans:
+                if '0-100' not in indicator["values"]:
+                    achievment["value_interpreted"] = indicator["values"].index(slugify(ans.body, allow_unicode=True))
+                    achievment["value"] = slugify(ans.body, allow_unicode=True)
+                    achievment["max_value"] = len(indicator["values"]) - 1
+                    achievment["SCORE"] = achievment["value_interpreted"] / achievment["max_value"]
+                elif ['0-100'] in indicator["values"]:
+                    try:
+                        achievment["value_interpreted"] = float(ans.body) / 100
+                        achievment["value"] = ans.body
+                    except:
+                        achievment["value_interpreted"] = None
+                        achievment["value"] = ans.body
+
+            if "value_interpreted" not in achievment.keys():
+                achievments_wait.append(achievment)
+            else:
+                achievments.append(achievment)
         status = {
-            "all_expertise_types": all(significant_surveys.values()),
-            "significant_surveys": significant_surveys
-
+            "answers": answers,
+            "achievments": achievments,
+            "achievments_wait": achievments_wait,
         }
 
         context = {
@@ -55,8 +92,6 @@ class ExpertiseCompletionView(View):
             "expertise": expertise,
             "status": status,
         }
-        logging.info(expertise_request)
-
         return render(request, "test.html", context)
 
         # return redirect(self.url)
