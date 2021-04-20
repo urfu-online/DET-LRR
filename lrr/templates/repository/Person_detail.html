@@ -2,18 +2,18 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
+
 <p>
     <a class="btn btn-light" href="{% url 'repository_Person_list' %}">
     Person Listing
     </a>
 </p>
-    
+
 <table class="table">
     <tr><td>location</td><td>{{ object.location }}</td></tr>
     <tr><td>date_birthday</td><td>{{ object.date_birthday }}</td></tr>
     <tr><td>city</td><td>{{ object.city }}</td></tr>
-    <tr><td>created</td><td>{{ object.created }}</td></tr>
+    <tr><td>created</td><td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td></tr>
     <tr><td>middle_name</td><td>{{ object.middle_name }}</td></tr>
     <tr><td>country</td><td>{{ object.country }}</td></tr>
     <tr><td>first_name</td><td>{{ object.first_name }}</td></tr>

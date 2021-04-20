@@ -1,7 +1,7 @@
 {% load static i18n %}
 {% load user_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,28 +9,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
   <![endif]-->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
-          integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
+
+  <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 
   <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
 
   {% block css %}
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+
+    {#    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"#}
+    {#          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>#}
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css"/>
 
 
   {% endblock %}
-  <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+
   <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
@@ -187,12 +188,12 @@
   </div>
 </nav>
 
-<div class="container-fluid">
+<main class="col-12 col-xl-11 py-md-3 pl-md-5 bd-content" role="main">
   {% if messages %}
     {% for message in messages %}
       <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
+                aria-hidden="true"><i class="fas fa-times fa-lg"></i></span></button>
       </div>
     {% endfor %}
   {% endif %}
@@ -200,7 +201,7 @@
   {% block content %}
     <p>Use this document as a way to quick start any new project.</p>
   {% endblock content %}
-</div> <!-- /container -->
+</main>
 
 {#<footer class="ui inverted segment">#}
 {#  <div class="ui container">#}
@@ -241,22 +242,30 @@
   <script src="{% static 'js/project.js' %}"></script>
   <script src="{% static 'js/jquery.formset.js' %}"></script>
 
+
   {% if source_formset or formset or resource_components %}
     <script>
       $('.source_form').formset();
     </script>
   {% endif %}
 
-  {#  {% if assignment_formset %}#}
-  {#    <script>#}
-  {#      $('.assignment_formset').formset();#}
-  {#    </script>#}
-  {#  {% endif %}#}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.table').DataTable({
+        "paging": false,
+        "filter": false,
+        "info": false
+      });
+    });
+  </script>
 
 
 {% endblock javascript %}
 
 <link href="{% static 'css/project.css' %}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 </body>
 </html>
 

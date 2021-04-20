@@ -3,8 +3,8 @@
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Паспорт ЭОР "{{ object.digital_resource }}"</a></li>
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу ЭОР "{{ object.digital_resource }}"</li>
     </ol>
@@ -13,12 +13,11 @@
     {% if request.user.is_superuser %}
       <a class="btn btn-primary float-right" href="{% url 'repository:repository_DigitalResource_detail' pk=object.digital_resource.pk %}">Паспорт ЭОР</a>
     {% endif %}
-    <h1>Заявка на экспертизу ЭОР "{{ object.digital_resource }}"</h1>
-  </header>
+    <h1>Заявка на экспертизу ЭОР "{{ object.digital_resource }}"</h1></header>
   {% if request.user.is_authenticated %}
     <div class="row p-2">
       <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-        <div class="card h-100 shadow-1">
+        <div class="card h-100 border-secondary shadow-2">
           <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted">Тип заявки:</h6>
             <p> {{ object.get_type_display }}</p>

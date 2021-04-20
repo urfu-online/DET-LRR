@@ -3,32 +3,31 @@
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
       <li class="breadcrumb-item active" aria-current="page">Паспорт ЭОР: {{ object.title }}</li>
     </ol>
   </nav>
   <header class="pb-4 px-2">
     {% if request.user.is_superuser %}
-      <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i
-              class="pen icon"></i>Редактировать</a>
+      <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i class="fas fa-edit"></i> Редактировать</a>
     {% endif %}
-    <h1>{{ object.title }} </h1>
-    <p>Паспорт цифрового образовательного ресурса</p>
+    <h1 class="mb-0">{{ object.title }}</h1>
+    <p class="lead">Паспорт цифрового образовательного ресурса</p>
   </header>
   {% if request.user.is_authenticated %}
     <div class="row p-2">
       <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-        <div class="card h-100 shadow-1">
+        <div class="card border-secondary h-100 shadow-2">
           <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
+            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-newspaper"></i> Описание</h5>
             <p> {{ object.description }}</p>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
+            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-tags"></i> Ключевые слова</h5>
             <p>{{ object.keywords }}</p>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Компетенции / Результаты обучения ЭОР:</h6>
+            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-award"></i> Компетенции / Результаты обучения ЭОР</h5>
             <h5 class="card-title"></h5>
             {% if object.result_edu.all %}
               <ul class="list-unstyled">
@@ -39,9 +38,9 @@
             {% endif %}
             <hr>
             {% if request.user|has_group:"expert" or request.user|has_group:"staff" or request.user|has_group:"teacher" or request.user.is_superuser %}
-              <h6 class="card-subtitle mb-2 text-muted">ЭОР рекомендован в качестве обеспечения дисциплины</h6>
+              <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-thumbs-up"></i> ЭОР рекомендован в качестве обеспечения дисциплины</h5>
               {% for obj in object.provided_disciplines.all %}
-                <table class="ui compact table">
+                <table class="table table-striped table-bordered">
                   <thead>
                   <tr>
                     <th>Образовательная программа</th>
@@ -55,11 +54,14 @@
                   </tr>
                   </tbody>
                 </table>
+              {% empty %}
+                <p>--</p>
               {% endfor %}
               <hr/>
-              <h6 class="card-subtitle mb-2 text-muted">Соответствие ЭОР темам дисциплины</h6>
+              <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-project-diagram"></i> Соответствие ЭОР темам дисциплины</h5>
+
               {% for obj in object.conformity_theme.all %}
-                <table class="ui compact table">
+                <table class="table table-striped table-bordered">
                   <thead>
                   <tr>
                     <th>Тема дисциплины</th>
@@ -87,12 +89,16 @@
                   </tr>
                   </tbody>
                 </table>
+              {% empty %}
+                <p>--</p>
               {% endfor %}
+
+
             {% endif %}
             <hr/>
-            <h6 class="card-subtitle mb-2 text-muted">Статусы ЭОР:</h6>
+            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-star"></i> Статусы ЭОР</h5>
             {% if expertise %}
-              <table class="ui compact table">
+              <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
                   {#                <th>Наимкенование</th>#}
@@ -111,20 +117,19 @@
                 {% endfor %}
               </table>
             {% else %}
-              <h4>Статусы отсутсвуют</h4>
+              <p>--</p>
             {% endif %}
             {#            {% if expertise is not None %}#}
             {#            {% else %}#}
-            <a href="{{ object.get_create_expertise_url }}" class="btn btn-block btn-primary mb-3"><i
-                    class="envelope outline icon"></i> Подать заявку на экспертизу</a>
+            <a href="{{ object.get_create_expertise_url }}" class="btn btn-block btn-primary mb-3"><i class="fas fa-share-square"></i> Подать заявку на экспертизу</a>
             {#            {% endif %}#}
             <hr/>
-            <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭОР:</h6>
+            <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-layer-group"></i> Компоненты ЭОР</h5>
             {% if source %}
-              <table class="ui compact table">
+              <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                  <th>Наименоваие компонента</th>
+                  <th>Наименование компонента</th>
                   <th>URL компонента</th>
                   <th>Тип компонента</th>
                 </tr>
@@ -146,20 +151,19 @@
         </div>
       </div>
       <div class="col-12 col-md-6 col-lg-5 col-xl-4 p-2">
-        <a href="{{ object.get_url }}" class="btn btn-block btn-primary mb-3"><i
-                class="user graduate icon"></i> Перейти</a>
-        <div class="card shadow-1 mb-3">
+        <a href="{{ object.get_url }}" class="btn btn-block btn-primary mb-3"><i class="fas fa-user-graduate"></i> Перейти</a>
+        <div class="card border-secondary shadow-2 mb-3">
           <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-muted">Авторы:</h6>
-            <h5 class="card-title">{% for obj in object.authors.all %}
+            <h5 class="card-subtitle mb-2 text-muted">Авторы:</h5>
+            <p class="card-title">{% for obj in object.authors.all %}
               {% include "repository/author.html" with object=obj %}
-            {% endfor %}</h5>
+            {% endfor %}</p>
             <hr>
             <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>
             <h5 class="card-title"> {{ object.get_type_display }}</h5>
           </div>
         </div>
-        <div class="card shadow-1">
+        <div class="card border-secondary shadow-2">
           <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted">Владелец:</h6>
             {% if object.owner is None %}

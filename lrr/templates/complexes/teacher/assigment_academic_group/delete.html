@@ -4,8 +4,8 @@
 {% block content %}
 
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
       <li class="breadcrumb-item"><a
               href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.digital_complex.pk %}">
@@ -24,7 +24,7 @@
 
   <div class="row p-2">
     <div class="col-12 p-2">
-      <div class="card h-100 shadow-1">
+      <div class="card h-100 border-secondary shadow-2">
         <div class="card-body">
           <form method="post">
             {% csrf_token %}

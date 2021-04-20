@@ -3,26 +3,26 @@
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭМУК</a></li>
       <li class="breadcrumb-item"><a
               href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Назначение академических групп для {{ dig_complex }}</li>
     </ol>
   </nav>
-  <header class="pb-4 px-2">
-    <h1>Назначение академических групп для {{ dig_complex }}</h1>
-  </header>
+
+  <header><h1 class="display-3">Назначение академических групп</h1></header>
+
   {% if request.user.is_authenticated %}
     <div class="row p-2">
-      <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-        <div class="card h-100 shadow-1">
+      <div class="col-12 col-lg-12 col-xl-10 p-2">
+        <div class="card border-secondary shadow-2 h-100">
+        <div class="card-header"><h5>Назначение {{ dig_complex }} академическим группам</h5></div>
           <div class="card-body">
             {% if object_list %}
-              <table class="ui compact table">
+              <table class="table table-striped table-bordered col-12 col-lg-12 col-xl-10">
                 <thead>
-                <h5>Назначение академическим группам: </h5>
                 <th>Академическая группа</th>
                 <th>Дисциплина</th>
                 <th>Учебный год</th>
@@ -38,11 +38,11 @@
                   <td>{{ object.subject }}</td>
                   <td>{{ object.learn_date }}</td>
                   <td>{{ object.get_semestr_display }}</td>
-                  <td><a class="btn btn-secondary"
-                         href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}">Редактировать</a>
+                  <td><a class="btn btn-outline-primary text-nowrap"
+                         href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}"><i class="fas fa-edit"></i> Редактировать</a>
                   </td>
-                  <td><a class="btn btn-secondary"
-                         href="{% url 'complexes:complexes_AssignmentAcademicGroup_delete' pk=object.pk %}">X</a></td>
+                  <td><a class="btn btn-primary"
+                         href="{% url 'complexes:complexes_AssignmentAcademicGroup_delete' pk=object.pk %}"><i class="fas fa-trash-alt"></i></a></td>
                 {% endfor %}
                 </tbody>
               </table>
@@ -50,13 +50,12 @@
               Назначенные группы отсутсвуют
             {% endif %}
           </div>
-          <a class="btn btn-secondary"
-             href="{% url 'complexes:complexes_AssignmentAcademicGroup_create' digital_complex_pk=dig_complex.pk %}"> +
+          <a class="btn btn-outline-primary"
+             href="{% url 'complexes:complexes_AssignmentAcademicGroup_create' digital_complex_pk=dig_complex.pk %}"><i class="fas fa-plus"></i>
             Добавить</a>
         </div>
       </div>
     </div>
   {% endif %}
-
 
 {% endblock %}

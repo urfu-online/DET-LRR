@@ -2,16 +2,16 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
+
 <p>
     <a class="btn btn-light" href="{% url 'repository_Student_list' %}">
     Student Listing
     </a>
 </p>
-    
+
 <table class="table">
     <tr><td>academic_group</td><td>{{ object.academic_group }}</td></tr>
-    <tr><td>created</td><td>{{ object.created }}</td></tr>
+    <tr><td>created</td><td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td></tr>
 </table>
 <a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
 

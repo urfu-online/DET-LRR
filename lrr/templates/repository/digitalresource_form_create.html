@@ -3,17 +3,15 @@
 {% load static %}
 {% block content %}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
       <li class="breadcrumb-item"><a
               href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a></li>
       <li class="breadcrumb-item active" aria-current="page">Создание паспорта ЭОР</li>
     </ol>
   </nav>
-  <header class="pb-4 px-2">
-    <h1>Создание паспорта ЭОР </h1>
-  </header>
+  <header><h1 class="display-3">Создание паспорта ЭОР </h1></header>
 
   <div class="row p-2">
     <div class="col-12 p-2">

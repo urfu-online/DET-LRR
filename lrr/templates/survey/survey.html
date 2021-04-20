@@ -23,27 +23,37 @@
 
 {% block content %}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item active" aria-current="page">Активные заявки</li>
     </ol>
   </nav>
-  <div class="card">
-    <div class="card-body">
-      {{ expertise_request.expertise.digital_resource }}
-      <a class="btn btn-primary" href="{% url "repository:repository_DigitalResource_detail" pk=expertise_request.expertise.digital_resource.pk %}">Паспорт ЭОР</a>
-      <a class="btn btn-primary" href="{% url "inspections:inspections_ExpertiseRequest_detail" pk=expertise_request.pk %}">Данные заявки</a>
-{#    </div>#}
-  </div>
+
+
 
   <div class="row">
 
-    <div class="col" style="max-width:960px;">
+
+
+    <div class="col-12 w-75">
       <h1> {{ survey.name }} </h1>
+
+      <div class="card border-secondary shadow-2 my-3">
+        <div class="card-header">{{ survey.name }}</div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ expertise_request.expertise.digital_resource }}</h5>
+
+          <a class="btn btn-outline-primary" href="{% url "repository:repository_DigitalResource_detail" pk=expertise_request.expertise.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
+          <a class="btn btn-primary" href="{% url "inspections:inspections_ExpertiseRequest_detail" pk=expertise_request.pk %}">Данные заявки</a>
+        </div>
+      </div>
+
+
       <div class="mx-auto">
 
 
-        {% if  survey.description is not None %}
+        {% if survey.description %}
           <div class="survey-description"> {{ survey.description|safe }} </div>
         {% else %}
         {% endif %}

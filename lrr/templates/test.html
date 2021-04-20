@@ -1,55 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+
   <h1 class="display-4">Значения индикаторов({{ status.achievments|length }})</h1>
+
   <div class="card-columns">
     {% for i in status.achievments %}
-      <div class="card text-white d-inline-block {% if i.SCORE > 0.5 %}bg-success{% else %}bg-danger{% endif %} mb-3">
-        <h5 class="card-header">{{ i.title|truncatewords:5  }}</h5>
-        <div class="card-body text-white">
-          <dl class="row">
-            {% for key,value in i.items %}
-              <dt class="col-sm-3">{{ key }}</dt>
-              <dd class="col-sm-9">{{ value|truncatewords:6  }}</dd>
-            {% endfor %}
-          </dl>
+      <div class="card answer-item text-white d-inline-block {% if i.SCORE > 0.5 %}bg-primary{% else %}bg-danger{% endif %} mb-3">
+        <div class="card-header p-3 text-uppercase"><i class="fas fa-layer-group"></i> <small class="group">{{ i.group }}</small></div>
+        <div class="card-body text-white p-3">
+          <div class="card-title title">{{ i.title }}</div>
+          <p class="values">{{ i.values }}</p>
+          <hr>
+          <p>
+            <span class="value">{{ i.value }}</span>
+            <span class="value_interpreted badge badge-light badge-pill">{{ i.value_interpreted }}</span>
+          </p>
+        </div>
+        <div class="card-footer text-muted">
+          <p><span class="SCORE">{{ i.SCORE }}</span> <span class="type font-weight-light text-right">{{ i.type }}</span></p>
         </div>
       </div>
     {% endfor %}
   </div>
 
-    <h1 class="display-4">Значения индикаторов не определены ({{ status.achievments_wait|length }})</h1>
-  <div class="card-columns">
-    {% for i in status.achievments_wait %}
-      <div class="card text-white bg-dark mb-3">
-        <h5 class="card-header">{{ i.title|truncatewords:5 }}</h5>
-        <div class="card-body bg-dark text-white">
-          <dl class="row">
-            {% for key,value in i.items %}
-              <dt class="col-sm-3">{{ key }}</dt>
-              <dd class="col-sm-9">{{ value|truncatewords:6 }}</dd>
-            {% endfor %}
-          </dl>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-  {#  <ul>#}
-  {#    {% for i in status.methodical_answers %}#}
-  {#      <li>{{ i.question.text }}, {{ i.body }}</li>#}
-  {#    {% endfor %}#}
-  {#  </ul>#}
-  {##}
-  {#  <ul>#}
-  {#    {% for i in status.contental_answers %}#}
-  {#      <li>{{ i.question.text }}, {{ i.body }}</li>#}
-  {#    {% endfor %}#}
-  {#  </ul>#}
-  {##}
-  {#  <ul>#}
-  {#    {% for i in status.technical_answers %}#}
-  {#      <li>{{ i.question.text }}, {{ i.body }}</li>#}
-  {#    {% endfor %}#}
-  {#  </ul>#}
-  {#{% debug %}#}
 {% endblock %}

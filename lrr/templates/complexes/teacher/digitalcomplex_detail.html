@@ -3,8 +3,8 @@
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭУМК</a></li>
       <li class="breadcrumb-item active" aria-current="page">Паспорт ЭУМК</li>
     </ol>
@@ -20,7 +20,7 @@
   {% if request.user.is_authenticated %}
     <div class="row p-2">
       <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-        <div class="card h-100 shadow-1">
+        <div class="card h-100 border-secondary shadow-2">
           <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
             <p> {{ object.description }}</p>
@@ -125,7 +125,7 @@
           <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
           {#        {% if resource_components.all or platform_component.all or traditional_components.all or component_complex or literary_components.all is not None %}#}
           {% if resource_components.all is not None %}
-            <table class="ui compact table">
+            <table class="table table-striped table-bordered">
               <thead>
               <h5>Компоненты ЭОР: </h5>
               <tr>
@@ -145,7 +145,7 @@
               </tbody>
             </table>
           {% elif platform_component.all is not None %}
-            <table class="ui compact table">
+            <table class="table table-striped table-bordered">
               <thead>
               <h5>Компоненты Платформ: </h5>
               <tr>
@@ -165,7 +165,7 @@
               </tbody>
             </table>
           {% elif traditional_components.all is not None %}
-            <table class="ui compact table">
+            <table class="table table-striped table-bordered">
               <thead>
               <h5>Компоненты традиционных занятий:</h5>
               <tr>
@@ -184,7 +184,7 @@
               </tbody>
             </table>
           {% elif literary_components.all is not None %}
-            <table class="ui compact table">
+            <table class="table table-striped table-bordered">
               <thead>
               <h5>Компоненты литературные источники:</h5>
               <tr>
@@ -209,7 +209,7 @@
         <br/>
         <div class="card shadow-1 p-3">
           {% if assigment_academic_group.all %}
-            <table class="ui compact table">
+            <table class="table table-striped table-bordered">
               <thead>
               <h5>Назначение академическим группам: </h5>
               <tr>

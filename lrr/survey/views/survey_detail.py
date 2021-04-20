@@ -18,6 +18,7 @@ class SurveyDetail(View):
         survey = kwargs.get("survey")
         step = kwargs.get("step", 0)
         expertise_request = kwargs.get("expertise_request")
+        expertise_request_pk = kwargs.get("expertise_request_pk")
         # expert = Expert.get_expert(user=request.user)
         if survey.template is not None and len(survey.template) > 4:
             template_name = survey.template
@@ -43,6 +44,7 @@ class SurveyDetail(View):
             "step": step,
             "asset_context": asset_context,
             "expertise_request": expertise_request,
+            "expertise_request_pk": expertise_request_pk,
         }
 
         return render(request, template_name, context)

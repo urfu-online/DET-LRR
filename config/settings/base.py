@@ -1,11 +1,10 @@
 """
 Base settings to build other settings files upon.
 """
-import os
-from pathlib import Path
-from django.conf.global_settings import DATETIME_INPUT_FORMATS
-
 import environ
+import os
+from django.conf.global_settings import DATETIME_INPUT_FORMATS
+from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # lrr/
@@ -80,28 +79,29 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "admin_interface",
     "colorfield",
-    'rest_framework_swagger',
-    'polymorphic',
-    'dynamic_formsets',
-    'six',
-    'django_select2',
-    'rest_polymorphic',
+    "rest_framework_swagger",
+    "polymorphic",
+    "dynamic_formsets",
+    "six",
+    "django_select2",
+    "rest_polymorphic",
     "bootstrapform",
     "pandas",
     "matplotlib",
     "pySankey",
-    "seaborn"
+    "seaborn",
+    "fontawesome-free"
 ]
 
 LOCAL_APPS = [
     "lrr.apps.LRRAdminConfig",
     "lrr.users.apps.UsersConfig",
-    'lrr.repository.apps.RepositoryConfig',
-    'lrr.complexes.apps.ComplexesConfig',
-    'lrr.inspections.apps.InspectionsConfig',
-    'lrr.survey.apps.DjangoSurveyAndReportConfig',
-    'lrr.templatetags.user_tags',
-    'lrr.templatetags.survey_extras',
+    "lrr.repository.apps.RepositoryConfig",
+    "lrr.complexes.apps.ComplexesConfig",
+    "lrr.inspections.apps.InspectionsConfig",
+    "lrr.survey.apps.DjangoSurveyAndReportConfig",
+    "lrr.templatetags.user_tags",
+    "lrr.templatetags.survey_extras",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -345,7 +345,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-DATETIME_INPUT_FORMATS += ('%d/%m/%Y %H:%M', )
+DATETIME_INPUT_FORMATS += ('%d/%m/%Y %H:%M',)
 # DATE_INPUT_FORMATS = ["iso-8601"]
 # Your stuff...
 # ------------------------------------------------------------------------------

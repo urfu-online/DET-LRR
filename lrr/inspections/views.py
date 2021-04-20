@@ -65,17 +65,21 @@ class ExpertiseCompletionView(View):
             ans = answers.filter(question__text=indicator["title"]).first()
             if ans:
                 if '0-100' not in indicator["values"]:
+                    logger.warning(f"Предполагаем список строк: {ans.body}" )
                     achievment["value_interpreted"] = indicator["values"].index(slugify(ans.body, allow_unicode=True))
                     achievment["value"] = slugify(ans.body, allow_unicode=True)
                     achievment["max_value"] = len(indicator["values"]) - 1
                     achievment["SCORE"] = achievment["value_interpreted"] / achievment["max_value"]
-                elif ['0-100'] in indicator["values"]:
+                elif '0-100' in indicator["values"]:
                     try:
+                        logging.warning(f"Предполагаем 0-100: {ans.body}")
                         achievment["value_interpreted"] = float(ans.body) / 100
                         achievment["value"] = ans.body
                     except:
                         achievment["value_interpreted"] = None
                         achievment["value"] = ans.body
+            else:
+                logging.warning(f"Отброшено значение {indicator['title']}")
 
             if "value_interpreted" not in achievment.keys():
                 achievments_wait.append(achievment)

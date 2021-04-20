@@ -506,5 +506,6 @@ def statistics(request):
 
     context["by_platform"] = by_platform
     context["eduprograms"] = eduprograms
+    # context["stats_by_type"] = models.DigitalResource.get_stats_by_type()
 
     return render(request, "repository/report.html", context=context)

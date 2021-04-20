@@ -10,7 +10,7 @@
       url = url_global + "digital_complex/?subject__title=" + sub;
       event.target.onclick = ''
       event.target.disabled = true
-      $.get(url, function(data){
+      $.get(url, function (data) {
         $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.subject}</a></div>`)))
       });
     }
@@ -19,7 +19,7 @@
       url = url_global + "digital_resource_recomend/?subjects=" + sub;
       event.target.onclick = ''
       event.target.disabled = true
-      $.get(url, function(data){
+      $.get(url, function (data) {
         $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/repository/DigitalResource/detail/${el.pk}/">${el.title}</a></div>`)))
       });
     }
@@ -28,45 +28,43 @@
       url = url_global + "digital_resource/?subjects=" + sub;
       event.target.onclick = ''
       event.target.disabled = true
-      $.get(url, function(data){
+      $.get(url, function (data) {
         $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/repository/DigitalResource/detail/${el.pk}/">${el.title}</a></div>`)))
       });
     }
   </script>
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item active" aria-current="page">Мои дисциплины</li>
     </ol>
   </nav>
-  <header class="pb-4 px-2">
-    <h1>Учебно-методическое обеспечение дисциплин</h1>
-  </header>
+  <header><h1 class="display-3">Учебно-методическое обеспечение дисциплин</h1></header>
 
   <p>Студент: {{ student }}</p>
   <p>Образовательная программа/Направление подготовки: {{ direction }}</p>
   <p>Группа: {{ academic_group }}</p>
-{#  <div id="filters" class="mb-3" aria-labelledby="filters" data-parent="">#}
-{#    <form action="" method="get">#}
-{#      <div class="form-group col-12 col-xl-2 col-md-6">#}
-{#        <label for="id_semestr">Семестр:</label>#}
-{#        <select name="semestr" class="custom-select" id="id_semestr">#}
-{#          <option value="" selected="">---------</option>#}
-{#          <option value="FIRST">Первый семестр</option>#}
-{#          <option value="SECOND">Второй семестр</option>#}
-{#        </select>#}
-{#      </div>#}
-{#      <div class="form-group col-12 col-xl-2 col-md-6">#}
-{#        <input class="btn btn-secondary" type="submit">#}
-{#      </div>#}
-{#    </form>#}
-{#  </div>#}
+  {#  <div id="filters" class="mb-3" aria-labelledby="filters" data-parent="">#}
+  {#    <form action="" method="get">#}
+  {#      <div class="form-group col-12 col-xl-2 col-md-6">#}
+  {#        <label for="id_semestr">Семестр:</label>#}
+  {#        <select name="semestr" class="custom-select" id="id_semestr">#}
+  {#          <option value="" selected="">---------</option>#}
+  {#          <option value="FIRST">Первый семестр</option>#}
+  {#          <option value="SECOND">Второй семестр</option>#}
+  {#        </select>#}
+  {#      </div>#}
+  {#      <div class="form-group col-12 col-xl-2 col-md-6">#}
+  {#        <input class="btn btn-secondary" type="submit">#}
+  {#      </div>#}
+  {#    </form>#}
+  {#  </div>#}
 
   {#  <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"#}
   {#          aria-controls="filters">#}
-  {#    Фильтры и поиск#}
+  {#    <i class="fas fa-search fa-lg"></i> Фильтры и поиск#}
   {#  </button>#}
-  {#  <div class="row mb-3 px-3" id="accordion">#}
+  {#  <div class="row actions" id="accordion">#}
   {##}
   {#    <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">#}
   {##}
@@ -114,10 +112,10 @@
   {% if request.user.is_authenticated %}
     <div class="row p-2">
       <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-        <div class="card h-100 shadow-1">
+        <div class="card card-bordered h-100 shadow-2">
           <div class="card-body">
             {% if object_list %}
-              <table class="ui compact table">
+              <table class="table table-bordered table-bordered">
                 <thead>
                 <th>Дисциплины изучаемые студентом в текущем семестре</th>
                 <th>Обеспечение дисциплин электронными образовательными ресурсами</th>
@@ -127,25 +125,26 @@
                 {% for sub in subjects.all %}
                   <tr>
                     <td>{{ sub }}</td>
-                    <td><div>
-                      <h4>Электронное обеспечение дисциплины определенное
-                        преподавателем.</h4>
-                      <button class="btn btn-primary btn-sm" type="button" onclick="ApiEUMK(event, `{{ sub }}`)">
-                        Посмотреть
-                      </button>
+                    <td>
+                      <div>
+                        <h4>Электронное обеспечение дисциплины определенное
+                          преподавателем.</h4>
+                        <button class="btn btn-primary btn-sm" type="button" onclick="ApiEUMK(event, `{{ sub }}`)">
+                          Посмотреть
+                        </button>
                       </div>
                       <div>
-                        <h4>Рекомендованные  ЭОР</h4>
+                        <h4>Рекомендованные ЭОР</h4>
                         <button class="btn btn-primary btn-sm" type="button" onclick="ApiRecomendedEOR(event,`{{ sub }}`)">
-                         Посмотреть
-                      </button>
+                          Посмотреть
+                        </button>
                       </div>
                       <div>
                         <h4>ЭОР в каталоге</h4>
-                         <button class="btn btn-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
+                        <button class="btn btn-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
 
-                            Посмотреть
-                      </button>
+                          Посмотреть
+                        </button>
                       </div>
 
                       {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}
@@ -170,54 +169,7 @@
     </div>
   {% endif %}
 
-
-  {% if page_obj|length != 0 %}
-    <div class="row p-2">
-      <nav>
-        <ul class="pagination justify-content-center">
-          {% if page_obj.has_previous %}
-            <li class="page-item">
-              <a class="page-link" href="?{% param_replace page=1 %}">&laquo; Начало</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="?{% param_replace page=page_obj.previous_page_number %}"
-                 tabindex="-1">Назад</a>
-            </li>
-          {% else %}
-            <li class="page-item disabled">
-              <a class="page-link" href="?page=1">&laquo; Начало</a>
-            </li>
-            <li class="page-item disabled">
-              <a class="page-link" href="/" tabindex="-1">Назад</a>
-            </li>
-          {% endif %}
-
-          {#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
-          <li class="page-item">
-            <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span
-                    class="sr-only">(current)</span></a>
-          </li>
-          {#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
-
-          {% if page_obj.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
-            </li>
-          {% else %}
-            <li class="page-item disabled">
-              <a class="page-link" href="">Далее</a>
-            </li>
-            <li class="page-item disabled">
-              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
-            </li>
-          {% endif %}
-        </ul>
-      </nav>
-    </div>
-  {% endif %}
+  {% include "includes/paginator.html" %}
 
   </div>
 

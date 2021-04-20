@@ -3,19 +3,17 @@
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item active" aria-current="page">Мои экспертизы</li>
     </ol>
   </nav>
-  <header class="pb-4 px-2">
-    <h1>Мои экспертизы</h1>
-  </header>
+  <header><h1 class="display-3">Мои экспертизы</h1></header>
   <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
           aria-controls="filters">
-    Фильтры и поиск
+    <i class="fas fa-search fa-lg"></i> Фильтры и поиск
   </button>
-  <div class="row mb-3 px-3" id="accordion">
+  <div class="row actions" id="accordion">
 
     <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
 
@@ -60,7 +58,7 @@
   </div>
 
   <div class="container">
-    <table class="ui celled striped table">
+    <table class="table table-striped table-bordered">
       <thead>
       <tr>
         <th>Наименование ЭОР</th>
@@ -75,61 +73,16 @@
         <tr>
           <td>{{ object.expertise.digital_resource.title }}</td>
           <td>{{ object.expertise.owner }}</td>
-          <td>{{ object.created }}</td>
+          <td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td>
           <td>{{ object.survey }}</td>
-          <td><a href="{% url 'survey:survey-detail' id=object.survey.pk expertise_request_pk=object.pk %}">Подробнее</a></td>
+          <td><a class="btn btn-outline-primary text-nowrap"href="{% url 'survey:survey-detail' id=object.survey.pk expertise_request_pk=object.pk %}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
         </tr>
       {% endfor %}
       </tbody>
     </table>
+    {% include "includes/paginator.html" %}
   </div>
-  {% if page_obj|length != 0 %}
-    <div class="row p-2">
-      <nav>
-        <ul class="pagination justify-content-center">
-          {% if page_obj.has_previous %}
-            <li class="page-item">
-              <a class="page-link" href="?{% param_replace page=1 %}">&laquo; Начало</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="?{% param_replace page=page_obj.previous_page_number %}"
-                 tabindex="-1">Назад</a>
-            </li>
-          {% else %}
-            <li class="page-item disabled">
-              <a class="page-link" href="?page=1">&laquo; Начало</a>
-            </li>
-            <li class="page-item disabled">
-              <a class="page-link" href="/" tabindex="-1">Назад</a>
-            </li>
-          {% endif %}
 
-          {#    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>#}
-          <li class="page-item">
-            <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span
-                    class="sr-only">(current)</span></a>
-          </li>
-          {#    <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>#}
-
-          {% if page_obj.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}">Далее</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
-            </li>
-          {% else %}
-            <li class="page-item disabled">
-              <a class="page-link" href="">Далее</a>
-            </li>
-            <li class="page-item disabled">
-              <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}">Конец &raquo;</a>
-            </li>
-          {% endif %}
-        </ul>
-      </nav>
-    </div>
-  {% endif %}
 
   </div>
 {% endblock %}

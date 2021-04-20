@@ -424,6 +424,15 @@ class DigitalResource(BaseModel):
         else:
             return None
 
+    @classmethod
+    def get_stats_by_type(cls):
+        return {
+            'Онлайн-курс': cls.objects.filter(type=cls.OK).count(),
+            'ЭУК': cls.objects.filter(type=cls.EUK).count(),
+            'Текстовый электронный образовательный ресурс': cls.objects.filter(type=cls.TEXT_EOR).count(),
+            'Мультимедийный электронный образовательный ресурс': cls.objects.filter(type=cls.MULTIMEDIA_EOR).count(),
+        }
+
 
 class Source(BaseModel):
     link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
@@ -434,11 +443,11 @@ class Source(BaseModel):
     type = models.CharField("Тип", max_length=150, null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Источник"
-        verbose_name_plural = u"Источники"
+        verbose_name = u"Компонент"
+        verbose_name_plural = u"Компоненты"
 
     def __str__(self):
-        return f"{self.link_name} {self.digital_resource.title}"
+        return f"Компонент: {self.digital_resource.title}.{self.get_format()}"
 
     def get_format(self):
         if self.URL:
@@ -472,11 +481,13 @@ class CompetenceGroup(models.Model):
     def __str__(self):
         return self.name
 
+
 class Competence(BaseModel):
     TYPES = ("ОК", "ОПК", "ПК", "ПСК", "УК", "ДОК", "ДОПК", "ДПК")
     # Fields
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код", max_length=8)
+
     # TODO: add fields
     # type choices_to TYPES
     # Standard

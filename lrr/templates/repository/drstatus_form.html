@@ -164,7 +164,7 @@
               <p class="header">ЭОР рекомендован в качестве обеспечения дисциплины</p>
               <div class="description">
                 {% for obj in object.digital_resource.provided_disciplines.all %}
-                  <table class="ui compact table">
+                  <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
                       <th>Образовательная программа</th>
@@ -187,7 +187,7 @@
               <p class="header">Соответствие ЭОР темам дисциплины</p>
               <div class="description">
                 {% for obj in object.digital_resource.conformity_theme.all %}
-                  <table class="ui compact table">
+                  <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
                       <th>Тема дисциплины</th>

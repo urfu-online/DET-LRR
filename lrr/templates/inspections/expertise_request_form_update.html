@@ -3,8 +3,8 @@
 {% block content %}
 
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       {#      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>#}
       {#      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>#}
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу
@@ -12,60 +12,51 @@
       </li>
     </ol>
   </nav>
-  <header class="pb-4 px-2">
-    <h1>Заявка на экспертизу "{{ object.expertise.digital_resource }}"</h1>
-  </header>
+  <header><h1 class="display-3">Заявка на экспертизу <br/>{{ object.expertise.digital_resource }}</h1></header>
   <div class="row p-2">
     <div class="col-12 p-2">
-      <div class="card h-100 shadow-1">
+      <div class="card h-100 border-secondary shadow-2">
         <div class="card-body">
           <form method="post">
             {% csrf_token %}
             {{ form.errors }}
             {{ form.non_field_errors }}
             {{ form.media.css }}
-            <a class="btn btn-primary"
-               href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}">Паспорт
-              ЭОР</a>
+            <a class="btn btn-outline-primary float-right" href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
             <div class="form-group">
-              <label>Тип заявки</label>
-              {{ object.survey }}
+              <h5>Тип заявки</h5>
+              <p>{{ object.survey }}</p>
             </div>
             <div class="form-group">
-              <label>Инициатор</label>
-              {{ object.expertise.owner }}
+              <h5>Инициатор</h5>
+              <p>{{ object.expertise.owner }}</p>
             </div>
             <div class="form-group">
-              <label>Дата заявки</label>
-              {{ object.expertise.date }}
+              <h5>Дата заявки</h5>
+              <p>{{ object.expertise.date }}</p>
             </div>
             <div class="form-group">
-              <label>Дисциплина(ы)</label>
+              <h5>Дисциплина(ы)</h5>
               {% for subject in object.expertise.subjects.all %}
-                {{ subject }}
+                <p>{{ subject }}</p>
               {% endfor %}
             </div>
             <div class="form-group">
-              <label>Направления подготовки/Образовательная программа</label>
+              <h5>Направления подготовки/Образовательная программа</h5>
               {% for direction in object.expertise.directions.all %}
-                {{ direction }}
+                <p>{{ direction }}</p>
               {% endfor %}
             </div>
             <div class="form-group">
-              <label>ЭУМК</label>
-              <div class="ui segment">
-                {% if object.expertise.digital_complexes.all is not None %}
-                  {% for digital_complex in object.expertise.digital_complexes.all %}
-                    <p>
-                      <a href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}">{{ digital_complex }}</a>
-                    </p>
-                  {% endfor %}
-                {% else %}
-                  <h4>отсутсвуют</h4>
-                {% endif %}
-              </div>
+              <h5>ЭУМК</h5>
+              {% for digital_complex in object.expertise.digital_complexes.all %}
+                <p><a class="btn btn-outline-link" href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}"><i class="fas fa-link"></i> {{ digital_complex }}</a></p>
+              {% empty %}
+                <p class="text-muted">отсутсвуют</p>
+              {% endfor %}
+
             </div>
-            <input type="submit" value="Взять на экспертизу" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">Взять на экспертизу</button>
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>
 
@@ -73,12 +64,12 @@
       </diV>
     </div>
   </div>
-  <div class="card">
+  <div class="card border-secondary h-100 shadow-2">
     <diV class="card-body shadow-1">
       <div class="form-group">
         <h5>Экспертные заключения</h5>
-        {% if checklist is not None %}
-          <table class="ui compact table">
+        {% if checklist %}
+          <table class="table table-striped table-bordered">
             <thead>
             <tr>
               <th>Тип экспертизы</th>
@@ -99,7 +90,7 @@
             </tbody>
           </table>
         {% else %}
-          Экспертизы отсутсвуют
+          <p class="text-muted">отсутсвуют</p>
         {% endif %}
       </div>
     </div>

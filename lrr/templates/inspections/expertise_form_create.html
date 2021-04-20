@@ -4,20 +4,18 @@
 {% block content %}
 
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
       <li class="breadcrumb-item"><a href="{% url 'repository:repository_DigitalResource_detail' pk=dig_res.pk %}">Паспорт
         ЭОР: {{ dig_res }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу ресурса</li>
     </ol>
   </nav>
-  <header class="pb-4 px-2">
-    <h1>Заявка на экспертизу ЭОР "{{ dig_res }}"</h1>
-  </header>
+  <header><h1 class="display-3">Заявка на экспертизу ЭОР "{{ dig_res }}"</h1></header>
   <div class="row p-2">
     <div class="col-12 p-2">
-      <div class="card h-100 shadow-1">
+      <div class="card h-100 border-secondary shadow-2">
         <div class="card-body">
           <form method="post">
             {% csrf_token %}

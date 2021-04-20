@@ -3,8 +3,8 @@
 {% load static %}
 {% block content %}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-2 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="home icon"></i></a></li>
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
       <li class="breadcrumb-item"><a
               href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=dig_complex.pk %}">Список
@@ -15,8 +15,7 @@
       <li class="breadcrumb-item active" aria-current="page">Назначение академических групп</li>
     </ol>
   </nav>
-  <header class="pb-4 px-2">
-    <h1>Назначение академических группам ЭУМК</h1>
+  <header><h1 class="display-3">Назначение академических группам ЭУМК</h1>
     <h2>По {% for subject in dig_complex.subjects.all %}
       {{ subject }}
     {% endfor %}
