@@ -10,7 +10,8 @@ then
 fi
 
 docker-compose -f ${profile}.yml down;
-docker-compose -f local.yml up -d postgres \
-  && docker-compose -f local.yml exec postgres restore ${bck_file} \
+docker-compose -f local.yml up -d postgres;
+docker cp ./backups det-lrr_postgres_1:/;
+docker-compose -f local.yml exec postgres restore ${bck_file} \
   && docker-compose -f local.yml down;
 docker-compose -f ${profile}.yml up -d;
