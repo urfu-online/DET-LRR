@@ -14,7 +14,7 @@ sleep 20
 docker-compose -f local.yml up -d postgres;
 sleep 20
 docker ps;
-docker cp ./backups `docker ps -aqf "name=^det-lrr_postgres_1$"`:/;
+docker cp ./backups `docker ps -aqf "name=lrr_postgres"`:/;
 sleep 5
 docker-compose -f local.yml exec postgres restore ${bck_file} \
   && docker-compose -f local.yml down;
