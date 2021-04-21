@@ -105,8 +105,10 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
                                                                                    complex_model.PlatformComponent,
                                                                                    complex_model.LiterarySourcesComponent,
                                                                                    complex_model.TraditionalSessionComponent)
+        dig_complex = complex_model.DigitalComplex.objects.get(
+            pk=self.request.resolver_match.kwargs['digital_complex_pk'])
 
-        context['component_complex'] = component_complex.filter(digital_complex=self.object).first()
+        context['component_complex'] = component_complex.filter(digital_complex=dig_complex).first()
         logger.warning(context['component_complex'])
         context['resource_components'] = complex_model.ResourceComponent.objects.filter(digital_complex=self.object)
         context['platform_components'] = complex_model.PlatformComponent.objects.filter(digital_complex=self.object)
