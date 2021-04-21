@@ -25,22 +25,22 @@
             {% for subject in dig_complex.subjects.all %}{{ subject }}{% endfor %} образовательной программы
             {% for subject in dig_complex.directions.all %}{{ direction }}{% endfor %}</h5></div>
           <div class="card-body">
-            {#            {% if object_list %}#}
-            <table class="table table-striped table-bordered col-12 col-lg-12 col-xl-10">
-              <thead>
-              <th>Тема / раздел</th>
-              <th>Теория</th>
-              <th>Практика</th>
-              <th></th>
-              <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for object in object_list %}
-                <tr>
-                  <td>Введение</td>
-                  <td></td>
-                  <td></td>
+            {% if object_list %}
+              <table class="table table-striped table-bordered col-12 col-lg-12 col-xl-10">
+                <thead>
+                <th>Тема / раздел</th>
+                <th>Теория</th>
+                <th>Практика</th>
+                <th></th>
+                <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in object_list %}
+                  <tr>
+                  <td>{{ object.theme_name }}</td>
+                  <td>{% if object.include_theory %}Да{% else %}Нет{% endif %}</td>
+                  <td>{% if object.include_practice %}Да{% else %}Нет{% endif %}</td>
                   <td><a class="btn btn-outline-primary text-nowrap"
                          href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}"><i
                           class="fas fa-edit"></i> Редактировать</a>
@@ -48,26 +48,12 @@
                   <td><a class="btn btn-primary"
                          href="{% url 'complexes:complexes_AssignmentAcademicGroup_delete' pk=object.pk %}"><i
                           class="fas fa-trash-alt"></i></a></td>
-                <tr>
-                <td>Основы моделирования</td>
-                <td></td>
-                <td></td>
-                {#                  <td>{{ object.theme_name }}</td>#}
-                {#                  <td>{{ object.include_theory }}</td>#}
-                {#                  <td>{{ object.include_practice }}</td>#}
-                <td><a class="btn btn-outline-primary text-nowrap"
-                       href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}"><i
-                        class="fas fa-edit"></i> Редактировать</a>
-                </td>
-                <td><a class="btn btn-primary"
-                       href="{% url 'complexes:complexes_AssignmentAcademicGroup_delete' pk=object.pk %}"><i
-                        class="fas fa-trash-alt"></i></a></td>
-              {% endfor %}
-              </tbody>
-            </table>
-            {#            {% else %}#}
-            {#              Ячейки цифрового комплекса ЭУМК отсутсвуют#}
-            {#            {% endif %}#}
+                {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              Ячейки цифрового комплекса ЭУМК отсутсвуют
+            {% endif %}
           </div>
           <a class="btn btn-outline-primary"
              href="{% url 'complexes:complexes_Cell_create' digital_complex_pk=dig_complex.pk %}"><i

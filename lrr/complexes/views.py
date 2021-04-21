@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from lrr.complexes import forms
 from lrr.complexes import models as complex_model
 from lrr.repository.filters import FilteredListView
-from lrr.repository.models import Subject
+from lrr.repository.models import Subject, DigitalResource
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Student, AcademicGroup
 
@@ -570,6 +570,7 @@ class CellCreateView(GroupRequiredMixin, generic.CreateView):
             context['digital_complex_pk'] = self.request.resolver_match.kwargs['digital_complex_pk']
             context['dig_complex'] = complex_model.DigitalComplex.objects.get(
                 pk=self.request.resolver_match.kwargs['digital_complex_pk'])
+            context['test_complex'] = DigitalResource.objects.filter(title__icontains='Строит')
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
         return context
 

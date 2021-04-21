@@ -16,7 +16,8 @@
         ЭУМК {{ dig_complex }}</li>
     </ol>
   </nav>
-  <header><h1 class="display-3">Назначение академических группам ЭУМК</h1>
+  <header><h1 class="display-3">Редактирование ячейки структурно-тематического плана
+    ЭУМК {{ dig_complex }}</h1>
     <h2>По {% for subject in dig_complex.subjects.all %}
       {{ subject }}
     {% endfor %}
@@ -35,7 +36,36 @@
         {{ form.non_field_errors }}
         {{ form.media.css }}
         {{ form }}
+        <label for="id_theme_name" wfd-id="10">Недели с</label>
+        <input type="text" class="form-control" required="false" maxlength="1024">
+        по <input type="text" class="form-control" required="false" maxlength="1024">
+        для формы обучения <input type="select" class="form-control" required="false" maxlength="1024">
         <br/>
+        <h5>ЭОР / Платформы / Занятия ячейки</h5>
+        <table class="table table-striped table-bordered col-12 col-lg-12 col-xl-10">
+          <thead>
+          <th>Компоненты для добавления</th>
+          <th>Компоненты ячейки</th>
+          <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for object in test_complex.all %}
+            <tr>
+            <td>{{ object.title }}</td>
+            <td></td>
+            <td><a class="btn btn-outline-primary text-nowrap"
+                   href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}"><i
+                    class="fas fa-edit"></i> Добавить</a>
+            </td>
+            <td><a class="btn btn-primary"
+                   href="{% url 'complexes:complexes_AssignmentAcademicGroup_delete' pk=object.pk %}"><i
+                    class="fas fa-trash-alt"></i></a></td>
+          {% endfor %}
+          </tbody>
+        </table>
+        <br/>
+
         {#        <div class="card h-100 shadow-3">#}
         {#          <div class="card-body">#}
         {#            <h4>Добавить ещё акдемических групп</h4>#}
