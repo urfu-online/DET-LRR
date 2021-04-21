@@ -118,6 +118,13 @@
               <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
                  class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать академические группы</a>
             {% endif %}
+            {% if assigment_academic_group.all %}
+              <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
+                 class="btn btn-block btn-primary"><i class="pen icon"></i>Создать структурно-тематический план</a>
+            {% else %}
+              <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
+                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический план</a>
+            {% endif %}
           </div>
         </div>
         <br/>

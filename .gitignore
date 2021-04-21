@@ -333,3 +333,4 @@ lrr/media/
 !.envs/.local/
 /.idea/
 /parsed/.idea/
+lrr/frontend/node_modules

@@ -22,7 +22,7 @@ class ComplexSpaceCellInline(admin.TabularInline):
         "created",
     ]
     extra = 0
-    autocomplete_fields = ['digital_complex', 'cells']
+    autocomplete_fields = ['digital_complex', ]
 
 
 class CellWeeksInline(admin.TabularInline):

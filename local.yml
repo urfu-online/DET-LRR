@@ -3,6 +3,7 @@ version: '3'
 volumes:
   local_postgres_data: {}
   local_postgres_data_backups: {}
+  node-modules: {}
 
 services:
   django: &django
@@ -46,6 +47,31 @@ services:
   redis:
     image: redis:5.0
     container_name: lrr_redis
+
+  frontend:
+    build: ./frontend
+    command: [ "npm", "start" ]
+    volumes:
+      - ./frontend:/app/frontend
+      - node-modules:/app/frontend/node_modules
+    ports:
+      - "3000:3000"
+
+#  frontend:
+#    build: ./lrr/frontend
+#    image: lrr_local_frontend
+#    container_name: lrr_frontend
+#    volumes:
+#      - ./lrr/frontend:/app
+#      # One-way volume to use node_modules from inside image
+#      - ./lrr/frontend/app/node_modules
+#    ports:
+#      - "3000:3000"
+#    environment:
+#      - NODE_ENV=development
+#    depends_on:
+#      - django
+#    command: npm start
 
 #  celeryworker:
 #    <<: *django

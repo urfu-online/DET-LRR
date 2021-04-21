@@ -105,10 +105,9 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
                                                                                    complex_model.PlatformComponent,
                                                                                    complex_model.LiterarySourcesComponent,
                                                                                    complex_model.TraditionalSessionComponent)
-        try:
-            context['component_complex'] = component_complex.get(digital_complex=self.object)
-        except:
-            pass
+
+        context['component_complex'] = component_complex.filter(digital_complex=self.object).first()
+        logger.warning(context['component_complex'])
         context['resource_components'] = complex_model.ResourceComponent.objects.filter(digital_complex=self.object)
         context['platform_components'] = complex_model.PlatformComponent.objects.filter(digital_complex=self.object)
         context['traditional_components'] = complex_model.TraditionalSessionComponent.objects.filter(
@@ -475,7 +474,7 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.AssignmentAcademicGroup
     allow_empty = True
     paginate_by = 12
-    group_required = ['student', 'admins']
+    group_required = [u'student', u'admins']
     filterset_class = AssignmentAcademicGroupMyFilter
     template_name = 'complexes/student/my_subjects_list.html'
     subjects = []
@@ -502,3 +501,75 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         context['academic_group'] = academic_group
         context['direction'] = direction
         return context
+
+
+class CellMyFilter(django_filters.FilterSet):
+    class Meta:
+        model = complex_model.Cell
+        fields = {
+            'theme_name': ['contains'],
+        }
+
+
+class CellListView(GroupRequiredMixin, FilteredListView):
+    model = complex_model.Cell
+    allow_empty = True
+    paginate_by = 12
+    group_required = [u'teacher', u'admins']
+    filterset_class = CellMyFilter
+    template_name = 'complexes/teacher/thematic_plan/list.html'
+
+    def get_queryset(self, **kwargs):
+        try:
+            queryset = complex_model.Cell.objects.filter(
+                digital_complex=self.request.resolver_match.kwargs['digital_complex_pk'])
+        except:
+            queryset = complex_model.Cell.objects.all()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CellListView, self).get_context_data(**kwargs)
+        context['dig_complex'] = complex_model.DigitalComplex.objects.get(
+            pk=self.request.resolver_match.kwargs['digital_complex_pk'])
+        return context
+
+
+class CellCreateView(GroupRequiredMixin, generic.CreateView):
+    model = complex_model.Cell
+    form_class = forms.CellForm
+    group_required = [u"teacher", u"admins"]
+    template_name = 'complexes/teacher/thematic_plan/form_create.html'
+
+    def get_success_url(self):
+        dig_complex_id = self.object.digital_complex.pk
+        return reverse_lazy("complexes:complexes_Cell_list", args=(dig_complex_id,))
+
+    def form_valid(self, form):
+        # context = self.get_context_data()
+        form.instance.digital_complex = self.object.digital_complex
+        # assignment_formset = context['assignment_formset']
+        self.object = form.save()
+        # if assignment_formset.is_valid():
+        #     assignment_formset.instance = self.object
+        #     assignment_formset.save()
+        form_valid = super(CellCreateView, self).form_valid(form)
+        return form_valid
+
+    def get_context_data(self, **kwargs):
+        context = super(CellCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["form"] = forms.CellForm(self.request.POST, instance=self.object)
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
+            #                                                                      instance=self.object)
+        else:
+            context["form"] = forms.CellForm(instance=self.object)
+            context['digital_complex_pk'] = self.request.resolver_match.kwargs['digital_complex_pk']
+            context['dig_complex'] = complex_model.DigitalComplex.objects.get(
+                pk=self.request.resolver_match.kwargs['digital_complex_pk'])
+            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
+        return context
+

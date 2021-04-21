@@ -59,11 +59,14 @@ class Cell(BaseModel):
     ]
 
     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
+    theme_name = models.CharField("Тема / Раздел", max_length=1024, blank=True)
     include_practice = models.BooleanField("Практика", blank=True, null=True)
     include_theory = models.BooleanField("Теория", blank=True, null=True)
     beg_theme_number = models.PositiveSmallIntegerField("Начало диапазонов объединяемых строчек", blank=True)
     end_theme_number = models.PositiveSmallIntegerField("Конец диапазонов объединяемых строчек", blank=True)
     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True)
+    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭУМК",
+                                        on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         verbose_name = u"Ячейка цифрового комплекса ЭУМК"
@@ -74,10 +77,9 @@ class Cell(BaseModel):
 
 
 class ComplexSpaceCell(BaseModel):
-    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭМУК",
-                                        on_delete=models.CASCADE, blank=True)
+    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭУМК",
+                                        on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField("Наимаенование", max_length=150)
-    cells = models.ManyToManyField(Cell, verbose_name="Ячейка комплекса", blank=True)
     description = models.TextField("Описание", max_length=300)
     link = models.URLField("Ссылка на образовательное пространство", blank=True, null=True)
 

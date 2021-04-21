@@ -22,14 +22,7 @@ class DigitalComplexAdminForm(forms.ModelForm):
 class CellAdminForm(forms.ModelForm):
     class Meta:
         model = complex_models.Cell
-        fields = [
-            "type",
-            "include_practice",
-            "include_theory",
-            "beg_theme_number",
-            "end_theme_number",
-            "methodology_description",
-        ]
+        fields = "__all__"
 
 
 class CellWeeksAdminForm(forms.ModelForm):
@@ -41,11 +34,7 @@ class CellWeeksAdminForm(forms.ModelForm):
 class ComplexSpaceCellAdminForm(forms.ModelForm):
     class Meta:
         model = complex_models.ComplexSpaceCell
-        fields = [
-            "title",
-            "cells",
-            "description",
-        ]
+        fields = "__all__"
 
 
 class ComplexThemeAdminForm(forms.ModelForm):

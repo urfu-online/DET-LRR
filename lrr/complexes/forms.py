@@ -105,14 +105,7 @@ class DigitalComplexForm(forms.ModelForm):
 class CellForm(forms.ModelForm):
     class Meta:
         model = complex_models.Cell
-        fields = [
-            "type",
-            "include_practice",
-            "include_theory",
-            "beg_theme_number",
-            "end_theme_number",
-            "methodology_description",
-        ]
+        fields = "__all__"
 
 
 class CellWeeksForm(forms.ModelForm):
@@ -124,11 +117,7 @@ class CellWeeksForm(forms.ModelForm):
 class ComplexSpaceCellForm(forms.ModelForm):
     class Meta:
         model = complex_models.ComplexSpaceCell
-        fields = [
-            "title",
-            "cells",
-            "description",
-        ]
+        fields = "__all__"
 
 
 class ComplexThemeForm(forms.ModelForm):
