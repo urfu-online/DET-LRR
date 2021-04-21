@@ -104,7 +104,7 @@
             {#              {% endfor %}#}
             {#            </h5>#}
             {% if resource_components.all or platform_components.all or traditional_components.all or component_complex is not None %}
-              <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=component_complex.pk %}"
+              <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=object.pk  %}"
                  class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>
             {% else %}
               <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
