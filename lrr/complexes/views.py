@@ -105,9 +105,7 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
                                                                                    complex_model.PlatformComponent,
                                                                                    complex_model.LiterarySourcesComponent,
                                                                                    complex_model.TraditionalSessionComponent)
-        dig_complex = complex_model.DigitalComplex.objects.get(
-            pk=self.request.resolver_match.kwargs['digital_complex_pk'])
-
+        dig_complex = complex_model.DigitalComplex.objects.get(pk=self.request.resolver_match.kwargs['pk'])
         context['component_complex'] = component_complex.filter(digital_complex=dig_complex).first()
         logger.warning(context['component_complex'])
         context['resource_components'] = complex_model.ResourceComponent.objects.filter(digital_complex=self.object)
@@ -575,4 +573,3 @@ class CellCreateView(GroupRequiredMixin, generic.CreateView):
             context['test_complex'] = DigitalResource.objects.filter(title__icontains='Строит')
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
         return context
-
