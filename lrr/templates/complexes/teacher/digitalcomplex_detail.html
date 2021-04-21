@@ -10,9 +10,11 @@
     </ol>
   </nav>
   <header class="pb-4 px-2">
-    {% if request.user.is_superuser %}
-      <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i
-              class="pen icon"></i>Редактировать</a>
+    {% if request.user|has_group:"teacher" %}
+      {% if request.user.is_superuser %}
+        <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i
+                class="pen icon"></i>Редактировать</a>
+      {% endif %}
     {% endif %}
     <h1>{{ object.title }} </h1>
     <p>Паспорт цифрового образовательного ресурса</p>
@@ -104,26 +106,29 @@
             {#              {% endfor %}#}
             {#            </h5>#}
             {% if resource_components.all or platform_components.all or traditional_components.all or component_complex is not None %}
-{#              <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=object.pk  %}"#}
-{#                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>#}
-{#            {% else %}#}
-              <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
-                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать компонент</a>
-            {% endif %}
-            <br/>
-            {% if assigment_academic_group.all %}
-              <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав академических групп</a>
-            {% else %}
-              <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать академические группы</a>
-            {% endif %}
-            {% if assigment_academic_group.all %}
-              <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
-                 class="btn btn-block btn-primary"><i class="pen icon"></i>Создать структурно-тематический план</a>
-            {% else %}
-              <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
-                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический план</a>
+              {% if request.user|has_group:"teacher" %}
+                <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=component_complex.pk %}"
+                   class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>
+              {% else %}
+                <a href="{% url 'complexes:complexes_ComponentComplex_create' pk=object.pk %}"
+                   class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать компонент</a>
+              {% endif %}
+              <br/>
+              {% if assigment_academic_group.all %}
+                <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+                   class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав академических
+                  групп</a>
+              {% else %}
+                <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+                   class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать академические группы</a>
+              {% endif %}
+              {% if assigment_academic_group.all %}
+                <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
+                   class="btn btn-block btn-primary"><i class="pen icon"></i>Создать структурно-тематический план</a>
+              {% else %}
+                <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
+                   class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический план</a>
+              {% endif %}
             {% endif %}
           </div>
         </div>
