@@ -20,93 +20,94 @@
     <p>Паспорт цифрового образовательного ресурса</p>
   </header>
   {% if request.user.is_authenticated %}
-    <div class="row p-2">
-      <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-        <div class="card h-100 border-secondary shadow-2">
-          <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
-            <p> {{ object.description }}</p>
+  <div class="row p-2">
+    <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
+      <div class="card h-100 border-secondary shadow-2">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
+          <p> {{ object.description }}</p>
+          <hr>
+          <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
+          <p>{{ object.keywords }}</p>
+          <hr>
+          <h6 class="card-subtitle mb-2 text-muted">Формат использования:</h6>
+          <p>{{ object.format }}</p>
+          <hr>
+          <h6 class="card-subtitle mb-2 text-muted">Результаты обучения:</h6>
+          <h5 class="card-title"></h5>
+          {% if object.results_edu.all %}
+            <ul class="list-unstyled">
+              {% for object in object.results_edu.all %}
+                {% include "repository/result_edu.html"  with object=object %}
+              {% endfor %}
+            </ul>
+          {% endif %}
+          <hr>
+          <h6 class="card-subtitle mb-2 text-muted">Дисциплины</h6>
+          {% for obj in object.subjects.all %}
+            <p>{{ obj }}</p>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
-            <p>{{ object.keywords }}</p>
+          {% endfor %}
+          <h6 class="card-subtitle mb-2 text-muted">Направления подготовки/Образовательная программа:</h6>
+          {% for obj in object.directions.all %}
+            <p>{{ obj }}</p>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Формат использования:</h6>
-            <p>{{ object.format }}</p>
+          {% endfor %}
+          <h6 class="card-subtitle mb-2 text-muted">Компетенции:</h6>
+          {% for obj in object.competences.all %}
+            <p>{{ obj }}</p>
             <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Результаты обучения:</h6>
-            <h5 class="card-title"></h5>
-            {% if object.results_edu.all %}
-              <ul class="list-unstyled">
-                {% for object in object.results_edu.all %}
-                  {% include "repository/result_edu.html"  with object=object %}
-                {% endfor %}
-              </ul>
-            {% endif %}
-            <hr>
-            <h6 class="card-subtitle mb-2 text-muted">Дисциплины</h6>
-            {% for obj in object.subjects.all %}
-              <p>{{ obj }}</p>
-              <hr>
-            {% endfor %}
-            <h6 class="card-subtitle mb-2 text-muted">Направления подготовки/Образовательная программа:</h6>
-            {% for obj in object.directions.all %}
-              <p>{{ obj }}</p>
-              <hr>
-            {% endfor %}
-            <h6 class="card-subtitle mb-2 text-muted">Компетенции:</h6>
-            {% for obj in object.competences.all %}
-              <p>{{ obj }}</p>
-              <hr>
-            {% endfor %}
+          {% endfor %}
 
-          </div>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-5 col-xl-4 p-2">
-        {#        <a href="{{ object.get_url }}" class="btn btn-block btn-primary mb-3"><i#}
-        {#                class="user graduate icon"></i> Перейти</a>#}
-        {#        <div class="card shadow-1 mb-3">#}
-        {#          <div class="card-body">#}
-        {#            <h6 class="card-subtitle mb-2 text-muted">Авторы:</h6>#}
-        {#            <h5 class="card-title">{% for obj in object.authors.all %}#}
-        {#              {% include "repository/author.html" with object=obj %}#}
-        {#            {% endfor %}</h5>#}
-        {#            <hr>#}
-        {#            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>#}
-        {#            <h5 class="card-title"> {{ object.get_type_display }}</h5>#}
-        {#          </div>#}
-        {#        </div>#}
-        <div class="card shadow-1">
-          <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-muted">Владелец:</h6>
-            <h5 class="card-title"> {{ object.owner }}</h5>
-            <hr>
-            {#            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>#}
-            {#            <h5 class="card-title"> {{ object.get_type_display }}</h5>#}
-            {#            <hr>#}
-            {#            <h6 class="card-subtitle mb-2 text-muted">Платформа:</h6>#}
-            {#            <h5 class="card-title"> {{ object.platform }}</h5>#}
-            {#            <hr>#}
-            <h6 class="card-subtitle mb-2 text-muted">Язык ресурса:</h6>
-            <h5 class="card-title"> {{ object.language.title }}</h5>
-            <hr>
-            {#            <h6 class="card-subtitle mb-2 text-muted">Правообладатель:</h6>#}
-            {#            <h5 class="card-title"> {{ object.copyright_holder }}</h5>#}
-            {#            <hr>#}
-            {#            <h6 class="card-subtitle mb-2 text-muted">Направление/ОП:</h6>#}
-            {#            <h5 class="card-title"> {% for state in status.all %}{{ state.edu_program }}{% endfor %}</h5>#}
-            {#            <hr>#}
-            {#            <h6 class="card-subtitle mb-2 text-muted">Дисциплина:</h6>#}
-            {#            <h5 class="card-title"> {% for state in status.all %}{{ state.subject }}{% endfor %}</h5>#}
-            {#            <hr>#}
-            {#            <h6 class="card-subtitle mb-2 text-muted">Теги:</h6>#}
-            {#            <h5 class="card-title">#}
-            {#              {% for tag in object.subjects_tags.all %}#}
-            {#                {% include "repository/tag.html" with tag=tag %}#}
-            {#              {% endfor %}#}
-            {#            </h5>#}
-            {% if resource_components.all or platform_components.all or traditional_components.all or component_complex is not None %}
-              {% if request.user|has_group:"teacher" %}
+    </div>
+    <div class="col-12 col-md-6 col-lg-5 col-xl-4 p-2">
+      {#        <a href="{{ object.get_url }}" class="btn btn-block btn-primary mb-3"><i#}
+      {#                class="user graduate icon"></i> Перейти</a>#}
+      {#        <div class="card shadow-1 mb-3">#}
+      {#          <div class="card-body">#}
+      {#            <h6 class="card-subtitle mb-2 text-muted">Авторы:</h6>#}
+      {#            <h5 class="card-title">{% for obj in object.authors.all %}#}
+      {#              {% include "repository/author.html" with object=obj %}#}
+      {#            {% endfor %}</h5>#}
+      {#            <hr>#}
+      {#            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>#}
+      {#            <h5 class="card-title"> {{ object.get_type_display }}</h5>#}
+      {#          </div>#}
+      {#        </div>#}
+      <div class="card shadow-1">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Владелец:</h6>
+          <h5 class="card-title"> {{ object.owner }}</h5>
+          <hr>
+          {#            <h6 class="card-subtitle mb-2 text-muted">Тип ресурса:</h6>#}
+          {#            <h5 class="card-title"> {{ object.get_type_display }}</h5>#}
+          {#            <hr>#}
+          {#            <h6 class="card-subtitle mb-2 text-muted">Платформа:</h6>#}
+          {#            <h5 class="card-title"> {{ object.platform }}</h5>#}
+          {#            <hr>#}
+          <h6 class="card-subtitle mb-2 text-muted">Язык ресурса:</h6>
+          <h5 class="card-title"> {{ object.language.title }}</h5>
+          <hr>
+          {#            <h6 class="card-subtitle mb-2 text-muted">Правообладатель:</h6>#}
+          {#            <h5 class="card-title"> {{ object.copyright_holder }}</h5>#}
+          {#            <hr>#}
+          {#            <h6 class="card-subtitle mb-2 text-muted">Направление/ОП:</h6>#}
+          {#            <h5 class="card-title"> {% for state in status.all %}{{ state.edu_program }}{% endfor %}</h5>#}
+          {#            <hr>#}
+          {#            <h6 class="card-subtitle mb-2 text-muted">Дисциплина:</h6>#}
+          {#            <h5 class="card-title"> {% for state in status.all %}{{ state.subject }}{% endfor %}</h5>#}
+          {#            <hr>#}
+          {#            <h6 class="card-subtitle mb-2 text-muted">Теги:</h6>#}
+          {#            <h5 class="card-title">#}
+          {#              {% for tag in object.subjects_tags.all %}#}
+          {#                {% include "repository/tag.html" with tag=tag %}#}
+          {#              {% endfor %}#}
+          {#            </h5>#}
+          {% if resource_components.all or platform_components.all or traditional_components.all or component_complex is not None %}
+            {% if request.user|has_group:"teacher" %}
+              {% if component_complex.all %}
                 <a href="{% url 'complexes:complexes_ComponentComplex_update' pk=component_complex.pk %}"
                    class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>
               {% else %}
@@ -130,123 +131,123 @@
                    class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический план</a>
               {% endif %}
             {% endif %}
-          </div>
-        </div>
-        <br/>
-        <div class="card shadow-1 p-3">
-          <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
-          {#        {% if resource_components.all or platform_component.all or traditional_components.all or component_complex or literary_components.all is not None %}#}
-          {% if resource_components.all is not None %}
-            <table class="table table-striped table-bordered">
-              <thead>
-              <h5>Компоненты ЭОР: </h5>
-              <tr>
-                <th>ЭОР</th>
-                <th>Описание / Методика применения</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for component in resource_components %}
-                <tr>
-                <td>
-                  <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>
-                </td>
-                <td>{{ component.description }}</td>
-              {% endfor %}
-              </tbody>
-            </table>
-          {% elif platform_component.all is not None %}
-            <table class="table table-striped table-bordered">
-              <thead>
-              <h5>Компоненты Платформ: </h5>
-              <tr>
-                <th>Платформа</th>
-                <th>Описание / Методика применения</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for component in platform_components %}
-                <tr>
-                <td>
-                  <a href="{% url 'repository:repository_Platform_detail' pk=component.platform.pk %}">{{ component.platform }}</a>
-                </td>
-                <td>{{ component.description }}</td>
-              {% endfor %}
-              </tbody>
-            </table>
-          {% elif traditional_components.all is not None %}
-            <table class="table table-striped table-bordered">
-              <thead>
-              <h5>Компоненты традиционных занятий:</h5>
-              <tr>
-                <th>Наименование</th>
-                <th>Описание / Методика применения</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for component in traditional_components %}
-                <tr>
-                  <td>{{ component.title }}</td>
-                  <td>{{ component.description }}</td>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
-          {% elif literary_components.all is not None %}
-            <table class="table table-striped table-bordered">
-              <thead>
-              <h5>Компоненты литературные источники:</h5>
-              <tr>
-                <th>Наименование</th>
-                <th>Описание / Методика применения</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for component in literary_components %}
-                <tr>
-                  <td>{{ component.title }}</td>
-                  <td>{{ component.url }}</td>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
-          {% else %}
-            Компоненты Отсутсвуют
+            </div>
+            </div>
+            <br/>
+            <div class="card shadow-1 p-3">
+              <h6 class="card-subtitle mb-2 text-muted">Компоненты ЭУМК:</h6>
+              {#        {% if resource_components.all or platform_component.all or traditional_components.all or component_complex or literary_components.all is not None %}#}
+              {% if resource_components.all is not None %}
+                <table class="table table-striped table-bordered">
+                  <thead>
+                  <h5>Компоненты ЭОР: </h5>
+                  <tr>
+                    <th>ЭОР</th>
+                    <th>Описание / Методика применения</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for component in resource_components %}
+                    <tr>
+                    <td>
+                      <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>
+                    </td>
+                    <td>{{ component.description }}</td>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              {% elif platform_component.all is not None %}
+                <table class="table table-striped table-bordered">
+                  <thead>
+                  <h5>Компоненты Платформ: </h5>
+                  <tr>
+                    <th>Платформа</th>
+                    <th>Описание / Методика применения</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for component in platform_components %}
+                    <tr>
+                    <td>
+                      <a href="{% url 'repository:repository_Platform_detail' pk=component.platform.pk %}">{{ component.platform }}</a>
+                    </td>
+                    <td>{{ component.description }}</td>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              {% elif traditional_components.all is not None %}
+                <table class="table table-striped table-bordered">
+                  <thead>
+                  <h5>Компоненты традиционных занятий:</h5>
+                  <tr>
+                    <th>Наименование</th>
+                    <th>Описание / Методика применения</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for component in traditional_components %}
+                    <tr>
+                      <td>{{ component.title }}</td>
+                      <td>{{ component.description }}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              {% elif literary_components.all is not None %}
+                <table class="table table-striped table-bordered">
+                  <thead>
+                  <h5>Компоненты литературные источники:</h5>
+                  <tr>
+                    <th>Наименование</th>
+                    <th>Описание / Методика применения</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for component in literary_components %}
+                    <tr>
+                      <td>{{ component.title }}</td>
+                      <td>{{ component.url }}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                Компоненты Отсутсвуют
+              {% endif %}
+            </div>
+            <br/>
+            <div class="card shadow-1 p-3">
+              {% if assigment_academic_group.all %}
+                <table class="table table-striped table-bordered">
+                  <thead>
+                  <h5>Назначение академическим группам: </h5>
+                  <tr>
+                    <th>Академическая группа</th>
+                    <th>Дисциплина</th>
+                    <th>Учебный год</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for component in assigment_academic_group %}
+                    <tr>
+                    <td>{{ component.academic_group }}</td>
+                    <td>{{ component.subject }}</td>
+                    <td>{{ component.learn_date }}</td>
+                    {#                <td>{{ component.semestr }}</td>#}
+                  {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                Назначенные группы отсутсвуют
+              {% endif %}
+            </div>
+            </div>
+            </div>
           {% endif %}
-        </div>
-        <br/>
-        <div class="card shadow-1 p-3">
-          {% if assigment_academic_group.all %}
-            <table class="table table-striped table-bordered">
-              <thead>
-              <h5>Назначение академическим группам: </h5>
-              <tr>
-                <th>Академическая группа</th>
-                <th>Дисциплина</th>
-                <th>Учебный год</th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for component in assigment_academic_group %}
-                <tr>
-                <td>{{ component.academic_group }}</td>
-                <td>{{ component.subject }}</td>
-                <td>{{ component.learn_date }}</td>
-                {#                <td>{{ component.semestr }}</td>#}
-              {% endfor %}
-              </tbody>
-            </table>
-          {% else %}
-            Назначенные группы отсутсвуют
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
 
 
 {% endblock %}
