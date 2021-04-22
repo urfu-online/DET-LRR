@@ -1,22 +1,53 @@
-
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
 
-<p>
-    <a class="btn btn-light" href="{% url 'repository:repository_Platform_list' %}">
-    Platform Listing
-    </a>
-</p>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Список моих ЭУМК</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Платформа {{ object.title }}</li>
+    </ol>
+  </nav>
+  <header class="pb-4 px-2">
+    <h1>{{ object.title }} </h1>
+  </header>
 
-<table class="table">
-    <tr><td>created</td><td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td></tr>
-    <tr><td>url</td><td>{{ object.url }}</td></tr>
-    <tr><td>logo</td><td>{{ object.logo }}</td></tr>
-    <tr><td>description</td><td>{{ object.description }}</td></tr>
-    <tr><td>contacts</td><td>{{ object.contacts }}</td></tr>
-    <tr><td>title</td><td>{{ object.title }}</td></tr>
-</table>
-<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
-
+  <div class="container">
+    <table class="table">
+      {#    <tr><td>created</td><td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td></tr>#}
+      <tr>
+        <td>Платформа</td>
+        <td>{{ object.title }}</td>
+      </tr>
+      <tr>
+        <td>Ссылка</td>
+        <td><a href="{{ object.url }}">{{ object.url }}</a></td>
+      </tr>
+      <tr>
+        <td>Логотип</td>
+        {% if object.logo %}
+          <td>{{ object.logo }}</td>
+        {% else %}
+          <td>Логотип отсутвует</td>
+        {% endif %}
+      </tr>
+      <tr>
+        <td>Описание</td>
+        {% if object.description %}
+          <td>{{ object.description }}</td>
+        {% else %}
+          <td>Описание отсутвует</td>
+        {% endif %}
+      </tr>
+      <tr>
+        <td>Контакты</td>
+        {% if object.description %}
+          <td>{{ object.description }}</td>
+        {% else %}
+          <td>Контакты отсутвуют</td>
+        {% endif %}
+      </tr>
+    </table>
+  </div>
 {% endblock %}

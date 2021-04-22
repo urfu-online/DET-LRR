@@ -258,7 +258,8 @@ class DigitalResourceDetailView(GroupRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
         context['expertise'] = Expertise.get_digital_resource_status(self.object)
-        context['source'] = models.DigitalResource.get_source(self.object)
+        context['source'] = models.Source.objects.filter(digital_resource=self.object)
+        # TODO: доделать нормальное отображение source
         return context
 
 
