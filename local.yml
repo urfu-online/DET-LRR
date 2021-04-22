@@ -3,7 +3,7 @@ version: '3'
 volumes:
   local_postgres_data: {}
   local_postgres_data_backups: {}
-  node-modules: {}
+#  node-modules: {}
 
 services:
   django: &django
@@ -48,14 +48,14 @@ services:
     image: redis:5.0
     container_name: lrr_redis
 
-  frontend:
-    build: ./frontend
-    command: [ "npm", "start" ]
-    volumes:
-      - ./frontend:/app/frontend
-      - node-modules:/app/frontend/node_modules
-    ports:
-      - "3000:3000"
+#  frontend:
+#    build: ./frontend
+#    command: [ "npm", "start" ]
+#    volumes:
+#      - ./frontend:/app/frontend
+#      - node-modules:/app/frontend/node_modules
+#    ports:
+#      - "3000:3000"
 
 #  frontend:
 #    build: ./lrr/frontend

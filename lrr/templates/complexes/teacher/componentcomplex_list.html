@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои
+        ЭУМК</a></li>
+      <li class="breadcrumb-item"><a
+              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">ЭУМК {{ dig_complex.keywords }}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Добавление компонентов ЭУМК</li>
+    </ol>
+  </nav>
+  <header><h1 class="display-3">Добавление компонентов ЭУМК</h1>
+    <h4>
+      По дисциплине(ам)
+      {% for subject in dig_complex.subjects.all %}
+        {{ subject }}
+      {% endfor %}
+      образовательной программы
+      {% for direction in dig_complex.directions.all %}
+        {{ direction }}
+      {% endfor %}
+    </h4>
+  </header>
+  <div class="row p-2">
+    <div class="col-12 p-2">
+      <div class="card h-100 border-secondary shadow-2">
+        <div class="card-body">
+          <table class="table table-striped table-bordered">
+            <thead>
+            <h5>Компоненты ЭОР</h5>
+            <tr>
+              <th>ЭОР</th>
+              <th>Описание / Методика применения</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for component in resource_components %}
+              <tr>
+                <td>{{ component.digital_resource }}</td>
+                <td>{{ component.description }}</td>
+                <td><a class="btn btn-outline-primary "
+                       href="{% url 'complexes:complexes_ResourceComponent_delete' pk=component.pk %}"><i
+                        class="fas fa-trash-alt"></i></a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+          <table class="table table-striped table-bordered">
+            <thead>
+            <h5>Компоненты Платформ: </h5>
+            <tr>
+              <th>Платформа</th>
+              <th>Описание / Методика применения</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for component in platform_components %}
+              <tr>
+                <td>{{ component.platform }}</td>
+                <td>{{ component.description }}</td>
+                <td><a class="btn btn-outline-primary "
+                       href="{% url 'complexes:complexes_PlatformComponent_delete' pk=component.pk %}"><i
+                        class="fas fa-trash-alt"></i></a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+          <table class="table table-striped table-bordered">
+            <thead>
+            <h5>Компоненты традиционных занятий</h5>
+            <tr>
+              <th>Наименование</th>
+              <th>Описание / Методика применения</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for component in traditional_components %}
+              <tr>
+                <td>{{ component.title }}</td>
+                <td>{{ component.description }}</td>
+                <td><a class="btn btn-outline-primary "
+                       href="{% url 'complexes:complexes_TraditionalSessionComponent_delete' pk=component.pk %}"><i
+                        class="fas fa-trash-alt"></i></a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+          <table class="table table-striped table-bordered">
+            <thead>
+            <h5>Компоненты литературных источников</h5>
+            <tr>
+              <th>Наименование</th>
+              <th>Описание / Методика применения</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for component in literary_components %}
+              <tr>
+                <td>{{ component.title }}</td>
+                <td>{{ component.description }}</td>
+                <td><a class="btn btn-outline-primary "
+                       href="{% url 'complexes:complexes_LiterarySourcesComponent_delete' pk=component.pk %}"><i
+                        class="fas fa-trash-alt"></i></a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          <div class="ui segment">
+            <a class="btn btn-primary"
+               href="{% url 'complexes:complexes_ResourceComponent_create' pk=dig_complex.pk %}"><i
+                    class="fas fa-plus"></i> ЭОР</a>
+            <a class="btn btn-primary"
+               href="{% url 'complexes:complexes_PlatformComponent_create' pk=dig_complex.pk %}"><i
+                    class="fas fa-plus"></i>
+              Платформа</a>
+            <a class="btn btn-primary"
+               href="{% url 'complexes:complexes_TraditionalSessionComponent_create' pk=dig_complex.pk %}"><i
+                    class="fas fa-plus"></i>
+              Традиционные занятия</a>
+            <a class="btn btn-primary"
+               href="{% url 'complexes:complexes_LiterarySourcesComponent_create' pk=dig_complex.pk %}"><i
+                    class="fas fa-plus"></i>
+              Литературные источники</a>
+          </div>
+          <a class="btn btn-primary" href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">Вернуться
+            назад</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+  </div>
+{% endblock %}

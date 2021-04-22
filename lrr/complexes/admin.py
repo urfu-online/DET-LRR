@@ -117,11 +117,12 @@ class AssignmentAcademicGroupAdmin(admin.ModelAdmin):
     autocomplete_fields = ["subject", "digital_complex"]
 
 
+# @admin.register(models.ComponentComplex)
 class ComponentComplexChildAdmin(PolymorphicChildModelAdmin):
     base_model = models.ComponentComplex
 
 
-# @admin.register(models.ComponentComplex)
+@admin.register(models.ComponentComplex)
 class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
     base_model = models.ComponentComplex
     search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]
@@ -138,7 +139,7 @@ class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
     fields = ("digital_complex", "description")
 
 
-@admin.register(models.ComponentComplex)
+# @admin.register(models.ComponentComplex)
 class ComponentComplexChiledAdmin(ComponentComplexChildAdmin):
     base_model = models.ComponentComplex
     search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]

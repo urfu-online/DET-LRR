@@ -101,12 +101,12 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DigitalComplexDetailView, self).get_context_data(**kwargs)
-        component_complex = complex_model.ComponentComplex.objects.not_instance_of(complex_model.ResourceComponent,
-                                                                                   complex_model.PlatformComponent,
-                                                                                   complex_model.LiterarySourcesComponent,
-                                                                                   complex_model.TraditionalSessionComponent)
+        component_complex = complex_model.ComponentComplex.objects.instance_of(complex_model.ResourceComponent,
+                                                                               complex_model.PlatformComponent,
+                                                                               complex_model.LiterarySourcesComponent,
+                                                                               complex_model.TraditionalSessionComponent)
         dig_complex = complex_model.DigitalComplex.objects.get(pk=self.request.resolver_match.kwargs['pk'])
-        context['component_complex'] = component_complex.filter(digital_complex=dig_complex).first()
+        context['component_complex'] = component_complex.filter(digital_complex=dig_complex)
         logger.warning(context['component_complex'])
         context['resource_components'] = complex_model.ResourceComponent.objects.filter(digital_complex=self.object)
         context['platform_components'] = complex_model.PlatformComponent.objects.filter(digital_complex=self.object)
@@ -206,6 +206,45 @@ class ComponentComplexUpdateView(GroupRequiredMixin, generic.UpdateView):
                 digital_complex=self.object.digital_complex)
             # context["form"] = forms.ComponentComplexForm(instance=self.object)
         # context["source_formset"] = forms.SourceFormset(instance=self.object)
+        return context
+
+
+class ComponentComplexListView(GroupRequiredMixin, FilteredListView):
+    model = complex_model.ComponentComplex
+    form_class = forms.ComponentComplexForm
+    group_required = [u"teacher", u"admins"]
+    template_name = 'complexes/teacher/componentcomplex_list.html'
+    allow_empty = True
+    paginate_by = 12
+    filterset_class = DigitalComplexFilter
+
+    def dispatch(self, request, *args, **kwargs):
+        self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        component_complex = complex_model.ComponentComplex.objects.instance_of(complex_model.ResourceComponent,
+                                                                               complex_model.PlatformComponent,
+                                                                               complex_model.LiterarySourcesComponent,
+                                                                               complex_model.TraditionalSessionComponent)
+        queryset = component_complex.filter(digital_complex=self.digital_complex)
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super(ComponentComplexListView, self).get_context_data(**kwargs)
+        context['dig_complex'] = self.digital_complex
+        context['resource_components'] = complex_model.ResourceComponent.objects.filter(
+            digital_complex=self.digital_complex)
+        context['platform_components'] = complex_model.PlatformComponent.objects.filter(
+            digital_complex=self.digital_complex)
+        context['literary_components'] = complex_model.LiterarySourcesComponent.objects.filter(
+            digital_complex=self.digital_complex)
+        context['traditional_components'] = complex_model.TraditionalSessionComponent.objects.filter(
+            digital_complex=self.digital_complex)
         return context
 
 
