@@ -70,7 +70,6 @@
           <h6 class="card-subtitle mb-2 text-muted">Язык ресурса:</h6>
           <h5 class="card-title"> {{ object.language.title }}</h5>
           <hr>
-          {% if resource_components.all or platform_components.all or traditional_components.all or component_complex.all is not None %}
             {% if request.user|has_group:"teacher" %}
               {% if component_complex.all %}
                 <a href="{% url 'complexes:complexes_ComponentComplex_list' pk=object.pk %}"
@@ -95,7 +94,6 @@
                 <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
                    class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический план</a>
               {% endif %}
-            {% endif %}
             </div>
             </div>
             <br/>
