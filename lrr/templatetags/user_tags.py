@@ -1,10 +1,12 @@
 # -*- coding:utf-8 -*-
 from __future__ import unicode_literals
 
+import logging
+
 from django import template
 
 register = template.Library()
-
+logger = logging.getLogger(__name__)
 
 @register.inclusion_tag("repository/dr_cards.html")
 def get_resources(res, *args, **kwargs):
@@ -16,14 +18,11 @@ def get_resources(res, *args, **kwargs):
         return {'objects': res.get_resources_by_subject(subject)}
 
 
-# @register.filter('has_owner')
-# def has_owner(user):
-#     try:
-#         person =
-#         groups = user.groups.all().values_list('name', flat=True)
-#         return True if group_name in groups else False
-#     except:
-#         return None
+@register.filter('has_owner')
+def has_owner(user, res):
+    owner = res.get_owner(user)
+    logger.warning(owner)
+    return owner
 
 
 @register.filter('has_group')

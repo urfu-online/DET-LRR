@@ -119,7 +119,6 @@ class DigitalResourceForm(forms.ModelForm):
         fields = [
             "title",
             "type",
-            "source_data",
             "keywords",
             "description",
             "edu_programs_tags",
@@ -128,7 +127,6 @@ class DigitalResourceForm(forms.ModelForm):
             "subjects_tags",
             "owner",
             "language",
-            "provided_disciplines",
             "platform",
             "result_edu",
         ]
@@ -145,22 +143,14 @@ class DigitalResourceForm(forms.ModelForm):
                     'required': 'false'
                 }
             ),
-            "source_data": forms.Select(
-                attrs={
-                    'class': 'form-control',
-                    'required': 'false'
-                }
-            ),
             "keywords": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 }
             ),
             "description": forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 }
             ),
             "copyright_holder": forms.Select(
@@ -199,16 +189,9 @@ class DigitalResourceForm(forms.ModelForm):
                     'required': 'false'
                 },
             ),
-            "provided_disciplines": ProvidedDisciplinesWidget(
-                attrs={
-                    'class': 'form-control',
-                    'required': 'false'
-                },
-            ),
             "result_edu": ResultEduWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
 
@@ -249,10 +232,9 @@ SourceFormset = inlineformset_factory(
                 'class': 'form-control-file',
             },
         ),
-        'type': forms.TextInput(
+        'type': forms.Select(
             attrs={
                 'class': 'form-control',
-                'required': 'false'
             },
         ),
     }

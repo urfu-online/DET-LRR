@@ -2,11 +2,10 @@ import logging
 
 import django_filters
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 from lrr.inspections.models import Expertise
-from lrr.users.models import Person
 from lrr.users.mixins import GroupRequiredMixin
+from lrr.users.models import Person
 from . import forms
 from . import models
 from .filters import FilteredListView
@@ -232,6 +231,7 @@ class DigitalResourceCreateView(GroupRequiredMixin, generic.CreateView):
         source_formset = context['source_formset']
         person = Person.get_person(user=self.request.user)
         form.instance.owner = person
+        form.instance.source_data = "MANUAL"
         self.object = form.save()
         if source_formset.is_valid():
             source_formset.instance = self.object

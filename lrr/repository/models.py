@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import uuid
+
 # from lrr.users.models import Person
 from django.contrib.postgres.fields import ArrayField
 from django.db import models as models
@@ -193,7 +194,8 @@ class Direction(BaseModel):
     uni_id = models.CharField(db_index=True, max_length=64, null=True, blank=True)
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код направления", max_length=8)
-    scientific_branch = models.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions", null=True, blank=True, on_delete=models.CASCADE)
+    scientific_branch = models.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions",
+                                          null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = u"Направление подготовки"
@@ -261,7 +263,8 @@ class EduProgram(BaseModel):
     head = models.CharField("Руководитель", max_length=300, null=True, blank=True)
     site_admin = models.CharField("Администратор сайта ОП", max_length=300, null=True, blank=True)
 
-    direction = models.ForeignKey(Direction, verbose_name="Направление подготовки", related_name="programs", null=True, blank=True, on_delete=models.CASCADE)
+    direction = models.ForeignKey(Direction, verbose_name="Направление подготовки", related_name="programs", null=True,
+                                  blank=True, on_delete=models.CASCADE)
 
     @property
     def cipher(self):
@@ -290,7 +293,8 @@ class EduProgram(BaseModel):
 
 class ProvidingDiscipline(BaseModel):
     # Relationships
-    edu_program = models.ForeignKey("repository.EduProgram", verbose_name="Образовательная программа", on_delete=models.PROTECT)
+    edu_program = models.ForeignKey("repository.EduProgram", verbose_name="Образовательная программа",
+                                    on_delete=models.PROTECT)
     subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", on_delete=models.PROTECT)
     # Fields
     rate = models.PositiveIntegerField("Процент покрытия")
@@ -424,6 +428,15 @@ class DigitalResource(BaseModel):
         else:
             return None
 
+    def get_owner(self, user):
+        try:
+            if self.owner.user == user:
+                return True
+            else:
+                return False
+        except:
+            return False
+
     @classmethod
     def get_stats_by_type(cls):
         return {
@@ -435,12 +448,20 @@ class DigitalResource(BaseModel):
 
 
 class Source(BaseModel):
+    # type
+    URL = 'URL'
+    FILE = 'FILE'
+
+    SOURCE_TYPE = [
+        (URL, 'url'),
+        (FILE, 'Файл'),
+    ]
     link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
     URL = models.URLField("Ссылка", null=True, blank=True)
     file = models.FileField(verbose_name="Файл", upload_to="upload/files", null=True, blank=True)
     digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
                                          on_delete=models.CASCADE)
-    type = models.CharField("Тип", max_length=150, null=True, blank=True)
+    type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=150, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Компонент"
