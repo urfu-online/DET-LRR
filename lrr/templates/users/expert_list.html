@@ -68,7 +68,7 @@
       {% for object in object_list %}
         <tr>
           <td>{{ object.person.first_name }} {{ object.person.middle_name }} {{ object.person.last_name }}</td>
-          <td>{{ object.get_type_display }}</td>
+          <td>{% for type in object.types.all %}{{ type }} {% endfor %}</td>
           <td>{{ object.subdivision }}</td>
           <td><a class="btn btn-outline-primary text-nowrap" href="{% url "users:expert_detail" slug=object.person.user %}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
         </tr>

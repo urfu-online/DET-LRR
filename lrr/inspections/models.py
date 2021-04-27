@@ -297,7 +297,7 @@ class ExpertiseRequest(repository_model.BaseModel):
     END = 'END'
 
     STATUS_CHOICES = [
-        (START, 'Назначена'),
+        (START, 'В процессе'),
         (IN_PROCESS, 'В процессе'),
         (END, 'Завершена')
         # Fields
@@ -346,9 +346,9 @@ class ExpertiseRequest(repository_model.BaseModel):
         return objs
 
     @classmethod
-    def get_active_my_checklist(cls, user):
+    def get_active_my_checklist(cls):
         try:
-            objs = cls.objects.filter(Q(status='START') & Q(expert__person__user=user), )
+            objs = cls.objects.all()
         except:
             objs = cls.objects.all()
         return objs

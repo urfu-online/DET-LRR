@@ -24,6 +24,18 @@
         {% csrf_token %}
         {{ form.errors }}
         <div class="form-group">
+          <label>Инициатор</label>
+          <div class="ui segment">
+            <p>{{ object.owner }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Дата заявки</label>
+          <div class="ui segment">
+            <p>{{ object.created }}</p>
+          </div>
+        </div>
+        <div class="form-group">
           <label>{{ form.subjects.label }}</label>
           <div class="ui segment">
             {% if object.subjects.all %}
@@ -77,13 +89,16 @@
               </thead>
               <tbody>
               {% for item in expertise_request.all %}
-                <tr>
-                <td>{{ item.survey }}</td>
-                <td>{{ item.expert }}</td>
-                <td>{{ item.get_status_display }}</td>
-                <td><a class=""
-                       href="{% url 'inspections:inspections_ExpertiseRequestClose_detail' pk=item.pk %}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a>
-                </td>
+                {% if item.survey %}
+                  <tr>
+                  <td>{{ item.survey }}</td>
+                  <td>{{ item.expert }}</td>
+                  <td>{{ item.get_status_display }}</td>
+                  <td><a class=""
+                         href="{% url 'inspections:inspections_ExpertiseRequestClose_detail' pk=item.pk %}"><i
+                          class="fas fa-info-circle fa-lg"></i> Подробнее</a>
+                  </td>
+                {% endif %}
               {% endfor %}
               </tbody>
             </table>

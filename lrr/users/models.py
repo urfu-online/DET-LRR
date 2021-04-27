@@ -6,6 +6,7 @@ from django.db import models as models
 from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.postgres.fields import ArrayField
 
 
 # from lrr.repository.models import Direction
@@ -156,7 +157,7 @@ class AcademicGroup(models.Model):
         return obj.direction
 
 
-class Expert(models.Model):
+class ChoicesExpert(models.Model):
     # status
     METHODICAL = 'METHODICAL'
     CONTENT = 'CONTENT'
@@ -169,9 +170,19 @@ class Expert(models.Model):
         # Fields
 
     ]
-
-    person = models.ForeignKey("users.Person", on_delete=models.CASCADE, verbose_name="Пользователь")
     type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)
+
+    class Meta:
+        verbose_name = u"Тип экспертизы"
+        verbose_name_plural = u"Типы экспертиз"
+
+    def __str__(self):
+        return self.get_type_display()
+
+
+class Expert(models.Model):
+    person = models.ForeignKey("users.Person", on_delete=models.CASCADE, verbose_name="Пользователь")
+    types = models.ManyToManyField('users.ChoicesExpert', verbose_name="Вид экспертизы", blank=True, null=True)
     subdivision = models.CharField('Подразделение/отрасль', max_length=500)
 
     class Meta:

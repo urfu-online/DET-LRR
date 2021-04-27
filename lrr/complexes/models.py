@@ -196,7 +196,8 @@ class AssignmentAcademicGroup(BaseModel):
 
 class ComponentComplex(BaseModel, PolymorphicModel):
     digital_complex = models.ForeignKey(DigitalComplex, verbose_name="ЭУМК", on_delete=models.CASCADE, blank=True)
-    description = models.CharField("Описание / Методика применения", max_length=1024, blank=True, null=True)
+    description = models.TextField("Описание / Методика применения", max_length=1024, blank=True, null=True)
+    order = models.IntegerField("Order", blank=True, null=True)
 
     def __str__(self):
         return f"{self.digital_complex.title} - {self.digital_complex.keywords} - {self.digital_complex.format}"
@@ -225,7 +226,7 @@ class ResourceComponent(ComponentComplex):
 
 class LiterarySourcesComponent(ComponentComplex):
     title = models.CharField("Библиографическая ссылка", max_length=424, null=True, blank=True)
-    url = models.URLField("URL-ссылка", null=True, blank=True)
+    url = models.URLField("URL", null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -239,17 +240,19 @@ class LiterarySourcesComponent(ComponentComplex):
 
 
 class PlatformComponent(ComponentComplex):
-    platform = models.ForeignKey(Platform, verbose_name="Платформа", on_delete=models.CASCADE, blank=True)
+    title = models.CharField("Наименование", max_length=150, blank=True)
+    description_self = models.TextField("Описание", max_length=2024, blank=True)
+    url = models.URLField("Ссылка на онлайн-расписание занятий", null=True, blank=True)
 
     def __str__(self):
-        return self.platform.title
+        return self.title
 
     def get_absolute_url(self):
         return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
 
     class Meta:
-        verbose_name = 'Компонент платформы'
-        verbose_name_plural = 'Компоненты платформ'
+        verbose_name = 'Среда обучения'
+        verbose_name_plural = 'Среда обучения'
 
 
 class TraditionalSessionComponent(ComponentComplex):
@@ -264,5 +267,5 @@ class TraditionalSessionComponent(ComponentComplex):
         return self.title
 
     class Meta:
-        verbose_name = 'компонент традиционных занятий'
-        verbose_name_plural = 'компоненты традиционных занятий'
+        verbose_name = 'Синхронное занятие'
+        verbose_name_plural = 'Синхронные занятия'

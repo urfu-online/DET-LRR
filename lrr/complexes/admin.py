@@ -158,8 +158,7 @@ class ResourceComponentAdmin(ComponentComplexChildAdmin):
 @admin.register(models.PlatformComponent)
 class PlatformComponentAdmin(ComponentComplexChildAdmin):
     base_model = models.PlatformComponent
-    search_fields = ["platform__title", ]
-    autocomplete_fields = ["platform", ]
+    search_fields = ["title", ]
     # show_in_index = True
 
 

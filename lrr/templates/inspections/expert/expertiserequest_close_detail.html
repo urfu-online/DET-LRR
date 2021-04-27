@@ -53,6 +53,7 @@
         <br/>
       {{ response }}
         {% for answer in answers %}
+          <h5>{{ answer.question.category }}</h5>
           <b>{{ answer.question.text }}</b>
           <br/>
           {{ answer.body }}

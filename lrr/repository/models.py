@@ -565,7 +565,7 @@ class Language(models.Model):
         verbose_name_plural = u"Языки ресурсов"
 
     def __str__(self):
-        return self.code
+        return self.title
 
     def get_absolute_url(self):
         return reverse("repository_Language_detail", args=(self.code,))

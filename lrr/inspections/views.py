@@ -65,7 +65,7 @@ class ExpertiseCompletionView(View):
             ans = answers.filter(question__text=indicator["title"]).first()
             if ans:
                 if '0-100' not in indicator["values"]:
-                    logger.warning(f"Предполагаем список строк: {ans.body}" )
+                    logger.warning(f"Предполагаем список строк: {ans.body}")
                     achievment["value_interpreted"] = indicator["values"].index(slugify(ans.body, allow_unicode=True))
                     achievment["value"] = slugify(ans.body, allow_unicode=True)
                     achievment["max_value"] = len(indicator["values"]) - 1
@@ -154,8 +154,7 @@ class ExpertiseActiveExpert(GroupRequiredMixin, FilteredListView):
     template_name = 'inspections/expert/expertise_active_expert_list.html'
 
     def get_queryset(self):
-        user = self.request.user
-        queryset = self.model.get_active_my_checklist(user)
+        queryset = self.model.get_active_my_checklist()
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
         if qs.count() == 0:
@@ -183,6 +182,8 @@ class ExpertiseCreateView(GroupRequiredMixin, generic.CreateView):
         form.instance.status = "SUB_APP"
         form.instance.type = "FULL"
         form.save()
+        request = inspections_models.ExpertiseRequest.objects.create(expertise=form.instance, status="START")
+        request.save()
         form_valid = super(ExpertiseCreateView, self).form_valid(form)
         return form_valid
 
@@ -217,7 +218,6 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
         form_valid = super(ExpertiseUpdateView, self).form_valid(form)
         return form_valid
 
-    # TODO: формат date + digital_resource + избавиться от Expertise.get_checklists
     def get_context_data(self, **kwargs):
         context = super(ExpertiseUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -229,9 +229,7 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
             expertise_request = expertise.get_expertise_request()
             context['expertise_request'] = expertise_request
             response = Response.objects.select_related('survey').all()
-            logger.warning(response)
             answer = Answer.objects.filter(response=response)
-            logger.warning(answer)
             context["form"] = forms.ExpertiseUpdateForm(instance=self.object)
         # self.object.digital_complex = inspections_models.Expertise.get_digital_resource(self)
         return context
@@ -329,7 +327,7 @@ class ExpertiseRequestDetailCloseView(generic.DetailView):
         response = Response.objects.prefetch_related("user", "survey", "expertise_request").filter(
             survey=self.object.survey, expertise_request=self.object
         ).latest()
-        answers = Answer.objects.filter(response=response)
+        answers = Answer.objects.filter(response=response).order_by('question__order')
         context['answers'] = answers
         return context
 

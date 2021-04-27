@@ -77,15 +77,29 @@ class ExpertAdminForm(form.ModelForm):
         fields = "__all__"
 
 
+class ChoicesExpertAdminForm(form.ModelForm):
+    class Meta:
+        model = models.ChoicesExpert
+        fields = "__all__"
+
+
 class ExpertAdmin(admin.ModelAdmin):
     form = ExpertAdminForm
     list_display = [
         "person",
-        "type",
         "subdivision",
+    ]
+    filter_horizontal = ('types',)
+
+
+class ChoicesExpertAdmin(admin.ModelAdmin):
+    form = ChoicesExpertAdminForm
+    list_display = [
+        "type"
     ]
 
 
+admin.site.register(models.ChoicesExpert, ChoicesExpertAdmin)
 admin.site.register(models.Expert, ExpertAdmin)
 admin.site.register(models.AcademicGroup, AcademicGroupAdmin)
 admin.site.register(models.Student, StudentAdmin)

@@ -296,15 +296,21 @@ class PlatformComponentWidget(s2forms.ModelSelect2Widget):
 class PlatformComponentForm(forms.ModelForm):
     class Meta:
         model = complex_models.PlatformComponent
-        fields = ['platform', 'description']
+        fields = ['title', 'description_self', 'url']
         widgets = {
-            "platform": PlatformComponentWidget(
+            "title": forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'required': 'false'
                 },
             ),
-            "description": forms.TextInput(
+            "description_self": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'false'
+                },
+            ),
+            "url": forms.URLInput(
                 attrs={
                     'class': 'form-control',
                     'required': 'false'

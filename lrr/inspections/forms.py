@@ -174,7 +174,6 @@ class ExpertWidget(s2forms.ModelSelect2Widget):
         "person__first_name__icontains",
         "person__middle_name__icontains",
         "person__last_name__icontains",
-        "type__icontains",
         "subdivision__icontains",
     ]
     max_results = 50
@@ -189,7 +188,7 @@ class ExpertiseRequestCreateForm(forms.ModelForm):
         ]
         exclude = ["expertise", "date", "protocol", "status", "type"],
         widgets = {
-            'survey': SurveyWidget(
+            'survey': forms.Select(
                 attrs={
                     'class': 'form-control',
                     'required': 'false'
@@ -213,8 +212,17 @@ class ExpertiseRequestUpdateForm(forms.ModelForm):
             "date",
             "protocol",
             "status",
-            "expertise"
+            "expertise",
+            "survey"
         ]
+        widgets = {
+            'survey': forms.Select(
+                attrs={
+                    'class': 'form-select',
+                    'required': 'false'
+                }
+            )
+        }
 
 
 class QuestionForm(forms.ModelForm):

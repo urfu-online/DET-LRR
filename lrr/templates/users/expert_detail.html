@@ -9,11 +9,7 @@
           <a class="btn btn-primary" href="{% url "users:expert_update" slug=object.person.user %}">Редактировать</a>
           <h3 class="ui header">Данные эксперта</h3>
           <p>ФИО: {{ object.person.last_name }} {{ object.person.first_name }} {{ object.person.middle_name }}</p>
-          <p>Страна: {{ object.person.country }}</p>
-          <p>Город: {{ object.person.city }}</p>
-          <p>Адрес проживания: {{ object.person.location }}</p>
-          <p>Дата рождения: {{ object.person.date_birthday }}</p>
-          <p>Вид экспертизы: {{ object.get_type_display }}</p>
+          <p>Вид экспертизы: {% for type in object.types.all %}{{ type }} {% endfor %}</p>
           <p>Подразделение/отрасль: {{ object.subdivision }}</p>
         </div>
         <div class="six wide right floated column">

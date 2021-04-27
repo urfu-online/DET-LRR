@@ -118,7 +118,7 @@ class ExpertFilter(django_filters.FilterSet):
             'person__first_name': ['contains'],
             'person__last_name': ['contains'],
             'person__middle_name': ['contains'],
-            'type': ['exact'],
+            'types': ['exact'],
             'subdivision': ['contains'],
         }
 

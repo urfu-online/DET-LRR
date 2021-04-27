@@ -25,7 +25,7 @@
             <a class="btn btn-outline-primary float-right" href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
             <div class="form-group">
               <h5>Тип заявки</h5>
-              <p>{{ object.survey }}</p>
+              <p>{{ form.survey }}</p>
             </div>
             <div class="form-group">
               <h5>Инициатор</h5>

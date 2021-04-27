@@ -59,12 +59,16 @@ class PersonWidget(s2forms.ModelSelect2Widget):
     max_results = 50
 
 
+class ExpertWidget(s2forms.ModelSelect2TagWidget):
+    pass
+
+
 class ExpertForm(form.ModelForm):
     class Meta:
         model = models.Expert
         fields = [
             "person",
-            "type",
+            "types",
             "subdivision",
         ]
         widgets = {
@@ -74,10 +78,9 @@ class ExpertForm(form.ModelForm):
                     'required': 'false',
                 },
             ),
-            "type": form.Select(
+            "types": form.CheckboxSelectMultiple(
                 attrs={
-                    'class': 'form-control',
-                    'required': 'false',
+                    'class': 'form-check-input checkbox-custom',
                 },
             ),
             "subdivision": form.TextInput(
