@@ -32,7 +32,6 @@ class DigitalComplexForm(forms.ModelForm):
     class Meta:
         model = complex_models.DigitalComplex
         fields = [
-            "title",
             "keywords",
             "description",
             "language",
@@ -42,15 +41,9 @@ class DigitalComplexForm(forms.ModelForm):
             "competences",
             "results_edu",
         ]
-        exclude = ["owner", "digital_resources"]
+        exclude = ["title", "owner", "digital_resources"]
 
         widgets = {
-            "title": forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'required': 'false',
-                },
-            ),
             "keywords": forms.TextInput(
                 attrs={
                     'class': 'form-control',
@@ -63,7 +56,7 @@ class DigitalComplexForm(forms.ModelForm):
                     'required': 'false',
                 },
             ),
-            "format": forms.TextInput(
+            "format": forms.Select(
                 attrs={
                     'class': 'form-control',
                     'required': 'false',
@@ -130,6 +123,7 @@ class CellForm(forms.ModelForm):
                 },
             ),
         }
+
 
 class CellWeeksForm(forms.ModelForm):
     class Meta:

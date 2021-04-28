@@ -13,14 +13,23 @@ logger = logging.getLogger(__name__)
 
 
 class DigitalComplex(BaseModel):
-    title = models.CharField("Наименование комплекса", max_length=150, blank=True, null=True)
+    FORMAT_TYPES = (
+        ("0", "смешанное обучение (Ауд+Дист+ЭИОС)"),
+        ("1", "смешанное обучение (Ауд+Дист)"),
+        ("2", "смешанное обучение (Ауд+ЭИОС)"),
+        ("3", "дистанционное обучение (Дист+ЭИОС)"),
+        ("4", "дистанционное обучение (Дист)"),
+        ("5", "исключительно электронное обучение"),
+        ("6", "традиционное обучение"),
+    )
+    title = models.CharField("Наименование комплекса", max_length=150, blank=True, null=True, default="")
     subjects = models.ManyToManyField(Subject, verbose_name="Дисциплина(ы)", blank=True)
     directions = models.ManyToManyField(Direction, verbose_name="Направления подготовки", blank=True)
     description = models.TextField('Описание', blank=True)
     competences = models.ManyToManyField(Competence, verbose_name="Компетенции", blank=True)
     results_edu = models.ManyToManyField(ResultEdu, verbose_name="Результаты обучения", blank=True)
     digital_resources = models.ManyToManyField(DigitalResource, verbose_name="Компоненты ЭУМК")
-    format = models.CharField("Формат использования", max_length=300, blank=True)
+    format = models.CharField("Формат использования", choices=FORMAT_TYPES, max_length=300, blank=True)
     language = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name="Язык комплекса")
     keywords = models.CharField("Ключевые слова", max_length=300, null=True, blank=True)
     owner = models.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_digital_complex",

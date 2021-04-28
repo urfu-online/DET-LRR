@@ -132,6 +132,11 @@ class DigitalComplexUpdateView(GroupRequiredMixin, generic.UpdateView):
         form_valid = super(DigitalComplexUpdateView, self).form_valid(form)
         return form_valid
 
+    # def __init__(self, *args, **kwargs):
+    #     super(DigitalComplexUpdateView, self).__init__(*args, **kwargs)
+    #     title = "Электронный учебно-методический комплекс по дисциплине {0}".format(self.fields['title'])
+    #     self.fields['title'].initial =
+
 
 class ComponentComplexCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.ComponentComplex

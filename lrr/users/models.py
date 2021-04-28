@@ -182,7 +182,7 @@ class ChoicesExpert(models.Model):
 
 class Expert(models.Model):
     person = models.ForeignKey("users.Person", on_delete=models.CASCADE, verbose_name="Пользователь")
-    types = models.ManyToManyField('users.ChoicesExpert', verbose_name="Вид экспертизы", blank=True, null=True)
+    types = models.ManyToManyField('users.ChoicesExpert', verbose_name="Вид экспертизы", blank=True)
     subdivision = models.CharField('Подразделение/отрасль', max_length=500)
 
     class Meta:
