@@ -508,6 +508,8 @@ class Competence(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код", max_length=8)
+    okso = models.CharField("Код", max_length=8)
+
 
     # TODO: add fields
     # type choices_to TYPES
