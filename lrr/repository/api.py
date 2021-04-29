@@ -5,22 +5,6 @@ from . import models
 from . import serializers
 
 
-class DRStatusViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Status_COR class"""
-
-    queryset = models.DRStatus.objects.all()
-    serializer_class = serializers.DRStatusSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class ExpertiseStatusViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Expertise_status class"""
-
-    queryset = models.ExpertiseStatus.objects.all()
-    serializer_class = serializers.ExpertiseStatusSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
 class SubjectViewSet(viewsets.ModelViewSet):
     """ViewSet for the Subject class"""
 
@@ -42,14 +26,6 @@ class EduProgramViewSet(viewsets.ModelViewSet):
 
     queryset = models.EduProgram.objects.all()
     serializer_class = serializers.EduProgramSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class ProvidingDisciplineViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Providing_discipline class"""
-
-    queryset = models.ProvidingDiscipline.objects.all()
-    serializer_class = serializers.ProvidingDisciplineSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
@@ -119,43 +95,11 @@ class SubjectTagViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-# class StudentViewSet(viewsets.ModelViewSet):
-#     """ViewSet for the Student class"""
-#
-#     queryset = models.Student.objects.all()
-#     serializer_class = serializers.StudentSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-
-
-class ConformityThemeViewSet(viewsets.ModelViewSet):
-    """ViewSet for the ConformityTheme class"""
-
-    queryset = models.ConformityTheme.objects.all()
-    serializer_class = serializers.ConformityThemeSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
 class EduProgramTagViewSet(viewsets.ModelViewSet):
     """ViewSet for the EduProgramTag class"""
 
     queryset = models.EduProgramTag.objects.all()
     serializer_class = serializers.EduProgramTagSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class SubjectThemeViewSet(viewsets.ModelViewSet):
-    """ViewSet for the SubjectTheme class"""
-
-    queryset = models.SubjectTheme.objects.all()
-    serializer_class = serializers.SubjectThemeSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class ThematicPlanViewSet(viewsets.ModelViewSet):
-    """ViewSet for the ThematicPlan class"""
-
-    queryset = models.ThematicPlan.objects.all()
-    serializer_class = serializers.ThematicPlanSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

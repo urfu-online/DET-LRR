@@ -31,8 +31,4 @@ urlpatterns = (
          name="inspections_ExpertiseRequest_update"),
     path("Answer/<uuid:request_pk>/", views.ExpertiseRequestView.as_view(),
          name="inspections_answer"),
-    path("Question/", views.QuestionListView.as_view(), name="inspections_Question_list"),
-    path("Question/create/", views.QuestionCreateView.as_view(), name="inspections_Question_create"),
-    path("Question/detail/<uuid:pk>/", views.QuestionDetailView.as_view(), name="inspections_Question_detail"),
-    path("Question/update/<uuid:pk>/", views.QuestionUpdateView.as_view(), name="inspections_Question_update"),
 )

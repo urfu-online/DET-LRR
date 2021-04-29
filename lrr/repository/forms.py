@@ -5,29 +5,6 @@ from django_select2 import forms as s2forms
 from . import models
 
 
-class DRStatusForm(forms.ModelForm):
-    class Meta:
-        model = models.DRStatus
-        fields = [
-            "digital_resource",
-            "quality_category",
-            "interactive_category",
-            "expertise_status",
-            "edu_program",
-            "subject"
-        ]
-
-
-class ExpertiseStatusForm(forms.ModelForm):
-    class Meta:
-        model = models.ExpertiseStatus
-        fields = [
-            "end_date",
-            "status",
-            "accepted_status",
-        ]
-
-
 class SubjectForm(forms.ModelForm):
     class Meta:
         model = models.Subject
@@ -57,16 +34,6 @@ class EduProgramForm(forms.ModelForm):
             "description",
             "short_description",
             "title",
-        ]
-
-
-class ProvidingDisciplineForm(forms.ModelForm):
-    class Meta:
-        model = models.ProvidingDiscipline
-        fields = [
-            "rate",
-            "edu_program",
-            "subject",
         ]
 
 
@@ -310,38 +277,9 @@ class SubjectTagForm(forms.ModelForm):
         ]
 
 
-class ConformityThemeForm(forms.ModelForm):
-    class Meta:
-        model = models.ConformityTheme
-        fields = [
-            "practice",
-            "theory",
-            "theme",
-        ]
-
-
 class EduProgramTagForm(forms.ModelForm):
     class Meta:
         model = models.EduProgramTag
         fields = [
             "tag",
-        ]
-
-
-class SubjectThemeForm(forms.ModelForm):
-    class Meta:
-        model = models.SubjectTheme
-        fields = [
-            "description",
-            "title",
-        ]
-
-
-class ThematicPlanForm(forms.ModelForm):
-    class Meta:
-        model = models.ThematicPlan
-        fields = [
-            "title",
-            "subject",
-            "edu_program",
         ]

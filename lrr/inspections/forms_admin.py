@@ -33,21 +33,3 @@ class ExpertiseRequestAdminForm(forms.ModelForm):
             "protocol",
             "survey"
         ]
-
-
-class CheckListQestionAdminForm(forms.ModelForm):
-    class Meta:
-        model = inspection_models.CheckListQestion
-        fields = '__all__'
-
-
-class QestionAdminForm(forms.ModelForm):
-    class Meta:
-        model = inspection_models.Question
-        fields = "__all__"
-
-
-class AnswerAdminForm(forms.ModelForm):
-    class Meta:
-        model = inspection_models.Answer
-        fields = "__all__"

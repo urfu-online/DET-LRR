@@ -19,11 +19,3 @@ class CheckListViewSet(viewsets.ModelViewSet):
     queryset = models.ExpertiseRequest.objects.all()
     serializer_class = serializers.CheckListSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
-class QuestionViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Subject class"""
-
-    queryset = models.Question.objects.all()
-    serializer_class = serializers.QuestionSerializer
-    permission_classes = [permissions.IsAuthenticated]

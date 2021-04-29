@@ -9,59 +9,10 @@ from lrr.users.models import Person
 from . import forms
 from . import models
 from .filters import FilteredListView
+from django.shortcuts import render
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
-
-
-class DRStatusListView(generic.ListView):
-    model = models.DRStatus
-    form_class = forms.DRStatusForm
-
-
-class DRStatusCreateView(generic.CreateView):
-    model = models.DRStatus
-    form_class = forms.DRStatusForm
-
-
-class DRStatusDetailView(generic.DetailView):
-    model = models.DRStatus
-    form_class = forms.DRStatusForm
-
-
-class DRStatusUpdateView(generic.UpdateView):
-    model = models.DRStatus
-    form_class = forms.DRStatusForm
-    pk_url_kwarg = "pk"
-
-
-class ExpertiseStatusListView(generic.ListView):
-    model = models.ExpertiseStatus
-    form_class = forms.ExpertiseStatusForm
-
-
-class ExpertiseStatusCreateView(generic.CreateView):
-    model = models.ExpertiseStatus
-    form_class = forms.ExpertiseStatusForm
-
-
-class ExpertiseStatusDetailView(generic.DetailView):
-    model = models.ExpertiseStatus
-    form_class = forms.ExpertiseStatusForm
-
-
-class ExpertiseStatusUpdateView(generic.UpdateView):
-    model = models.ExpertiseStatus
-    form_class = forms.ExpertiseStatusForm
-    pk_url_kwarg = "pk"
-
-    def get_context_data(self, **kwargs):
-        context = super(ExpertiseStatusUpdateView, self).get_context_data(**kwargs)
-        drstatus = models.DRStatus.objects.filter(expertise_status__pk=self.kwargs['pk']).first()
-        # logger.warning()
-
-        context['digital_resource'] = drstatus.digital_resource
-        return context
 
 
 class SubjectListView(generic.ListView):
@@ -124,27 +75,6 @@ class EduProgramDetailView(generic.DetailView):
 class EduProgramUpdateView(generic.UpdateView):
     model = models.EduProgram
     form_class = forms.EduProgramForm
-    pk_url_kwarg = "pk"
-
-
-class ProvidingDisciplineListView(generic.ListView):
-    model = models.ProvidingDiscipline
-    form_class = forms.ProvidingDisciplineForm
-
-
-class ProvidingDisciplineCreateView(generic.CreateView):
-    model = models.ProvidingDiscipline
-    form_class = forms.ProvidingDisciplineForm
-
-
-class ProvidingDisciplineDetailView(generic.DetailView):
-    model = models.ProvidingDiscipline
-    form_class = forms.ProvidingDisciplineForm
-
-
-class ProvidingDisciplineUpdateView(generic.UpdateView):
-    model = models.ProvidingDiscipline
-    form_class = forms.ProvidingDisciplineForm
     pk_url_kwarg = "pk"
 
 
@@ -378,48 +308,6 @@ class SubjectTagUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
-# class StudentListView(generic.ListView):
-#     model = models.Student
-#     form_class = forms.StudentForm
-#
-#
-# class StudentCreateView(generic.CreateView):
-#     model = models.Student
-#     form_class = forms.StudentForm
-#
-#
-# class StudentDetailView(generic.DetailView):
-#     model = models.Student
-#     form_class = forms.StudentForm
-#
-#
-# class StudentUpdateView(generic.UpdateView):
-#     model = models.Student
-#     form_class = forms.StudentForm
-#     pk_url_kwarg = "pk"
-
-
-class ConformityThemeListView(generic.ListView):
-    model = models.ConformityTheme
-    form_class = forms.ConformityThemeForm
-
-
-class ConformityThemeCreateView(generic.CreateView):
-    model = models.ConformityTheme
-    form_class = forms.ConformityThemeForm
-
-
-class ConformityThemeDetailView(generic.DetailView):
-    model = models.ConformityTheme
-    form_class = forms.ConformityThemeForm
-
-
-class ConformityThemeUpdateView(generic.UpdateView):
-    model = models.ConformityTheme
-    form_class = forms.ConformityThemeForm
-    pk_url_kwarg = "pk"
-
-
 class EduProgramTagListView(generic.ListView):
     model = models.EduProgramTag
     form_class = forms.EduProgramTagForm
@@ -439,57 +327,6 @@ class EduProgramTagUpdateView(generic.UpdateView):
     model = models.EduProgramTag
     form_class = forms.EduProgramTagForm
     pk_url_kwarg = "pk"
-
-
-class SubjectThemeListView(generic.ListView):
-    model = models.SubjectTheme
-    form_class = forms.SubjectThemeForm
-
-
-class SubjectThemeCreateView(generic.CreateView):
-    model = models.SubjectTheme
-    form_class = forms.SubjectThemeForm
-
-
-class SubjectThemeDetailView(generic.DetailView):
-    model = models.SubjectTheme
-    form_class = forms.SubjectThemeForm
-
-
-class SubjectThemeUpdateView(generic.UpdateView):
-    model = models.SubjectTheme
-    form_class = forms.SubjectThemeForm
-    pk_url_kwarg = "pk"
-
-
-class ThematicPlanListView(generic.ListView):
-    model = models.ThematicPlan
-    form_class = forms.ThematicPlanForm
-
-
-class ThematicPlanCreateView(generic.CreateView):
-    model = models.ThematicPlan
-    form_class = forms.ThematicPlanForm
-
-
-class ThematicPlanDetailView(generic.DetailView):
-    model = models.ThematicPlan
-    form_class = forms.ThematicPlanForm
-
-
-class ThematicPlanUpdateView(generic.UpdateView):
-    model = models.ThematicPlan
-    form_class = forms.ThematicPlanForm
-    pk_url_kwarg = "pk"
-
-
-from django.shortcuts import render
-
-
-def ExpertiseListView(request):
-    status = models.DRStatus.objects.all()
-    # status = models.DRStatus.objects.filter(digital_resource=for i in
-    return render(request, 'pages/expert_list.html', {'status': status})
 
 
 def statistics(request):

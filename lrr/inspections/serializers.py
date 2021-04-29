@@ -57,13 +57,3 @@ class CheckListSerializer(serializers.ModelSerializer):
             "date",
             "protocol",
         ]
-
-
-class QuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = inspections_models.Question
-        fields = [
-            "title",
-            "checklist",
-            "answer",
-        ]

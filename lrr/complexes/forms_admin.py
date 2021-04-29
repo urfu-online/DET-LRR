@@ -25,25 +25,10 @@ class CellAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class CellWeeksAdminForm(forms.ModelForm):
-    class Meta:
-        model = complex_models.CellWeeks
-        fields = "__all__"
-
-
 class ComplexSpaceCellAdminForm(forms.ModelForm):
     class Meta:
         model = complex_models.ComplexSpaceCell
         fields = "__all__"
-
-
-class ComplexThemeAdminForm(forms.ModelForm):
-    class Meta:
-        model = complex_models.ComplexTheme
-        fields = [
-            "title",
-            "number",
-        ]
 
 
 class AssignmentAcademicGroupForm(forms.ModelForm):

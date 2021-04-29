@@ -125,25 +125,10 @@ class CellForm(forms.ModelForm):
         }
 
 
-class CellWeeksForm(forms.ModelForm):
-    class Meta:
-        model = complex_models.CellWeeks
-        fields = "__all__"
-
-
 class ComplexSpaceCellForm(forms.ModelForm):
     class Meta:
         model = complex_models.ComplexSpaceCell
         fields = "__all__"
-
-
-class ComplexThemeForm(forms.ModelForm):
-    class Meta:
-        model = complex_models.ComplexTheme
-        fields = [
-            "title",
-            "number",
-        ]
 
 
 class DigitalComplexWidget(s2forms.ModelSelect2Widget):

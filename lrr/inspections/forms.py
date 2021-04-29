@@ -223,26 +223,3 @@ class ExpertiseRequestUpdateForm(forms.ModelForm):
                 }
             )
         }
-
-
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = inspections_models.Question
-        fields = [
-            "title",
-            "checklist",
-            "type",
-            "choices"
-        ]
-
-
-class CheckListQestionForm(forms.ModelForm):
-    class Meta:
-        model = inspections_models.CheckListQestion
-        fields = '__all__'
-
-
-class AnswerForm(forms.ModelForm):
-    class Meta:
-        model = inspections_models.Answer
-        fields = "__all__"

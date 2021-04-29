@@ -25,26 +25,6 @@ class ComplexSpaceCellInline(admin.TabularInline):
     autocomplete_fields = ['digital_complex', ]
 
 
-class CellWeeksInline(admin.TabularInline):
-    model = models.CellWeeks
-    list_display = ["beg_week_number", "end_week_number", "edu_form"]
-    readonly_fields = [
-        "created",
-    ]
-    extra = 0
-    autocomplete_fields = ["cell"]
-
-
-class ComplexThemeAdminInline(admin.TabularInline):
-    model = models.ComplexTheme
-    list_display = ["title", "number"]
-    readonly_fields = [
-        "created",
-    ]
-    extra = 0
-    autocomplete_fields = ["digital_complex"]
-
-
 class WorkPlanAcademicGroupAdminInline(admin.TabularInline):
     list_display = [
         "academic_group",

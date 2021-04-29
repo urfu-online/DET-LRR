@@ -20,17 +20,6 @@ class SourceSerializer(serializers.ModelSerializer):
         ]
 
 
-class DRStatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.DRStatus
-        fields = [
-            "id",
-            "expertise_status",
-            "quality_category",
-            "interactive_category",
-        ]
-
-
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Organization
@@ -58,9 +47,10 @@ class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
         fields = [
+            "id",
             "title",
             "description",
-            "labor"
+            "labor",
         ]
 
 
@@ -83,37 +73,6 @@ class EduProgramTagSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "tag"
-        ]
-
-
-class ExpertiseStatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.ExpertiseStatus
-        fields = [
-            "id",
-            "end_date",
-            "status",
-            "accepted_status",
-        ]
-
-
-class SubjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Subject
-        fields = [
-            "id",
-            "title",
-            "description",
-            "labor",
-        ]
-
-
-class ProvidingDisciplineSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.ProvidingDiscipline
-        fields = [
-            "id",
-            "rate",
         ]
 
 
@@ -263,66 +222,6 @@ class PlatformSerializer(serializers.ModelSerializer):
             "description",
             "contacts",
         ]
-
-
-# class StudentSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = models.Student
-#         fields = [
-# "id",
-
-
-#             "academic_group",
-#             "created",
-#         ]
-
-class ConformityThemeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.ConformityTheme
-        fields = [
-            "id",
-            "practice",
-            "theory",
-        ]
-
-
-class SubjectThemeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.SubjectTheme
-        fields = [
-            "id",
-            "title",
-            "description",
-        ]
-
-
-class ThematicPlanSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.ThematicPlan
-        fields = [
-            "id",
-            "title",
-        ]
-
-#
-# class PersonSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = models.Person
-#         fields = [
-# "id",
-#             "location",
-#             "date_birthday",
-#             "city",
-#             "created",
-#             "middle_name",
-#             "country",
-#             "first_name",
-#             "avatar",
-#             "last_name",
-#         ]
-
 
 # {
 #    "title":"ujssdyj",

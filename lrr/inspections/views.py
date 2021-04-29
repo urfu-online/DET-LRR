@@ -401,27 +401,6 @@ class ExpertiseRequestUpdateExpertView(GroupRequiredMixin, generic.UpdateView):
         return context
 
 
-class QuestionListView(generic.ListView):
-    model = inspections_models.Question
-    form_class = forms.QuestionForm
-
-
-class QuestionCreateView(generic.CreateView):
-    model = inspections_models.Question
-    form_class = forms.QuestionForm
-
-
-class QuestionDetailView(generic.DetailView):
-    model = inspections_models.Question
-    form_class = forms.QuestionForm
-
-
-class QuestionUpdateView(generic.UpdateView):
-    model = inspections_models.Question
-    form_class = forms.QuestionForm
-    pk_url_kwarg = "pk"
-
-
 class ExpertiseRequestView(generic.View):
     template_name = 'inspections/expert/checklist_form_update.html'
     success_url = '/ExpertiseMy/'

@@ -19,101 +19,6 @@ class BaseModel(models.Model):
         abstract = True
 
 
-# TODO: устаревшая модель. подумать убрать или нет.
-class DRStatus(BaseModel):
-    # quality_category
-    INNER = 'INNER'
-    OUTER = 'OUTER'
-    OUTSIDE = 'OUTSIDE'
-
-    QUALITY_CATEGORIES = [
-        (INNER, 'внутренний'),
-        (OUTER, 'внешний'),
-        (OUTSIDE, 'сторонний'),
-    ]
-
-    # interactive_category
-    NOT_INTERACTIVE = 'NOT_INTERACTIVE'
-    WITH_TEACHER_SUPPORT = 'WITH_TEACHER_SUPPORT'
-    AUTO = 'AUTO'
-
-    INTERACTIVE_CATEGORIES = [
-        (NOT_INTERACTIVE, 'не интерактивный'),
-        (WITH_TEACHER_SUPPORT, 'с поддержкой преподавателя'),
-        (AUTO, 'автоматизированный'),
-    ]
-
-    # Relationships
-    expertise_status = models.ForeignKey("repository.ExpertiseStatus", verbose_name="Статус экспертизы",
-                                         on_delete=models.CASCADE)
-    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
-                                         on_delete=models.CASCADE)
-    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
-                                    verbose_name="Утвержденная образовательная программа", blank=True, null=True)
-    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Утвержденная дисциплина",
-                                blank=True, null=True)
-
-    # Fields
-    quality_category = models.CharField("Категория качества", max_length=30, choices=QUALITY_CATEGORIES, blank=True)
-    interactive_category = models.CharField("Категория интерактивности", max_length=30, choices=INTERACTIVE_CATEGORIES,
-                                            blank=True)
-
-    class Meta:
-        verbose_name = u"Статус ЭОР"
-        verbose_name_plural = u"Статусы ЭОР"
-
-    def __str__(self):
-        return "{} {} {}".format(self.expertise_status, self.get_quality_category_display(),
-                                 self.get_interactive_category_display())
-
-    def get_absolute_url(self):
-        return reverse("repository:repository_DRStatus_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository:repository_DRStatus_update", args=(self.pk,))
-
-    @classmethod
-    def get_by_status(cls, drstatus):
-        return cls.objects.filter(drstatus__expertise_status=drstatus.expertise_status)
-
-
-# TODO: устаревшая модель.
-class ExpertiseStatus(BaseModel):
-    # status
-    NO_INIT = 'NO_INIT'
-    SUB_APP = 'SUB_APP'
-    ON_EXPERTISE = 'ON_EXPERTISE'
-    ON_REVISION = 'ON_REVISION'
-    ASSIGNED_STATUS = 'ASSIGNED_STATUS'
-
-    STATUS_CHOICES = [
-        (NO_INIT, 'не инициирована'),
-        (SUB_APP, 'подана заявка'),
-        (ON_EXPERTISE, 'на экспертизе'),
-        (ON_REVISION, 'на доработку'),
-        (ASSIGNED_STATUS, 'присвоен статус'),
-        # Fields
-
-    ]
-
-    end_date = models.DateTimeField("Срок действия")
-    status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES, default=NO_INIT)
-    accepted_status = models.BooleanField("Утверждено (присвоен статус)", default=False)
-
-    class Meta:
-        verbose_name = u"Статус экспертизы"
-        verbose_name_plural = u"Статусы экспертиз"
-
-    def __str__(self):
-        return self.get_status_display()
-
-    def get_absolute_url(self):
-        return reverse("repository:repository_ExpertiseStatus_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository:repository_ExpertiseStatus_update", args=(self.pk,))
-
-
 class Subject(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=255)
@@ -291,28 +196,6 @@ class EduProgram(BaseModel):
         return DigitalResource.objects.filter(edu_programs_tags__tag=self).count()
 
 
-class ProvidingDiscipline(BaseModel):
-    # Relationships
-    edu_program = models.ForeignKey("repository.EduProgram", verbose_name="Образовательная программа",
-                                    on_delete=models.PROTECT)
-    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", on_delete=models.PROTECT)
-    # Fields
-    rate = models.PositiveIntegerField("Процент покрытия")
-
-    class Meta:
-        verbose_name = u"Рекомендация ЭОР в качестве обеспечения дисциплины"
-        verbose_name_plural = u"Рекомендации ЭОР в качестве обеспечения дисциплин"
-
-    def __str__(self):
-        return f"{self.edu_program.title} {self.subject.title}"
-
-    def get_absolute_url(self):
-        return reverse("repository_Providing_discipline_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_Providing_discipline_update", args=(self.pk,))
-
-
 class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
@@ -367,11 +250,6 @@ class DigitalResource(BaseModel):
     owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
                               verbose_name="Владелец", blank=True, null=True)
     language = models.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
-    provided_disciplines = models.ManyToManyField("ProvidingDiscipline",
-                                                  verbose_name="ЭОР рекомендован в качестве обеспечения дисциплины",
-                                                  blank=True)
-    conformity_theme = models.ManyToManyField("ConformityTheme", verbose_name="Соответствие ЭОР темам дисциплины",
-                                              blank=True)
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
 
@@ -599,32 +477,6 @@ class SubjectTag(BaseModel):
         return cls.objects.filter(tag__title=subject.title)
 
 
-class ConformityTheme(BaseModel):
-    # Relationships
-    theme = models.ForeignKey("repository.SubjectTheme", on_delete=models.CASCADE, verbose_name="Тема дисциплины")
-    providing_discipline = models.ForeignKey("repository.ProvidingDiscipline", on_delete=models.CASCADE,
-                                             verbose_name="Рекомендация ЭОР в качестве обеспечения дисциплины")  # TODO: Должно ли это быть тут ?
-
-    # Fields
-    practice = models.BooleanField("Практика", null=True)
-    theory = models.BooleanField("Теория", null=True)
-    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
-
-    class Meta:
-        verbose_name = u"Соответствие ЭОР темам дисциплины"
-        verbose_name_plural = u"Соответствия ЭОР темам дисциплин"
-
-    def __str__(self):
-        return f"{self.theme.title} {self.providing_discipline}"
-
-    def get_absolute_url(self):
-        return reverse("repository_ConformityTheme_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_ConformityTheme_update", args=(self.pk,))
-
-
 class EduProgramTag(BaseModel):
     # Relationships
     tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
@@ -643,42 +495,3 @@ class EduProgramTag(BaseModel):
         return reverse("repository_EduProgramTag_update", args=(self.pk,))
 
 
-class SubjectTheme(BaseModel):
-    # Fields
-    title = models.CharField("Наимаенование", max_length=150)
-    description = models.TextField("Описание", null=True, blank=True)
-    thematic_plan = models.ForeignKey("repository.ThematicPlan", on_delete=models.PROTECT,
-                                      verbose_name="Тематический план")
-
-    class Meta:
-        verbose_name = u"Тема дисциплины"
-        verbose_name_plural = u"Темы дисциплин"
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse("repository_SubjectTheme_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_SubjectTheme_update", args=(self.pk,))
-
-
-class ThematicPlan(BaseModel):
-    title = models.CharField("Наименование", max_length=50)
-    subject = models.ForeignKey("repository.Subject", on_delete=models.PROTECT, verbose_name="Дисциплина")
-    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.PROTECT,
-                                    verbose_name="Образовательная программа")
-
-    class Meta:
-        verbose_name = u"Тематический план"
-        verbose_name_plural = u"Тематические планы"
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse("repository_ThematicPlan_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("repository_ThematicPlan_update", args=(self.pk,))
