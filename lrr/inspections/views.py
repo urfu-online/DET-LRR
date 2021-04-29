@@ -154,6 +154,8 @@ class ExpertiseActiveExpert(GroupRequiredMixin, FilteredListView):
     template_name = 'inspections/expert/expertise_active_expert_list.html'
 
     def get_queryset(self):
+        user = self.request.user
+        # TODO: доделать заявки
         queryset = self.model.get_active_my_checklist()
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
@@ -293,7 +295,7 @@ class ExpertiseRequestCreateView(GroupRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.digital_resource = self.digital_resource
         form.instance.expertise = self.expertise
-        form.instance.status = "START"
+        form.instance.status = "IN_PROCESS"
         form.save()
         form_valid = super(ExpertiseRequestCreateView, self).form_valid(form)
         return form_valid

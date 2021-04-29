@@ -129,6 +129,7 @@
           Назначенные группы отсутсвуют
         {% endif %}
       </div>
+      <br/>
       <div class="card shadow-1 p-3">
         <h5 class="card-subtitle mb-2 text-muted">Назначение академическим группам: </h5>
         {% if assigment_academic_group.all %}
@@ -177,11 +178,11 @@
           {% endif %}
           {% if assigment_academic_group.all %}
             <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-               class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав академических
+               class="btn btn-block btn-primary"><i class="pen icon"></i>Изменить назначение академических
               групп</a>
           {% else %}
             <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-               class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать академические группы</a>
+               class="btn btn-block btn-primary"><i class="pen icon"></i>Назначить академическим группам</a>
           {% endif %}
         {% endif %}
       </div>

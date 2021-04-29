@@ -71,7 +71,7 @@
           <td>{{ object.expertise.digital_resource.title }}</td>
           <td>{{ object.expertise.owner }}</td>
           <td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td>
-          <td>{{ object.survey }}</td>
+          <td>{% if object.survey %}{{ object.survey }}{% else %}Тип экспертизы отсутвует, вы можете взять заявку на экспертизу{% endif %}</td>
           <td><a class="btn btn-outline-primary text-nowrap" href="{{ object.get_update_url }}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
         </tr>
       {% endfor %}

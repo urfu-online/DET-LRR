@@ -338,7 +338,7 @@ class ExpertiseRequest(repository_model.BaseModel):
     @classmethod
     def get_my_checklist(cls, user):
         try:
-            objs = cls.objects.filter(Q(status='IN_PROCESS') & Q(expert__person__user=user), )
+            objs = cls.objects.filter(Q(status='IN_PROCESS') & Q(expert__person__user=user),)
         except:
             objs = cls.objects.all()
         return objs
@@ -346,7 +346,7 @@ class ExpertiseRequest(repository_model.BaseModel):
     @classmethod
     def get_active_my_checklist(cls):
         try:
-            objs = cls.objects.all()
+            objs = cls.objects.exclude(Q(status='IN_PROCESS'))
         except:
             objs = cls.objects.all()
         return objs
