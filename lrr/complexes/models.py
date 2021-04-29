@@ -2,6 +2,7 @@
 import logging
 
 from django.db import models
+from django.contrib.postgres.fields import IntegerRangeField
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
 
@@ -77,14 +78,12 @@ class Cell(BaseModel):
     ]
 
     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
-    theme_name = models.CharField("Тема / Раздел", max_length=1024, blank=True)
     include_practice = models.BooleanField("Практика", blank=True, null=True)
     include_theory = models.BooleanField("Теория", blank=True, null=True)
-    beg_theme_number = models.PositiveSmallIntegerField("Начало диапазонов объединяемых строчек", blank=True)
-    end_theme_number = models.PositiveSmallIntegerField("Конец диапазонов объединяемых строчек", blank=True)
+    week_range = IntegerRangeField("Диапозон ", blank=True)
     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True)
-    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭУМК",
-                                        on_delete=models.CASCADE, blank=True, null=True)
+    component_complexes = models.ManyToManyField("complexes.ComponentComplex", verbose_name="Компоненты ЭУМК",
+                                                 blank=True)
 
     class Meta:
         verbose_name = u"Ячейка цифрового комплекса ЭУМК"
@@ -97,16 +96,15 @@ class Cell(BaseModel):
 class ComplexSpaceCell(BaseModel):
     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭУМК",
                                         on_delete=models.CASCADE, blank=True, null=True)
-    title = models.CharField("Наимаенование", max_length=150)
-    description = models.TextField("Описание", max_length=300)
-    link = models.URLField("Ссылка на образовательное пространство", blank=True, null=True)
+    theme_name = models.CharField("Тема / Раздел", max_length=1024, blank=True)
+    cell_json = models.JSONField("Координаты ячеек", blank=True, null=True)
 
     class Meta:
         verbose_name = u"Компонент ячейки комплекса"
         verbose_name_plural = u"Компоненты ячеек комплекса"
 
     def __str__(self):
-        return str(self.title)
+        return self.theme_name
 
 
 class RegistryStatus(BaseModel):
@@ -208,14 +206,11 @@ class AssignmentAcademicGroup(BaseModel):
         digital_complex_pk = request.path.split('/')[4]
         return cls.objects.filter(digital_complex__pk=digital_complex_pk)
 
-    # @classmethod
-    # def get_direction(cls):
-
 
 class ComponentComplex(BaseModel, PolymorphicModel):
     digital_complex = models.ForeignKey(DigitalComplex, verbose_name="ЭУМК", on_delete=models.CASCADE, blank=True)
     description = models.TextField("Описание / Методика применения", max_length=1024, blank=True, null=True)
-    order = models.IntegerField("Order", blank=True, null=True)
+    order = models.IntegerField("Порядрок отображения компонента", blank=True, null=True)
 
     def __str__(self):
         return f"{self.digital_complex.title} - {self.digital_complex.keywords} - {self.digital_complex.format}"
