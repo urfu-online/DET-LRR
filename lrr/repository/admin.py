@@ -282,6 +282,7 @@ class CompetenceAdminForm(forms.ModelForm):
 
 class CompetenceAdmin(admin.ModelAdmin):
     form = CompetenceAdminForm
+    list_filter = ["okso", "code"]
     list_display = [
         "title",
         "code",
@@ -289,7 +290,7 @@ class CompetenceAdmin(admin.ModelAdmin):
     readonly_fields = [
         "created",
     ]
-    search_fields = ["title", "code"]
+    search_fields = ["title", "code", 'okso']
 
 
 class PlatformAdminForm(forms.ModelForm):
