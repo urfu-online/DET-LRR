@@ -229,53 +229,6 @@ class Expertise(repository_model.BaseModel):
         return DigitalResource.objects.get(pk=digital_resource_pk)
 
 
-# class CheckListBase(repository_model.BaseModel, PolymorphicModel):
-#     # status
-#     START = 'START'
-#     IN_PROCESS = 'IN_PROCESS'
-#     END = 'END'
-#
-#     STATUS_CHOICES = [
-#         (START, 'Назначена'),
-#         (IN_PROCESS, 'В процессе'),
-#         (END, 'Завершена')
-#         # Fields
-#     ]
-#
-#     expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
-#     expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True)
-#     protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424)
-#     date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
-#     status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
-#
-#
-# class CheckListMethodical(CheckListBase):
-#     class Meta:
-#         verbose_name = u"Чек-лист методической экспертизы"
-#         verbose_name_plural = u"Чек-листы методических экспертиз"
-#
-#     def __str__(self):
-#         return self.status
-#
-#
-# class CheckListTechnical(CheckListBase):
-#     class Meta:
-#         verbose_name = u"Чек-лист технической экспертизы"
-#         verbose_name_plural = u"Чек-листы технических экспертиз"
-#
-#     def __str__(self):
-#         return self.status
-#
-#
-# class CheckListContent(CheckListBase):
-#     class Meta:
-#         verbose_name = u"Чек-лист содержательной экспертизы"
-#         verbose_name_plural = u"Чек-листы содержательных экспертиз"
-#
-#     def __str__(self):
-#         return self.status
-
-
 class ExpertiseRequest(repository_model.BaseModel):
     # type
     METHODICAL = 'METHODICAL'
@@ -346,7 +299,7 @@ class ExpertiseRequest(repository_model.BaseModel):
     @classmethod
     def get_active_my_checklist(cls):
         try:
-            objs = cls.objects.exclude(Q(status='IN_PROCESS'))
+            objs = cls.objects.exclude(Q(status='IN_PROCESS') & Q(status='START'))
         except:
             objs = cls.objects.all()
         return objs

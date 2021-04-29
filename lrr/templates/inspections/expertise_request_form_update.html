@@ -22,10 +22,12 @@
             {{ form.errors }}
             {{ form.non_field_errors }}
             {{ form.media.css }}
-            <a class="btn btn-outline-primary float-right" href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
+            <a class="btn btn-outline-primary float-right"
+               href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}"><i
+                    class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
             <div class="form-group">
               <h5>Тип заявки</h5>
-              <p>{{ form.survey }}</p>
+              <p>{{ object.expertise.get_type_display }}</p>
             </div>
             <div class="form-group">
               <h5>Инициатор</h5>
@@ -50,11 +52,17 @@
             <div class="form-group">
               <h5>ЭУМК</h5>
               {% for digital_complex in object.expertise.digital_complexes.all %}
-                <p><a class="btn btn-outline-link" href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}"><i class="fas fa-link"></i> {{ digital_complex }}</a></p>
+                <p><a class="btn btn-outline-link"
+                      href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}"><i
+                        class="fas fa-link"></i> {{ digital_complex }}</a></p>
               {% empty %}
                 <p class="text-muted">отсутсвуют</p>
               {% endfor %}
 
+            </div>
+            <div class="form-group">
+              <h5>Тип экспертизы</h5>
+              <p>{{ form.survey }}</p>
             </div>
             <button type="submit" class="btn btn-primary">Взять на экспертизу</button>
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
@@ -68,7 +76,7 @@
     <diV class="card-body shadow-1">
       <div class="form-group">
         <h5>Экспертные заключения</h5>
-        {% if checklist %}
+        {% if checklists.all %}
           <table class="table table-striped table-bordered">
             <thead>
             <tr>
@@ -78,16 +86,14 @@
               <th>Состояние</th>
             </tr>
             </thead>
-            <tbody>
             {% for item in checklists %}
-              {% if item.status != 'START' %}
-                <td>{{ item }}</td>
-                <td>{{ item.date }}</td>
-                <td>{{ item.expert }}</td>
-                <td>{{ item.get_status_display }}</td>
-              {% endif %}
+              <tbody>
+              <td>{{ item.survey }}</td>
+              <td>{% if item.date %}{{ item.date }}{% else %}Экспертиза не проведена{% endif %}</td>
+              <td>{{ item.expert }}</td>
+              <td>{{ item.get_status_display }}</td>
+              </tbody>
             {% endfor %}
-            </tbody>
           </table>
         {% else %}
           <p class="text-muted">отсутсвуют</p>

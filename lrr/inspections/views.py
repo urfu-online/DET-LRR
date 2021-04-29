@@ -1,7 +1,8 @@
-import django_filters
 import logging
 from copy import copy
-from django.shortcuts import redirect, render, reverse, get_object_or_404
+
+import django_filters
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.text import slugify
@@ -11,9 +12,7 @@ from django.views.generic import View
 from lrr.inspections import forms
 from lrr.inspections import models as inspections_models
 from lrr.repository.filters import FilteredListView
-from lrr.repository.models import DigitalResource
-from lrr.survey.models.answer import Answer, Response, Question
-from lrr.survey.models.survey import Survey
+from lrr.survey.models.answer import Answer, Response
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Expert
 from .indicators import indicators
@@ -365,6 +364,7 @@ class ExpertiseRequestUpdateView(GroupRequiredMixin, generic.UpdateView):
         else:
             checklists = self.model.get_checklists(expertise=self.object.expertise)
             context['checklists'] = checklists
+            logger.warning(checklists)
             context["form"] = forms.ExpertiseRequestUpdateForm(instance=self.object)
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
         return context

@@ -26,6 +26,7 @@ class ExpertiseCreateForm(forms.ModelForm):
     class Meta:
         model = inspections_models.Expertise
         fields = [
+            "type",
             "subjects",
             "directions",
             "digital_complexes",
@@ -52,19 +53,19 @@ class ExpertiseCreateForm(forms.ModelForm):
             # 'digital_resource': forms.MultipleChoiceField(
             #     attrs={
             #         'class': 'form-control',
-            #         'required': 'false'
+            #
             #     }
             # ),
             'file': forms.FileInput(
                 attrs={
                     'class': 'form-control-file',
-                    'required': 'false'
+
                 }
             ),
             'expert': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             # 'date_end': forms.TextInput(
@@ -76,13 +77,12 @@ class ExpertiseCreateForm(forms.ModelForm):
             # 'remarks': forms.Textarea(
             #     attrs={
             #         'class': 'form-control',
-            #         'required': 'false'
+            #
             #     }
             # ),
             'type': forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 }
             )
         }
@@ -106,37 +106,37 @@ class ExpertiseUpdateForm(forms.ModelForm):
             # 'digital_resource': forms.MultipleChoiceField(
             #     attrs={
             #         'class': 'form-control',
-            #         'required': 'false'
+            #
             #     }
             # ),
             'file': forms.FileInput(
                 attrs={
                     'class': 'form-control-file',
-                    'required': 'false'
+
                 }
             ),
             'subjects': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             'directions': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             'digital_complexes': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             'expert': forms.SelectMultiple(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             'date_end': forms.DateTimeInput(
@@ -149,13 +149,13 @@ class ExpertiseUpdateForm(forms.ModelForm):
             'remarks': forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             'type': forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             )
         }
@@ -191,13 +191,13 @@ class ExpertiseRequestCreateForm(forms.ModelForm):
             'survey': forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             'expert': ExpertWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
         }
@@ -219,7 +219,7 @@ class ExpertiseRequestUpdateForm(forms.ModelForm):
             'survey': forms.Select(
                 attrs={
                     'class': 'form-select',
-                    'required': 'false'
+
                 }
             )
         }

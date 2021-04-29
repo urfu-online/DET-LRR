@@ -101,13 +101,13 @@ class DigitalResourceForm(forms.ModelForm):
             "title": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             "type": forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             "keywords": forms.TextInput(
@@ -123,37 +123,37 @@ class DigitalResourceForm(forms.ModelForm):
             "copyright_holder": forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             "language": forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             "platform": forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 }
             ),
             "edu_programs_tags": EduProgramsWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             "subjects_tags": SubjectsWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             "authors": AuthorsWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             "result_edu": ResultEduWidget(
@@ -185,13 +185,13 @@ SourceFormset = inlineformset_factory(
         'link_name': forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'required': 'false'
+
             },
         ),
         'URL': forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'required': 'false'
+
             },
         ),
         'file': forms.FileInput(
@@ -231,13 +231,13 @@ class PlatformForm(forms.ModelForm):
             'title': forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             'url': forms.URLInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             'logo': forms.FileInput(
@@ -248,13 +248,13 @@ class PlatformForm(forms.ModelForm):
             'description': forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             'contacts': forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
         }

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from django.db import models
 from django.contrib.postgres.fields import IntegerRangeField
+from django.db import models
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
 

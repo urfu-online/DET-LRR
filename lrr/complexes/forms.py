@@ -47,49 +47,41 @@ class DigitalComplexForm(forms.ModelForm):
             "keywords": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
             "description": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
             "format": forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
             "language": forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
             "subjects": SubjectsWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
             "directions": DirectionsWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
             "competences": CompetencesWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
             "results_edu": ResultsEduWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             )
         }
@@ -104,13 +96,11 @@ class CellForm(forms.ModelForm):
             "type": forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
             "methodology_description": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
         }
@@ -153,31 +143,30 @@ class AssignmentAcademicGroupForm(forms.ModelForm):
             # "digital_complex": DigitalComplexWidget(
             #     attrs={
             #         'class': 'form-control',
-            #         'required': 'false'
+            #
             #     },
             # ),
             "academic_group": AcademicGroupWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             "subject": SubjectWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
             "learn_date": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
             "semestr": forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+
                 },
             ),
         }
@@ -192,31 +181,31 @@ AssignmentAcademicGroupFormset = forms.inlineformset_factory(
         # "digital_complex": DigitalComplexWidget(
         #     attrs={
         #         'class': 'form-control',
-        #         'required': 'false'
+        #
         #     },
         # ),
         "academic_group": AcademicGroupWidget(
             attrs={
                 'class': 'form-control',
-                'required': 'false'
+
             },
         ),
         "subject": SubjectWidget(
             attrs={
                 'class': 'form-control',
-                'required': 'false'
+
             },
         ),
         "learn_date": forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'required': 'false'
+
             },
         ),
         "semestr": forms.Select(
             attrs={
                 'class': 'form-control',
-                'required': 'false'
+
             },
         ),
     }
@@ -367,13 +356,13 @@ ComponentComplexFormSet = polymorphic_modelformset_factory(
             #     "digital_resource": ResourceComponentWidget(
             #         attrs={
             #             'class': 'form-control',
-            #             'required': 'false'
+            #
             #         },
             #     ),
             #     "description": forms.TextInput(
             #         attrs={
             #             'class': 'form-control',
-            #             'required': 'false'
+            #
             #         },
             #     )
             # },

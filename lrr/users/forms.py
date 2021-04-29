@@ -75,7 +75,6 @@ class ExpertForm(form.ModelForm):
             "person": form.Select(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
             "types": form.CheckboxSelectMultiple(
@@ -86,7 +85,6 @@ class ExpertForm(form.ModelForm):
             "subdivision": form.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false',
                 },
             ),
         }
