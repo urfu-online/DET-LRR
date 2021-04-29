@@ -8,6 +8,7 @@ from django import template
 register = template.Library()
 logger = logging.getLogger(__name__)
 
+
 @register.inclusion_tag("repository/dr_cards.html")
 def get_resources(res, *args, **kwargs):
     subject = kwargs.get('subject', None)
@@ -18,10 +19,15 @@ def get_resources(res, *args, **kwargs):
         return {'objects': res.get_resources_by_subject(subject)}
 
 
-@register.filter('has_owner')
-def has_owner(user, res):
+@register.filter('has_owner_resource')
+def has_owner_resource(user, res):
     owner = res.get_owner(user)
-    logger.warning(owner)
+    return owner
+
+
+@register.filter('has_owner_complex')
+def has_owner_complex(user, complex):
+    owner = complex.get_owner(user)
     return owner
 
 

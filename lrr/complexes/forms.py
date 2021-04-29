@@ -268,13 +268,11 @@ class ResourceComponentForm(forms.ModelForm):
             "digital_resource": ResourceComponentWidget(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
-            "description": forms.TextInput(
+            "description": forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             )
         }
@@ -290,24 +288,21 @@ class PlatformComponentWidget(s2forms.ModelSelect2Widget):
 class PlatformComponentForm(forms.ModelForm):
     class Meta:
         model = complex_models.PlatformComponent
-        fields = ['title', 'description_self', 'url']
+        fields = ['title', 'description', 'url']
         widgets = {
             "title": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
-            "description_self": forms.TextInput(
+            "description": forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
             "url": forms.URLInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             )
         }
@@ -321,25 +316,21 @@ class TraditionalSessionComponentForm(forms.ModelForm):
             "title": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
             "description_session": forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
             "url": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
-            "description": forms.TextInput(
+            "description": forms.Textarea(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             )
         }
@@ -348,18 +339,21 @@ class TraditionalSessionComponentForm(forms.ModelForm):
 class LiterarySourcesComponentForm(forms.ModelForm):
     class Meta:
         model = complex_models.LiterarySourcesComponent
-        fields = ['title', 'url']
+        fields = ['title', 'description', 'url']
         widgets = {
             "title": forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
+                },
+            ),
+            "description": forms.Textarea(
+                attrs={
+                    'class': 'form-control',
                 },
             ),
             "url": forms.URLInput(
                 attrs={
                     'class': 'form-control',
-                    'required': 'false'
                 },
             ),
         }

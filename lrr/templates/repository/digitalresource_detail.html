@@ -10,7 +10,7 @@
     </ol>
   </nav>
   <header class="pb-4 px-2">
-    {% if request.user|has_owner:object %}
+    {% if request.user|has_owner_resource:object %}
       {% if request.user.is_superuser %}
         <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i class="fas fa-edit"></i>
           Редактировать</a>
@@ -74,7 +74,7 @@
             {% endif %}
             {#            {% if expertise is not None %}#}
             {#            {% else %}#}
-            {% if request.user|has_owner:object %}
+            {% if request.user|has_owner_resource:object %}
               <a href="{{ object.get_create_expertise_url }}" class="btn btn-block btn-primary mb-3"><i
                       class="fas fa-share-square"></i> Подать заявку на экспертизу</a>
               {#            {% endif %}#}

@@ -53,6 +53,15 @@ class DigitalComplex(BaseModel):
         digital_complex = DigitalComplex.objects.get(pk=digital_complex_pk)
         return digital_complex
 
+    def get_owner(self, user):
+        try:
+            if self.owner.user == user:
+                return True
+            else:
+                return False
+        except:
+            return False
+
     @classmethod
     def get_count_complex(cls):
         return cls.objects.all().count()

@@ -29,7 +29,6 @@
             {{ form }}
             <input type="submit" value="Сохранить" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
-            <a class="btn btn-secondary" href="{% url 'repository:repository_Platform_create' %}">Создать платформу</a>
           </form>
           {{ form.media.js }}
         </div>
