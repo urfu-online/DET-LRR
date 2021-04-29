@@ -29,7 +29,6 @@ class DigitalComplex(BaseModel):
     description = models.TextField('Описание', blank=True)
     competences = models.ManyToManyField(Competence, verbose_name="Компетенции", blank=True)
     results_edu = models.ManyToManyField(ResultEdu, verbose_name="Результаты обучения", blank=True)
-    digital_resources = models.ManyToManyField(DigitalResource, verbose_name="Компоненты ЭУМК")
     format = models.CharField("Формат использования", choices=FORMAT_TYPES, max_length=300, blank=True)
     language = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name="Язык комплекса")
     keywords = models.CharField("Ключевые слова", max_length=300, null=True, blank=True)
@@ -48,11 +47,6 @@ class DigitalComplex(BaseModel):
 
     def get_update_url(self):
         return reverse("complexes:complexes_DigitalComplex_update", args=(self.pk,))
-
-    def get_digital_complex(self):
-        digital_complex_pk = self.request.path.split('/')[4]
-        digital_complex = DigitalComplex.objects.get(pk=digital_complex_pk)
-        return digital_complex
 
     def get_owner(self, user):
         try:
@@ -107,55 +101,6 @@ class ComplexSpaceCell(BaseModel):
         return self.theme_name
 
 
-class RegistryStatus(BaseModel):
-    experise_date = models.DateTimeField("Дата экспертизы", editable=True, blank=True)
-    relevance_date = models.DateTimeField("Дата обновления экспертизы", editable=True, blank=True)
-    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭМУК",
-                                        on_delete=models.CASCADE, blank=True)
-
-    class Meta:
-        verbose_name = u"Статус экспертизы комплекса"
-        verbose_name_plural = u"Статусы экспертизы комплекса"
-
-
-class RegistryStatusProgSubject(BaseModel):
-    coverage_procentage = models.PositiveSmallIntegerField("Процент покрытия", blank=True)
-    subject = models.ForeignKey(Subject, verbose_name="Дисциплина", on_delete=models.CASCADE, blank=True, null=True)
-    edu_program = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE,
-                                    verbose_name="Образовательная программа", blank=True, null=True)
-    status = models.ForeignKey("complexes.RegistryStatus", verbose_name="Статус экспертизы комплекса",
-                               on_delete=models.PROTECT, blank=True)
-
-    class Meta:
-        verbose_name = u"Соответсвие статуса комплекса, с дисциплинами и программами"
-        verbose_name_plural = u"Соответсвие статуса комплекса, с дисциплинами и программами"
-
-
-class ComplexTheme(BaseModel):
-    title = models.CharField("Наимаенование", max_length=150)
-    number = models.PositiveSmallIntegerField("Номер темы", blank=True)
-    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭМУК",
-                                        on_delete=models.CASCADE, blank=True, null=True)
-
-    class Meta:
-        verbose_name = u"Тема карты комплекса"
-        verbose_name_plural = u"Темы карты комплекса"
-
-
-class CellWeeks(BaseModel):
-    cell = models.ForeignKey('complexes.Cell', verbose_name="Ячейка комплекса", on_delete=models.CASCADE, blank=True)
-    beg_week_number = models.PositiveSmallIntegerField("Начало диапазона недель учебного графика ячейки", blank=True)
-    end_week_number = models.PositiveSmallIntegerField("Конец диапазона недель учебного графика ячейки", blank=True)
-    edu_form = models.CharField("Форма обучения для которой сотавлен график", max_length=150, blank=True)
-
-    class Meta:
-        verbose_name = u"Неделя календарного учебного графика"
-        verbose_name_plural = u"Недели календарного учебного графика"
-
-    def __str__(self):
-        return str(self.edu_form)
-
-
 class AssignmentAcademicGroup(BaseModel):
     FIRST = 'FIRST'
     SECOND = 'SECOND'
@@ -164,7 +109,6 @@ class AssignmentAcademicGroup(BaseModel):
         (FIRST, 'Первый семестр'),
         (SECOND, 'Второй семестр'),
     ]
-
     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="ЭУМКи", on_delete=models.CASCADE,
                                         blank=True, null=True)
     academic_group = models.ForeignKey(AcademicGroup, on_delete=models.PROTECT,
@@ -186,20 +130,6 @@ class AssignmentAcademicGroup(BaseModel):
 
     def get_update_url(self):
         return reverse("complexes:complexes_AssignmentAcademicGroup_update", args=(self.pk,))
-
-    # def get_digital_resource(self, object_list):
-    #     for obj in object_list:
-    #         logger.warning(obj.digital_complex)
-    #         resource_component = ResourceComponent.objects.filter(digital_complex=obj.digital_complex)
-    #     return resource_component
-
-    # @classmethod
-    # def get_recommended_resources_by_subject(cls, subject, academic_group):
-    #     if isinstance(subject, Subject) and isinstance(academic_group, AcademicGroup):
-    #         return cls.objects.filter(subject=subject,
-    #                                   academic_group__direction=academic_group)
-    #     else:
-    #         return None
 
     @classmethod
     def get_assignment_group_digital_complex(cls, request):
