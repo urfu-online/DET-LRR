@@ -619,6 +619,7 @@ class CellCreateView(GroupRequiredMixin, generic.CreateView):
             context['digital_complex_pk'] = self.request.resolver_match.kwargs['digital_complex_pk']
             context['dig_complex'] = complex_model.DigitalComplex.objects.get(
                 pk=self.request.resolver_match.kwargs['digital_complex_pk'])
-            context['test_complex'] = DigitalResource.objects.filter(title__icontains='Строит')
+            context['component_complex'] = complex_model.ComponentComplex.objects.filter(
+                digital_complex=context['dig_complex'])
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
         return context

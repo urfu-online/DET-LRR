@@ -263,7 +263,7 @@ class ResourceComponentWidget(s2forms.ModelSelect2Widget):
 class ResourceComponentForm(forms.ModelForm):
     class Meta:
         model = complex_models.ResourceComponent
-        fields = ['digital_resource', 'description']
+        fields = ['digital_resource', 'description', 'order']
         widgets = {
             "digital_resource": ResourceComponentWidget(
                 attrs={
@@ -271,6 +271,11 @@ class ResourceComponentForm(forms.ModelForm):
                 },
             ),
             "description": forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                },
+            ),
+            "order": forms.TextInput(
                 attrs={
                     'class': 'form-control',
                 },
@@ -304,6 +309,11 @@ class PlatformComponentForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control',
                 },
+            ),
+            "order": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                },
             )
         }
 
@@ -332,6 +342,11 @@ class TraditionalSessionComponentForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control',
                 },
+            ),
+            "order": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                },
             )
         }
 
@@ -356,6 +371,11 @@ class LiterarySourcesComponentForm(forms.ModelForm):
                     'class': 'form-control',
                 },
             ),
+            "order": forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                },
+            )
         }
 
 

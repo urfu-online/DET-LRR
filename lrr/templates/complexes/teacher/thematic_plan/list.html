@@ -16,9 +16,9 @@
     </ol>
   </nav>
 
-  <header><h2 class="display-3">Редактирование структурно-тематического плана ЭУМК по
+  <header><h3>Редактирование структурно-тематического плана ЭУМК по
     {% for subject in dig_complex.subjects.all %}{{ subject }}{% endfor %} образовательной программы
-    {% for subject in dig_complex.directions.all %}{{ direction }}{% endfor %}</h2></header>
+    {% for subject in dig_complex.directions.all %}{{ direction }}{% endfor %}</h3></header>
 
   {% if request.user.is_authenticated %}
     <div class="row p-2">
