@@ -552,20 +552,10 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         return context
 
 
-class CellMyFilter(django_filters.FilterSet):
-    class Meta:
-        model = complex_model.Cell
-        fields = {
-            'theme_name': ['contains'],
-        }
-
-
 class CellListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.Cell
     allow_empty = True
-    paginate_by = 12
     group_required = [u'teacher', u'admins']
-    filterset_class = CellMyFilter
     template_name = 'complexes/teacher/thematic_plan/list.html'
 
     def get_queryset(self, **kwargs):

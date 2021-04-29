@@ -98,19 +98,10 @@ class DigitalComplexForm(forms.ModelForm):
 class CellForm(forms.ModelForm):
     class Meta:
         model = complex_models.Cell
-        fields = [
-            'theme_name',
-            'methodology_description'
-        ]
+        fields = ['methodology_description']
 
         widgets = {
             "type": forms.Select(
-                attrs={
-                    'class': 'form-control',
-                    'required': 'false',
-                },
-            ),
-            "theme_name": forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'required': 'false',

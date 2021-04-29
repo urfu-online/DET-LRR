@@ -311,8 +311,6 @@ class ExpertiseRequest(repository_model.BaseModel):
                                 blank=True)
     expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
     status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
-    checklist = models.ForeignKey("inspections.CheckListQestion", verbose_name="Чек-лист", on_delete=models.CASCADE,
-                                  blank=True, null=True)
     survey = models.ForeignKey('survey.Survey', verbose_name="Опросник", on_delete=models.PROTECT, blank=True,
                                null=True)
 

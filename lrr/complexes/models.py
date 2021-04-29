@@ -74,8 +74,8 @@ class Cell(BaseModel):
     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
     include_practice = models.BooleanField("Практика", blank=True, null=True)
     include_theory = models.BooleanField("Теория", blank=True, null=True)
-    week_range = IntegerRangeField("Диапозон ", blank=True)
-    methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True)
+    week_range = IntegerRangeField("Диапозон ", blank=True, null=True)
+    methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True, null=True)
     component_complexes = models.ManyToManyField("complexes.ComponentComplex", verbose_name="Компоненты ЭУМК",
                                                  blank=True)
 
@@ -90,7 +90,7 @@ class Cell(BaseModel):
 class ComplexSpaceCell(BaseModel):
     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭУМК",
                                         on_delete=models.CASCADE, blank=True, null=True)
-    theme_name = models.CharField("Тема / Раздел", max_length=1024, blank=True)
+    theme_name = models.CharField("Тема / Раздел", max_length=1024, blank=True, null=True)
     cell_json = models.JSONField("Координаты ячеек", blank=True, null=True)
 
     class Meta:

@@ -48,7 +48,6 @@ class DigitalComplexAdmin(admin.ModelAdmin):
         "directions",
         "competences",
         "results_edu",
-        "digital_resources",
     ]
     list_display = [
         "format",
@@ -60,11 +59,10 @@ class DigitalComplexAdmin(admin.ModelAdmin):
     ]
     inlines = [
         ComplexSpaceCellInline,
-        ComplexThemeAdminInline,
         # DRStatusInline
     ]
     # filter_horizontal = ["subjects_tags", ]
-    autocomplete_fields = ["subjects", "competences", "results_edu", "directions", "digital_resources"]
+    autocomplete_fields = ["subjects", "competences", "results_edu", "directions"]
     # list_filter = ["platform"]
     search_fields = ["keywords", "format"]
 
@@ -78,9 +76,6 @@ class CellAdmin(admin.ModelAdmin):
     ]
     extra = 0
     search_fields = ['title']
-    inlines = [
-        CellWeeksInline,
-    ]
 
 
 @admin.register(models.AssignmentAcademicGroup)

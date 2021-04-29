@@ -132,8 +132,6 @@ class DigitalResourceAdmin(admin.ModelAdmin):
 
         "edu_programs_tags",
         "owner",
-        "provided_disciplines",
-        "conformity_theme",
         "result_edu",
         "subjects_tags",
         "created",
@@ -155,7 +153,7 @@ class DigitalResourceAdmin(admin.ModelAdmin):
         SourceInline,
     ]
     # filter_horizontal = ["subjects_tags", ]
-    autocomplete_fields = ["subjects_tags", "provided_disciplines", "copyright_holder", "edu_programs_tags", "platform",
+    autocomplete_fields = ["subjects_tags", "copyright_holder", "edu_programs_tags", "platform",
                            "language"]
     list_filter = ["platform"]
     search_fields = ["title"]
