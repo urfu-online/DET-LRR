@@ -15,7 +15,6 @@ class DigitalComplexAdminForm(forms.ModelForm):
             "directions",
             "competences",
             "results_edu",
-            "digital_resources",
         ]
 
 
