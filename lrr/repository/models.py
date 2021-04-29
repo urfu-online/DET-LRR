@@ -508,7 +508,7 @@ class Competence(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код", max_length=8)
-    okso = models.CharField("Код", max_length=8)
+    okso = models.CharField("Код", max_length=8, null=True)
 
 
     # TODO: add fields

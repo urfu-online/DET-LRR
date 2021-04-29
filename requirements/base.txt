@@ -38,3 +38,4 @@ pysankey
 matplotlib
 seaborn
 fontawesome-free==5.15.3
+django-sortedm2m==3.0.2
