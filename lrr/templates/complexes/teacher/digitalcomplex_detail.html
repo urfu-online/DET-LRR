@@ -126,7 +126,7 @@
             </tbody>
           </table>
         {% else %}
-          Назначенные группы отсутсвуют
+          Структурно-тематический план отсутсвует
         {% endif %}
       </div>
       <br/>
@@ -156,10 +156,10 @@
         {% endif %}
       </div>
     </div>
-    <div class="col-4 p-2">
-      <div class="card shadow-1">
-        {% if request.user|has_owner_complex:object %}
-          {% if component_complex.all %}
+    {% if component_complex.all %}
+      <div class="col-4 p-2">
+        <div class="card shadow-1">
+          {% if request.user|has_owner_complex:object %}
             <a href="{% url 'complexes:complexes_ComponentComplex_list' pk=object.pk %}"
                class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>
           {% else %}
@@ -184,8 +184,8 @@
             <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
                class="btn btn-block btn-primary"><i class="pen icon"></i>Назначить академическим группам</a>
           {% endif %}
-        {% endif %}
+        </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 {% endblock %}

@@ -213,6 +213,10 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
     template_name = 'inspections/expertise_form_update.html'
     group_required = ["secretary", "admins", ]
 
+    def dispatch(self, request, *args, **kwargs):
+        self.expertise = get_object_or_404(inspections_models.Expertise, pk=kwargs["pk"])
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         form.instance.status = "ASSIGNED_STATUS"
         form.save()
