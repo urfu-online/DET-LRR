@@ -7,8 +7,8 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_swagger.views import get_swagger_view
-from lrr.complexes import api as complexes_api
 
+from lrr.complexes import api as complexes_api
 from lrr.repository.views import DigitalResourceListView
 
 schema_view = get_swagger_view(title='LRR API')
@@ -78,4 +78,9 @@ if settings.DEBUG or settings.DEVELOPMENT:
 
         urlpatterns += [
             path("schema/", Schema.as_view())
+        ]
+
+    if 'silk' in settings.INSTALLED_APPS:
+        urlpatterns += [
+            path('silk/', include('silk.urls', namespace='silk'))
         ]

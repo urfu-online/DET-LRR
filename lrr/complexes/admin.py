@@ -6,23 +6,64 @@ from polymorphic.admin import (
     PolymorphicChildModelFilter)
 
 from lrr.complexes import forms_admin
+from lrr.complexes import grid_models
 from lrr.complexes import models
 
 
-class ComplexSpaceCellInline(admin.TabularInline):
-    model = models.ComplexSpaceCell
+
+@admin.register(grid_models.Container)
+class ContainerAdmin(admin.ModelAdmin):
+    form = forms_admin.ContainerAdminForm
     list_display = [
-        "title",
-        "description",
-        "cells",
-        "digital_complex",
-        "link"
+        "type",
     ]
     readonly_fields = [
-        "created",
+        "type",
     ]
-    extra = 0
-    autocomplete_fields = ['digital_complex', ]
+
+
+@admin.register(grid_models.Theme)
+class ThemeAdmin(admin.ModelAdmin):
+    form = forms_admin.ThemeAdminForm
+    list_display = [
+        "title",
+    ]
+    readonly_fields = [
+        "title",
+    ]
+
+
+# @admin.register(grid_models.Cell)
+# class CellAdmin(admin.ModelAdmin):
+#     form = forms_admin.CellAdminForm
+#     list_display = [
+#     ]
+#     readonly_fields = [
+#     ]
+
+
+@admin.register(models.ComponentComplex)
+class ComponentAdmin(admin.ModelAdmin):
+    form = forms_admin.ComponentForm
+    list_display = [
+        "__str__",
+    ]
+
+
+# class ComplexSpaceCellInline(admin.TabularInline):
+#     model = models.ComplexSpaceCell
+#     list_display = [
+#         "title",
+#         "description",
+#         "cells",
+#         "digital_complex",
+#         "link"
+#     ]
+#     readonly_fields = [
+#         "created",
+#     ]
+#     extra = 0
+#     autocomplete_fields = ['digital_complex', ]
 
 
 class WorkPlanAcademicGroupAdminInline(admin.TabularInline):
@@ -58,24 +99,13 @@ class DigitalComplexAdmin(admin.ModelAdmin):
         "last_updated",
     ]
     inlines = [
-        ComplexSpaceCellInline,
+        # ComplexSpaceCellInline,
         # DRStatusInline
     ]
     # filter_horizontal = ["subjects_tags", ]
     autocomplete_fields = ["subjects", "competences", "results_edu", "directions"]
     # list_filter = ["platform"]
     search_fields = ["keywords", "format"]
-
-
-@admin.register(models.Cell)
-class CellAdmin(admin.ModelAdmin):
-    form = forms_admin.CellAdminForm
-
-    readonly_fields = [
-        "created",
-    ]
-    extra = 0
-    search_fields = ['title']
 
 
 @admin.register(models.AssignmentAcademicGroup)
@@ -97,7 +127,6 @@ class ComponentComplexChildAdmin(PolymorphicChildModelAdmin):
     base_model = models.ComponentComplex
 
 
-@admin.register(models.ComponentComplex)
 class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
     base_model = models.ComponentComplex
     search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]
@@ -118,8 +147,6 @@ class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
 class ComponentComplexChiledAdmin(ComponentComplexChildAdmin):
     base_model = models.ComponentComplex
     search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]
-    # autocomplete_fields = ["digital_resource", ]
-    # show_in_index = True
 
 
 @admin.register(models.ResourceComponent)
@@ -127,14 +154,12 @@ class ResourceComponentAdmin(ComponentComplexChildAdmin):
     base_model = models.ResourceComponent
     search_fields = ["digital_resource__title", ]
     autocomplete_fields = ["digital_resource", ]
-    # show_in_index = True
 
 
 @admin.register(models.PlatformComponent)
 class PlatformComponentAdmin(ComponentComplexChildAdmin):
     base_model = models.PlatformComponent
     search_fields = ["title", ]
-    # show_in_index = True
 
 
 @admin.register(models.LiterarySourcesComponent)
@@ -150,4 +175,3 @@ class TraditionalSessionComponentAdmin(ComponentComplexChildAdmin):
     base_model = models.TraditionalSessionComponent
     search_fields = ["title", ]
     # autocomplete_fields = ["title", ]
-    # show_in_index = True

@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 
 from lrr.complexes import forms
 from lrr.complexes import models as complex_model
+from lrr.complexes import grid_models
 from lrr.repository.filters import FilteredListView
 from lrr.repository.models import Subject, DigitalResource
 from lrr.users.mixins import GroupRequiredMixin
@@ -553,7 +554,7 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
 
 
 class CellListView(GroupRequiredMixin, FilteredListView):
-    model = complex_model.Cell
+    model = grid_models.Cell
     allow_empty = True
     group_required = [u'teacher', u'admins']
     template_name = 'complexes/teacher/thematic_plan/list.html'
@@ -578,7 +579,7 @@ class CellListView(GroupRequiredMixin, FilteredListView):
 
 
 class CellCreateView(GroupRequiredMixin, generic.CreateView):
-    model = complex_model.Cell
+    model = grid_models.Cell
     form_class = forms.CellForm
     group_required = [u"teacher", u"admins"]
     template_name = 'complexes/teacher/thematic_plan/form_create.html'

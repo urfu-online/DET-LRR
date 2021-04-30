@@ -388,7 +388,6 @@ class Competence(BaseModel):
     code = models.CharField("Код", max_length=8)
     okso = models.CharField("Код", max_length=8, null=True)
 
-
     # TODO: add fields
     # type choices_to TYPES
     # Standard
@@ -493,5 +492,3 @@ class EduProgramTag(BaseModel):
 
     def get_update_url(self):
         return reverse("repository_EduProgramTag_update", args=(self.pk,))
-
-

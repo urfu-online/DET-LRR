@@ -2,6 +2,7 @@ from django import forms
 from django_select2 import forms as s2forms
 from polymorphic.formsets import polymorphic_modelformset_factory, PolymorphicFormSetChild
 
+from lrr.complexes import grid_models
 from lrr.complexes import models as complex_models
 
 
@@ -89,27 +90,21 @@ class DigitalComplexForm(forms.ModelForm):
 
 class CellForm(forms.ModelForm):
     class Meta:
-        model = complex_models.Cell
-        fields = ['methodology_description']
-
-        widgets = {
-            "type": forms.Select(
-                attrs={
-                    'class': 'form-control',
-                },
-            ),
-            "methodology_description": forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                },
-            ),
-        }
-
-
-class ComplexSpaceCellForm(forms.ModelForm):
-    class Meta:
-        model = complex_models.ComplexSpaceCell
+        model = grid_models.Cell
         fields = "__all__"
+        #
+        # widgets = {
+        #     "type": forms.Select(
+        #         attrs={
+        #             'class': 'form-control',
+        #         },
+        #     ),
+        #     "methodology_description": forms.TextInput(
+        #         attrs={
+        #             'class': 'form-control',
+        #         },
+        #     ),
+        # }
 
 
 class DigitalComplexWidget(s2forms.ModelSelect2Widget):

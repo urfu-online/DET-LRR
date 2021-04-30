@@ -9,11 +9,11 @@ from polymorphic.models import PolymorphicModel
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
 from lrr.users.models import Person, Student, AcademicGroup
-
+from . import grid_models
 logger = logging.getLogger(__name__)
 
 
-class DigitalComplex(BaseModel):
+class DigitalComplex(grid_models.Complex, BaseModel):
     FORMAT_TYPES = (
         ("0", "смешанное обучение (Ауд+Дист+ЭИОС)"),
         ("1", "смешанное обучение (Ауд+Дист)"),
@@ -62,43 +62,43 @@ class DigitalComplex(BaseModel):
         return cls.objects.all().count()
 
 
-class Cell(BaseModel):
-    ASYNC = 'ASYNC'
-    SYNC = 'SYNC'
+# class Cell(BaseModel):
+#     ASYNC = 'ASYNC'
+#     SYNC = 'SYNC'
+#
+#     CELL_TYPE = [
+#         (ASYNC, 'асинхронные мероприятия'),
+#         (SYNC, 'синхронные мероприятия'),
+#     ]
+#
+#     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
+#     include_practice = models.BooleanField("Практика", blank=True, null=True)
+#     include_theory = models.BooleanField("Теория", blank=True, null=True)
+#     week_range = IntegerRangeField("Диапозон ", blank=True, null=True)
+#     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True, null=True)
+#     component_complexes = models.ManyToManyField("complexes.ComponentComplex", verbose_name="Компоненты ЭУМК",
+#                                                  blank=True)
+#
+#     class Meta:
+#         verbose_name = u"Ячейка цифрового комплекса ЭУМК"
+#         verbose_name_plural = u"Ячейки цифрового комплекса ЭУМК"
+#
+#     def __str__(self):
+#         return self.get_type_display()
 
-    CELL_TYPE = [
-        (ASYNC, 'асинхронные мероприятия'),
-        (SYNC, 'синхронные мероприятия'),
-    ]
 
-    type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
-    include_practice = models.BooleanField("Практика", blank=True, null=True)
-    include_theory = models.BooleanField("Теория", blank=True, null=True)
-    week_range = IntegerRangeField("Диапозон ", blank=True, null=True)
-    methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True, null=True)
-    component_complexes = models.ManyToManyField("complexes.ComponentComplex", verbose_name="Компоненты ЭУМК",
-                                                 blank=True)
-
-    class Meta:
-        verbose_name = u"Ячейка цифрового комплекса ЭУМК"
-        verbose_name_plural = u"Ячейки цифрового комплекса ЭУМК"
-
-    def __str__(self):
-        return self.get_type_display()
-
-
-class ComplexSpaceCell(BaseModel):
-    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭУМК",
-                                        on_delete=models.CASCADE, blank=True, null=True)
-    theme_name = models.CharField("Тема / Раздел", max_length=1024, blank=True, null=True)
-    cell_json = models.JSONField("Координаты ячеек", blank=True, null=True)
-
-    class Meta:
-        verbose_name = u"Компонент ячейки комплекса"
-        verbose_name_plural = u"Компоненты ячеек комплекса"
-
-    def __str__(self):
-        return self.theme_name
+# class ComplexSpaceCell(BaseModel):
+#     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭУМК",
+#                                         on_delete=models.CASCADE, blank=True, null=True)
+#     theme_name = models.CharField("Тема / Раздел", max_length=1024, blank=True, null=True)
+#     cell_json = models.JSONField("Координаты ячеек", blank=True, null=True)
+#
+#     class Meta:
+#         verbose_name = u"Компонент ячейки комплекса"
+#         verbose_name_plural = u"Компоненты ячеек комплекса"
+#
+#     def __str__(self):
+#         return self.theme_name
 
 
 class AssignmentAcademicGroup(BaseModel):

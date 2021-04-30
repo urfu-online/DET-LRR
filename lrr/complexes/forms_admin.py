@@ -1,6 +1,13 @@
 from django import forms
 
+from lrr.complexes import grid_models
 from lrr.complexes import models as complex_models
+
+
+class ContainerAdminForm(forms.ModelForm):
+    class Meta:
+        model = grid_models.Container
+        fields = "__all__"
 
 
 class DigitalComplexAdminForm(forms.ModelForm):
@@ -15,22 +22,53 @@ class DigitalComplexAdminForm(forms.ModelForm):
             "directions",
             "competences",
             "results_edu",
+            "thematic_plan"
         ]
-
-
-class CellAdminForm(forms.ModelForm):
-    class Meta:
-        model = complex_models.Cell
-        fields = "__all__"
-
-
-class ComplexSpaceCellAdminForm(forms.ModelForm):
-    class Meta:
-        model = complex_models.ComplexSpaceCell
-        fields = "__all__"
 
 
 class AssignmentAcademicGroupForm(forms.ModelForm):
     class Meta:
         model = complex_models.AssignmentAcademicGroup
         fields = "__all__"
+
+
+class ThemeForm(forms.ModelForm):
+    class Meta:
+        model = grid_models.Theme
+        fields = [
+            "title",
+            "content",
+        ]
+
+
+#
+# class CellForm(forms.ModelForm):
+#     class Meta:
+#         model = grid_models.Cell
+#         fields = '__all__'
+
+
+class ContainerForm(forms.ModelForm):
+    class Meta:
+        model = grid_models.Container
+        fields = [
+            "type",
+        ]
+
+
+class ComponentForm(forms.ModelForm):
+    class Meta:
+        model = complex_models.ComponentComplex
+        fields = "__all__"
+
+
+class ThemeAdminForm(forms.ModelForm):
+    class Meta:
+        model = grid_models.Theme
+        fields = "__all__"
+
+# class CellAdminForm(forms.ModelForm):
+#     class Meta:
+#         model = grid_models.Cell
+#
+#         fields = "__all__"

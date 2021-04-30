@@ -5,6 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_filters import rest_framework as filters
 
 from lrr.complexes import models
+from lrr.complexes import grid_models
 from lrr.repository.models import DigitalResource
 from lrr.complexes import serializers
 from lrr.repository.serializers import DigitalResourceListSerializer
@@ -28,16 +29,8 @@ class DigitalComplexViewSet(viewsets.ModelViewSet):
 class CellViewSet(viewsets.ModelViewSet):
     """ViewSet for the Expertise_status class"""
 
-    queryset = models.Cell.objects.all()
+    queryset = grid_models.Cell.objects.all()
     serializer_class = serializers.CellSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class ComplexSpaceCellViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Subject class"""
-
-    queryset = models.ComplexSpaceCell.objects.all()
-    serializer_class = serializers.ComplexSpaceCellSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

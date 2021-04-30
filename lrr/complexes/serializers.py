@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
-
 from rest_framework import serializers
 from rest_polymorphic.serializers import PolymorphicSerializer
 
 from lrr.complexes import models as complexes_models
+from lrr.complexes import grid_models
 from lrr.repository import serializers as repo_serializers
 
 # from lrr.users.models import AcademicGroup
@@ -50,28 +50,11 @@ class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer)
 
 class CellSerializer(serializers.ModelSerializer):
     class Meta:
-        model = complexes_models.Cell
+        model = grid_models.Cell
         fields = [
-            "type",
-            "include_practice",
-            "include_theory",
-            "beg_theme_number",
-            "end_theme_number",
-            "methodology_description",
         ]
 
 
-class ComplexSpaceCellSerializer(serializers.ModelSerializer):
-    cells = CellSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = complexes_models.ComplexSpaceCell
-        fields = [
-            "title",
-            "description",
-            "link",
-            "cells",
-        ]
 
 
 class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
@@ -106,7 +89,6 @@ class DigitalComplexSerializer(serializers.ModelSerializer):
     results_edu = repo_serializers.ResultEduSerializer(many=True, read_only=True)
     directions = repo_serializers.DirectionSerializer(many=True, read_only=True)
     digital_resources = repo_serializers.DigitalResourceSerializer(many=True, read_only=True)
-    complex_space_cell = ComplexSpaceCellSerializer(many=False, read_only=True)
     assignment_group = AssignmentAcademicComplexListGroupSerializer(many=True, read_only=True)
 
     class Meta:

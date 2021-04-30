@@ -90,7 +90,9 @@ THIRD_PARTY_APPS = [
     "matplotlib",
     "pySankey",
     "seaborn",
-    "fontawesome-free"
+    "fontawesome-free",
+    'silk',
+
 ]
 
 LOCAL_APPS = [
@@ -161,6 +163,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'silk.middleware.SilkyMiddleware',
 ]
 
 # STATIC
