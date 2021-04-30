@@ -106,28 +106,7 @@
       <br/>
       <div class="card shadow-1 p-3">
         <h5 class="card-subtitle mb-2 text-muted">Структурно-тематический план: </h5>
-        {% if assigment_academic_group.all %}
-          <table class="table table-striped table-bordered">
-            <thead>
-            <tr>
-              <th>Академическая группа</th>
-              <th>Дисциплина</th>
-              <th>Учебный год</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for component in assigment_academic_group %}
-              <tr>
-              <td>{{ component.academic_group }}</td>
-              <td>{{ component.subject }}</td>
-              <td>{{ component.learn_date }}</td>
-              {#                <td>{{ component.semestr }}</td>#}
-            {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
           Структурно-тематический план отсутсвует
-        {% endif %}
       </div>
       <br/>
       <div class="card shadow-1 p-3">
