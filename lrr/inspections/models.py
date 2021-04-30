@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models as models
@@ -291,7 +290,7 @@ class ExpertiseRequest(repository_model.BaseModel):
     @classmethod
     def get_my_checklist(cls, user):
         try:
-            objs = cls.objects.filter(Q(status='IN_PROCESS') & Q(expert__person__user=user),)
+            objs = cls.objects.filter(Q(status='IN_PROCESS') & Q(expert__person__user=user), )
         except:
             objs = cls.objects.all()
         return objs
@@ -326,4 +325,3 @@ class ExpertiseRequest(repository_model.BaseModel):
         except:
             dig_res = None
         return dig_res
-
