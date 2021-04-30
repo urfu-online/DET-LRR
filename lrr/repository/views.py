@@ -1,6 +1,7 @@
 import logging
 
 import django_filters
+from django.shortcuts import render
 from django.views import generic
 
 from lrr.inspections.models import Expertise
@@ -9,7 +10,6 @@ from lrr.users.models import Person
 from . import forms
 from . import models
 from .filters import FilteredListView
-from django.shortcuts import render
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -202,14 +202,8 @@ class DigitalResourceUpdateView(GroupRequiredMixin, generic.UpdateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        source_formset = context['source_formset']
         person = Person.get_person(user=self.request.user)
         form.instance.owner = person
-        self.object = form.save()
-        if source_formset.is_valid():
-            self.object = form.save()
-            source_formset.instance = self.object
-            source_formset.save()
         form_valid = super(DigitalResourceUpdateView, self).form_valid(form)
         return form_valid
 
@@ -217,7 +211,11 @@ class DigitalResourceUpdateView(GroupRequiredMixin, generic.UpdateView):
         context = super(DigitalResourceUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
             context["form"] = forms.DigitalResourceForm(self.request.POST, instance=self.object)
-            context["source_formset"] = forms.SourceFormset(self.request.POST, self.request.FILES, instance=self.object)
+            # context["source_formset"] = forms.SourceFormset(self.request.POST, self.request.FILES, instance=self.object)
+            source_formset = forms.SourceFormset(self.request.POST, self.request.FILES,
+                                                 queryset=models.Source.objects.all(), instance=self.object)
+            if source_formset.is_valid():
+                source_formset.save()
         else:
             context["form"] = forms.DigitalResourceForm(instance=self.object)
             context["source_formset"] = forms.SourceFormset(instance=self.object)

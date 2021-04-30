@@ -61,6 +61,11 @@ class ResultEduWidget(s2forms.ModelSelect2MultipleWidget):
     max_results = 50
 
 
+class CompetenceWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["title__icontains"]
+    max_results = 50
+
+
 class AuthorsWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = [
         "last_name__icontains",
@@ -96,6 +101,7 @@ class DigitalResourceForm(forms.ModelForm):
             "language",
             "platform",
             "result_edu",
+            "competences",
         ]
         widgets = {
             "title": forms.TextInput(
@@ -161,6 +167,11 @@ class DigitalResourceForm(forms.ModelForm):
                     'class': 'form-control',
                 },
             ),
+            "competences": CompetenceWidget(
+                attrs={
+                    'class': 'form-control',
+                },
+            ),
 
         }
 
@@ -180,6 +191,7 @@ SourceFormset = inlineformset_factory(
     models.DigitalResource,
     models.Source,
     fields=('link_name', 'URL', 'file', 'type'),
+    exclude=('id',),
     extra=1,
     widgets={
         'link_name': forms.TextInput(

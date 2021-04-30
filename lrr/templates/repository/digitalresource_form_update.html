@@ -71,6 +71,10 @@
                 <label>{{ form.result_edu.label }}</label>
                 {{ form.result_edu }}
               </div>
+              <div class="form-group col">
+                <label>{{ form.competences.label }}</label>
+                {{ form.competences }}
+              </div>
             </div>
             <div class="form-group">
               <label>{{ form.description.label }}</label>
@@ -85,6 +89,9 @@
 
             {{ source_formset.management_form }}
             {% for source in source_formset.forms %}
+              {% for hidden in source.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
 
               <div class="card source_form shadow-3 mb-3">
                 <div class="card-body">

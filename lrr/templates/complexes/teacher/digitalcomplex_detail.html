@@ -86,6 +86,7 @@
             <tr>
               <th>Компонент</th>
               <th>Описание / Методика применения</th>
+              {#              <th>Тип компонента</th>#}
             </tr>
             </thead>
             <tbody>
@@ -94,8 +95,19 @@
               {#              <td>#}
               {#                <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>#}
               {#              </td>#}
-              <td>{{ component }}</td>
+              <td>
+                {% if component.polymorphic_ctype == "complexes | Компонент ЭОР" %}
+                  <a href="{% url "repository:repository_DigitalResource_detail" pk=component.pk %}">{{ component }}</a>
+                {% elif component.polymorphic_ctype == "complexes | Среда обучения" %}
+                  <a href="{{ component.url }}">{{ component }}</a>
+                {% elif component.polymorphic_ctype == "complexes | Литературный источник" %}
+                  <a href="{{ component.url }}">{{ component }}</a>
+                {% else %}
+                  <a href="{{ component.url }}">{{ component }}</a>
+                {% endif %}
+              </td>
               <td>{{ component.description }}</td>
+              {#              <td>{{ component.polymorphic_ctype }}</td>#}
             {% endfor %}
             </tbody>
           </table>
@@ -104,9 +116,9 @@
         {% endif %}
       </div>
       <br/>
-      <div class="card shadow-1 p-3">
+      <div class=" card shadow-1 p-3">
         <h5 class="card-subtitle mb-2 text-muted">Структурно-тематический план: </h5>
-          Структурно-тематический план отсутсвует
+        Структурно-тематический план отсутсвует
       </div>
       <br/>
       <div class="card shadow-1 p-3">
@@ -135,10 +147,10 @@
         {% endif %}
       </div>
     </div>
-    {% if component_complex.all %}
+    {% if request.user|has_owner_complex:object %}
       <div class="col-4 p-2">
         <div class="card shadow-1">
-          {% if request.user|has_owner_complex:object %}
+          {% if component_complex.all %}
             <a href="{% url 'complexes:complexes_ComponentComplex_list' pk=object.pk %}"
                class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>
           {% else %}

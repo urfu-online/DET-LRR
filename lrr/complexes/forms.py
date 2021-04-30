@@ -50,7 +50,7 @@ class DigitalComplexForm(forms.ModelForm):
                     'class': 'form-control',
                 },
             ),
-            "description": forms.TextInput(
+            "description": forms.Textarea(
                 attrs={
                     'class': 'form-control',
                 },

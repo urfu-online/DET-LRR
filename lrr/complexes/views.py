@@ -126,7 +126,8 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
                                                                                complex_model.TraditionalSessionComponent)
         dig_complex = complex_model.DigitalComplex.objects.get(pk=self.request.resolver_match.kwargs['pk'])
         context['component_complex'] = component_complex.filter(digital_complex=dig_complex)
-        logger.warning(context['component_complex'])
+        for component in component_complex:
+            logger.warning(component.polymorphic_ctype)
         context['resource_components'] = complex_model.ResourceComponent.objects.filter(digital_complex=self.object)
         context['platform_components'] = complex_model.PlatformComponent.objects.filter(digital_complex=self.object)
         context['traditional_components'] = complex_model.TraditionalSessionComponent.objects.filter(

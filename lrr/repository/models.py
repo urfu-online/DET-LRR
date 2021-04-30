@@ -252,6 +252,7 @@ class DigitalResource(BaseModel):
     language = models.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
     platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
+    competences = models.ManyToManyField("Competence", verbose_name="Компетенции", blank=True)
 
     # Fields
     title = models.CharField("Наименование ресурса", max_length=1024)
