@@ -2,15 +2,15 @@
 import logging
 
 import django_filters
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import get_object_or_404
 
 from lrr.complexes import forms
-from lrr.complexes import models as complex_model
 from lrr.complexes import grid_models
+from lrr.complexes import models as complex_model
 from lrr.repository.filters import FilteredListView
-from lrr.repository.models import Subject, DigitalResource
+from lrr.repository.models import Subject
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Student, AcademicGroup
 
@@ -49,12 +49,12 @@ class DigitalComplexFilter(django_filters.FilterSet):
 # "digital_resources",
 
 
-class DigitalComplexListView(FilteredListView):
-    model = complex_model.DigitalComplex
-    form_class = forms.DigitalComplexForm
-    allow_empty = True
-    paginate_by = 12
-    filterset_class = DigitalComplexFilter
+# class DigitalComplexListView(FilteredListView):
+#     model = complex_model.DigitalComplex
+#     form_class = forms.DigitalComplexForm
+#     allow_empty = True
+#     paginate_by = 12
+#     filterset_class = DigitalComplexFilter
 
 
 class DigitalComplexMyListView(GroupRequiredMixin, FilteredListView):
@@ -73,6 +73,24 @@ class DigitalComplexMyListView(GroupRequiredMixin, FilteredListView):
 
     def get_queryset(self):
         queryset = complex_model.DigitalComplex.objects.filter(owner__user=self.request.user)
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if qs.count() == 0:
+            self.paginate_by = None
+        return qs
+
+
+class DigitalComplexListView(GroupRequiredMixin, FilteredListView):
+    model = complex_model.DigitalComplex
+    form_class = forms.DigitalComplexForm
+    allow_empty = True
+    paginate_by = 12
+    filterset_class = DigitalComplexFilter
+    template_name = 'complexes/teacher/digitalcomplex_list.html'
+    group_required = [u"rop", u"admins"]
+
+    def get_queryset(self):
+        queryset = complex_model.DigitalComplex.objects.all()
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
         if qs.count() == 0:

@@ -111,23 +111,24 @@
         </li>
       {% endif %}
 
-            {% if request.user|has_group:"rop" %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                  Кабинет РОП
-                </a>
-{#                <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">#}
-                  {% if request.user|has_group:"rop" %}
-                    <a class="dropdown-item" href="{% url 'repository:repository_statistics' %}">Статистика ЭОР</a>
-                    <a class="dropdown-item" href="/">{% trans "Список ЭОР" %}</a>
-{#                    <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭУМК</a>#}
-{#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>#}
-{#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>#}
-                  {% endif %}
-{#                </div>#}
-              </li>
-            {% endif %}
+      {% if request.user|has_group:"rop" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Кабинет РОП
+          </a>
+          {#                <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">#}
+          {% if request.user|has_group:"rop" %}
+            <a class="dropdown-item" href="{% url 'repository:repository_statistics' %}">Статистика ЭОР</a>
+            <a class="dropdown-item"
+               href="{% url 'complexes:complexes_DigitalComplex_all_list' %}">{% trans "Список ЭУМК" %}</a>
+            {#                    <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭУМК</a>#}
+            {#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>#}
+            {#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>#}
+          {% endif %}
+          {#                </div>#}
+        </li>
+      {% endif %}
 
       {% if request.user|has_group:"student" %}
         <li class="nav-item dropdown">
@@ -135,24 +136,24 @@
              aria-haspopup="true" aria-expanded="false">
             Кабинет студента
           </a>
-{#          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">#}
-            {% if request.user|has_group:"student" %}
-              <a class="dropdown-item"
-                 href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user.username %}">Мои
-                дисциплины</a>
-            {% endif %}
-{#          </div>#}
+          {#          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">#}
+          {% if request.user|has_group:"student" %}
+            <a class="dropdown-item"
+               href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user.username %}">Мои
+              дисциплины</a>
+          {% endif %}
+          {#          </div>#}
         </li>
       {% endif %}
 
       {% if request.user.is_superuser %}
         <hr class="dotted">
-{#        <li class="nav-item">#}
-{#          <a class="nav-link" href="/">{% trans "Список ЭОР" %}</a>#}
-{#        </li>#}
-{#        <li class="nav-item">#}
-{#          <a class="nav-link" href="{% url 'repository:repository_statistics' %}">{% trans "Статистика" %}</a>#}
-{#        </li>#}
+        {#        <li class="nav-item">#}
+        {#          <a class="nav-link" href="/">{% trans "Список ЭОР" %}</a>#}
+        {#        </li>#}
+        {#        <li class="nav-item">#}
+        {#          <a class="nav-link" href="{% url 'repository:repository_statistics' %}">{% trans "Статистика" %}</a>#}
+        {#        </li>#}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">
@@ -265,7 +266,9 @@
 <link href="{% static 'css/custom.css' %}" rel="stylesheet">
 <link href="{% static 'css/project.css' %}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+      integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 </body>
 </html>
