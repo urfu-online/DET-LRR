@@ -89,6 +89,9 @@ if settings.DEBUG or settings.DEVELOPMENT:
             path("schema/", Schema.as_view())
         ]
 
+    if "postgres_metrics" in settings.INSTALLED_APPS:
+        urlpatterns += path('admin/postgres-metrics/', include('postgres_metrics.urls')),
+
     if "debug_toolbar" in settings.INSTALLED_APPS:
         import debug_toolbar
 

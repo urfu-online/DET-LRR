@@ -39,11 +39,8 @@ matplotlib
 seaborn
 fontawesome-free==5.15.3
 django-sortedm2m==3.0.2
-django-silk
-django-postgres-metrics
+
 django-better-admin-arrayfield
 django-adminactions
 django-admin-export-action
-django-permissions-auditor
-data-wizard
-itertable
+

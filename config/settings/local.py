@@ -54,3 +54,6 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 CELERY_TASK_EAGER_PROPAGATES = True
 CSRF_COOKIE_SECURE = False
 SILKY_ANALYZE_QUERIES = True
+
+INSTALLED_APPS = ['postgres_metrics.apps.PostgresMetrics'] + INSTALLED_APPS
+
