@@ -10897,9 +10897,6 @@ form.was-validated select:valid ~ .select2-container--default .select2-selection
   .select2-container--default .select2-selection__clear:hover {
     background-color: #e6e6e6; }
 
-#djShowToolBarButton {
-  display: none !important; }
-
 header h1 {
   margin-bottom: 24px !important;
   margin-bottom: 1.5rem !important; }

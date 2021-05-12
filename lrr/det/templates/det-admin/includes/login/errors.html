@@ -1,0 +1,16 @@
+{% load i18n static %}
+
+{% if form.errors or form.non_field_errors or  form.password.errors or  form.username.errors %}
+  {% if form.errors and not form.non_field_errors %}
+    {% for error in form.errors %}
+      {% include "det-admin/includes/formfield_alert_danger.html" with error=error %}
+    {% endfor %}
+    {% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}
+  {% endif %}
+
+  {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+      {% include "det-admin/includes/formfield_alert_danger.html" with error=error %}
+    {% endfor %}
+  {% endif %}
+{% endif %}

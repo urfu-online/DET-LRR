@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from django.conf import settings
+from django.contrib.postgres.fields import IntegerRangeField
 from django.core.exceptions import ValidationError
 from django.db import models as models
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
+from django_better_admin_arrayfield.models.fields import ArrayField
 
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
 from lrr.repository.models import DigitalResource
 from lrr.survey.models.response import Response as SurveyResponse
+from lrr.survey.models.survey import Survey
 from lrr.users.models import Person, Expert
 
 logger = logging.getLogger(__name__)
@@ -325,3 +329,50 @@ class ExpertiseRequest(repository_model.BaseModel):
         except:
             dig_res = None
         return dig_res
+
+
+class IndicatorGroup(models.Model):
+    GROUPS = (
+        ("0", "Кадровый состав авторского коллектива (Соблюдение квалификационных требований)"),
+        ("1", "Полнота заполнения полей паспорта ресурса"),
+        ("2", "Редакционно-издательская обработка"),
+        ("3", "Соблюдение требований в области защиты авторских прав"),
+        ("4", "Соответствие требованиям к оценочным материалам"),
+        ("5", "Состав применяемых технологий"),
+        ("6", "Управление учебной деятельностью"),
+        ("7", "Соблюдение требований в области защиты авторских прав"),
+        ("8", "Соответствие требованиям к оценочным материалам"),
+        ("9", "Соответствие содержанию дисциплины ОП"),
+        ("10", "Соответствие требованиям к контенту"),
+        ("11", "Дизайн-эргономические и технические характеристики используемых средств обучения"),
+        ("12", "Доступ к ресурсу"),
+        ("13", "Соответствие требованиям к структуре ресурса")
+    )
+    title = models.CharField(max_length=1024, choices=GROUPS, default="qual", unique=True)
+
+    def __str__(self):
+        return self.get_title_display()
+
+
+class Indicator(models.Model):
+    title = models.CharField(max_length=1024, db_index=True, unique=True)
+    group = models.ForeignKey(IndicatorGroup, on_delete=models.CASCADE)
+    values = ArrayField(models.CharField(max_length=32, blank=True, null=True), blank=True, null=True)
+    num_values = IntegerRangeField(blank=True, null=True)
+    survey = models.ForeignKey(Survey, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.title
+
+
+class Status(models.Model):
+    GROUPS = (
+        ("qual", "Категория качества контента ЭОР"),
+        ("struct", "Соответствие структуры и содержания ЭОР требованиям конкретных дисциплин ОП"),
+        ("tech", "Технологические возможности и сценарии функционирования ЭОР")
+    )
+    title = models.CharField(max_length=1024, db_index=True)
+    group = models.CharField(max_length=6, choices=GROUPS, default="qual")
+
+    def __str__(self):
+        return self.title

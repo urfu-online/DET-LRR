@@ -8,7 +8,6 @@ from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_swagger.views import get_swagger_view
 
-from lrr.complexes import api as complexes_api
 from lrr.repository.views import DigitalResourceListView
 
 schema_view = get_swagger_view(title='LRR API')
@@ -19,8 +18,7 @@ urlpatterns = [
                   path(
                       "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
                   ),
-                  # Django Admin, use {% url 'admin:index' %}
-                  path(settings.ADMIN_URL, admin.site.urls),
+
                   # User management
                   path("users/", include("lrr.users.urls", namespace="users")),
                   path("accounts/", include("allauth.urls")),
@@ -45,11 +43,26 @@ urlpatterns += [
 
     # DRF auth token
     path("auth-token/", obtain_auth_token),
+    path('admin/postgres-metrics/', include('postgres_metrics.urls')),
+    path(settings.ADMIN_URL, admin.site.urls),
 ]
 
+if 'silk' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        path('silk/', include('silk.urls', namespace='silk'))
+    ]
+
+if "admin_export_action" in settings.INSTALLED_APPS:
+    urlpatterns += [
+        path('export_action/', include("admin_export_action.urls", namespace="admin_export_action")),
+    ]
+
+if "data_wizard" in settings.INSTALLED_APPS:
+    urlpatterns += [
+        path('datawizard/', include('data_wizard.urls')),
+    ]
+
 if settings.DEBUG or settings.DEVELOPMENT:
-    # This allows the error pages to be debugged during development, just visit
-    # these url in browser to see how these error pages look like.
     urlpatterns += [
         path(
             "400/",
@@ -68,10 +81,6 @@ if settings.DEBUG or settings.DEVELOPMENT:
         ),
         path("500/", default_views.server_error),
     ]
-    if "debug_toolbar" in settings.INSTALLED_APPS:
-        import debug_toolbar
-
-        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
 
     if 'schema_graph' in settings.INSTALLED_APPS:
         from schema_graph.views import Schema
@@ -80,7 +89,7 @@ if settings.DEBUG or settings.DEVELOPMENT:
             path("schema/", Schema.as_view())
         ]
 
-    if 'silk' in settings.INSTALLED_APPS:
-        urlpatterns += [
-            path('silk/', include('silk.urls', namespace='silk'))
-        ]
+    if "debug_toolbar" in settings.INSTALLED_APPS:
+        import debug_toolbar
+
+        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns

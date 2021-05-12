@@ -2,6 +2,7 @@ import logging
 from copy import copy
 
 import django_filters
+from django.core.exceptions import EmptyResultSet
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -19,6 +20,40 @@ from .indicators import indicators
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
+
+
+def value_to_int(value):
+    values = [
+        ("не-соотв", "нет", 'не-заполнено'),
+        ("низк",),
+        ("ниже",),
+        ("средн",),
+        ("выше",),
+        ("высок", "да", "имею", "выявлено", 'заполнено', "имеется")
+    ]
+    value = value.lower()
+    score = -1
+
+    for i, vls in enumerate(values):
+        if any([v in value for v in vls]):
+            score = i
+    return score
+
+
+def calc_max_value(values_list: list):
+    i = -1
+    for val in values_list:
+        if "отсутств" in val:
+            i = i - 1
+    return len(values_list) + i
+
+
+def normalize_values_list(values_list: list):
+    normalized_values_list = copy.deepcopy(values_list)
+    for val in normalized_values_list:
+        if "отсутств" in val:
+            normalized_values_list.remove(val)
+    return normalized_values_list
 
 
 class DigitalResourceFilter(django_filters.FilterSet):
@@ -65,10 +100,10 @@ class ExpertiseCompletionView(View):
             if ans:
                 if '0-100' not in indicator["values"]:
                     logger.warning(f"Предполагаем список строк: {ans.body}")
-                    achievment["value_interpreted"] = indicator["values"].index(slugify(ans.body, allow_unicode=True))
+                    achievment["value_interpreted"] = value_to_int(slugify(ans.body, allow_unicode=True))
                     achievment["value"] = slugify(ans.body, allow_unicode=True)
-                    achievment["max_value"] = len(indicator["values"]) - 1
-                    achievment["SCORE"] = achievment["value_interpreted"] / achievment["max_value"]
+                    # achievment["max_value"] = calc_max_value(indicator["values"])
+                    achievment["SCORE"] = achievment["value_interpreted"]  # / achievment["max_value"]
                 elif '0-100' in indicator["values"]:
                     try:
                         logging.warning(f"Предполагаем 0-100: {ans.body}")

@@ -1,0 +1,807 @@
+/*
+given a DOM element, return the list of all scroll parents, up the list of ancesors
+until we get to the top window object. This list is what we attach scroll listeners
+to, because if any of these parent elements scroll, we'll need to re-calculate the
+reference element's position.
+*/
+
+/* harmony default export */
+
+/* istanbul ignore if */
+
+/* or $(window).height() */
+
+/* or $(window).width() */
+
+/* webpack/runtime/define property getters */
+
+/*!
+  * CoreUI v4.0.0-beta.0 (https://coreui.io)
+  * Copyright 2021 The CoreUI Team (https://github.com/orgs/coreui/people)
+  * Licensed under MIT (https://coreui.io)
+  */
+
+/*#__PURE__*/
+
+/**
+     * `document` has 2 events `EVENT_FOCUSIN` and `EVENT_CLICK_DATA_API`
+     * Do not move `document` in `htmlElements` array
+     * It will remove `EVENT_CLICK_DATA_API` event that should remain
+     */
+
+/**
+ * ------------------------------------------------------------------------
+ * Class Definition
+ * ------------------------------------------------------------------------
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * Constants
+ * ------------------------------------------------------------------------
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation
+ * ------------------------------------------------------------------------
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * Private methods
+ * ------------------------------------------------------------------------
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Alert to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Button to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Carousel to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Collapse to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Dropdown to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Modal to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Navigation to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Popover to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .ScrollSpy to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Tab to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Toast to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .Tooltip to jQuery only if jQuery is present
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+  * CoreUI (v4.0.0-beta.0): modal.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's modal.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * Bootstrap (v5.0.0-beta3): util/scrollBar.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): alert.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's  util/index.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): alert.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's  util/sanitizer.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): alert.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's alert.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): alert.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's base-component.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): alert.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's button.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): alert.js
+ * Licensed under MIT (https://coreui.io/license)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): collapse.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's collapse.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): dom/event-handler.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's  dom/event-handler.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): dom/manipulator.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's  dom/manipulator.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): dom/selector-engine.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's  dom/selector-engine.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): dropdown.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's dropdown.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): popover.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's popover.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): scrollspy.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's scrollspy.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): sidebar.js
+ * Licensed under MIT (https://coreui.io/license)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): tab.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's tab.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): toast.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's toast.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * --------------------------------------------------------------------------
+ * CoreUI (v4.0.0-beta.0): tooltip.js
+ * Licensed under MIT (https://coreui.io/license)
+ *
+ * This component is a modified version of the Bootstrap's tooltip.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/** Static */
+
+/************************************************************************/
+
+/******/
+
+//    - If key is not up or down => not a dropdown command
+
+//    - If trigger inside the menu => not a dropdown command
+
+//  - And not a key in REGEXP_KEYDOWN => not a dropdown command
+
+//  - If key is other than escape
+
+//  - If space key => not a dropdown command
+
+// $FlowFixMe[cannot-write]
+
+// $FlowFixMe[incompatible-call]: HTMLElement is a Node
+
+// $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
+
+// $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
+
+// $FlowFixMe[incompatible-return]
+
+// $FlowFixMe[incompatible-return]: assume body is always available
+
+// $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
+
+// $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
+
+// $FlowFixMe[prop-missing]
+
+// $FlowFixMe[prop-missing]: need a better way to handle this...
+
+// (as if it's the second time we tap on it, mouseenter compat event
+
+// ----------------------------------------------------------------------
+
+// 0.001
+
+// A "clipping parent" is an overflowable container with the characteristic of
+
+// Add matching parents to array
+
+// Also, `html.clientHeight` adds the bottom bar height in Safari iOS, even
+
+// Async and optimistically optimized update – it will not be executed if
+
+// Browsers where the left scrollbar doesn't cause an issue report `0` for
+
+// CONCATENATED MODULE: ./node_modules/@coreui/coreui/dist/js/coreui.esm.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/createPopper.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/contains.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getWindow.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/enums.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/modifiers/applyStyles.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/modifiers/flip.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/modifiers/hide.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/modifiers/offset.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/computeOffsets.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/detectOverflow.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/expandToHashMap.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/getBasePlacement.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/getVariation.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/math.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/mergeByName.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/orderModifiers.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/rectToClientRect.js
+
+// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/within.js
+
+// CSS selector
+
+// Can find the shadow root otherwise it'll return the document
+
+// Check if a regular expression validates the attribute.
+
+// Check if it's jQuery element
+
+// Close other groups
+
+// Coerce string values
+
+// Composite means it takes into account transforms as well as layout.
+
+// DOM Element detected
+
+// Disable Popper if we have a static display
+
+// Don't call next when the page isn't visible
+
+// Don't close the menu if the clicked element or one of its parents is the dropdown button
+
+// Don't move modal's DOM position
+
+// Don't proceed if `reference` or `popper` are not valid elements
+
+// Down
+
+// Events storage
+
+// Fallback here: "Not Safari" userAgent
+
+// Feature detection fails in mobile emulation mode in Chrome.
+
+// Firefox wants us to check `-x` and `-y` variations as well
+
+// First, attempt with faster native method
+
+// Fixes https://github.com/popperjs/popper-core/issues/1223
+
+// Flow doesn't support to extend this property, but it's the most
+
+// For high frequency updates (e.g. `resize` and `scroll` events), always
+
+// Get matching parent elements
+
+// Get transition-duration of the element
+
+// Gets the closest ancestor positioned element. Handles some edge cases,
+
+// Gets the entire size of the scrollable document area, even extending outside
+
+// Gets the maximum area that the element is visible in due to any number of
+
+// Getters
+
+// Give up, the result is false
+
+// Global attributes allowed on any supplied element below.
+
+// Handle special case when .nav-link is inside .nav-item
+
+// IE 11 has no ShadowRoot
+
+// IE11 does not support Object.values
+
+// If <html> has a CSS width greater than the viewport, then this will be
+
+// If input/textarea:
+
+// If it's a touch-enabled device, mouseenter/leave are fired as
+
+// If multiple durations are defined, take the first
+
+// If not input/textarea:
+
+// If this is a touch-enabled device we add extra
+
+// If this is a touch-enabled device we remove the extra
+
+// In Chrome, it returns a value very close to 0 (+/-) but contains rounding
+
+// Just in case some CMS puts out a full URL with the anchor appended
+
+// Math.abs(win.innerWidth / visualViewport.scale - visualViewport.width) <
+
+// Modifiers have the ability to reset the current update cycle. The
+
+// NAMESPACE OBJECT: ./node_modules/@popperjs/core/lib/index.js
+
+// NB: This isn't supported on iOS <= 12. If the keyboard is open, the popper
+
+// Offsets are the actual position the popper needs to have to be
+
+// Offsets can be applied only to the popper element
+
+// On each update cycle, the `modifiersData` property for each modifier
+
+// On visiting object, check for its dependencies and visit them recursively
+
+// Orders the modifiers based on their dependencies and `phase`
+
+// Overrides
+
+// Popper 1 is broken in this case and never had a bug report so let's assume
+
+// Popper virtual elements require a getBoundingClientRect method
+
+// Private
+
+// Protected
+
+// Public
+
+// Return 0 if element or transition duration is not found
+
+// Returns the composite rect of an element relative to its offsetParent.
+
+// Returns the layout rect of an element relative to its offsetParent. Layout
+
+// Round the offsets to the nearest suitable subpixel based on the DPR.
+
+// Safari returns a number <= 0, usually < -1 when pinch-zoomed
+
+// See https://github.com/twbs/bootstrap/issues/32273
+
+// Set triggered link as active
+
+// Set triggered links parents as active
+
+// Setup parents array
+
+// ShadowRoot detected
+
+// Sidebar navigation
+
+// Simplest case: handler is passed, remove that listener ONLY.
+
+// Static
+
+// Store the reference and popper rects to be read by modifiers
+
+// Strip out disabled modifiers
+
+// Sync update – it will always be executed, even if not necessary. This
+
+// Tab navigation through the dropdown menu shouldn't close the menu
+
+// The only valid content that could double as a selector are IDs or classes,
+
+// The require scope
+
+// This is non-exhaustive but covers the most common CSS properties that
+
+// This is the most basic placement, and will be adjusted by
+
+// This modifier takes the styles prepared by the `computeStyles` modifier
+
+// To ensure persistent data, use `${name}#persistent`
+
+// To please ESLint
+
+// Toggle class and sync the `aria-pressed` attribute with the return value of the `.toggle()` method
+
+// Totally disable Popper for Dropdowns in Navbar
+
+// Up
+
+// Use the clientRect sizes if it's not been transformed.
+
+// Uses Layout Viewport (like Chrome; Safari does not currently)
+
+// We need to trim the value because custom properties can also include spaces
+
+// With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
+
+// Zooming can change the DPR, but it seems to report a value that will
+
+// `.offsetParent` reports `null` for fixed elements, while absolute elements
+
+// `2` may be desired in some cases – research later
+
+// `document.querySelector` will rightfully complain it is invalid.
+
+// `initial`
+
+// allow to get the native events from namespaced events ('click.coreui.button' --> 'click')
+
+// and applies them to the HTMLElements such as popper and arrow
+
+// anymore
+
+// anyway.
+
+// arrow is optional + virtual elements
+
+// avoid conflict when clicking a toggler of an offcanvas, while another is open
+
+// can be obscured underneath it.
+
+// can be removed later when multiple key/instances are fine to be used
+
+// check for visited object
+
+// cleanly divide the values into the appropriate subpixels.
+
+// clipping (or hiding) overflowing elements with a position different from
+
+// clipping parents
+
+// content is a DOM node or a jQuery
+
+// create a containing block.
+
+// define __esModule on exports
+
+// define getter functions for harmony exports
+
+// effective way to apply styles to an HTMLElement
+
+// empty mouseover listeners to the body's immediate children;
+
+// empty mouseover listeners we added for iOS support
+
+// ensure swiping with one touch and not pinching
+
+// errors due to floating point numbers, so we need to check precision.
+
+// eslint-disable-next-line import/no-unused-modules
+
+// eslint-disable-next-line no-console
+
+// eslint-disable-next-line unicorn/consistent-destructuring
+
+// events to fire) we explicitly restart cycling
+
+// focus on trigger when it is closed
+
+// free up element references if there are no instances left for an element
+
+// guard against infinite focus loop
+
+// here, we listen for touchend, explicitly pause the carousel
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+
+// https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+
+// https://github.com/popperjs/popper-core/issues/1078
+
+// https://github.com/popperjs/popper-core/issues/837
+
+// https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+
+// if it isn't open, so if this isn't available, the popper will be detected
+
+// incorrect for RTL.
+
+// index is -1 if the first keydown is an ArrowUp
+
+// is NOT fired) and after a timeout (to allow for mouse compatibility
+
+// is filled with the initial data specified by the modifier. This means
+
+// is useful for low frequency updates where sync behavior simplifies the
+
+// it doesn't persist and is fresh on each update.
+
+// it's a jQuery object
+
+// it's not an issue. I don't think anyone ever specifies width on <html>
+
+// logic was previously ran for the previous placement and is therefore
+
+// logic.
+
+// make it clear we only want one instance per element
+
+// means it doesn't take into account transforms.
+
+// merge custom information in our event
+
+// most common use case for this is the `flip` modifier changing the
+
+// not necessary (debounced to run at most once-per-tick)
+
+// of the `<html>` and `<body>` rect bounds if horizontally scrollable
+
+// only needed because of broken event delegation on iOS
+
+// or the carousel or its parent isn't visible
+
+// order based on dependencies
+
+// order based on phase
+
+// part of the mouse compatibility events on first tap - the carousel
+
+// placement, which then needs to re-run all the modifiers, because the
+
+// prefer the async Popper#update method
+
+// preventDefault only for <a> elements (which change the URL) not inside the collapsible element
+
+// private
+
+// properly positioned near its reference element
+
+// properties
+
+// return the containing block
+
+// so everything starting with `#` or `.`. If a "real" URL is used as the selector,
+
+// source: https://stackoverflow.com/questions/49875255
+
+// stale/incorrect
+
+// step into the shadow DOM of the parent of a slotted node
+
+// such as table ancestors and cross browser bugs.
+
+// the following methods are used to handle overflowing modals
+
+// the modifiers in the next step
+
+// this (e.g. Edge 2019, IE11, Safari)
+
+// this is a quicker (but less type safe) way to save quite some bytes from the bundle
+
+// thx d.walsh
+
+// to overflow the bottom of the screen too early.
+
+// update parent attribute
+
+// we use append for html objects to maintain js events
+
+// webpackBootstrap
+
+// when we don't find a shadow root
+
+// would stop cycling until user tapped out of it;

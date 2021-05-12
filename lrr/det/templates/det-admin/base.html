@@ -1,0 +1,113 @@
+{% load i18n static det %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %}</title>
+{#<link rel="stylesheet" type="text/css" href="{% static "det-admin/sanitize/sanitize.css" %}">#}
+  <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "det-admin/det.admin.css" %}{% endblock %}">
+  {% block extrastyle %}{% endblock %}
+  {% block extrahead %}{% endblock %}
+
+  {% block blockbots %}
+    <meta name="robots" content="NONE,NOARCHIVE">
+  {% endblock %}
+</head>
+
+<body class="{% if is_popup %}popup {% endif %}" data-admin-utc-offset="{% now "Z" %}">
+
+
+{% if not is_popup and is_nav_sidebar_enabled and request.user.is_staff %}
+  <div class="sidebar sidebar-dark sidebar-fixed sidebar-self-hiding-xl" id="sidebar">
+      {% include "det-admin/nav_sidebar.html" %}
+  </div>
+{% endif %}
+
+<!-- Container -->
+<div class="wrapper bg-light min-vh-100 {{ veiw|get_class:"get_container_class" }} {{ view|get_class:"body_va_class" }} {{ view }}">
+  <div class="container-fluid">
+    {% if username != "" %}
+      <div class="row justify-content-center">
+        {% if not is_popup %}
+          <div class="col">
+            <!-- Header -->
+            <div id="header">
+              <div id="branding">
+                {% block branding %}{% endblock %}
+              </div>
+              {% block usertools %}
+                {% if has_permission %}
+                  <div id="user-tools">
+                    {% block welcome-msg %}
+                      {% translate 'Welcome,' %}
+                      <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+                    {% endblock %}
+                    {% block userlinks %}
+                      {% if site_url %}
+                        <a href="{{ site_url }}">{% translate 'View site' %}</a> /
+                      {% endif %}
+                      {% if user.is_active and user.is_staff %}
+                        {% url 'django-admindocs-docroot' as docsroot %}
+                        {% if docsroot %}
+                          <a href="{{ docsroot }}">{% translate 'Documentation' %}</a> /
+                        {% endif %}
+                      {% endif %}
+                      {% if user.has_usable_password %}
+                        <a href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a> /
+                      {% endif %}
+                      <a href="{% url 'admin:logout' %}">{% translate 'Log out' %}</a>
+                    {% endblock %}
+                  </div>
+                {% endif %}
+              {% endblock %}
+              {% block nav-global %}{% endblock %}
+            </div>
+            <!-- END Header -->
+            {% block breadcrumbs %}
+              <div class="breadcrumbs">
+                <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+                {% if title %} &rsaquo; {{ title }}{% endif %}
+              </div>
+            {% endblock %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+
+
+      <div class="col-lg-6">
+        {% block messages %}
+          {% if messages %}
+            <ul class="messagelist">{% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+            {% endfor %}</ul>
+          {% endif %}
+        {% endblock messages %}
+        <!-- Content -->
+
+        {% block pretitle %}{% endblock %}
+        {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+        {% block content %}
+          {% block object-tools %}{% endblock %}
+          {{ content }}
+        {% endblock %}
+        {% block sidebar %}{% endblock %}
+      </div>
+
+    </div>
+
+    <div class="row justify-content-center">
+      {% block footer %}
+        <div id="footer"></div>{% endblock %}
+    </div>
+
+
+  </div>
+</div>
+<script src="{% static 'det-admin/det.admin.js' %}" defer></script>
+<!-- END Container -->
+</body>
+</html>
