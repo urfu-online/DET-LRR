@@ -391,9 +391,6 @@ class Competence(BaseModel):
 
     # TODO: add fields
     # type choices_to TYPES
-    # Standard
-    # Content
-    # Okso
     class Meta:
         verbose_name = u"Компетенция"
         verbose_name_plural = u"Компетенции"
