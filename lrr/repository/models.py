@@ -490,3 +490,23 @@ class EduProgramTag(BaseModel):
 
     def get_update_url(self):
         return reverse("repository_EduProgramTag_update", args=(self.pk,))
+
+
+class BookmarkBase(models.Model):
+    class Meta:
+        abstract = True
+
+    user = models.ForeignKey("users.User", verbose_name="Пользователь", on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+
+    def __str__(self):
+        return self.user.username
+
+
+class BookmarkDigitalResource(BookmarkBase):
+    class Meta:
+        db_table = "bookmark__digital_resource"
+
+    obj = models.ForeignKey('repository.DigitalResource', verbose_name="Паспорт ЭОР", on_delete=models.CASCADE)

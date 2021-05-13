@@ -9,6 +9,13 @@ register = template.Library()
 logger = logging.getLogger(__name__)
 
 
+@register.filter('user_in')
+def user_in(objects, user):
+    if user.is_authenticated:
+        return objects.filter(user=user).exists()
+    return False
+
+
 @register.inclusion_tag("repository/dr_cards.html")
 def get_resources(res, *args, **kwargs):
     subject = kwargs.get('subject', None)

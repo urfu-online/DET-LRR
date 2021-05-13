@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from . import views
@@ -53,4 +54,7 @@ urlpatterns = (
     path("DigitalResource/my/", views.ResourceListView.as_view(), name="repository_digitalresource_owner_list"),
     # path("search/", views.ResourceListView.as_view(), name="repository_Search"), # TODO: поиск ЭОР
     path("statistics/", views.statistics, name="repository_statistics"),
+    path("resource/<uuid:pk>/bookmark/", login_required(views.BookmarkView.as_view()), name='resource_bookmark'),
+    path("DigitalResource/favorite/", views.DigitalResourceBookmarkListView.as_view(),
+         name="repository_digitalresource_list_fav"),
 )

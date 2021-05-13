@@ -5,11 +5,11 @@ import django_filters
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.urls import reverse
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView, CreateView
-from django.contrib.auth.models import Group
 
 from lrr.repository.filters import FilteredListView
 from lrr.users import forms
@@ -115,11 +115,11 @@ class ExpertFilter(django_filters.FilterSet):
     class Meta:
         model = models.Expert
         fields = {
-            'person__first_name': ['contains'],
-            'person__last_name': ['contains'],
-            'person__middle_name': ['contains'],
+            'person__first_name': ['icontains'],
+            'person__last_name': ['icontains'],
+            'person__middle_name': ['icontains'],
             'types': ['exact'],
-            'subdivision': ['contains'],
+            'subdivision': ['icontains'],
         }
 
 

@@ -96,11 +96,11 @@
               {#                <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>#}
               {#              </td>#}
               <td>
-                {% if component.polymorphic_ctype == "complexes | Компонент ЭОР" %}
-                  <a href="{% url "repository:repository_DigitalResource_detail" pk=component.pk %}">{{ component }}</a>
-                {% elif component.polymorphic_ctype == "complexes | Среда обучения" %}
+                {% if component.polymorphic_ctype|cut:" " == "complexes|КомпонентЭОР" %}
+                  <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>
+                {% elif component.polymorphic_ctype|cut:" " == "complexes|Средаобучения" %}
                   <a href="{{ component.url }}">{{ component }}</a>
-                {% elif component.polymorphic_ctype == "complexes | Литературный источник" %}
+                {% elif component.polymorphic_ctype|cut:" " == "complexes|Литературныйисточник" %}
                   <a href="{{ component.url }}">{{ component }}</a>
                 {% else %}
                   <a href="{{ component.url }}">{{ component }}</a>
