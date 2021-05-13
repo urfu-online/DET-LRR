@@ -47,3 +47,4 @@ django-admin-export-action
 django-permissions-auditor
 data-wizard
 itertable
+django-smart-selects==1.5.9 # https://github.com/jazzband/django-smart-selects

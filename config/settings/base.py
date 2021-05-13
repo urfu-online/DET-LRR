@@ -87,7 +87,8 @@ THIRD_PARTY_APPS = [
     "fontawesome-free",
     "silk",
     'permissions_auditor',
-    # "det"
+    # "det",
+    "smart_selects",
 
 ]
 
