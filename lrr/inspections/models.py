@@ -350,6 +350,10 @@ class IndicatorGroup(models.Model):
     )
     title = models.CharField(max_length=1024, choices=GROUPS, default="qual", unique=True)
 
+    class Meta:
+        verbose_name = "Группа показателей"
+        verbose_name_plural = "Группы показателей"
+
     def __str__(self):
         return self.get_title_display()
 
@@ -360,9 +364,31 @@ class Indicator(models.Model):
     values = ArrayField(models.CharField(max_length=32, blank=True, null=True), blank=True, null=True)
     num_values = IntegerRangeField(blank=True, null=True)
     survey = models.ForeignKey(Survey, null=True, on_delete=models.SET_NULL)
+    per_discipline = models.BooleanField("Для каждой дисциплины", default=False)
+    order = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "Показатель"
+        verbose_name_plural = "Показатели"
+        ordering = ["order"]
 
     def __str__(self):
         return self.title
+        # if len(self.title) > 60:
+        #     return f"{self.title[:60]}..."
+        # else:
+        #     return self.title
+
+
+class StatusRequirement(models.Model):
+    indicator = models.ForeignKey(Indicator, verbose_name="Показатель", on_delete=models.CASCADE)
+    allowed_values = ArrayField(models.CharField(max_length=32, blank=True, null=True), verbose_name="Допустимые значения", blank=True, null=True)
+    allowed_num_values = IntegerRangeField(verbose_name="Диапазон допустимых числовых значений", blank=True, null=True)  # null - нет, 0 - любое
+    exclude_values = ArrayField(models.CharField(max_length=32, blank=True, null=True), verbose_name="Исключаемые значения", blank=True, null=True)
+    status = models.ForeignKey("Status", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.indicator.group.get_title_display()
 
 
 class Status(models.Model):
@@ -371,8 +397,23 @@ class Status(models.Model):
         ("struct", "Соответствие структуры и содержания ЭОР требованиям конкретных дисциплин ОП"),
         ("tech", "Технологические возможности и сценарии функционирования ЭОР")
     )
-    title = models.CharField(max_length=1024, db_index=True)
-    group = models.CharField(max_length=6, choices=GROUPS, default="qual")
+    title = models.CharField("Наименование", max_length=1024, db_index=True)
+    group = models.CharField("Группа", max_length=6, choices=GROUPS, default="qual")
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "Статус"
+        verbose_name_plural = "Статусы"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        reqs = StatusRequirement.objects.filter(status=self).order_by("id")
+        empty_indicators = Indicator.objects.exclude(statusrequirement__in=reqs)
+
+        for indicator in empty_indicators:
+            StatusRequirement.objects.create(
+                status=self,
+                indicator=indicator
+            )

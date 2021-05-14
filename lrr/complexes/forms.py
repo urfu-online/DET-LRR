@@ -1,8 +1,8 @@
 from django import forms
 from django_select2 import forms as s2forms
 from polymorphic.formsets import polymorphic_modelformset_factory, PolymorphicFormSetChild
+from django.forms import formset_factory
 
-from lrr.complexes import grid_models
 from lrr.complexes import models as complex_models
 
 
@@ -89,7 +89,7 @@ class DigitalComplexForm(forms.ModelForm):
 
 class CellForm(forms.ModelForm):
     class Meta:
-        model = grid_models.Cell
+        model = complex_models.Cell
         fields = "__all__"
         #
         # widgets = {
@@ -366,3 +366,9 @@ ComponentComplexFormSet = polymorphic_modelformset_factory(
         # PolymorphicFormSetChild(
         #     complex_models.TraditionalSessionComponent),
     ))
+
+
+class ThemeForm(forms.ModelForm):
+    class Meta:
+        model = complex_models.Theme
+        fields = ["title"]

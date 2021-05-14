@@ -88,6 +88,7 @@ THIRD_PARTY_APPS = [
     'permissions_auditor',
     # "det",
     "smart_selects",
+    "sortedm2m"
 
 ]
 

@@ -21,7 +21,7 @@ class BaseModel(models.Model):
 
 class Subject(BaseModel):
     # Fields
-    title = models.CharField("Наименование", max_length=255)
+    title = models.CharField("Наименование", max_length=255, db_index=True)
     description = models.TextField("Описание", null=True, blank=True)
     labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
 
@@ -47,7 +47,7 @@ class Subject(BaseModel):
 
 class Organization(BaseModel):
     # Fields
-    title = models.CharField("Наименование", max_length=150)
+    title = models.CharField("Наименование", max_length=150, db_index=True)
     description = models.TextField("Описание", null=True, blank=True)
     url_logo = models.URLField("Ссылка на логотип", blank=True, null=True)
     logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
@@ -97,8 +97,8 @@ class DirectionsEnlargedGroup(BaseModel):
 
 class Direction(BaseModel):
     uni_id = models.CharField(db_index=True, max_length=64, null=True, blank=True)
-    title = models.CharField("Наименование", max_length=150)
-    code = models.CharField("Код направления", max_length=8)
+    title = models.CharField("Наименование", max_length=150, db_index=True)
+    code = models.CharField("Код направления", max_length=8, db_index=True)
     scientific_branch = models.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions",
                                           null=True, blank=True, on_delete=models.CASCADE)
 
@@ -155,7 +155,7 @@ class EduProgram(BaseModel):
     # ]
 
     # Fields
-    title = models.CharField("Наименование", max_length=450)
+    title = models.CharField("Наименование", max_length=450, db_index=True)
     _cipher = models.CharField("Шифр ОП", max_length=5, blank=True, null=True)
     short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
     description = models.TextField("Описание", null=True, blank=True)
@@ -198,7 +198,7 @@ class EduProgram(BaseModel):
 
 class ResultEdu(BaseModel):
     # Fields
-    title = models.CharField("Наименование", max_length=150)
+    title = models.CharField("Наименование", max_length=150, db_index=True)
     description = models.TextField("Описание", blank=True)
     competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
                                    on_delete=models.PROTECT)
@@ -255,7 +255,7 @@ class DigitalResource(BaseModel):
     competences = models.ManyToManyField("Competence", verbose_name="Компетенции", blank=True)
 
     # Fields
-    title = models.CharField("Наименование ресурса", max_length=1024)
+    title = models.CharField("Наименование ресурса", max_length=1024, db_index=True)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
     keywords = models.CharField("Ключевые слова", max_length=6024, null=True, blank=True)
@@ -377,7 +377,7 @@ class Source(BaseModel):
 #     def get_update_url(self):
 #         return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
 class CompetenceGroup(models.Model):
-    name = models.CharField("Наименование", max_length=400)
+    name = models.CharField("Наименование", max_length=400, db_index=True)
 
     def __str__(self):
         return self.name
@@ -408,7 +408,7 @@ class Competence(BaseModel):
 
 class Platform(BaseModel):
     # Fields
-    title = models.CharField("Наименование", max_length=150)
+    title = models.CharField("Наименование", max_length=150, db_index=True)
     description = models.TextField("Описание", null=True, blank=True)
     url = models.URLField("Ссылка")
     url_logo = models.URLField("Ссылка на логотип", null=True, blank=True)
@@ -432,7 +432,7 @@ class Platform(BaseModel):
 class Language(models.Model):
     # Fields
 
-    title = models.CharField("Наименование", max_length=80)
+    title = models.CharField("Наименование", max_length=80, db_index=True)
     code = models.CharField("Код языка", max_length=4, primary_key=True)
 
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)

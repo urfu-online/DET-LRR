@@ -75,16 +75,30 @@ class IndicatorGroupAdmin(admin.ModelAdmin):
 @admin.register(models.Indicator)
 class IndicatorAdmin(admin.ModelAdmin, DynamicArrayMixin):
     model = models.Indicator
-    list_display = ["title", "group", "values", "num_values"]
-    fields = ["title", "group", "values", "num_values"]
+    list_display = ["order", "title", "group", "values", "num_values"]
+    fields = ["order", "title", "group", "values", "num_values"]
     search_fields = ["title", "group__title"]
     list_filter = ["group"]
     autocomplete_fields = ["group"]
+
+
+class StatusRequirementInline(admin.TabularInline):
+    model = models.StatusRequirement
+    autocomplete_fields = ["indicator"]
+    extra = 0
+    ordering = ["indicator__id"]
+    readonly_fields = ["indicator"]
+    fields = ["indicator", "allowed_values", "exclude_values", "allowed_num_values"]
+    can_delete = False
 
 
 @admin.register(models.Status)
 class StatusAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ["title", "group"]
     fields = ["title", "group"]
-    search_fields = ["title"]
+    search_fields = ["title", StatusRequirementInline]
     list_filter = ["group"]
+    inlines = [
+        StatusRequirementInline,
+    ]
+    # autocomplete_fields = [StatusRequirementInline]

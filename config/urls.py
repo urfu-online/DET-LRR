@@ -43,7 +43,7 @@ urlpatterns += [
 
     # DRF auth token
     path("auth-token/", obtain_auth_token),
-    path(settings.ADMIN_URL, admin.site.urls),
+
 ]
 
 if 'silk' in settings.INSTALLED_APPS:
@@ -89,7 +89,9 @@ if 'schema_graph' in settings.INSTALLED_APPS:
     ]
 
 if "postgres_metrics.apps.PostgresMetrics" in settings.INSTALLED_APPS:
-    urlpatterns += path('admin/postgres-metrics/', include('postgres_metrics.urls')),
+    urlpatterns += [path(f"{settings.ADMIN_URL}postgres-metrics/", include('postgres_metrics.urls')), path(settings.ADMIN_URL, admin.site.urls)]
+else:
+    urlpatterns += [path(settings.ADMIN_URL, admin.site.urls)]
 
 if "debug_toolbar" in settings.INSTALLED_APPS:
     import debug_toolbar

@@ -1,0 +1,53 @@
+/*!
+ * Уральский федеральный университет (c) 2021.
+ * Цифровой университет/Цифровые образовательные технологии
+ */
+
+tr.dynamic-statusrequirement_set {
+  font-size: 0.6vw !important;
+
+  td.original p {
+    font-size: 0.7vw !important;
+  }
+
+  td.field-exclude_values {
+    input.add-array-item {
+      background-color: #BA2121;
+    }
+  }
+
+  td.field-indicator {
+    padding-top: 1.3vw !important;
+    max-width: 500px;
+    vertical-align: top;
+    display: block;
+
+
+    p {
+      font-size: 0.6vw !important;
+    }
+  }
+
+
+  td.field-allowed_num_values > input {
+    margin-right: 1rem;
+  }
+}
+
+#statusrequirement_set-group {
+  .admin-cards {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+
+    .admin-card {
+      display: flex;
+
+      div {
+        width: 25%;
+      }
+    }
+  }
+}
+
+

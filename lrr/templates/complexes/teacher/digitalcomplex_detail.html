@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% load user_tags %}
+{% load crispy_forms_tags %}
 {% block content %}
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
@@ -119,6 +121,14 @@
       <div class=" card shadow-1 p-3">
         <h5 class="card-subtitle mb-2 text-muted">Структурно-тематический план: </h5>
         Структурно-тематический план отсутсвует
+
+{{ thematic_plan }}
+
+        <form method="post">{% csrf_token %}
+    <h2>children</h2>
+    {{ thematic_plan.as_p }}
+    <input type="submit" value="Save">
+</form>
       </div>
       <br/>
       <div class="card shadow-1 p-3">

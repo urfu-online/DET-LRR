@@ -71,7 +71,7 @@ class ExpertiseCompletionView(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            expertise_request = inspections_models.ExpertiseRequest.objects.get(pk=kwargs["uuid"])
+            expertise_request = inspections_models.ExpertiseRequest.objects.select_related("expertise").get(pk=kwargs["uuid"])
         except EmptyResultSet:
             expertise_request = inspections_models.ExpertiseRequest.objects.none()
 
@@ -96,8 +96,9 @@ class ExpertiseCompletionView(View):
         achievments = list()
         for indicator in indicators:
             achievment = copy(indicator)
-            ans = answers.filter(question__text=indicator["title"]).first()
-            if ans:
+
+            if answers.filter(question__text=indicator["title"]).exists():
+                ans = answers.filter(question__text=indicator["title"]).first()
                 if '0-100' not in indicator["values"]:
                     logger.warning(f"Предполагаем список строк: {ans.body}")
                     achievment["value_interpreted"] = value_to_int(slugify(ans.body, allow_unicode=True))

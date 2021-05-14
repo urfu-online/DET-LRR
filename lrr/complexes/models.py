@@ -9,11 +9,11 @@ from polymorphic.models import PolymorphicModel
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
 from lrr.users.models import Person, Student, AcademicGroup
-from . import grid_models
+from .grid_models import *
 logger = logging.getLogger(__name__)
 
 
-class DigitalComplex(grid_models.Complex, BaseModel):
+class DigitalComplex(Complex, BaseModel):
     FORMAT_TYPES = (
         ("0", "смешанное обучение (Ауд+Дист+ЭИОС)"),
         ("1", "смешанное обучение (Ауд+Дист)"),
@@ -23,7 +23,7 @@ class DigitalComplex(grid_models.Complex, BaseModel):
         ("5", "исключительно электронное обучение"),
         ("6", "традиционное обучение"),
     )
-    title = models.CharField("Наименование комплекса", max_length=150, blank=True, null=True, default="")
+    title = models.CharField("Наименование комплекса", max_length=150, blank=True, null=True, default="", db_index=True)
     subjects = models.ManyToManyField(Subject, verbose_name="Дисциплина(ы)", blank=True)
     directions = models.ManyToManyField(Direction, verbose_name="Направления подготовки", blank=True)
     description = models.TextField('Описание', blank=True)
@@ -59,7 +59,7 @@ class DigitalComplex(grid_models.Complex, BaseModel):
 
     @classmethod
     def get_count_complex(cls):
-        return cls.objects.all().count()
+        return cls.objects.count()
 
 
 # class Cell(BaseModel):
