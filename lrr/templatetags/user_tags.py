@@ -43,7 +43,9 @@ def has_group(user, group_name):
     """
     Проверяет, принадлежит ли этот пользователь к группе
     """
-    return user.groups.filter(name=group_name).exists()
+    if user:
+        return user.groups.filter(name=group_name).exists()
+    return False
 
 
 @register.filter('in_tag')
