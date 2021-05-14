@@ -2,12 +2,14 @@
 import logging
 
 import django_filters
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
 from lrr.complexes import forms
 from lrr.complexes import models as complex_model
+from lrr.repository import models as repository_models
 from lrr.repository.filters import FilteredListView
 from lrr.repository.models import Subject
 from lrr.users.mixins import GroupRequiredMixin
@@ -213,24 +215,47 @@ class ComponentComplexUpdateView(GroupRequiredMixin, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ComponentComplexUpdateView, self).get_context_data(**kwargs)
-        if self.request.method == "POST":
-            formset = forms.ComponentComplexFormSet(self.request.POST, self.request.FILES,
-                                                    queryset=complex_model.ComponentComplex.objects.all())
-            if formset.is_valid():
-                formset.save()
+        context['dig_complex'] = self.object.digital_complex
+        dig_resource_queryset = repository_models.DigitalResource.objects.filter(
+            Q(subjects_tags__tag__in=self.object.digital_complex.subjects.all()) | Q(
+                edu_programs_tags__tag__direction__in=self.object.digital_complex.directions.all()))
+        if dig_resource_queryset:
+            pass
         else:
-            context["formset"] = forms.ComponentComplexFormSet(queryset=complex_model.ComponentComplex.objects.all())
-            context['resource_components'] = complex_model.ResourceComponent.objects.filter(
-                digital_complex=self.object.digital_complex)
-            context['platform_components'] = complex_model.PlatformComponent.objects.filter(
-                digital_complex=self.object.digital_complex)
-            context['literary_components'] = complex_model.LiterarySourcesComponent.objects.filter(
-                digital_complex=self.object.digital_complex)
-            context['traditional_components'] = complex_model.TraditionalSessionComponent.objects.filter(
-                digital_complex=self.object.digital_complex)
-            # context["form"] = forms.ComponentComplexForm(instance=self.object)
-        # context["source_formset"] = forms.SourceFormset(instance=self.object)
+            dig_resource_queryset = repository_models.DigitalResource.objects.all()
+        context['form'].fields['resourcecomponent'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
+
+    def get_success_url(self):
+        dig_complex_id = self.object.digital_complex.pk
+        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+
+    # def form_valid(self, form):
+    #     form.instance.digital_complex = self.object.digital_complex
+    #     form.save()
+    #     form_valid = super(ComponentComplexUpdateView, self).form_valid(form)
+    #     return form_valid
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(ComponentComplexUpdateView, self).get_context_data(**kwargs)
+    #     if self.request.method == "POST":
+    #         formset = forms.ComponentComplexFormSet(self.request.POST, self.request.FILES,
+    #                                                 queryset=complex_model.ComponentComplex.objects.all())
+    #         if formset.is_valid():
+    #             formset.save()
+    #     else:
+    #         context["formset"] = forms.ComponentComplexFormSet(queryset=complex_model.ComponentComplex.objects.all())
+    #         context['resource_components'] = complex_model.ResourceComponent.objects.filter(
+    #             digital_complex=self.object.digital_complex)
+    #         context['platform_components'] = complex_model.PlatformComponent.objects.filter(
+    #             digital_complex=self.object.digital_complex)
+    #         context['literary_components'] = complex_model.LiterarySourcesComponent.objects.filter(
+    #             digital_complex=self.object.digital_complex)
+    #         context['traditional_components'] = complex_model.TraditionalSessionComponent.objects.filter(
+    #             digital_complex=self.object.digital_complex)
+    #         # context["form"] = forms.ComponentComplexForm(instance=self.object)
+    #     # context["source_formset"] = forms.SourceFormset(instance=self.object)
+    #     return context
 
 
 class ComponentComplexListView(GroupRequiredMixin, FilteredListView):
@@ -285,6 +310,14 @@ class ResourceComponentCreateView(GroupRequiredMixin, generic.CreateView):
     def get_context_data(self, **kwargs):
         context = super(ResourceComponentCreateView, self).get_context_data(**kwargs)
         context['dig_complex'] = self.digital_complex
+        dig_resource_queryset = repository_models.DigitalResource.objects.filter(
+            Q(subjects_tags__tag__in=self.digital_complex.subjects.all()) | Q(
+                edu_programs_tags__tag__direction__in=self.digital_complex.directions.all()))
+        if dig_resource_queryset:
+            pass
+        else:
+            dig_resource_queryset = repository_models.DigitalResource.objects.all()
+        context['form'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
 
     def get_success_url(self):
