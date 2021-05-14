@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+import json
 import logging
 
 import django_filters
+from django.contrib import auth
+from django.http import HttpResponse
 from django.shortcuts import render
-from django.views import generic
+from django.views import generic, View
 
 from lrr.inspections.models import Expertise
 from lrr.users.mixins import GroupRequiredMixin
@@ -103,12 +107,13 @@ class DigitalResourceFilter(django_filters.FilterSet):
     class Meta:
         model = models.DigitalResource
         fields = {
-            'title': ['contains'],
+            'title': ['icontains'],
             'type': ['exact'],
             'copyright_holder__title': ['exact'],
             'platform__title': ['exact'],
             'language': ['exact'],
-            'subjects_tags': ['exact'],
+            'subjects_tags__tag__title': ['icontains'],
+            'edu_programs_tags__tag__title': ['icontains'],
         }
 
 
@@ -134,12 +139,12 @@ class ResourceListView(GroupRequiredMixin, FilteredListView):
     group_required = ['teacher', 'admins']
     template_name = "repository/digitalresource_list_owner.html"
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['my_resources'] = models.DigitalResource.objects.filter(owner__user=self.request.user)
-        return context
+    # def get_context_data(self, **kwargs):
+    #     # Call the base implementation first to get a context
+    #     context = super().get_context_data(**kwargs)
+    #     # Add in a QuerySet of all the books
+    #     context['my_resources'] = models.DigitalResource.objects.filter(owner__user=self.request.user)
+    #     return context
 
     def get_queryset(self):
         queryset = models.DigitalResource.objects.filter(owner__user=self.request.user)
@@ -345,3 +350,55 @@ def statistics(request):
     # context["stats_by_type"] = models.DigitalResource.get_stats_by_type()
 
     return render(request, "repository/report.html", context=context)
+
+
+class BookmarkView(View):
+    model = models.BookmarkDigitalResource
+
+    def post(self, request, pk):
+        # нам потребуется пользователь
+        user = auth.get_user(request)
+        # пытаемся получить закладку из таблицы, или создать новую
+        bookmark, created = self.model.objects.get_or_create(user=user, obj_id=pk)
+        # если не была создана новая закладка,
+        # то считаем, что запрос был на удаление закладки
+        if not created:
+            bookmark.delete()
+
+        return HttpResponse(
+            json.dumps({
+                "result": created,
+                "count": self.model.objects.filter(obj_id=pk).count()
+            }),
+            content_type="application/json"
+        )
+
+
+class DigitalResourceBookmarkFilter(django_filters.FilterSet):
+    class Meta:
+        model = models.BookmarkDigitalResource
+        fields = {
+            'obj__title': ['icontains'],
+            'obj__type': ['exact'],
+            'obj__copyright_holder': ['exact'],
+            'obj__platform': ['exact'],
+            'obj__language': ['exact'],
+            'obj__subjects_tags__tag__title': ['icontains'],
+            'obj__edu_programs_tags__tag__title': ['icontains'],
+        }
+
+
+class DigitalResourceBookmarkListView(FilteredListView):
+    allow_empty = True
+    paginate_by = 12
+    model = models.BookmarkDigitalResource
+    form_class = forms.DigitalResourceForm
+    filterset_class = DigitalResourceBookmarkFilter
+
+    # def get_queryset(self):
+    #     queryset = models.BookmarkDigitalResource.objects.filter(obj__user=self.request.user)
+    #     self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+    #     qs = self.filterset.qs.distinct()
+    #     if qs.count() == 0:
+    #         self.paginate_by = None
+    #     return qs

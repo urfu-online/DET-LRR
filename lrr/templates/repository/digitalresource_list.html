@@ -18,8 +18,8 @@
       <form action="" method="get">
         <div class="form-row p-2 align-items-end">
           <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_title__contains">Наименование</label>
-            <input type="text" name="title__contains" class="form-control" value="" id="id_title__contains">
+            <label for="id_title__icontains">Наименование</label>
+            <input type="text" name="title__icontains" class="form-control" value="" id="id_title__icontains">
           </div>
           <div class="form-group col-12 col-xl-2 col-md-6">
             <label for="id_type">Тип ресурса</label>
@@ -64,6 +64,16 @@
           </select>
           </div>
           <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_subjects_tags__tag__title__icontains">Дисциплина</label>
+            <input type="text" name="subjects_tags__tag__title__icontains" class="form-control" value=""
+                   id="id_subjects_tags__tag__title__icontains">
+          </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
+            <label for="id_edu_programs_tags__tag__title__icontains">Направление / ОП </label>
+            <input type="text" name="edu_programs_tags__tag__title__icontains" class="form-control" value=""
+                   id="id_edu_programs_tags__tag__title__icontains">
+          </div>
+          <div class="form-group col-12 col-xl-2 col-md-6">
             <input class="btn btn-primary btn-block pt-3" type="submit">
           </div>
         </div>
@@ -92,7 +102,13 @@
               {% else %}
                 <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>
               {% endif %}
-              <a href="{{ object.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a>
+              <a href="{{ object.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i>
+                Подробнее</a>
+              <div style="display: contents" data-id="{{ object.id }}" data-type="resource" data-action="bookmark"
+                   title="Избранное">
+                <span style="cursor: pointer" aria-hidden="true"
+                      class="{% if object.bookmarkdigitalresource_set.all|user_in:user %}fa fa-star fa-lg{% else %}far fa-star fa-lg{% endif %}"></span>
+              </div>
             </div>
 
           </div>
@@ -101,8 +117,38 @@
     {% endif %}
   </div>
 
-   {% include "includes/paginator.html" %}
+  {% include "includes/paginator.html" %}
 
 
   </div>
+  {% csrf_token %}
+  <script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    function to_bookmarks() {
+      var current = $(this);
+      var type = current.data('type');
+      var pk = current.data('id');
+      var action = current.data('action');
+
+      $.ajax({
+        url: "/repository/" + type + "/" + pk + "/" + action + "/",
+        type: 'POST',
+        data: {'obj': pk},
+        headers: {'X-CSRFToken': csrftoken},
+
+        success: function (json) {
+          current.find("[data-count='" + action + "']").text(json.count);
+          location.reload();
+        }
+      });
+
+      return false;
+    }
+
+    // Подключение обработчика
+    $(function () {
+      $('[data-action="bookmark"]').click(to_bookmarks);
+    });
+  </script>
 {% endblock %}

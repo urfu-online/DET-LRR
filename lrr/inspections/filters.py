@@ -1,8 +1,10 @@
-import django_filters
-from . import models
+# -*- coding: utf-8 -*-
+import logging
+
 from django.core.paginator import Paginator
 from django.views.generic import ListView
 
+logger = logging.getLogger(__name__)
 
 class FilteredListView(ListView):
     allow_empty = True

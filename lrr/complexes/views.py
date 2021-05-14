@@ -33,8 +33,9 @@ class DigitalComplexFilter(django_filters.FilterSet):
             'keywords': ['contains'],
             'format': ['contains'],
             'language': ['exact'],
-            'directions': ['exact'],
-            'competences': ['exact'],
+            'subjects__title': ['icontains'],
+            'directions__title': ['icontains'],
+            'competences__title': ['icontains'],
         }
 
 
@@ -66,15 +67,11 @@ class DigitalComplexMyListView(GroupRequiredMixin, FilteredListView):
     template_name = 'complexes/teacher/digitalcomplex_my_list.html'
     group_required = [u"teacher", u"admins"]
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['my_complexes'] = complex_model.DigitalComplex.objects.filter(owner__user=self.request.user)
-        return context
-
     def get_queryset(self):
         queryset = complex_model.DigitalComplex.objects.filter(owner__user=self.request.user)
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
+        logger.warning(qs)
         if qs.count() == 0:
             self.paginate_by = None
         return qs

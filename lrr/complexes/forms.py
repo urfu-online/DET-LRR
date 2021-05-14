@@ -40,9 +40,8 @@ class DigitalComplexForm(forms.ModelForm):
             "subjects",
             "directions",
             "competences",
-            "results_edu",
         ]
-        exclude = ["title", "owner", "digital_resources"]
+        exclude = ["title", "owner", "digital_resources", "results_edu"]
 
         widgets = {
             "keywords": forms.TextInput(
@@ -80,11 +79,11 @@ class DigitalComplexForm(forms.ModelForm):
                     'class': 'form-control',
                 },
             ),
-            "results_edu": ResultsEduWidget(
-                attrs={
-                    'class': 'form-control',
-                },
-            )
+            # "results_edu": ResultsEduWidget(
+            #     attrs={
+            #         'class': 'form-control',
+            #     },
+            # )
         }
 
 
@@ -225,7 +224,7 @@ class ResourceComponentForm(forms.ModelForm):
         model = complex_models.ResourceComponent
         fields = ['digital_resource', 'description', 'order']
         widgets = {
-            "digital_resource": ResourceComponentWidget(
+            "digital_resource": DigitalComplexWidget(
                 attrs={
                     'class': 'form-control',
                 },
