@@ -229,7 +229,7 @@ class ResourceComponentForm(forms.ModelForm):
     #     super(ResourceComponentForm, self).__init__(dig_complex, *args, **kwargs)  # populates the post
     #     test = complex_models.DigitalComplex.objects.get(pk=dig_complex.pk)
     #     self.fields['digital_resource'].queryset = repository_models.DigitalResource.objects.filter(
-    #         subjects_tags=test.subjects)
+    #         subjects_tags=test.subjects)g
 
     class Meta:
         model = complex_models.ResourceComponent
