@@ -188,7 +188,7 @@ class DigitalResourceCreateView(GroupRequiredMixin, generic.CreateView):
 class DigitalResourceDetailView(GroupRequiredMixin, generic.DetailView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
-    group_required = ['teacher', 'admins']
+    group_required = ['teacher', 'admins', 'student']
 
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)

@@ -115,7 +115,7 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_detail.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = [u"teacher", u"admins", u"student"]
 
     def get_context_data(self, **kwargs):
         context = super(DigitalComplexDetailView, self).get_context_data(**kwargs)
