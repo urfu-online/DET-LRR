@@ -43,7 +43,6 @@ urlpatterns += [
 
     # DRF auth token
     path("auth-token/", obtain_auth_token),
-    path('admin/postgres-metrics/', include('postgres_metrics.urls')),
     path(settings.ADMIN_URL, admin.site.urls),
 ]
 
@@ -82,14 +81,17 @@ if settings.DEBUG or settings.DEVELOPMENT:
         path("500/", default_views.server_error),
     ]
 
-    if 'schema_graph' in settings.INSTALLED_APPS:
-        from schema_graph.views import Schema
+if 'schema_graph' in settings.INSTALLED_APPS:
+    from schema_graph.views import Schema
 
-        urlpatterns += [
-            path("schema/", Schema.as_view())
-        ]
+    urlpatterns += [
+        path("schema/", Schema.as_view())
+    ]
 
-    if "debug_toolbar" in settings.INSTALLED_APPS:
-        import debug_toolbar
+if "postgres_metrics.apps.PostgresMetrics" in settings.INSTALLED_APPS:
+    urlpatterns += path('admin/postgres-metrics/', include('postgres_metrics.urls')),
 
-        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+if "debug_toolbar" in settings.INSTALLED_APPS:
+    import debug_toolbar
+
+    urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns

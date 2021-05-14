@@ -276,6 +276,7 @@ class DigitalResource(BaseModel):
         return reverse("repository:repository_DigitalResource_update", args=(self.pk,))
 
     def get_url(self):
+        # if  self.source_set.exists():
         source = self.source_set.first()
         if source:
             return source.URL
@@ -287,7 +288,7 @@ class DigitalResource(BaseModel):
 
     def get_source(self):
         try:
-            obj = Source.objects.filter(digital_resource=self)
+            obj = self.source_set #Source.objects.filter(digital_resource=self)
         except:
             obj = None
         return obj

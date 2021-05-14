@@ -109,8 +109,8 @@ class DigitalResourceFilter(django_filters.FilterSet):
         fields = {
             'title': ['icontains'],
             'type': ['exact'],
-            'copyright_holder': ['exact'],
-            'platform': ['exact'],
+            'copyright_holder__title': ['exact'],
+            'platform__title': ['exact'],
             'language': ['exact'],
             'subjects_tags__tag__title': ['icontains'],
             'edu_programs_tags__tag__title': ['icontains'],
