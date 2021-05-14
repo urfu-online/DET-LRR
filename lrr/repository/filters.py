@@ -20,8 +20,8 @@ class FilteredListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        qs = self.filterset.qs.distinct()
-        if qs.count() == 0:
+        qs = self.filterset.qs  # .distinct()
+        if not qs.exists():
             self.paginate_by = None
         return qs
 

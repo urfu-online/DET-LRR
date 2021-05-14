@@ -34,13 +34,9 @@ def has_owner_complex(user, complex):
 @register.filter('has_group')
 def has_group(user, group_name):
     """
-    Verifica se este usuário pertence a um grupo
+    Проверяет, принадлежит ли этот пользователь к группе
     """
-    try:
-        groups = user.groups.all().values_list('name', flat=True)
-        return True if group_name in groups else False
-    except:
-        return None
+    return user.groups.filter(name=group_name).exists()
 
 
 @register.filter('in_tag')

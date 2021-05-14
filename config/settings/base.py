@@ -45,7 +45,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
-    "postgres_metrics.apps.PostgresMetrics",
     'adminactions',
     'admin_export_action',
     'data_wizard',
