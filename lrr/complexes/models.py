@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from django.contrib.postgres.fields import IntegerRangeField
 from django.db import models
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
@@ -10,6 +9,7 @@ from lrr.repository.models import BaseModel, Subject, Direction, Competence, Res
     Platform
 from lrr.users.models import Person, Student, AcademicGroup
 from . import grid_models
+
 logger = logging.getLogger(__name__)
 
 
@@ -24,7 +24,7 @@ class DigitalComplex(grid_models.Complex, BaseModel):
         ("6", "традиционное обучение"),
     )
     title = models.CharField("Наименование комплекса", max_length=150, blank=True, null=True, default="")
-    subjects = models.ManyToManyField(Subject, verbose_name="Дисциплина(ы)", blank=True)
+    subjects = models.ManyToManyField(Subject, verbose_name="Дисциплина(ы)", blank=True, related_name='subjects')
     directions = models.ManyToManyField(Direction, verbose_name="Направления подготовки", blank=True)
     description = models.TextField('Описание', blank=True)
     competences = models.ManyToManyField(Competence, verbose_name="Компетенции", blank=True)

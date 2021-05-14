@@ -6,7 +6,6 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
-      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои
         ЭУМК</a></li>
       <li class="breadcrumb-item"><a
@@ -37,6 +36,7 @@
             <tr>
               <th>Компонент</th>
               <th>Описание / Методика применения</th>
+{#              <th></th>#}
               <th></th>
             </tr>
             </thead>
@@ -45,6 +45,9 @@
               <tr>
                 <td>{{ component }}</td>
                 <td>{{ component.description }}</td>
+{#                <td><a class="btn btn-outline-primary "#}
+{#                       href="{% url 'complexes:complexes_ComponentComplex_update' pk=component.pk %}"><i#}
+{#                        class="pen icon"></i></a></td>#}
                 <td><a class="btn btn-outline-primary "
                        href="{% url 'complexes:complexes_ComponentComplex_delete' pk=component.pk %}"><i
                         class="fas fa-trash-alt"></i></a></td>

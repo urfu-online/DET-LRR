@@ -211,6 +211,11 @@ class ComponentComplexForm(forms.ModelForm):
         model = complex_models.ComponentComplex
         fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        super(ComponentComplexForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
 
 class ResourceComponentWidget(s2forms.ModelSelect2Widget):
     search_fields = [
@@ -220,11 +225,17 @@ class ResourceComponentWidget(s2forms.ModelSelect2Widget):
 
 
 class ResourceComponentForm(forms.ModelForm):
+    # def __init__(self, dig_complex, *args, **kwargs):
+    #     super(ResourceComponentForm, self).__init__(dig_complex, *args, **kwargs)  # populates the post
+    #     test = complex_models.DigitalComplex.objects.get(pk=dig_complex.pk)
+    #     self.fields['digital_resource'].queryset = repository_models.DigitalResource.objects.filter(
+    #         subjects_tags=test.subjects)
+
     class Meta:
         model = complex_models.ResourceComponent
         fields = ['digital_resource', 'description', 'order']
         widgets = {
-            "digital_resource": DigitalComplexWidget(
+            "digital_resource": forms.Select(
                 attrs={
                     'class': 'form-control',
                 },
