@@ -2,6 +2,7 @@ from django import forms as form
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
+from import_export.admin import ImportExportModelAdmin
 
 from lrr.users import models
 from lrr.users.forms import UserChangeForm, UserSignupForm
@@ -64,7 +65,7 @@ class AcademicGroupAdminForm(form.ModelForm):
         fields = "__all__"
 
 
-class AcademicGroupAdmin(admin.ModelAdmin):
+class AcademicGroupAdmin(ImportExportModelAdmin):
     form = AcademicGroupAdminForm
     list_display = [
         "number",
@@ -99,6 +100,24 @@ class ChoicesExpertAdmin(admin.ModelAdmin):
     ]
 
 
+class GroupDisciplinesAdminForm(form.ModelForm):
+    class Meta:
+        model = models.GroupDisciplines
+        fields = ['subjects', 'group']
+
+
+class GroupDisciplinesAdmin(ImportExportModelAdmin):
+    form = GroupDisciplinesAdminForm
+    list_display = [
+        "group",
+    ]
+    exclude = ["id", "created", "last_updated"]
+    autocomplete_fields = ['subjects', 'group']
+
+
+
+
+admin.site.register(models.GroupDisciplines, GroupDisciplinesAdmin)
 admin.site.register(models.ChoicesExpert, ChoicesExpertAdmin)
 admin.site.register(models.Expert, ExpertAdmin)
 admin.site.register(models.AcademicGroup, AcademicGroupAdmin)

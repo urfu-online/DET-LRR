@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import uuid
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import MultipleObjectsReturned
@@ -204,3 +205,20 @@ class Expert(models.Model):
 
     # def get_update_url(self):
     #     return reverse("", args=(self.pk,))
+
+
+class GroupDisciplines(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+
+    group = models.ForeignKey("users.AcademicGroup", on_delete=models.CASCADE, verbose_name="Академическая группа",
+                              blank=True)
+    subjects = models.ManyToManyField("repository.Subject", verbose_name="Дисциплина(ы)", blank=True)
+
+    class Meta:
+        verbose_name = u"Дисциплина группы"
+        verbose_name_plural = u"Дисциплины групп"
+
+    def __str__(self):
+        return f"{self.group}/{self.subjects}"
