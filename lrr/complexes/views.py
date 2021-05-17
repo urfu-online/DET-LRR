@@ -592,13 +592,13 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         context = super(AssignmentAcademicGroupMyListView, self).get_context_data(**kwargs)
         user = self.request.user
         academic_group = Student.get_academic_group_for_user(user)
-        direction = AcademicGroup.get_direction_for_number(academic_group)
+        eduprogram = AcademicGroup.get_eduprogram_for_number(academic_group)
         self.subjects = complex_model.AssignmentAcademicGroup.objects.filter(academic_group=academic_group).values_list(
             'subject', flat=True).distinct()
         context['subjects'] = Subject.objects.filter(pk__in=self.subjects)
         context['student'] = Student.get_student(user)
         context['academic_group'] = academic_group
-        context['direction'] = direction
+        context['direction'] = eduprogram
         return context
 
 

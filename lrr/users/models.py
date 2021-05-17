@@ -130,10 +130,10 @@ class Student(models.Model):
 
 class AcademicGroup(models.Model):
     number = models.CharField("Номер академической группы", max_length=30)
-    direction = models.ForeignKey("repository.Direction",
-                                  verbose_name="Образовательная программа/Направление подготовки",
-                                  related_name="direction_academic_group",
-                                  on_delete=models.PROTECT, blank=True, null=True)
+    eduprogram = models.ForeignKey("repository.EduProgram",
+                                   verbose_name="Образовательная программа/Направление подготовки",
+                                   related_name="eduprogram_academic_group",
+                                   on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:
         verbose_name = u"Академическая группа"
@@ -149,7 +149,7 @@ class AcademicGroup(models.Model):
         return reverse("repository_AcademicGroup_update", args=(self.pk,))
 
     @classmethod
-    def get_direction_for_number(cls, number):
+    def get_eduprogram_for_number(cls, number):
         try:
             obj = cls.objects.get(number=number)
         except cls.DoesNotExist:

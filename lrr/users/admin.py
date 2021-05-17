@@ -70,6 +70,7 @@ class AcademicGroupAdmin(ImportExportModelAdmin):
     list_display = [
         "number",
     ]
+    search_fields = ['number']
 
 
 class ExpertAdminForm(form.ModelForm):
@@ -113,8 +114,6 @@ class GroupDisciplinesAdmin(ImportExportModelAdmin):
     ]
     exclude = ["id", "created", "last_updated"]
     autocomplete_fields = ['subjects', 'group']
-
-
 
 
 admin.site.register(models.GroupDisciplines, GroupDisciplinesAdmin)
