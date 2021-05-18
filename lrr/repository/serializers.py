@@ -123,7 +123,6 @@ class DigitalResourceListSerializer(serializers.ModelSerializer):
             "platform",
             "copyright_holder",
             "authors",
-            "source",
             # "owner",
         ]
 
