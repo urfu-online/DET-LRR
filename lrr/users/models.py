@@ -7,6 +7,7 @@ from django.db import models as models
 from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.postgres.fields import IntegerRangeField
 
 
 # from lrr.repository.models import Direction
@@ -154,7 +155,7 @@ class AcademicGroup(models.Model):
             obj = cls.objects.get(number=number)
         except cls.DoesNotExist:
             obj = None
-        return obj.direction
+        return obj.eduprogram
 
 
 class ChoicesExpert(models.Model):
@@ -215,6 +216,7 @@ class GroupDisciplines(models.Model):
     group = models.ForeignKey("users.AcademicGroup", on_delete=models.CASCADE, verbose_name="Академическая группа",
                               blank=True)
     subjects = models.ManyToManyField("repository.Subject", verbose_name="Дисциплина(ы)", blank=True)
+    semestr = models.PositiveSmallIntegerField(verbose_name="Семестр", blank=True, null=True)
 
     class Meta:
         verbose_name = u"Дисциплина группы"
