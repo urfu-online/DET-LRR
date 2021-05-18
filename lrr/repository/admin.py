@@ -295,7 +295,7 @@ class BookmarkDigitalResourceAdminForm(forms.ModelForm):
 
 
 @admin.register(models.BookmarkDigitalResource)
-class ScientificBranchAdmin(ImportExportModelAdmin):
+class BookmarkDigitalResourceAdmin(ImportExportModelAdmin):
     form = BookmarkDigitalResourceAdminForm
     list_display = ["obj", "user", ]
     readonly_fields = ["created", ]
