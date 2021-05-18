@@ -288,6 +288,20 @@ class ScientificBranchAdmin(ImportExportModelAdmin):
     search_fields = ["title"]
 
 
+class BookmarkDigitalResourceAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.BookmarkDigitalResource
+        fields = "__all__"
+
+
+@admin.register(models.BookmarkDigitalResource)
+class ScientificBranchAdmin(ImportExportModelAdmin):
+    form = BookmarkDigitalResourceAdminForm
+    list_display = ["obj", "user", ]
+    readonly_fields = ["created", ]
+    search_fields = ["obj"]
+
+
 admin.site.register(models.Subject, SubjectAdmin)
 admin.site.register(models.Organization, OrganizationAdmin)
 admin.site.register(models.EduProgram, EduProgramAdmin)
