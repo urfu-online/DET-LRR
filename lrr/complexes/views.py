@@ -335,14 +335,16 @@ class ResourceBookmarkComponentCreateView(GroupRequiredMixin, generic.CreateView
         return form_valid
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super(ResourceBookmarkComponentCreateView, self).get_context_data(**kwargs)
         context['dig_complex'] = self.digital_complex
-        dig_resource_queryset = repository_models.BookmarkDigitalResource.objects.all()
+        dig_resource_queryset = repository_models.BookmarkDigitalResource.objects.filter(user=user)
         if dig_resource_queryset:
             pass
         else:
             dig_resource_queryset = repository_models.DigitalResource.objects.all()
-            context['alarm'] = 'Предупреждение! Избранные ЭОР отсутсвуют. В списке сейчас отображаются все доступные ЭОР'
+            context[
+                'alarm'] = 'Предупреждение! Избранные ЭОР отсутсвуют. В списке сейчас отображаются все доступные ЭОР'
         context['form'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
 
