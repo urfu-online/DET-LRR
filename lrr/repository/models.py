@@ -511,3 +511,6 @@ class BookmarkDigitalResource(BookmarkBase):
         db_table = "bookmark__digital_resource"
 
     obj = models.ForeignKey('repository.DigitalResource', verbose_name="Паспорт ЭОР", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.obj.title)

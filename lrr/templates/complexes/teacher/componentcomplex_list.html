@@ -36,7 +36,7 @@
             <tr>
               <th>Компонент</th>
               <th>Описание / Методика применения</th>
-{#              <th></th>#}
+              {#              <th></th>#}
               <th></th>
             </tr>
             </thead>
@@ -45,9 +45,9 @@
               <tr>
                 <td>{{ component }}</td>
                 <td>{{ component.description }}</td>
-{#                <td><a class="btn btn-outline-primary "#}
-{#                       href="{% url 'complexes:complexes_ComponentComplex_update' pk=component.pk %}"><i#}
-{#                        class="pen icon"></i></a></td>#}
+                {#                <td><a class="btn btn-outline-primary "#}
+                {#                       href="{% url 'complexes:complexes_ComponentComplex_update' pk=component.pk %}"><i#}
+                {#                        class="pen icon"></i></a></td>#}
                 <td><a class="btn btn-outline-primary "
                        href="{% url 'complexes:complexes_ComponentComplex_delete' pk=component.pk %}"><i
                         class="fas fa-trash-alt"></i></a></td>
@@ -60,6 +60,9 @@
             <a class="btn btn-outline-primary mx-1"
                href="{% url 'complexes:complexes_ResourceComponent_create' pk=dig_complex.pk %}"><i
                     class="fas fa-plus"></i> ЭОР</a>
+            <a class="btn btn-outline-primary mx-1"
+               href="{% url 'complexes:complexes_ResourceBookmarkComponent_create' pk=dig_complex.pk %}"><i
+                    class="fas fa-plus"></i> Избранные ЭОР</a>
             <a class="btn btn-outline-primary mx-1"
                href="{% url 'complexes:complexes_PlatformComponent_create' pk=dig_complex.pk %}"><i
                     class="fas fa-plus"></i> Среда обучения</a>
