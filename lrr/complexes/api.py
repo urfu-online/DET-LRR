@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 import logging
-from rest_framework import viewsets, permissions
-from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_filters import rest_framework as filters
+from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+from rest_framework import viewsets, permissions
 
-from lrr.complexes import models
 from lrr.complexes import grid_models
-from lrr.repository.models import DigitalResource
+from lrr.complexes import models
 from lrr.complexes import serializers
-from lrr.repository.serializers import DigitalResourceListSerializer
-from lrr.users.mixins import GroupRequiredMixin
 from lrr.inspections.models import Expertise
 from lrr.inspections.serializers import ExpertiseSubjectListSerializer
-
+from lrr.repository.models import DigitalResource
+from lrr.repository.serializers import DigitalResourceListSerializer
+from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Student
 
 logger = logging.getLogger(__name__)
@@ -41,7 +40,7 @@ class AssignmentAcademicGroupComplexListViewSet(GroupRequiredMixin, viewsets.Mod
     serializer_class = serializers.AssignmentAcademicComplexListGroupSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['academic_group__direction', 'subject__title', 'semestr', 'learn_date']
+    filterset_fields = ['academic_group__eduprogram', 'subject__title', 'semestr', 'learn_date']
     group_required = ['student', 'admins']
 
     def get_queryset(self):

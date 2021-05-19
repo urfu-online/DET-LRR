@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-import logging
-
 import django_filters
+import logging
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -310,6 +309,41 @@ class ResourceComponentCreateView(GroupRequiredMixin, generic.CreateView):
             pass
         else:
             dig_resource_queryset = repository_models.DigitalResource.objects.all()
+        context['form'].fields['digital_resource'].queryset = dig_resource_queryset
+        return context
+
+    def get_success_url(self):
+        dig_complex_id = self.object.digital_complex.pk
+        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+
+
+class ResourceBookmarkComponentCreateView(GroupRequiredMixin, generic.CreateView):
+    model = complex_model.ResourceComponent
+    form_class = forms.ResourceComponentForm
+    template_name = 'complexes/teacher/resource_component/component_form_create.html'
+    group_required = [u"teacher", u"admins"]
+
+    def dispatch(self, request, *args, **kwargs):
+        self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.digital_complex = self.digital_complex
+        form.save()
+        form_valid = super(ResourceBookmarkComponentCreateView, self).form_valid(form)
+        return form_valid
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super(ResourceBookmarkComponentCreateView, self).get_context_data(**kwargs)
+        context['dig_complex'] = self.digital_complex
+        dig_resource_queryset = repository_models.BookmarkDigitalResource.objects.filter(user=user)
+        if dig_resource_queryset:
+            pass
+        else:
+            dig_resource_queryset = repository_models.DigitalResource.objects.all()
+            context[
+                'alarm'] = 'Предупреждение! Избранные ЭОР отсутсвуют. В списке сейчас отображаются все доступные ЭОР'
         context['form'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
 

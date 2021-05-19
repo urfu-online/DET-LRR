@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 
 from . import models
 
@@ -10,7 +11,7 @@ class SubjectAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class SubjectAdmin(admin.ModelAdmin):
+class SubjectAdmin(ImportExportModelAdmin):
     form = SubjectAdminForm
     search_fields = ['title']
     list_display = [
@@ -30,7 +31,7 @@ class OrganizationAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class OrganizationAdmin(admin.ModelAdmin):
+class OrganizationAdmin(ImportExportModelAdmin):
     form = OrganizationAdminForm
     list_display = [
         "title",
@@ -50,7 +51,7 @@ class EduProgramAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class EduProgramAdmin(admin.ModelAdmin):
+class EduProgramAdmin(ImportExportModelAdmin):
     form = EduProgramAdminForm
     search_fields = ["title"]
     list_display = [
@@ -75,7 +76,7 @@ class ResultEduAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class ResultEduAdmin(admin.ModelAdmin):
+class ResultEduAdmin(ImportExportModelAdmin):
     form = ResultEduAdminForm
     list_display = [
         "title",
@@ -95,7 +96,7 @@ class SourceAdminForm(forms.ModelForm):
 
 
 @admin.register(models.Source)
-class SourceAdmin(admin.ModelAdmin):
+class SourceAdmin(ImportExportModelAdmin):
     form = SourceAdminForm
     search_fields = ["link_name", "digital_resource__title", "URL"]
     list_display = [
@@ -117,7 +118,7 @@ class SourceInline(admin.TabularInline):
 
 
 @admin.register(models.DigitalResource)
-class DigitalResourceAdmin(admin.ModelAdmin):
+class DigitalResourceAdmin(ImportExportModelAdmin):
     form = DigitalResourceAdminForm
     fields = [
         "title",
@@ -165,7 +166,7 @@ class CompetenceAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class CompetenceAdmin(admin.ModelAdmin):
+class CompetenceAdmin(ImportExportModelAdmin):
     form = CompetenceAdminForm
     list_filter = ["okso", "code"]
     list_display = [
@@ -184,7 +185,7 @@ class PlatformAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class PlatformAdmin(admin.ModelAdmin):
+class PlatformAdmin(ImportExportModelAdmin):
     form = PlatformAdminForm
     list_display = [
         "title",
@@ -203,7 +204,7 @@ class LanguageAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class LanguageAdmin(admin.ModelAdmin):
+class LanguageAdmin(ImportExportModelAdmin):
     form = LanguageAdminForm
     list_display = [
         "code",
@@ -222,7 +223,7 @@ class SubjectTagAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class SubjectTagAdmin(admin.ModelAdmin):
+class SubjectTagAdmin(ImportExportModelAdmin):
     form = SubjectTagAdminForm
     search_fields = ["tag__title"]
     list_display = [
@@ -241,7 +242,7 @@ class EduProgramTagAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class EduProgramTagAdmin(admin.ModelAdmin):
+class EduProgramTagAdmin(ImportExportModelAdmin):
     form = EduProgramTagAdminForm
     list_display = [
         "tag",
@@ -260,7 +261,7 @@ class DirectionAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
-class DirectionAdmin(admin.ModelAdmin):
+class DirectionAdmin(ImportExportModelAdmin):
     form = DirectionAdminForm
     list_display = [
         "code",
@@ -280,11 +281,25 @@ class ScientificBranchAdminForm(forms.ModelForm):
 
 
 @admin.register(models.ScientificBranch)
-class ScientificBranchAdmin(admin.ModelAdmin):
+class ScientificBranchAdmin(ImportExportModelAdmin):
     form = ScientificBranchAdminForm
     list_display = ["code", "title", ]
     readonly_fields = ["created", ]
     search_fields = ["title"]
+
+
+class BookmarkDigitalResourceAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.BookmarkDigitalResource
+        fields = "__all__"
+
+
+@admin.register(models.BookmarkDigitalResource)
+class BookmarkDigitalResourceAdmin(ImportExportModelAdmin):
+    form = BookmarkDigitalResourceAdminForm
+    list_display = ["obj", "user", ]
+    readonly_fields = ["created", ]
+    search_fields = ["obj"]
 
 
 admin.site.register(models.Subject, SubjectAdmin)

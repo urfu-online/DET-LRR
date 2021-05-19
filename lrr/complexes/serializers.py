@@ -3,8 +3,8 @@ import logging
 from rest_framework import serializers
 from rest_polymorphic.serializers import PolymorphicSerializer
 
-from lrr.complexes import models as complexes_models
 from lrr.complexes import grid_models
+from lrr.complexes import models as complexes_models
 from lrr.repository import serializers as repo_serializers
 
 # from lrr.users.models import AcademicGroup
@@ -31,7 +31,7 @@ class ResourceListSerializer(serializers.ModelSerializer):
 
 
 class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer):
-    direction = serializers.CharField(source='academic_group.direction')
+    eduprogram = serializers.CharField(source='academic_group.eduprogram')
     academic_group = serializers.CharField(source='academic_group.number')
     subject = serializers.CharField(source='subject.title')
     digital_resource = ResourceListSerializer(read_only=True, many=True)
@@ -42,7 +42,7 @@ class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer)
             "digital_resource",
             "academic_group",
             "learn_date",
-            "direction",
+            "eduprogram",
             "subject",
             "semestr",
         ]
@@ -58,7 +58,7 @@ class CellSerializer(serializers.ModelSerializer):
 
 
 class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
-    direction = serializers.CharField(source='academic_group.direction')
+    eduprogram = serializers.CharField(source='academic_group.eduprogram')
     academic_group = serializers.CharField(source='academic_group.number')
     subject = serializers.CharField(source='subject.title')
     subject_pk = serializers.CharField(source='subject.pk')
@@ -76,7 +76,7 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
             "digital_complex_keywords",
             "academic_group",
             "learn_date",
-            "direction",
+            "eduprogram",
             "subject",
             "subject_pk",
             "semestr",

@@ -25,7 +25,7 @@ class PersonAdminForm(form.ModelForm):
         fields = "__all__"
 
 
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(ImportExportModelAdmin):
     form = PersonAdminForm
     list_display = [
         "last_name",
@@ -48,7 +48,7 @@ class StudentAdminForm(form.ModelForm):
         fields = "__all__"
 
 
-class StudentAdmin(admin.ModelAdmin):
+class StudentAdmin(ImportExportModelAdmin):
     form = StudentAdminForm
     list_display = [
         "person",
@@ -85,7 +85,7 @@ class ChoicesExpertAdminForm(form.ModelForm):
         fields = "__all__"
 
 
-class ExpertAdmin(admin.ModelAdmin):
+class ExpertAdmin(ImportExportModelAdmin):
     form = ExpertAdminForm
     list_display = [
         "person",

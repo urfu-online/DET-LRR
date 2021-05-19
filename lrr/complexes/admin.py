@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 from polymorphic.admin import (
     PolymorphicParentModelAdmin,
     PolymorphicChildModelAdmin,
@@ -8,7 +9,6 @@ from polymorphic.admin import (
 from lrr.complexes import forms_admin
 from lrr.complexes import grid_models
 from lrr.complexes import models
-
 
 
 @admin.register(grid_models.Container)
@@ -43,7 +43,7 @@ class ThemeAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.ComponentComplex)
-class ComponentAdmin(admin.ModelAdmin):
+class ComponentAdmin(ImportExportModelAdmin):
     form = forms_admin.ComponentForm
     list_display = [
         "__str__",
@@ -77,7 +77,7 @@ class WorkPlanAcademicGroupAdminInline(admin.TabularInline):
 
 
 @admin.register(models.DigitalComplex)
-class DigitalComplexAdmin(admin.ModelAdmin):
+class DigitalComplexAdmin(ImportExportModelAdmin):
     form = forms_admin.DigitalComplexAdminForm
     fields = [
         "title",
@@ -109,7 +109,7 @@ class DigitalComplexAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.AssignmentAcademicGroup)
-class AssignmentAcademicGroupAdmin(admin.ModelAdmin):
+class AssignmentAcademicGroupAdmin(ImportExportModelAdmin):
     form = forms_admin.AssignmentAcademicGroupForm
     list_display = [
         "academic_group",
@@ -144,26 +144,26 @@ class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
 
 
 # @admin.register(models.ComponentComplex)
-class ComponentComplexChiledAdmin(ComponentComplexChildAdmin):
+class ComponentComplexChiledAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
     base_model = models.ComponentComplex
     search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]
 
 
 @admin.register(models.ResourceComponent)
-class ResourceComponentAdmin(ComponentComplexChildAdmin):
+class ResourceComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
     base_model = models.ResourceComponent
     search_fields = ["digital_resource__title", ]
     autocomplete_fields = ["digital_resource", ]
 
 
 @admin.register(models.PlatformComponent)
-class PlatformComponentAdmin(ComponentComplexChildAdmin):
+class PlatformComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
     base_model = models.PlatformComponent
     search_fields = ["title", ]
 
 
 @admin.register(models.LiterarySourcesComponent)
-class LiterarySourcesComponentAdmin(ComponentComplexChildAdmin):
+class LiterarySourcesComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
     base_model = models.LiterarySourcesComponent
     search_fields = ["title", ]
     # autocomplete_fields = ["title", ]
@@ -171,7 +171,7 @@ class LiterarySourcesComponentAdmin(ComponentComplexChildAdmin):
 
 #
 @admin.register(models.TraditionalSessionComponent)
-class TraditionalSessionComponentAdmin(ComponentComplexChildAdmin):
+class TraditionalSessionComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
     base_model = models.TraditionalSessionComponent
     search_fields = ["title", ]
     # autocomplete_fields = ["title", ]

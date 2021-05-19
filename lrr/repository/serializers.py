@@ -1,5 +1,4 @@
 import logging
-
 from rest_framework import serializers
 
 from lrr.users.models import Person
@@ -123,7 +122,6 @@ class DigitalResourceListSerializer(serializers.ModelSerializer):
             "platform",
             "copyright_holder",
             "authors",
-            "source",
             # "owner",
         ]
 

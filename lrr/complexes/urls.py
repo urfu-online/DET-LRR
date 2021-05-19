@@ -19,6 +19,8 @@ urlpatterns = (
          name="complexes_ComponentComplex_list"),
     path("ResourceComponent/create/<uuid:pk>/", views.ResourceComponentCreateView.as_view(),
          name="complexes_ResourceComponent_create"),
+    path("ResourceBookmarkComponent/create/<uuid:pk>/", views.ResourceBookmarkComponentCreateView.as_view(),
+         name="complexes_ResourceBookmarkComponent_create"),
     path("ComponentComplex/delete/<uuid:pk>/", views.ComponentComplexDeleteView.as_view(),
          name="complexes_ComponentComplex_delete"),
     path("PlatformComponent/create/<uuid:pk>/", views.PlatformComponentCreateView.as_view(),
