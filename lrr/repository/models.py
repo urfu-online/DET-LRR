@@ -288,7 +288,7 @@ class DigitalResource(BaseModel):
 
     def get_source(self):
         try:
-            obj = self.source_set #Source.objects.filter(digital_resource=self)
+            obj = self.source_set  # Source.objects.filter(digital_resource=self)
         except:
             obj = None
         return obj
@@ -324,6 +324,14 @@ class DigitalResource(BaseModel):
             'ЭУК': cls.objects.filter(type=cls.EUK).count(),
             'Текстовый электронный образовательный ресурс': cls.objects.filter(type=cls.TEXT_EOR).count(),
             'Мультимедийный электронный образовательный ресурс': cls.objects.filter(type=cls.MULTIMEDIA_EOR).count(),
+        }
+
+    @classmethod
+    def export_resource_classes(cls):
+        from lrr.repository.resources import DigitalResourceResource
+
+        return {
+            "digital": ("Digital Resource", DigitalResourceResource),
         }
 
 
@@ -514,3 +522,18 @@ class BookmarkDigitalResource(BookmarkBase):
 
     def __str__(self):
         return str(self.obj.title)
+
+
+from json import JSONEncoder
+from uuid import UUID
+
+old_default = JSONEncoder.default
+
+
+def new_default(self, obj):
+    if isinstance(obj, UUID):
+        return str(obj)
+    return old_default(self, obj)
+
+
+JSONEncoder.default = new_default

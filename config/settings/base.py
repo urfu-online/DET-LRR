@@ -89,7 +89,7 @@ THIRD_PARTY_APPS = [
     # "det",
     "smart_selects",
     'import_export',
-
+    'import_export_celery',
 ]
 
 LOCAL_APPS = [
@@ -153,6 +153,7 @@ MIDDLEWARE = [
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "silk.middleware.SilkyMiddleware",
+    "author.middlewares.AuthorDefaultBackendMiddleware",
 ]
 
 # STATIC
@@ -261,6 +262,13 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_TIME_LIMIT = 5 * 60
 CELERY_TASK_SOFT_TIME_LIMIT = 120
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+IMPORT_EXPORT_CELERY_INIT_MODULE = "lrr.celery"
+IMPORT_EXPORT_CELERY_MODELS = {
+    "repository": {
+        'app_label': 'repository',
+        'model_name': 'DigitalResource',
+    }
+}
 # django-allauth
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)

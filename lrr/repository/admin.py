@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib import admin
-from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportModelAdmin, ImportExportMixin
+from import_export_celery.admin_actions import create_export_job_action
+
 
 from . import models
 
@@ -158,6 +160,7 @@ class DigitalResourceAdmin(ImportExportModelAdmin):
                            "language"]
     list_filter = ["platform"]
     search_fields = ["title"]
+    actions = (create_export_job_action,)
 
 
 class CompetenceAdminForm(forms.ModelForm):
