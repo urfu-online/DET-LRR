@@ -11,10 +11,8 @@
   </nav>
   <header class="pb-4 px-2">
     {% if request.user|has_owner_resource:object %}
-      {% if request.user.is_superuser %}
         <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i class="fas fa-edit"></i>
           Редактировать</a>
-      {% endif %}
     {% endif %}
     <h1 class="mb-0">{{ object.title }}</h1>
     <p class="lead">Паспорт электронного образовательного ресурса</p>
