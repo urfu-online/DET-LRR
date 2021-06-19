@@ -22,7 +22,8 @@ class DigitalComplexAdminForm(forms.ModelForm):
             "directions",
             "competences",
             "results_edu",
-            "thematic_plan"
+            "thematic_plan",
+            "form_control"
         ]
 
 

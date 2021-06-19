@@ -23,6 +23,10 @@ class DigitalComplex(grid_models.Complex, BaseModel):
         ("5", "исключительно электронное обучение"),
         ("6", "традиционное обучение"),
     )
+    FORM_TYPES = (
+        ("0", "зачет"),
+        ("1", "экзамен "),
+    )
     title = models.CharField("Наименование комплекса", max_length=150, blank=True, null=True, default="")
     subjects = models.ManyToManyField(Subject, verbose_name="Дисциплина(ы)", blank=True, related_name='subjects')
     directions = models.ManyToManyField(Direction, verbose_name="Направления подготовки", blank=True)
@@ -34,13 +38,22 @@ class DigitalComplex(grid_models.Complex, BaseModel):
     keywords = models.CharField("Ключевые слова", max_length=300, null=True, blank=True)
     owner = models.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_digital_complex",
                               verbose_name="Владелец", blank=True, null=True)
+    form_control = models.CharField("Форма контроля", choices=FORM_TYPES, max_length=300, blank=True, null=True)
 
     class Meta:
         verbose_name = u"Цифровой Комплекс (ЭУМК)"
         verbose_name_plural = u"Цифровые Комплексы (ЭУМК)"
 
+    @property
+    def cipher(self):
+        try:
+            s, o, f, fc = self.subjects.all().first(), self.owner, self.format, self.form_control
+            return f'ЭУМК "{s} - {o} [{f}] {fc}"'
+        except:
+            return ""
+
     def __str__(self):
-        return f"{self.title}/{self.keywords}"
+        return self.cipher
 
     def get_absolute_url(self):
         return reverse("complexes:complexes_DigitalComplex_detail", args=(self.pk,))

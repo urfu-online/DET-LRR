@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
-      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
+      <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
       <li class="breadcrumb-item active" aria-current="page">Паспорт ЭОР: {{ object.title }}</li>
     </ol>
   </nav>
@@ -92,8 +92,8 @@
                 <tbody>
                 {% for item_source in source %}
                   <tr>
-                    <td>{{ item_source.link_name }}</td>
-                    <td><a href="{{ item_source.URL }}">{{ item_source.URL }}</a></td>
+                    <td style="word-break: break-all;" >{{ item_source.link_name }}</td>
+                    <td><a style="word-break: break-all;" href="{{ item_source.URL }}">{{ item_source.URL }}</a></td>
                     <td>{{ item_source.type }}</td>
                   </tr>
                 {% endfor %}

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from rest_framework import serializers
 from rest_polymorphic.serializers import PolymorphicSerializer
 
@@ -66,6 +67,7 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
     digital_complex_title = serializers.CharField(source='digital_complex.title')
     digital_complex_format = serializers.CharField(source='digital_complex.format')
     digital_complex_keywords = serializers.CharField(source='digital_complex.keywords')
+    digital_complex_form_control = serializers.CharField(source='digital_complex.form_control')
 
     class Meta:
         model = complexes_models.AssignmentAcademicGroup
@@ -74,6 +76,7 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
             "digital_complex_title",
             "digital_complex_format",
             "digital_complex_keywords",
+            "digital_complex_form_control",
             "academic_group",
             "learn_date",
             "eduprogram",
@@ -106,7 +109,8 @@ class DigitalComplexSerializer(serializers.ModelSerializer):
             "digital_resources",
             "complex_space_cell",
             "assignment_group",
-            "owner"
+            "owner",
+            "form_control",
         ]
 
 

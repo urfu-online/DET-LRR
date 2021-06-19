@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import uuid
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.contrib.postgres.fields import IntegerRangeField
 from django.core.exceptions import MultipleObjectsReturned
 from django.db import models as models
 from django.db.models import CharField
@@ -50,7 +50,7 @@ class Person(models.Model):
         verbose_name_plural = u"Профили"
 
     def __str__(self):
-        return f"{self.last_name} {self.first_name}"
+        return f"{self.last_name} {self.first_name} {self.middle_name}"
 
     def get_absolute_url(self):
         return reverse("repository_Person_detail", args=(self.pk,))

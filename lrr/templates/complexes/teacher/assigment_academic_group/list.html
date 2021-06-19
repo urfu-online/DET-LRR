@@ -5,20 +5,22 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
-      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭМУК</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Каталог ЭУМК</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Назначение академических групп для {{ dig_complex }}</li>
+              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">ЭУМК
+        "{{ dig_complex.subjects_set.all.0 }} - {{ dig_complex.owner }} [{{ dig_complex.format }}] </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Назначенные академические группы</li>
     </ol>
   </nav>
 
-  <header><h1 class="display-3">Назначение академических групп</h1></header>
+  <header><h1 class="display-3">Назначенные академические группы ЭУМК по дисциплине(ам) "{% for i in dig_complex.subjects_set.all %} i {% endfor %}"</h1></header>
 
   {% if request.user.is_authenticated %}
     <div class="row p-2">
       <div class="col-12 col-lg-12 col-xl-10 p-2">
         <div class="card border-secondary shadow-2 h-100">
-        <div class="card-header"><h5>Назначение {{ dig_complex }} академическим группам</h5></div>
+        <div class="card-header"><h5>Назначенные академические группы ЭУМК по дисциплине(ам) "{% for i in dig_complex.subjects_set.all %} i {% endfor %}"</h5></div>
           <div class="card-body">
             {% if object_list %}
               <table class="table table-striped table-bordered col-12 col-lg-12 col-xl-10">

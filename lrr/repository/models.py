@@ -184,7 +184,7 @@ class EduProgram(BaseModel):
         verbose_name_plural = u"Образовательные программы"
 
     def __str__(self):
-        return self.title
+        return f"{self.cipher} {self.title}"
 
     def get_absolute_url(self):
         return reverse("repository_EduProgram_detail", args=(self.pk,))
@@ -244,8 +244,9 @@ class DigitalResource(BaseModel):
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
     copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
-    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЭОР", blank=True)
-    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЭОР",
+    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Теги дисциплин ЭОР", blank=True)
+    edu_programs_tags = models.ManyToManyField("EduProgramTag",
+                                               verbose_name="Теги направлений подготвоки / Образовательных программ ЭОР",
                                                blank=True)
     owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
                               verbose_name="Владелец", blank=True, null=True)
@@ -341,7 +342,7 @@ class Source(BaseModel):
     FILE = 'FILE'
 
     SOURCE_TYPE = [
-        (URL, 'url'),
+        (URL, 'URL'),
         (FILE, 'Файл'),
     ]
     link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
@@ -466,8 +467,8 @@ class SubjectTag(BaseModel):
     tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
 
     class Meta:
-        verbose_name = u"Тэг дисциплины"
-        verbose_name_plural = u"Тэги дисциплин"
+        verbose_name = u"Тег дисциплины"
+        verbose_name_plural = u"Теги дисциплин"
 
     def __str__(self):
         return str(self.tag)
@@ -488,8 +489,8 @@ class EduProgramTag(BaseModel):
     tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
 
     class Meta:
-        verbose_name = u"Тэг образовательной программы"
-        verbose_name_plural = u"Тэги образовательных программ"
+        verbose_name = u"Тег образовательной программы"
+        verbose_name_plural = u"Теги образовательных программ"
 
     def __str__(self):
         return str(self.tag)

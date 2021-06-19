@@ -5,8 +5,15 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
-      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭУМК</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Паспорт ЭУМК</li>
+      {% if request.user|has_group:"student" %}
+        <li class="breadcrumb-item"><a
+                href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user %}">Мои
+          дисциплины</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Электронное обеспечение дисциплины</li>
+      {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Каталог ЭУМК</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Паспорт ЭУМК</li>
+      {% endif %}
     </ol>
   </nav>
   <header class="pb-4 px-2">
@@ -14,8 +21,13 @@
       <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i
               class="pen icon"></i>Редактировать</a>
     {% endif %}
-    <h2>Электронный учебно-методический комплекс по дисциплине(ам)
-      {% for obj in object.subjects.all %}{{ obj }}{% endfor %}</h2>
+    {% if request.user|has_group:"student" %}
+      <h2>Электронное обеспечение дисциплины
+        {% for obj in object.subjects.all %}{{ obj }}{% endfor %}</h2>
+    {% else %}
+      <h2>Электронный учебно-методический комплекс по дисциплине(ам)
+        {% for obj in object.subjects.all %}{{ obj }}{% endfor %}</h2>
+    {% endif %}
     <p>Паспорт электронного учебно-методического комплекса</p>
   </header>
   <div class="row p-2">
@@ -32,12 +44,21 @@
             <p>{{ obj }}</p>
             <hr>
           {% endfor %}
-          <h6 class="card-subtitle mb-2 text-muted">Формат использования:</h6>
-          <p>{{ object.get_format_display }}</p>
-          <hr>
-          <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
-          <p> {{ object.description }}</p>
-          <hr>
+          {% if object.format %}
+            <h6 class="card-subtitle mb-2 text-muted">Формат использования:</h6>
+            <p>{{ object.get_format_display }}</p>
+            <hr>
+          {% endif %}
+          {% if object.form_control %}
+            <h6 class="card-subtitle mb-2 text-muted">Форма контроля:</h6>
+            <p>{{ object.get_form_control_display }}</p>
+            <hr>
+          {% endif %}
+          {% if object.description %}
+            <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
+            <p> {{ object.description }}</p>
+            <hr>
+          {% endif %}
           <h6 class="card-subtitle mb-2 text-muted">Компетенции:</h6>
           {% for obj in object.competences.all %}
             <p>{{ obj }}</p>
@@ -53,9 +74,10 @@
             </ul>
           {% endif %}
           <hr>
-          <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
-          <p>{{ object.keywords }}</p>
-
+          {% if object.keywords %}
+            <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
+            <p>{{ object.keywords }}</p>
+          {% endif %}
         </div>
       </div>
     </div>
