@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load user_tags %}
+{% load widget_tweaks %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
@@ -8,80 +9,28 @@
     </ol>
   </nav>
   <header><h1 class="display-3">Электронные образовательные ресурсы</h1></header>
-  <div class="row actions" id="accordion">
-    <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
-            aria-controls="filters">
-      <i class="fas fa-search fa-lg"></i> Фильтры и поиск
-    </button>
-    <div id="filters" class=" mb-3 collapse" aria-labelledby="filters" data-parent="#accordion">
 
-      <form action="" method="get">
-        <div class="form-row p-2 align-items-end">
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_title__icontains">Наименование</label>
-            <input type="text" name="title__icontains" class="form-control" value="" id="id_title__icontains">
-          </div>
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_type">Тип ресурса</label>
-            <select name="type" class="custom-select" id="id_type">
-              <option value="" selected="">---------</option>
-              <option value="OK">Онлайн-курс</option>
-              <option value="EUK">ЭУК</option>
-              <option value="TEXT_EOR">Текстовый электронный образовательный ресурс</option>
-              <option value="MULTIMEDIA_EOR">Мультимедийный электронный образовательный ресурс</option>
-            </select>
-          </div>
-
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_copyright_holder">Правообладатель</label>
-            <select name="copyright_holder"
-                    class="custom-select"
-                    id="id_copyright_holder">
-              <option value="" selected="">---------</option>
-              <option value="1eaf6f4e-45ae-40f4-acf0-e0a41d944d50">УрФУ</option>
-              <option value="730555fe-c7f1-49fc-982f-347be329276b">УКСАП</option>
-              <option value="e7adc87f-473e-4300-839e-ab561a980613">КСПУ</option>
-            </select>
-          </div>
-
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_platform">Платформа</label>
-            <select name="platform" class="custom-select" id="id_platform">
-              <option value="" selected="">---------</option>
-              <option value="0ffadae4-0c03-4e20-b3b5-bb4b3da90d08">Портал электронного обучения</option>
-              <option value="0badb9d3-6d87-485b-839c-f41fa93897d5">Платформа Открытого образования УрФУ</option>
-              <option value="10e187d4-3664-498c-8ff2-b14c7983d470">Система электронного обучения на платформе Гиперметод
-              </option>
-            </select>
-          </div>
-
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_language">Язык ресурса:</label> <select name="language" class="custom-select"
-                                                                   id="id_language">
-            <option value="" selected="">---------</option>
-            <option value="ru">Русский</option>
-            <option value="en">Английский</option>
-          </select>
-          </div>
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_subjects_tags__tag__title__icontains">Дисциплина</label>
-            <input type="text" name="subjects_tags__tag__title__icontains" class="form-control" value=""
-                   id="id_subjects_tags__tag__title__icontains">
-          </div>
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <label for="id_edu_programs_tags__tag__title__icontains">Направление / ОП </label>
-            <input type="text" name="edu_programs_tags__tag__title__icontains" class="form-control" value=""
-                   id="id_edu_programs_tags__tag__title__icontains">
-          </div>
-          <div class="form-group col-12 col-xl-2 col-md-6">
-            <input class="btn btn-primary btn-block pt-3" type="submit">
-          </div>
+<form method="get">
+    <div class="well">
+      <h4 style="margin-top: 0">Filter</h4>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.title.label_tag }}
+          {% render_field filter.form.title class="form-control" %}
         </div>
-
-      </form>
+        <div class="form-group col-sm-8 col-md-6">
+          {{ filter.form.type }}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search"></span> Search
+      </button>
     </div>
-  </div>
+  </form>
 
+  {% for obj in filter.qs %}
+    {{ obj.title }} - ${{ obj.type }}<br/>
+  {% endfor %}
   <div class="row p-2">
     {% if page_obj|length != 0 %}
       {% for object in page_obj %}

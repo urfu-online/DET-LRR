@@ -104,16 +104,17 @@ class ChoicesExpertAdmin(admin.ModelAdmin):
 class GroupDisciplinesAdminForm(form.ModelForm):
     class Meta:
         model = models.GroupDisciplines
-        fields = ['subjects', 'group']
+        fields = "__all__"
 
 
 class GroupDisciplinesAdmin(ImportExportModelAdmin):
     form = GroupDisciplinesAdminForm
     list_display = [
-        "group",
+        "academic_group",
+        "subject",
+        "semestr",
     ]
     exclude = ["id", "created", "last_updated"]
-    autocomplete_fields = ['subjects', 'group']
 
 
 admin.site.register(models.GroupDisciplines, GroupDisciplinesAdmin)

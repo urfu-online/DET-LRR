@@ -120,7 +120,7 @@ class AssignmentAcademicGroupAdmin(ImportExportModelAdmin):
         "created",
     ]
 
-    autocomplete_fields = ["subject", "digital_complex"]
+    autocomplete_fields = ["digital_complex"]
 
 
 # @admin.register(models.ComponentComplex)

@@ -34,7 +34,6 @@ class ResourceListSerializer(serializers.ModelSerializer):
 class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer):
     eduprogram = serializers.CharField(source='academic_group.eduprogram')
     academic_group = serializers.CharField(source='academic_group.number')
-    subject = serializers.CharField(source='subject.title')
     digital_resource = ResourceListSerializer(read_only=True, many=True)
 
     class Meta:
@@ -44,8 +43,6 @@ class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer)
             "academic_group",
             "learn_date",
             "eduprogram",
-            "subject",
-            "semestr",
         ]
 
 
@@ -56,13 +53,9 @@ class CellSerializer(serializers.ModelSerializer):
         ]
 
 
-
-
 class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
     eduprogram = serializers.CharField(source='academic_group.eduprogram')
     academic_group = serializers.CharField(source='academic_group.number')
-    subject = serializers.CharField(source='subject.title')
-    subject_pk = serializers.CharField(source='subject.pk')
     digital_complex_pk = serializers.CharField(source='digital_complex.pk')
     digital_complex_title = serializers.CharField(source='digital_complex.title')
     digital_complex_format = serializers.CharField(source='digital_complex.format')
@@ -80,9 +73,6 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
             "academic_group",
             "learn_date",
             "eduprogram",
-            "subject",
-            "subject_pk",
-            "semestr",
         ]
 
 

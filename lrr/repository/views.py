@@ -103,18 +103,35 @@ class ResultEduUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
+# type
+OK = 'OK'
+EUK = 'EUK'
+TEXT_EOR = 'TEXT_EOR'
+MULTIMEDIA_EOR = 'MULTIMEDIA_EOR'
+
+RESOURCE_TYPE = [
+    (OK, 'Онлайн-курс'),
+    (EUK, 'ЭУК'),  # что такое ЭУК ?
+    (TEXT_EOR, 'Текстовый электронный образовательный ресурс'),
+    (MULTIMEDIA_EOR, 'Мультимедийный электронный образовательный ресурс'),
+]
+
+
 class DigitalResourceFilter(django_filters.FilterSet):
+    title = django_filters.CharFilter(lookup_expr="icontains")
+
     class Meta:
         model = models.DigitalResource
-        fields = {
-            'title': ['icontains'],
-            'type': ['exact'],
-            'copyright_holder__title': ['exact'],
-            'platform__title': ['exact'],
-            'language': ['exact'],
-            'subjects_tags__tag__title': ['icontains'],
-            'edu_programs_tags__tag__title': ['icontains'],
-        }
+        fields = [
+            'title', 'type'
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(DigitalResourceFilter, self).__init__(*args, **kwargs)
+        self.filters['type'].extra.update(
+            {
+                'choices': RESOURCE_TYPE
+            })
 
 
 class DigitalResourceListView(FilteredListView):

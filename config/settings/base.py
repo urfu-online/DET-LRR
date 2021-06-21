@@ -90,6 +90,7 @@ THIRD_PARTY_APPS = [
     "smart_selects",
     'import_export',
     'import_export_celery',
+    'widget_tweaks',
 ]
 
 LOCAL_APPS = [
@@ -326,3 +327,5 @@ DATA_WIZARD = {
     'AUTHENTICATION': 'rest_framework.authentication.SessionAuthentication',
     'PERMISSION': 'rest_framework.permissions.IsAdminUser',
 }
+
+USE_DJANGO_JQUERY = True

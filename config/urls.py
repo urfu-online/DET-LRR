@@ -28,6 +28,7 @@ urlpatterns = [
                   path("survey/", include(("lrr.survey.urls", "lrr.survey"), namespace="survey")),
 
                   path("select2/", include("django_select2.urls")),
+                  path("chaining/", include("smart_selects.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development

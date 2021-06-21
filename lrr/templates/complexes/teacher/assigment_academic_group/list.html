@@ -7,28 +7,26 @@
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Каталог ЭУМК</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">ЭУМК
-        "{{ dig_complex.subjects_set.all.0 }} - {{ dig_complex.owner }} [{{ dig_complex.format }}] </a>
+              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">Назначенные академические группы</li>
     </ol>
   </nav>
 
-  <header><h1 class="display-3">Назначенные академические группы ЭУМК по дисциплине(ам) "{% for i in dig_complex.subjects_set.all %} i {% endfor %}"</h1></header>
+  <header><h1 class="display-3">Назначенные академические группы ЭУМК по дисциплине(ам) "{% for i in dig_complex.subjects.all %} {{ i }} {% endfor %}"</h1></header>
 
   {% if request.user.is_authenticated %}
     <div class="row p-2">
       <div class="col-12 col-lg-12 col-xl-10 p-2">
         <div class="card border-secondary shadow-2 h-100">
-        <div class="card-header"><h5>Назначенные академические группы ЭУМК по дисциплине(ам) "{% for i in dig_complex.subjects_set.all %} i {% endfor %}"</h5></div>
+        <div class="card-header"><h5>Назначенные академические группы ЭУМК по дисциплине(ам) "{% for i in dig_complex.subjects.all %} {{ i }} {% endfor %}"</h5></div>
           <div class="card-body">
             {% if object_list %}
               <table class="table table-striped table-bordered col-12 col-lg-12 col-xl-10">
                 <thead>
                 <th>Академическая группа</th>
-                <th>Дисциплина</th>
+                <th>Дисциплина/Семестр</th>
                 <th>Учебный год</th>
-                <th>Семестр</th>
                 <th></th>
                 <th></th>
                 </tr>
@@ -37,9 +35,8 @@
                 {% for object in object_list %}
                   <tr>
                   <td>{{ object.academic_group }}</td>
-                  <td>{{ object.subject }}</td>
+                  <td>{{ object.group_subject }}</td>
                   <td>{{ object.learn_date }}</td>
-                  <td>{{ object.get_semestr_display }}</td>
                   <td><a class="btn btn-outline-primary text-nowrap"
                          href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}"><i class="fas fa-edit"></i> Редактировать</a>
                   </td>

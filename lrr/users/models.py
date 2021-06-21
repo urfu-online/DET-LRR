@@ -130,6 +130,9 @@ class Student(models.Model):
 
 
 class AcademicGroup(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False, null=True)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False, null=True)
     number = models.CharField("Номер академической группы", max_length=30)
     eduprogram = models.ForeignKey("repository.EduProgram",
                                    verbose_name="Образовательная программа/Направление подготовки",
@@ -213,9 +216,10 @@ class GroupDisciplines(models.Model):
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
-    group = models.ForeignKey("users.AcademicGroup", on_delete=models.CASCADE, verbose_name="Академическая группа",
-                              blank=True)
-    subjects = models.ManyToManyField("repository.Subject", verbose_name="Дисциплина(ы)", blank=True)
+    academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.CASCADE, verbose_name="Академическая группа",
+                              blank=True, null=True)
+    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина(ы)", on_delete=models.PROTECT,
+                                blank=True, null=True)
     semestr = models.PositiveSmallIntegerField(verbose_name="Семестр", blank=True, null=True)
 
     class Meta:
@@ -223,4 +227,4 @@ class GroupDisciplines(models.Model):
         verbose_name_plural = u"Дисциплины групп"
 
     def __str__(self):
-        return f"{self.group}/{self.subjects}"
+        return f"{self.subject} - {self.semestr} семестр"
