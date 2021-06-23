@@ -95,7 +95,7 @@ class Student(models.Model):
     # Relationships
     person = models.ForeignKey("users.Person", on_delete=models.CASCADE)
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
-                                       verbose_name="Номер академической группы")
+                                       verbose_name="Номер академической группы", null=True)
 
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
