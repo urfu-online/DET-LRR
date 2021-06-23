@@ -109,7 +109,10 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 CORS_ORIGIN_ALLOW_ALL = True
 # MIGRATIONS
 # ------------------------------------------------------------------------------
-MIGRATION_MODULES = {"sites": "lrr.contrib.sites.migrations"}
+MIGRATION_MODULES = {
+    "sites": "lrr.contrib.sites.migrations",
+    "import_export_celery": "lrr.contrib.sites.import_export_celery.migrations"
+}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -263,10 +266,10 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_TIME_LIMIT = 5 * 60
 CELERY_TASK_SOFT_TIME_LIMIT = 120
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-IMPORT_EXPORT_CELERY_INIT_MODULE = "lrr.celery"
+IMPORT_EXPORT_CELERY_INIT_MODULE = "config.celery_app"
 IMPORT_EXPORT_CELERY_MODELS = {
     "repository": {
-        'app_label': 'repository',
+        'app_label': 'lrr.repository',
         'model_name': 'DigitalResource',
     }
 }
