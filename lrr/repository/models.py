@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
 import uuid
-from django.utils.functional import cached_property
+
 from django.conf import settings
-# from lrr.users.models import Person
 from django.contrib.postgres.fields import ArrayField
 from django.db import models as models
 from django.db import transaction
 from django.urls import reverse
+from django.utils.functional import cached_property
 
 logger = logging.getLogger(__name__)
 
@@ -219,9 +219,6 @@ class ResultEdu(BaseModel):
         return reverse("repository_ResultEdu_update", args=(self.pk,))
 
 
-
-
-
 class DigitalResource(BaseModel):
     # source_data
     MANUAL = 'MANUAL'
@@ -293,7 +290,7 @@ class DigitalResource(BaseModel):
 
     def get_source(self):
         try:
-            obj = self.source_set #Source.objects.filter(digital_resource=self)
+            obj = self.source_set  # Source.objects.filter(digital_resource=self)
         except:
             obj = None
         return obj
