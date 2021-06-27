@@ -103,18 +103,35 @@ class ResultEduUpdateView(generic.UpdateView):
     pk_url_kwarg = "pk"
 
 
+# type
+OK = 'OK'
+EUK = 'EUK'
+TEXT_EOR = 'TEXT_EOR'
+MULTIMEDIA_EOR = 'MULTIMEDIA_EOR'
+
+RESOURCE_TYPE = [
+    (OK, 'Онлайн-курс'),
+    (EUK, 'ЭУК'),  # что такое ЭУК ?
+    (TEXT_EOR, 'Текстовый электронный образовательный ресурс'),
+    (MULTIMEDIA_EOR, 'Мультимедийный электронный образовательный ресурс'),
+]
+
+
 class DigitalResourceFilter(django_filters.FilterSet):
+    title = django_filters.CharFilter(lookup_expr="icontains")
+
     class Meta:
         model = models.DigitalResource
-        fields = {
-            'title': ['icontains'],
-            'type': ['exact'],
-            'copyright_holder': ['exact'],
-            'platform': ['exact'],
-            'language': ['exact'],
-            'subjects_tags__tag__title': ['icontains'],
-            'edu_programs_tags__tag__title': ['icontains'],
-        }
+        fields = [
+            'title', 'type'
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(DigitalResourceFilter, self).__init__(*args, **kwargs)
+        self.filters['type'].extra.update(
+            {
+                'choices': RESOURCE_TYPE
+            })
 
 
 class DigitalResourceListView(FilteredListView):
@@ -191,7 +208,7 @@ class DigitalResourceCreateView(GroupRequiredMixin, generic.CreateView):
 class DigitalResourceDetailView(GroupRequiredMixin, generic.DetailView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
-    group_required = ['teacher', 'admins']
+    group_required = ['teacher', 'admins', 'student']
 
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
@@ -401,7 +418,7 @@ class DigitalResourceBookmarkListView(FilteredListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        qs = self.filterset.qs.distinct()
+        qs = self.filterset  # .qs.distinct()
         if not qs.exists():
             self.paginate_by = None
         return qs

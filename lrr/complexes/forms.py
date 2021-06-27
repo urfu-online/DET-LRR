@@ -39,6 +39,7 @@ class DigitalComplexForm(forms.ModelForm):
             "subjects",
             "directions",
             "competences",
+            "form_control"
         ]
         exclude = ["title", "owner", "digital_resources", "results_edu"]
 
@@ -74,6 +75,11 @@ class DigitalComplexForm(forms.ModelForm):
                 },
             ),
             "competences": CompetencesWidget(
+                attrs={
+                    'class': 'form-control',
+                },
+            ),
+            "form_control": forms.Select(
                 attrs={
                     'class': 'form-control',
                 },
@@ -131,78 +137,55 @@ class SubjectWidget(s2forms.Select2Widget):
 class AssignmentAcademicGroupForm(forms.ModelForm):
     class Meta:
         model = complex_models.AssignmentAcademicGroup
-        fields = ['academic_group', 'subject', 'learn_date', 'semestr']
-        widgets = {
-            # "digital_complex": DigitalComplexWidget(
-            #     attrs={
-            #         'class': 'form-control',
-            #
-            #     },
-            # ),
-            "academic_group": AcademicGroupWidget(
-                attrs={
-                    'class': 'form-control',
-
-                },
-            ),
-            "subject": SubjectWidget(
-                attrs={
-                    'class': 'form-control',
-                },
-            ),
-            "learn_date": forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-
-                },
-            ),
-            "semestr": forms.Select(
-                attrs={
-                    'class': 'form-control',
-
-                },
-            ),
-        }
-
-
-AssignmentAcademicGroupFormset = forms.inlineformset_factory(
-    complex_models.DigitalComplex,
-    complex_models.AssignmentAcademicGroup,
-    fields=('academic_group', 'subject', 'learn_date', 'semestr'),
-    extra=1,
-    widgets={
-        # "digital_complex": DigitalComplexWidget(
-        #     attrs={
-        #         'class': 'form-control',
+        fields = ['academic_group', 'group_subject', 'learn_date']
+        # widgets = {
+        #     "academic_group": forms.Select(
+        #         attrs={
+        #             'class': 'form-control',
         #
-        #     },
-        # ),
-        "academic_group": AcademicGroupWidget(
-            attrs={
-                'class': 'form-control',
+        #         },
+        #     ),
+        #     "learn_date": forms.TextInput(
+        #         attrs={
+        #             'class': 'form-control',
+        #
+        #         },
+        #     ),
+        #     "group_subject": forms.Select(
+        #         attrs={
+        #             'class': 'form-control',
+        #
+        #         },
+        #     )
+        # }
 
-            },
-        ),
-        "subject": SubjectWidget(
-            attrs={
-                'class': 'form-control',
 
-            },
-        ),
-        "learn_date": forms.TextInput(
-            attrs={
-                'class': 'form-control',
-
-            },
-        ),
-        "semestr": forms.Select(
-            attrs={
-                'class': 'form-control',
-
-            },
-        ),
-    }
-)
+# AssignmentAcademicGroupFormset = forms.inlineformset_factory(
+#     complex_models.DigitalComplex,
+#     complex_models.AssignmentAcademicGroup,
+#     fields=('academic_group', 'learn_date',),
+#     extra=1,
+#     widgets={
+#         # "digital_complex": DigitalComplexWidget(
+#         #     attrs={
+#         #         'class': 'form-control',
+#         #
+#         #     },
+#         # ),
+#         "academic_group": AcademicGroupWidget(
+#             attrs={
+#                 'class': 'form-control',
+#
+#             },
+#         ),
+#         "learn_date": forms.TextInput(
+#             attrs={
+#                 'class': 'form-control',
+#
+#             },
+#         ),
+#     }
+# )
 
 
 class ComponentComplexForm(forms.ModelForm):
@@ -262,7 +245,7 @@ class PlatformComponentWidget(s2forms.Select2Widget):
 class PlatformComponentForm(forms.ModelForm):
     class Meta:
         model = complex_models.PlatformComponent
-        fields = ['title', 'description', 'url']
+        fields = ['title', 'description', 'url', 'order']
         widgets = {
             "title": forms.TextInput(
                 attrs={
@@ -290,7 +273,7 @@ class PlatformComponentForm(forms.ModelForm):
 class TraditionalSessionComponentForm(forms.ModelForm):
     class Meta:
         model = complex_models.TraditionalSessionComponent
-        fields = ['title', 'description_session', 'url', 'description']
+        fields = ['title', 'description_session', 'url', 'description', 'order']
         widgets = {
             "title": forms.TextInput(
                 attrs={
@@ -323,7 +306,7 @@ class TraditionalSessionComponentForm(forms.ModelForm):
 class LiterarySourcesComponentForm(forms.ModelForm):
     class Meta:
         model = complex_models.LiterarySourcesComponent
-        fields = ['title', 'description', 'url']
+        fields = ['title', 'description', 'url', 'order']
         widgets = {
             "title": forms.TextInput(
                 attrs={

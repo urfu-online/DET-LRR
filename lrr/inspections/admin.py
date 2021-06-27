@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
+from import_export.admin import ImportExportModelAdmin
 
 from lrr.inspections import forms_admin
 from lrr.inspections import models

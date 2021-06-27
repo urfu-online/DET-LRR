@@ -1,5 +1,4 @@
 import logging
-
 from rest_framework import serializers
 
 from lrr.users.models import Person
@@ -106,10 +105,12 @@ class LanguageSerializer(serializers.ModelSerializer):
 #             "competence"
 #         ]
 
+
 class DigitalResourceListSerializer(serializers.ModelSerializer):
     authors = PersonSerializer(many=True, read_only=False)
     # owner = PersonSerializer(many=False, read_only=False)
     # subjects_tags = SubjectTagSerializer(many=True, read_only=False)
+    # source = SourceSerializer(many=True, read_only=False)
     type = serializers.CharField(source='get_type_display')
 
     class Meta:

@@ -122,7 +122,7 @@
           {% if request.user|has_group:"rop" %}
             <a class="dropdown-item" href="{% url 'repository:repository_statistics' %}">Статистика ЭОР</a>
             <a class="dropdown-item"
-               href="{% url 'complexes:complexes_DigitalComplex_all_list' %}">{% trans "Список ЭУМК" %}</a>
+               href="{% url 'complexes:complexes_DigitalComplex_all_list' %}">{% trans "Каталог ЭУМК" %}</a>
             {#                    <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭУМК</a>#}
             {#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>#}
             {#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>#}
@@ -150,7 +150,7 @@
       {% if request.user.is_superuser %}
         <hr class="dotted">
         {#        <li class="nav-item">#}
-        {#          <a class="nav-link" href="/">{% trans "Список ЭОР" %}</a>#}
+        {#          <a class="nav-link" href="/">{% trans "Каталог ЭОР" %}</a>#}
         {#        </li>#}
         {#        <li class="nav-item">#}
         {#          <a class="nav-link" href="{% url 'repository:repository_statistics' %}">{% trans "Статистика" %}</a>#}

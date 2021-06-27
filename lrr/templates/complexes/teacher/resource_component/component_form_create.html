@@ -6,12 +6,15 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
-      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои
+      <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Каталог
         ЭУМК</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">ЭУМК
-        {{ dig_complex.keywords }} {{ dig_complex.title }}</a>
+              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a>
+      </li>
+      <li class="breadcrumb-item"><a
+              href="{% url 'complexes:complexes_ComponentComplex_list' pk=dig_complex.pk %}">Редактирование компонентов
+        ЭУМК</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">Добавление компонента ЭОР</li>
     </ol>
@@ -27,6 +30,7 @@
             {{ form.non_field_errors }}
             {{ form.media.css }}
             {{ form }}
+            <h4 class="text-muted">{{ alarm }}</h4>
             <input type="submit" value="Сохранить" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>

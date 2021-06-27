@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import uuid
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import MultipleObjectsReturned
@@ -57,7 +59,7 @@ class Person(models.Model):
         verbose_name_plural = u"Профили"
 
     def __str__(self):
-        return f"{self.last_name} {self.first_name}"
+        return f"{self.last_name} {self.first_name} {self.middle_name}"
 
     def get_absolute_url(self):
         return reverse("repository_Person_detail", args=(self.pk,))
@@ -102,7 +104,7 @@ class Student(models.Model):
     # Relationships
     person = models.ForeignKey("users.Person", on_delete=models.CASCADE)
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
-                                       verbose_name="Номер академической группы")
+                                       verbose_name="Номер академической группы", null=True)
 
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
@@ -137,11 +139,14 @@ class Student(models.Model):
 
 
 class AcademicGroup(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False, null=True)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False, null=True)
     number = models.CharField("Номер академической группы", max_length=30)
-    direction = models.ForeignKey("repository.Direction",
-                                  verbose_name="Образовательная программа/Направление подготовки",
-                                  related_name="direction_academic_group",
-                                  on_delete=models.PROTECT, blank=True, null=True)
+    eduprogram = models.ForeignKey("repository.EduProgram",
+                                   verbose_name="Образовательная программа/Направление подготовки",
+                                   related_name="eduprogram_academic_group",
+                                   on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:
         verbose_name = u"Академическая группа"
@@ -157,12 +162,12 @@ class AcademicGroup(models.Model):
         return reverse("repository_AcademicGroup_update", args=(self.pk,))
 
     @classmethod
-    def get_direction_for_number(cls, number):
+    def get_eduprogram_for_number(cls, number):
         try:
             obj = cls.objects.get(number=number)
         except cls.DoesNotExist:
             obj = None
-        return obj.direction
+        return obj.eduprogram
 
 
 class ChoicesExpert(models.Model):
@@ -213,3 +218,22 @@ class Expert(models.Model):
 
     # def get_update_url(self):
     #     return reverse("", args=(self.pk,))
+
+
+class GroupDisciplines(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
+
+    academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.CASCADE, verbose_name="Академическая группа",
+                              blank=True, null=True)
+    subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина(ы)", on_delete=models.PROTECT,
+                                blank=True, null=True)
+    semestr = models.PositiveSmallIntegerField(verbose_name="Семестр", blank=True, null=True)
+
+    class Meta:
+        verbose_name = u"Дисциплина группы"
+        verbose_name_plural = u"Дисциплины групп"
+
+    def __str__(self):
+        return f"{self.subject} - {self.semestr} семестр"

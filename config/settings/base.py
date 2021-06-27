@@ -45,7 +45,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
-    'postgres_metrics.apps.PostgresMetrics',
     'adminactions',
     'admin_export_action',
     'data_wizard',
@@ -89,6 +88,9 @@ THIRD_PARTY_APPS = [
     'permissions_auditor',
     # "det",
     "smart_selects",
+    'import_export',
+    'import_export_celery',
+    'widget_tweaks',
     "sortedm2m"
 
 ]
@@ -109,7 +111,10 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 CORS_ORIGIN_ALLOW_ALL = True
 # MIGRATIONS
 # ------------------------------------------------------------------------------
-MIGRATION_MODULES = {"sites": "lrr.contrib.sites.migrations"}
+MIGRATION_MODULES = {
+    "sites": "lrr.contrib.sites.migrations",
+    "import_export_celery": "lrr.contrib.sites.import_export_celery.migrations"
+}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -154,6 +159,7 @@ MIDDLEWARE = [
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "silk.middleware.SilkyMiddleware",
+    "author.middlewares.AuthorDefaultBackendMiddleware",
 ]
 
 # STATIC
@@ -262,6 +268,13 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_TIME_LIMIT = 5 * 60
 CELERY_TASK_SOFT_TIME_LIMIT = 120
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+IMPORT_EXPORT_CELERY_INIT_MODULE = "config.celery_app"
+IMPORT_EXPORT_CELERY_MODELS = {
+    "repository": {
+        'app_label': 'lrr.repository',
+        'model_name': 'DigitalResource',
+    }
+}
 # django-allauth
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
@@ -319,6 +332,8 @@ DATA_WIZARD = {
     'AUTHENTICATION': 'rest_framework.authentication.SessionAuthentication',
     'PERMISSION': 'rest_framework.permissions.IsAdminUser',
 }
+
+USE_DJANGO_JQUERY = True
 
 DEFAULT_SOURCE_NAME = "---"
 DEFAULT_SOURCE_TYPE = "---"

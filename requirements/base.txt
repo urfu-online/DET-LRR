@@ -47,3 +47,6 @@ django-permissions-auditor
 data-wizard
 itertable
 django-smart-selects==1.5.9 # https://github.com/jazzband/django-smart-selects
+django-import-export # https://github.com/django-import-export/django-import-export https://django-import-export.readthedocs.io/en/latest/installation.html
+django-import-export-celery
+django-widget-tweaks # https://github.com/jazzband/django-widget-tweaks

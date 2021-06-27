@@ -32,9 +32,8 @@ class ResourceListSerializer(serializers.ModelSerializer):
 
 
 class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer):
-    direction = serializers.CharField(source='academic_group.direction')
+    eduprogram = serializers.CharField(source='academic_group.eduprogram')
     academic_group = serializers.CharField(source='academic_group.number')
-    subject = serializers.CharField(source='subject.title')
     digital_resource = ResourceListSerializer(read_only=True, many=True)
 
     class Meta:
@@ -43,9 +42,7 @@ class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer)
             "digital_resource",
             "academic_group",
             "learn_date",
-            "direction",
-            "subject",
-            "semestr",
+            "eduprogram",
         ]
 
 
@@ -57,14 +54,13 @@ class CellSerializer(serializers.ModelSerializer):
 
 
 class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
-    direction = serializers.CharField(source='academic_group.direction')
+    eduprogram = serializers.CharField(source='academic_group.eduprogram')
     academic_group = serializers.CharField(source='academic_group.number')
-    subject = serializers.CharField(source='subject.title')
-    subject_pk = serializers.CharField(source='subject.pk')
     digital_complex_pk = serializers.CharField(source='digital_complex.pk')
     digital_complex_title = serializers.CharField(source='digital_complex.title')
     digital_complex_format = serializers.CharField(source='digital_complex.format')
     digital_complex_keywords = serializers.CharField(source='digital_complex.keywords')
+    digital_complex_form_control = serializers.CharField(source='digital_complex.form_control')
 
     class Meta:
         model = complexes_models.AssignmentAcademicGroup
@@ -73,12 +69,10 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
             "digital_complex_title",
             "digital_complex_format",
             "digital_complex_keywords",
+            "digital_complex_form_control",
             "academic_group",
             "learn_date",
-            "direction",
-            "subject",
-            "subject_pk",
-            "semestr",
+            "eduprogram",
         ]
 
 
@@ -105,7 +99,8 @@ class DigitalComplexSerializer(serializers.ModelSerializer):
             "digital_resources",
             "complex_space_cell",
             "assignment_group",
-            "owner"
+            "owner",
+            "form_control",
         ]
 
 

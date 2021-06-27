@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
-
+from rest_framework import viewsets, permissions
+from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_filters import rest_framework as filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework import viewsets, permissions

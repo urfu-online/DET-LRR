@@ -5,9 +5,10 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
-      <li class="breadcrumb-item"><a href="/">Список ЭОР</a></li>
+      <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'repository:repository_DigitalResource_detail' pk=object.pk %}">{{ object.title }}</a></li>
+              href="{% url 'repository:repository_DigitalResource_detail' pk=object.pk %}">Паспорт
+        ЭОР {{ object.title }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Редактирование паспорта ЭОР</li>
     </ol>
   </nav>
@@ -23,63 +24,56 @@
             {{ form.non_field_errors }}
             {{ form.media.css }}
             <div class="form-row">
-              <div class="form-group col">
-                <label>{{ form.title.label }}</label>
-                {{ form.title }}
-              </div>
-              <div class="form-group col">
-                <label>{{ form.type.label }}</label>
-                {{ form.type }}
-              </div>
-              <div class="form-group col">
-                <label>{{ form.keywords.label }}</label>
-                {{ form.keywords }}
-              </div>
-              <div class="form-group col">
-                <label>{{ form.language.label }}</label>
-                {{ form.language }}
-              </div>
+              <label>{{ form.title.label }}</label>
+              {{ form.title }}
             </div>
             <div class="form-row">
-              <div class="form-group col">
-                <label>{{ form.copyright_holder.label }}</label>
-                {{ form.copyright_holder }}
-              </div>
-              <div class="form-group col">
-                <label>{{ form.platform.label }}</label>
-                {{ form.platform }}
-              </div>
+              <label>{{ form.type.label }}</label>
+              {{ form.type }}
             </div>
-
-            <div class="form-row">
-              <div class="form-group col">
-                <label>{{ form.subjects_tags.label }}</label>
-                {{ form.subjects_tags }}
-              </div>
-              <div class="form-group col">
-                <label>{{ form.edu_programs_tags.label }}</label>
-                {{ form.edu_programs_tags }}
-              </div>
-            </div>
-
             <div class="form-group">
               <label>{{ form.authors.label }}</label>
               {{ form.authors }}
-            </div>
-            <div class="form-row">
-              <div class="form-group col">
-                <label>{{ form.result_edu.label }}</label>
-                {{ form.result_edu }}
-              </div>
-              <div class="form-group col">
-                <label>{{ form.competences.label }}</label>
-                {{ form.competences }}
-              </div>
             </div>
             <div class="form-group">
               <label>{{ form.description.label }}</label>
               {{ form.description }}
             </div>
+            <div class="form-row">
+              <label>{{ form.keywords.label }}</label>
+              {{ form.keywords }}
+            </div>
+            <div class="form-row">
+              <label>{{ form.competences.label }}</label>
+              {{ form.competences }}
+            </div>
+            <div class="form-row">
+              <label>{{ form.result_edu.label }}</label>
+              {{ form.result_edu }}
+            </div>
+            <div class="form-row">
+              <label>{{ form.subjects_tags.label }}</label>
+              {{ form.subjects_tags }}
+            </div>
+            <div class="form-row">
+              <label>{{ form.edu_programs_tags.label }}</label>
+              {{ form.edu_programs_tags }}
+            </div>
+            <div class="form-row">
+              <label>{{ form.language.label }}</label>
+              {{ form.language }}
+            </div>
+
+            <div class="form-row">
+              <label>{{ form.copyright_holder.label }}</label>
+              {{ form.copyright_holder }}
+            </div>
+            <div class="form-row">
+              <label>{{ form.platform.label }}</label>
+              {{ form.platform }}
+            </div>
+
+
           </div>
         </div>
         <br/>
@@ -100,16 +94,16 @@
                     {{ source.link_name }}
                   </div>
                   <div class="form-group">
+                    <label>{{ source.type.label }}</label>
+                    {{ source.type }}
+                  </div>
+                  <div class="form-group" id="id_source_set-0-URL_1">
                     <label> {{ source.URL.label }}</label>
                     {{ source.URL }}
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" id="id_source_set-0-file_1">
                     <label>{{ source.file.label }}</label>
                     {{ source.file }}
-                  </div>
-                  <div class="form-group">
-                    <label>{{ source.type.label }}</label>
-                    {{ source.type }}
                   </div>
                   {#                <div class="field">#}
                   {#                  {{ source }}#}
@@ -128,4 +122,31 @@
   </div>
   {{ form.media.js }}
   </div>
+  <script>
+    function singleSelectChangeValue() {
+      //Getting Value
+
+      // METHOD 1
+      var selValue = document.getElementById("id_source_set-0-type").value;
+      var file = document.getElementById("id_source_set-0-file_1");
+      var URL = document.getElementById("id_source_set-0-URL_1");
+      if (selValue === "URL") {
+        file.style.display = 'none';
+        URL.style.display = 'block';
+      } else if (selValue === 'FILE') {
+        URL.style.display = 'none';
+        file.style.display = 'block';
+      } else if (selValue === "") {
+        URL.style.display = 'block';
+        file.style.display = 'block';
+      }
+    }
+
+    window.onload = function () {
+      singleSelectChangeValue()
+    };
+    window.onchange = function () {
+      singleSelectChangeValue()
+    };
+  </script>
 {% endblock %}

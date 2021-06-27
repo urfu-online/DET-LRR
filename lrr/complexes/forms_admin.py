@@ -21,14 +21,20 @@ class DigitalComplexAdminForm(forms.ModelForm):
             "directions",
             "competences",
             "results_edu",
-
+            "thematic_plan",
+            "form_control"
         ]
 
 
 class AssignmentAcademicGroupForm(forms.ModelForm):
     class Meta:
         model = models.AssignmentAcademicGroup
-        fields = "__all__"
+        fields = [
+            "digital_complex",
+            "academic_group",
+            "group_subject",
+            "learn_date"
+        ]
 
 
 class ThemeForm(forms.ModelForm):

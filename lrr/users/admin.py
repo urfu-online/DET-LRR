@@ -2,6 +2,7 @@ from django import forms as form
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
+from import_export.admin import ImportExportModelAdmin
 
 from lrr.users import models
 from lrr.users.forms import UserChangeForm, UserSignupForm
@@ -24,7 +25,7 @@ class PersonAdminForm(form.ModelForm):
         fields = "__all__"
 
 
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(ImportExportModelAdmin):
     form = PersonAdminForm
     list_display = [
         "last_name",
@@ -47,7 +48,7 @@ class StudentAdminForm(form.ModelForm):
         fields = "__all__"
 
 
-class StudentAdmin(admin.ModelAdmin):
+class StudentAdmin(ImportExportModelAdmin):
     form = StudentAdminForm
     list_display = [
         "person",
@@ -64,11 +65,12 @@ class AcademicGroupAdminForm(form.ModelForm):
         fields = "__all__"
 
 
-class AcademicGroupAdmin(admin.ModelAdmin):
+class AcademicGroupAdmin(ImportExportModelAdmin):
     form = AcademicGroupAdminForm
     list_display = [
         "number",
     ]
+    search_fields = ['number']
 
 
 class ExpertAdminForm(form.ModelForm):
@@ -83,7 +85,7 @@ class ChoicesExpertAdminForm(form.ModelForm):
         fields = "__all__"
 
 
-class ExpertAdmin(admin.ModelAdmin):
+class ExpertAdmin(ImportExportModelAdmin):
     form = ExpertAdminForm
     list_display = [
         "person",
@@ -99,6 +101,23 @@ class ChoicesExpertAdmin(admin.ModelAdmin):
     ]
 
 
+class GroupDisciplinesAdminForm(form.ModelForm):
+    class Meta:
+        model = models.GroupDisciplines
+        fields = "__all__"
+
+
+class GroupDisciplinesAdmin(ImportExportModelAdmin):
+    form = GroupDisciplinesAdminForm
+    list_display = [
+        "academic_group",
+        "subject",
+        "semestr",
+    ]
+    exclude = ["id", "created", "last_updated"]
+
+
+admin.site.register(models.GroupDisciplines, GroupDisciplinesAdmin)
 admin.site.register(models.ChoicesExpert, ChoicesExpertAdmin)
 admin.site.register(models.Expert, ExpertAdmin)
 admin.site.register(models.AcademicGroup, AcademicGroupAdmin)

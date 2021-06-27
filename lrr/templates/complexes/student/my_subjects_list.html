@@ -3,7 +3,8 @@
 {% load user_tags %}
 {% block content %}
   <script>
-    url_global = "https://lrr.urfu.online/api/v0/my_sbuject/"
+    url_site = "https://lrr.urfu.online"
+    url_global = url_site + "/api/v0/my_sbuject/"
 
 
     function ApiEUMK(event, sub) {
@@ -11,7 +12,7 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.subject}</a></div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div><a href="${url_site}/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.subject}</a></div>`)))
       });
     }
 
@@ -20,7 +21,7 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/repository/DigitalResource/detail/${el.pk}/">${el.title}</a></div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div><a href="${url_site}/repository/DigitalResource/detail/${el.pk}/">${el.title}</a></div>`)))
       });
     }
 
@@ -29,7 +30,7 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="https://lrr.urfu.online/repository/DigitalResource/detail/${el.pk}/">${el.title}</a></div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div><a href="${url_site}/repository/DigitalResource/detail/${el.pk}/">${el.title}</a></div>`)))
       });
     }
   </script>

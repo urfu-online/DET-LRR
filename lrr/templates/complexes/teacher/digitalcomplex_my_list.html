@@ -4,14 +4,14 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
-      <li class="breadcrumb-item active" aria-current="page">Список ЭМУК</li>
+      <li class="breadcrumb-item active" aria-current="page">Список ЭУМК</li>
     </ol>
   </nav>
-  <header><h1 class="display-3">Мои ЭМУК</h1></header>
+  <header><h1 class="display-3">Мои электронные учебно-методические комплексы</h1></header>
   <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
           aria-controls="filters"><i class="fas fa-search fa-lg"></i> Фильтры и поиск
   </button>
-  <a class="btn btn-primary mt-3 " href="{% url 'complexes:complexes_DigitalComplex_create' %}"> Создать ЭМУК </a>
+  <a class="btn btn-primary mt-3 " href="{% url 'complexes:complexes_DigitalComplex_create' %}"> Создать ЭУМК </a>
   <div class="row actions" id="accordion">
     <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
       <form action="" method="get">
@@ -41,7 +41,7 @@
           </div>
 
           <div class="form-group col-12 col-xl-3 col-md-6">
-            <label for="id_language">Язык ЭМУК:</label> <select name="language" class="custom-select"
+            <label for="id_language">Язык ЭУМК:</label> <select name="language" class="custom-select"
                                                                 id="id_language">
             <option value="" selected="">---------</option>
             <option value="ru">Русский</option>

@@ -47,8 +47,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='complextheme',
             name='digital_complex',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
-                                    to='complexes.digitalcomplex', verbose_name='Комплекс ЭМУК'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='complexes.digitalcomplex', verbose_name='Комплекс ЭМУК'),
         ),
         migrations.AddField(
             model_name='complexspacecell',
@@ -58,8 +57,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='complexspacecell',
             name='digital_complex',
-            field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE,
-                                    to='complexes.digitalcomplex', verbose_name='Комплекс ЭМУК'),
+            field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to='complexes.digitalcomplex', verbose_name='Комплекс ЭМУК'),
         ),
         migrations.AddField(
             model_name='cellweeks',

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import uuid
-
+from django.utils.functional import cached_property
 from django.conf import settings
 # from lrr.users.models import Person
 from django.contrib.postgres.fields import ArrayField
@@ -186,7 +186,7 @@ class EduProgram(BaseModel):
         verbose_name_plural = u"Образовательные программы"
 
     def __str__(self):
-        return self.title
+        return f"{self.cipher} {self.title}"
 
     def get_absolute_url(self):
         return reverse("repository_EduProgram_detail", args=(self.pk,))
@@ -219,7 +219,7 @@ class ResultEdu(BaseModel):
         return reverse("repository_ResultEdu_update", args=(self.pk,))
 
 
-from django.utils.functional import cached_property
+
 
 
 class DigitalResource(BaseModel):
@@ -260,7 +260,7 @@ class DigitalResource(BaseModel):
     competences = models.ManyToManyField("Competence", verbose_name="Компетенции", blank=True)
 
     # Fields
-    title = models.CharField("Наименование ресурса", max_length=1024, db_index=True)
+    title = models.CharField("Наименование ресурса", max_length=1024)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
     keywords = models.CharField("Ключевые слова", max_length=6024, null=True, blank=True)
@@ -280,12 +280,11 @@ class DigitalResource(BaseModel):
     def get_update_url(self):
         return reverse("repository:repository_DigitalResource_update", args=(self.pk,))
 
-    @cached_property
     def get_url(self):
         # if  self.source_set.exists():
-        source_set = self.source_set
-        if self.source_set.exists():
-            return source_set.first().URL
+        source = self.source_set.first()
+        if source:
+            return source.URL
         else:
             return ""
 
@@ -294,7 +293,7 @@ class DigitalResource(BaseModel):
 
     def get_source(self):
         try:
-            obj = self.source_set  # Source.objects.filter(digital_resource=self)
+            obj = self.source_set #Source.objects.filter(digital_resource=self)
         except:
             obj = None
         return obj
@@ -333,19 +332,13 @@ class DigitalResource(BaseModel):
         }
 
 
-class SourceManager(models.Manager):
-    def update_type(self, sources):
-        for source in sources:
-            source.update_type()
-
-
 class Source(BaseModel):
     # type
     URL = 'URL'
     FILE = 'FILE'
 
     SOURCE_TYPE = [
-        (URL, 'Ссылочный'),
+        (URL, 'url'),
         (FILE, 'Файл'),
     ]
     link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
@@ -358,25 +351,6 @@ class Source(BaseModel):
     class Meta:
         verbose_name = u"Компонент"
         verbose_name_plural = u"Компоненты"
-
-    @transaction.atomic
-    def update_type(self):
-        if not self.type:
-            if self.URL and self.file:
-                logging.info(f"Source {self.pk} have ambiguous type")
-            elif self.URL and not self.file:
-                self.type = 'URL'
-                self.save()
-            elif self.file and not self.URL:
-                self.type = 'file'
-                self.save()
-            logging.info(f"Source {self.pk} type updated")
-
-    @property
-    def get_link_name(self):
-        if self.link_name:
-            return self.link_name
-        return settings.DEFAULT_SOURCE_NAME
 
     def __str__(self):
         return f"Компонент: {self.digital_resource.title}.{self.get_format()}"
@@ -408,7 +382,7 @@ class Source(BaseModel):
 #     def get_update_url(self):
 #         return reverse("repository_DigitalResourceCompetence_update", args=(self.pk,))
 class CompetenceGroup(models.Model):
-    name = models.CharField("Наименование", max_length=400, db_index=True)
+    name = models.CharField("Наименование", max_length=400)
 
     def __str__(self):
         return self.name
@@ -439,7 +413,7 @@ class Competence(BaseModel):
 
 class Platform(BaseModel):
     # Fields
-    title = models.CharField("Наименование", max_length=150, db_index=True)
+    title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", null=True, blank=True)
     url = models.URLField("Ссылка")
     url_logo = models.URLField("Ссылка на логотип", null=True, blank=True)
@@ -463,7 +437,7 @@ class Platform(BaseModel):
 class Language(models.Model):
     # Fields
 
-    title = models.CharField("Наименование", max_length=80, db_index=True)
+    title = models.CharField("Наименование", max_length=80)
     code = models.CharField("Код языка", max_length=4, primary_key=True)
 
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
@@ -489,8 +463,8 @@ class SubjectTag(BaseModel):
     tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
 
     class Meta:
-        verbose_name = u"Тэг дисциплины"
-        verbose_name_plural = u"Тэги дисциплин"
+        verbose_name = "Тег дисциплины"
+        verbose_name_plural = "Теги дисциплин"
 
     def __str__(self):
         return str(self.tag)
@@ -511,8 +485,8 @@ class EduProgramTag(BaseModel):
     tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
 
     class Meta:
-        verbose_name = u"Тэг образовательной программы"
-        verbose_name_plural = u"Тэги образовательных программ"
+        verbose_name = "Тег образовательной программы"
+        verbose_name_plural = "Теги образовательных программ"
 
     def __str__(self):
         return str(self.tag)
@@ -542,3 +516,21 @@ class BookmarkDigitalResource(BookmarkBase):
         db_table = "bookmark__digital_resource"
 
     obj = models.ForeignKey('repository.DigitalResource', verbose_name="Паспорт ЭОР", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.obj.title)
+
+
+from json import JSONEncoder
+from uuid import UUID
+
+old_default = JSONEncoder.default
+
+
+def new_default(self, obj):
+    if isinstance(obj, UUID):
+        return str(obj)
+    return old_default(self, obj)
+
+
+JSONEncoder.default = new_default
