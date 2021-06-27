@@ -9,7 +9,7 @@ from polymorphic.models import PolymorphicModel
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
 from lrr.users.models import Person, Student, AcademicGroup, GroupDisciplines
-from . import grid_models
+from .grid_models import *
 
 logger = logging.getLogger(__name__)
 

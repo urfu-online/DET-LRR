@@ -1,0 +1,80 @@
+#!/bin/bash
+
+SERVICE="LRR"
+ENVIRONMENT="production"
+
+red=$'\e[1;31m'
+grn=$'\e[1;92m'
+yel=$'\e[1;33m'
+blu=$'\e[1;34m'
+mag=$'\e[1;35m'
+cyn=$'\e[1;36m'
+end=$'\e[0m'
+
+function usage() {
+  echo "LRR please"
+  echo ""
+  echo "./scripts/please"
+  echo "-h, --help"
+  echo "-e, --environment, env=$ENVIRONMENT" [local, production]
+  echo "-m, --mode, mode" [soft, force]
+  echo "-M, --migrate, migrate"
+  echo "-U, --update, update, upd"
+  echo ""
+}
+
+for i in "$@"; do
+  case $i in
+  -e=* | --environment=* | env=*)
+    ENVIRONMENT="${i#*=}"
+    shift # past argument=value
+    ;;
+  -m=* | --mode=* | mode=*)
+    MODE="${i#*=}"
+    shift
+    ;;
+  -U | --update | update | upd)
+    UPDATE=true
+    ;;
+  -M | --migrate | migrate)
+    MIGRATE=true
+    ;;
+  -h | --help | help | *)
+    usage
+    exit 0
+    ;;
+  esac
+done
+
+printf "\v${red}$SERVICE${end} (${grn}$ENVIRONMENT${end}) ${red}please${end}:\n\n"
+
+if [ "$UPDATE" ]; then
+  printf "\t${grn}\xE2\x9C\x94${end} update from git\n"
+fi
+
+if [ "$MODE" ]; then
+  printf "\t${grn}\xE2\x9C\x94${end} $MODE reload\n"
+fi
+
+if [ "$MIGRATE" ]; then
+  printf "\t${grn}\xE2\x9C\x94${end} apply migrations\n"
+fi
+
+printf "\v"
+
+if [ "$UPDATE" ]; then
+  git pull
+fi
+
+case $MODE in
+soft | s)
+  docker-compose -f ${ENVIRONMENT}.yml stop && docker-compose -f ${ENVIRONMENT}.yml up -d --build
+  ;;
+force | f)
+  docker-compose -f ${ENVIRONMENT}.yml stop && docker-compose -f ${ENVIRONMENT}.yml build --no-cache && docker-compose -f ${ENVIRONMENT}.yml up -d
+  ;;
+esac
+
+if [ "$MIGRATE" ]; then
+  docker-compose -f ${ENVIRONMENT}.yml run --rm django python manage.py migrate
+fi

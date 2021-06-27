@@ -277,11 +277,11 @@ class DigitalResource(BaseModel):
     def get_update_url(self):
         return reverse("repository:repository_DigitalResource_update", args=(self.pk,))
 
+    @cached_property
     def get_url(self):
-        # if  self.source_set.exists():
-        source = self.source_set.first()
-        if source:
-            return source.URL
+        source_set = self.source_set
+        if self.source_set.exists():
+            return source_set.first().URL
         else:
             return ""
 
@@ -335,7 +335,7 @@ class Source(BaseModel):
     FILE = 'FILE'
 
     SOURCE_TYPE = [
-        (URL, 'url'),
+        (URL, 'Ссылочный'),
         (FILE, 'Файл'),
     ]
     link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
@@ -351,6 +351,25 @@ class Source(BaseModel):
 
     def __str__(self):
         return f"Компонент: {self.digital_resource.title}.{self.get_format()}"
+
+    @transaction.atomic
+    def update_type(self):
+        if not self.type:
+            if self.URL and self.file:
+                logging.info(f"Source {self.pk} have ambiguous type")
+            elif self.URL and not self.file:
+                self.type = 'URL'
+                self.save()
+            elif self.file and not self.URL:
+                self.type = 'file'
+                self.save()
+            logging.info(f"Source {self.pk} type updated")
+
+    @property
+    def get_link_name(self):
+        if self.link_name:
+            return self.link_name
+        return settings.DEFAULT_SOURCE_NAME
 
     def get_format(self):
         if self.URL:
