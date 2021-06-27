@@ -50,7 +50,7 @@ class PersonForm(form.ModelForm):
         ]
 
 
-class PersonWidget(s2forms.ModelSelect2Widget):
+class PersonWidget(s2forms.Select2Widget):
     search_fields = [
         "first_name__icontains",
         "middle_name__icontains",
@@ -59,7 +59,7 @@ class PersonWidget(s2forms.ModelSelect2Widget):
     max_results = 50
 
 
-class ExpertWidget(s2forms.ModelSelect2TagWidget):
+class ExpertWidget(s2forms.Select2TagWidget):
     pass
 
 

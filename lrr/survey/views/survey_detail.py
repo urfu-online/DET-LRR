@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from django.conf import settings
-from django.shortcuts import redirect, render, reverse, get_object_or_404
+from django.shortcuts import redirect, render, reverse
 from django.utils import timezone
 from django.views.generic import View
 
 from lrr.survey.decorators import survey_available
 from lrr.survey.forms import ResponseForm
-from lrr.users.models import Expert
 
 LOGGER = logging.getLogger(__name__)
 

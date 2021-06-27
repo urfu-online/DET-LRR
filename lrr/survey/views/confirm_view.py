@@ -6,7 +6,6 @@ from lrr.survey.models import Response
 
 
 class ConfirmView(TemplateView):
-
     template_name = "survey/confirm.html"
 
     def get_context_data(self, **kwargs):

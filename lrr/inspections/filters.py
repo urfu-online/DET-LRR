@@ -6,6 +6,7 @@ from django.views.generic import ListView
 
 logger = logging.getLogger(__name__)
 
+
 class FilteredListView(ListView):
     allow_empty = True
     filterset_class = None

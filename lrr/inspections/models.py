@@ -188,7 +188,8 @@ class Expertise(repository_model.BaseModel):
         return self.expertiserequest_set.all().values_list("pk")
 
     def get_responses(self):
-        responses = SurveyResponse.objects.filter(expertise_request__in=self.get_expertise_requests_ids()).order_by("survey", "-created").distinct("survey")
+        responses = SurveyResponse.objects.filter(expertise_request__in=self.get_expertise_requests_ids()).order_by(
+            "survey", "-created").distinct("survey")
         return responses
 
     def get_typed_responses(self):
@@ -382,9 +383,12 @@ class Indicator(models.Model):
 
 class StatusRequirement(models.Model):
     indicator = models.ForeignKey(Indicator, verbose_name="Показатель", on_delete=models.CASCADE)
-    allowed_values = ArrayField(models.CharField(max_length=32, blank=True, null=True), verbose_name="Допустимые значения", blank=True, null=True)
-    allowed_num_values = IntegerRangeField(verbose_name="Диапазон допустимых числовых значений", blank=True, null=True)  # null - нет, 0 - любое
-    exclude_values = ArrayField(models.CharField(max_length=32, blank=True, null=True), verbose_name="Исключаемые значения", blank=True, null=True)
+    allowed_values = ArrayField(models.CharField(max_length=32, blank=True, null=True),
+                                verbose_name="Допустимые значения", blank=True, null=True)
+    allowed_num_values = IntegerRangeField(verbose_name="Диапазон допустимых числовых значений", blank=True,
+                                           null=True)  # null - нет, 0 - любое
+    exclude_values = ArrayField(models.CharField(max_length=32, blank=True, null=True),
+                                verbose_name="Исключаемые значения", blank=True, null=True)
     status = models.ForeignKey("Status", on_delete=models.CASCADE)
 
     def __str__(self):

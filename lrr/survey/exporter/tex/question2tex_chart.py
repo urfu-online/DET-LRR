@@ -11,7 +11,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Question2TexChart(Question2Tex):
-
     """
     This class permit to generate latex code directly from the Question
     object.

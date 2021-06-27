@@ -43,8 +43,10 @@ def has_group(user, group_name):
     """
     Проверяет, принадлежит ли этот пользователь к группе
     """
-    if user:
-        return user.groups.filter(name=group_name).exists()
+    if not user.is_authenticated:
+        return False
+    return group_name in user.get_groups
+    # noinspection PyUnreachableCode
     return False
 
 

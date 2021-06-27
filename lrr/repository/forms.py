@@ -1,3 +1,5 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Div
 from django import forms
 from django.forms import inlineformset_factory
 from django_select2 import forms as s2forms
@@ -46,27 +48,27 @@ class ResultEduForm(forms.ModelForm):
         ]
 
 
-class EduProgramsWidget(s2forms.ModelSelect2MultipleWidget):
+class EduProgramsWidget(s2forms.Select2MultipleWidget):
     search_fields = ["tag__title__icontains"]
     max_results = 50
 
 
-class SubjectsWidget(s2forms.ModelSelect2MultipleWidget):
+class SubjectsWidget(s2forms.Select2MultipleWidget):
     search_fields = ["tag__title__icontains"]
     max_results = 50
 
 
-class ResultEduWidget(s2forms.ModelSelect2MultipleWidget):
+class ResultEduWidget(s2forms.Select2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
 
-class CompetenceWidget(s2forms.ModelSelect2MultipleWidget):
+class CompetenceWidget(s2forms.Select2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
 
-class AuthorsWidget(s2forms.ModelSelect2MultipleWidget):
+class AuthorsWidget(s2forms.Select2MultipleWidget):
     search_fields = [
         "last_name__icontains",
         "first_name__icontains",
@@ -77,7 +79,7 @@ class AuthorsWidget(s2forms.ModelSelect2MultipleWidget):
     max_results = 50
 
 
-class ProvidedDisciplinesWidget(s2forms.ModelSelect2MultipleWidget):
+class ProvidedDisciplinesWidget(s2forms.Select2MultipleWidget):
     search_fields = [
         "edu_program__title__icontains",
         "subject__title__icontains",
@@ -295,3 +297,18 @@ class EduProgramTagForm(forms.ModelForm):
         fields = [
             "tag",
         ]
+
+
+class DigitalResourceFilterFormHelper(FormHelper):
+    form_method = 'GET'
+    layout = Layout(
+        Div(
+            'title',
+            'type',
+            'copyright_holder__title',
+            'language',
+            'subjects_tags__tag__title',
+            'edu_programs_tags__tag__title',
+            Submit('submit', 'Найти'),
+            css_class="form-row",
+        ))

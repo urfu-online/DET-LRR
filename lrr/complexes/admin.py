@@ -10,7 +10,6 @@ from lrr.complexes import grid_models
 from lrr.complexes import models
 
 
-
 @admin.register(grid_models.Container)
 class ContainerAdmin(admin.ModelAdmin):
     form = forms_admin.ContainerAdminForm

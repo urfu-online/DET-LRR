@@ -27,10 +27,7 @@ CACHES = {
         "LOCATION": env("REDIS_URL"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # Mimicing memcache behavior.
-            # http://jazzband.github.io/django-redis/latest/#_memcached_exceptions_behavior
-            "IGNORE_EXCEPTIONS": True,
-        },
+        }
     }
 }
 
@@ -146,6 +143,6 @@ sentry_sdk.init(
     integrations=[sentry_logging, DjangoIntegration(), CeleryIntegration()],
 )
 
-INSTALLED_APPS += ["schema_graph", ]
-INSTALLED_APPS += ["django_extensions"]  # noqa F405
+# INSTALLED_APPS += ["schema_graph", ]
+# INSTALLED_APPS += ["django_extensions"]  # noqa F405
 

@@ -6,7 +6,6 @@ from pathlib import Path
 from unittest.mock import patch
 
 from django.test.utils import override_settings
-
 from survey.exporter.survey2x import Survey2X
 from survey.tests.management.test_management import TestManagement
 

@@ -1,6 +1,5 @@
 import csv
-import os
-from django.conf import settings
+
 from django.core.management.base import BaseCommand
 
 from lrr.repository.models import EduProgram, Direction
@@ -13,7 +12,8 @@ class Command(BaseCommand):
         with open("lrr/data/programs.csv") as f:
             reader = csv.DictReader(f, delimiter=";")
             for row in reader:
-                direction = Direction.by_code(row.get("Код направления").replace("\'", ""))  # TODO: make remove quotes util
+                direction = Direction.by_code(
+                    row.get("Код направления").replace("\'", ""))  # TODO: make remove quotes util
                 admission_years = row.get("Годы приёма").split(", ")
                 cipher = row.get("Шифр ОП")[-5:]
                 eduprogram = EduProgram(

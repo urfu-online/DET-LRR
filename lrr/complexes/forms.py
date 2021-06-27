@@ -1,22 +1,21 @@
 from django import forms
 from django_select2 import forms as s2forms
 from polymorphic.formsets import polymorphic_modelformset_factory, PolymorphicFormSetChild
-from django.forms import formset_factory
 
 from lrr.complexes import models as complex_models
 
 
-class DirectionsWidget(s2forms.ModelSelect2MultipleWidget):
+class DirectionsWidget(s2forms.Select2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
 
-class SubjectsWidget(s2forms.ModelSelect2MultipleWidget):
+class SubjectsWidget(s2forms.Select2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
 
-class CompetencesWidget(s2forms.ModelSelect2MultipleWidget):
+class CompetencesWidget(s2forms.Select2MultipleWidget):
     search_fields = [
         "title__icontains",
         "code__icontains"
@@ -24,7 +23,7 @@ class CompetencesWidget(s2forms.ModelSelect2MultipleWidget):
     max_results = 50
 
 
-class ResultsEduWidget(s2forms.ModelSelect2MultipleWidget):
+class ResultsEduWidget(s2forms.Select2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
@@ -106,7 +105,7 @@ class CellForm(forms.ModelForm):
         # }
 
 
-class DigitalComplexWidget(s2forms.ModelSelect2Widget):
+class DigitalComplexWidget(s2forms.Select2Widget):
     search_fields = [
         "title__icontains",
         "keywords__icontains",
@@ -115,14 +114,14 @@ class DigitalComplexWidget(s2forms.ModelSelect2Widget):
     max_results = 50
 
 
-class AcademicGroupWidget(s2forms.ModelSelect2Widget):
+class AcademicGroupWidget(s2forms.Select2Widget):
     search_fields = [
         "number__icontains",
     ]
     max_results = 50
 
 
-class SubjectWidget(s2forms.ModelSelect2Widget):
+class SubjectWidget(s2forms.Select2Widget):
     search_fields = [
         "title__icontains",
     ]
@@ -217,7 +216,7 @@ class ComponentComplexForm(forms.ModelForm):
             visible.field.widget.attrs['class'] = 'form-control'
 
 
-class ResourceComponentWidget(s2forms.ModelSelect2Widget):
+class ResourceComponentWidget(s2forms.Select2Widget):
     search_fields = [
         "title__icontains",
     ]
@@ -253,7 +252,7 @@ class ResourceComponentForm(forms.ModelForm):
         }
 
 
-class PlatformComponentWidget(s2forms.ModelSelect2Widget):
+class PlatformComponentWidget(s2forms.Select2Widget):
     search_fields = [
         "title__icontains",
     ]

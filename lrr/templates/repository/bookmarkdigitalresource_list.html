@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load user_tags %}
+{% load user_tags repository_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
@@ -83,40 +83,38 @@
   {#  </div>#}
 
   <div class="row p-2">
-    {% if user.bookmarkdigitalresource_set.all|length != 0 %}
-      {% for object in user.bookmarkdigitalresource_set.all %}
-        <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-          <div class="card border-secondary h-100 shadow-2">
-            <div class="card-header pb-0">
-              <p class="mb-2 text-muted float-right"><i class="fas fa-university"></i>
-                {{ object.obj.copyright_holder }}
-              </p>
-              <p class="mb-2 text-muted">{{ object.obj.get_type_display }}</p>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">{{ object.obj.title }}</h5>
-            </div>
-            <div class="card-footer">
-              {% if object.obj.get_url %}
-                <a href="{{ object.obj.get_url }}" class="card-link">К материалам</a>
-              {% else %}
-                <a href="{{ object.obj.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>
-              {% endif %}
-              <a href="{{ object.obj.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i>
-                Подробнее</a>
-              <div style="display: contents" data-id="{{ object.obj.id }}" data-type="resource" data-action="bookmark"
-                   title="Избранное">
-                <span style="cursor: pointer" aria-hidden="true"
-                      class="{% if object.obj.bookmarkdigitalresource_set.all|user_in:user %}fa fa-star fa-lg{% else %}far fa-star fa-lg{% endif %}"></span>
-              </div>
-            </div>
-
+    {% for object in user.get_bookmarks %}
+      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+        <div class="card border-secondary h-100 shadow-2">
+          <div class="card-header pb-0">
+            <p class="mb-2 text-muted float-right"><i class="fas fa-university"></i>
+              {{ object.obj.copyright_holder }}
+            </p>
+            <p class="mb-2 text-muted">{{ object.obj.get_type_display }}</p>
           </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ object.obj.title }}</h5>
+          </div>
+          <div class="card-footer">
+            {% if object.obj.get_url %}
+              <a href="{{ object.obj.get_url }}" class="card-link">К материалам</a>
+            {% else %}
+              <a href="#" disabled="disabled" class="card-link disabled">К материалам</a>
+            {% endif %}
+            <a href="{{ object.obj.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i>
+              Подробнее</a>
+            <div style="display: contents" data-id="{{ object.obj.id }}" data-type="resource" data-action="bookmark"
+                 title="Избранное">
+                <span style="cursor: pointer" aria-hidden="true"
+                      class="{% if object.obj|favorited_by:user %}fa fa-star fa-lg{% else %}far fa-star fa-lg{% endif %}"></span>
+            </div>
+          </div>
+
         </div>
-      {% endfor %}
-    {% else %}
+      </div>
+    {% empty %}
       Избранные ЭОР отсутствуют
-    {% endif %}
+    {% endfor %}
   </div>
 
   {% include "includes/paginator.html" %}

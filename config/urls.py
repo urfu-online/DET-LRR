@@ -81,12 +81,12 @@ if settings.DEBUG or settings.DEVELOPMENT:
         path("500/", default_views.server_error),
     ]
 
-if 'schema_graph' in settings.INSTALLED_APPS:
-    from schema_graph.views import Schema
-
-    urlpatterns += [
-        path("schema/", Schema.as_view())
-    ]
+# if 'schema_graph' in settings.INSTALLED_APPS:
+#     from schema_graph.views import Schema
+#
+#     urlpatterns += [
+#         path("schema/", Schema.as_view())
+#     ]
 
 if "postgres_metrics.apps.PostgresMetrics" in settings.INSTALLED_APPS:
     urlpatterns += [path(f"{settings.ADMIN_URL}postgres-metrics/", include('postgres_metrics.urls')), path(settings.ADMIN_URL, admin.site.urls)]

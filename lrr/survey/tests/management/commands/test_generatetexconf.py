@@ -3,7 +3,6 @@
 import os
 
 from django.core.management import call_command
-
 from survey.models.survey import Survey
 from survey.tests.management.test_management import TestManagement
 

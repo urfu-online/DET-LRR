@@ -8,7 +8,6 @@ from lrr.survey.tests import BaseTest
 
 
 class TestSurveyAuthRequired(BaseTest):
-
     """ Permit to check if need_logged_user is working as intended. """
 
     def assert_accessible(self, url):

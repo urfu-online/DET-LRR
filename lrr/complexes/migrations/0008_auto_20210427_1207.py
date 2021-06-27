@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('complexes', '0007_auto_20210421_1054'),
     ]
@@ -45,7 +44,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='componentcomplex',
             name='description',
-            field=models.TextField(blank=True, max_length=1024, null=True, verbose_name='Описание / Методика применения'),
+            field=models.TextField(blank=True, max_length=1024, null=True,
+                                   verbose_name='Описание / Методика применения'),
         ),
         migrations.AlterField(
             model_name='literarysourcescomponent',

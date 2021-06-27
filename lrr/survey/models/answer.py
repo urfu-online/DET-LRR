@@ -74,5 +74,3 @@ class Answer(models.Model):
 
     def __str__(self):
         return "{} to '{}' : '{}'".format(self.__class__.__name__, self.question, self.body)
-
-

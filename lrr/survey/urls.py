@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import url
-from django.urls import path
 
 from lrr.survey.views import ConfirmView, IndexView, SurveyCompleted, SurveyDetail
 from lrr.survey.views.survey_result import serve_result_csv

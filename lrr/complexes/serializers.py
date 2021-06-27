@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from rest_framework import serializers
 from rest_polymorphic.serializers import PolymorphicSerializer
 
-from lrr.complexes import models as complexes_models
 from lrr.complexes import grid_models
+from lrr.complexes import models as complexes_models
 from lrr.repository import serializers as repo_serializers
 
 # from lrr.users.models import AcademicGroup
@@ -53,8 +54,6 @@ class CellSerializer(serializers.ModelSerializer):
         model = grid_models.Cell
         fields = [
         ]
-
-
 
 
 class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):

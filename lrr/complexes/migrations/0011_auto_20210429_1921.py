@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('complexes', '0010_auto_20210429_1758'),
     ]
@@ -71,7 +70,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cell',
             name='week_range',
-            field=django.contrib.postgres.fields.ranges.IntegerRangeField(blank=True, null=True, verbose_name='Диапозон '),
+            field=django.contrib.postgres.fields.ranges.IntegerRangeField(blank=True, null=True,
+                                                                          verbose_name='Диапозон '),
         ),
         migrations.AddField(
             model_name='complexspacecell',

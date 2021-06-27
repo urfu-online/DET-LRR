@@ -6,13 +6,11 @@ from warnings import warn
 from django.conf import settings
 from django.core.management import call_command
 from django.utils.text import slugify
-
 from survey.exporter.tex import XelatexNotInstalled
 from survey.tests.management.test_management import TestManagement
 
 
 class TestExportresult(TestManagement):
-
     """ Permit to check if export result is working as intended. """
 
     def get_csv_path(self, survey_name):

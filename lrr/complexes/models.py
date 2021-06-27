@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from django.contrib.postgres.fields import IntegerRangeField
-from django.db import models
-from django.urls import reverse
 from polymorphic.models import PolymorphicModel
 
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
 from lrr.users.models import Person, Student, AcademicGroup
 from .grid_models import *
+
 logger = logging.getLogger(__name__)
 
 

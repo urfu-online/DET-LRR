@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('users', '0003_auto_20210316_2132'),
     ]
@@ -14,7 +13,9 @@ class Migration(migrations.Migration):
             name='ChoicesExpert',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[('METHODICAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая')], max_length=30, verbose_name='Вид экспертизы')),
+                ('type', models.CharField(
+                    choices=[('METHODICAL', 'Методическая'), ('CONTENT', 'Содержательная'), ('TECH', 'Техническая')],
+                    max_length=30, verbose_name='Вид экспертизы')),
             ],
         ),
         migrations.RemoveField(

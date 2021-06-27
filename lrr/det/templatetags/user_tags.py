@@ -23,7 +23,9 @@ def has_group(user, group_name):
     """
     Проверяет, принадлежит ли этот пользователь к группе
     """
-    return user.groups.filter(name=group_name).exists()
+    if not user.is_authenticated:
+        return False
+    return group_name in user.get_groups
 
 
 @register.simple_tag(takes_context=True)

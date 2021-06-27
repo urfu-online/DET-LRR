@@ -114,54 +114,55 @@
       <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
         <div class="card card-bordered h-100 shadow-2">
           <div class="card-body">
-            {% if object_list %}
-              <table class="table table-bordered table-bordered">
-                <thead>
-                <th>Дисциплины изучаемые студентом в текущем семестре</th>
-                <th>Обеспечение дисциплин электронными образовательными ресурсами</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for sub in subjects.all %}
-                  <tr>
-                    <td>{{ sub }}</td>
-                    <td>
-                      <div>
-                        <h4>Электронное обеспечение дисциплины определенное
-                          преподавателем.</h4>
-                        <button class="btn btn-outline-primary btn-sm" type="button" onclick="ApiEUMK(event, `{{ sub }}`)">
-                          Развернуть
-                        </button>
-                      </div>
-                      <div>
-                        <h4>Рекомендованные ЭОР</h4>
-                        <button class="btn btn-outline-primary btn-sm" type="button" onclick="ApiRecomendedEOR(event,`{{ sub }}`)">
-                          Развернуть
-                        </button>
-                      </div>
-                      <div>
-                        <h4>ЭОР в каталоге</h4>
-                        <button class="btn btn-outline-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
-                          Развернуть
-                        </button>
-                      </div>
 
-                      {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}
-                      {#                        {% for object in object_list %}#}
-                      {#                          {% if object.subject == item.subject %}#}
-                      {#                            {{ item }}#}
-                      {##}
-                      {#                          {% endif %}#}
-                      {#                        {% endfor %}#}
-                      {#                      {% endfor %}#}
-                    </td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-            {% else %}
-              Назначенные дисциплины в текущем семетре отсутсвуют.
-            {% endif %}
+            <table class="table table-bordered table-bordered">
+              <thead>
+              <th>Дисциплины изучаемые студентом в текущем семестре</th>
+              <th>Обеспечение дисциплин электронными образовательными ресурсами</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for sub in subjects.all %}
+                <tr>
+                  <td>{{ sub }}</td>
+                  <td>
+                    <div>
+                      <h4>Электронное обеспечение дисциплины определенное
+                        преподавателем.</h4>
+                      <button class="btn btn-outline-primary btn-sm" type="button"
+                              onclick="ApiEUMK(event, `{{ sub }}`)">
+                        Развернуть
+                      </button>
+                    </div>
+                    <div>
+                      <h4>Рекомендованные ЭОР</h4>
+                      <button class="btn btn-outline-primary btn-sm" type="button"
+                              onclick="ApiRecomendedEOR(event,`{{ sub }}`)">
+                        Развернуть
+                      </button>
+                    </div>
+                    <div>
+                      <h4>ЭОР в каталоге</h4>
+                      <button class="btn btn-outline-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
+                        Развернуть
+                      </button>
+                    </div>
+
+                    {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}
+                    {#                        {% for object in object_list %}#}
+                    {#                          {% if object.subject == item.subject %}#}
+                    {#                            {{ item }}#}
+                    {##}
+                    {#                          {% endif %}#}
+                    {#                        {% endfor %}#}
+                    {#                      {% endfor %}#}
+                  </td>
+                </tr>
+              {% empty %}
+                Назначенные дисциплины в текущем семетре отсутсвуют.
+              {% endfor %}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

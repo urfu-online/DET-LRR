@@ -45,6 +45,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
+    'postgres_metrics.apps.PostgresMetrics',
     'adminactions',
     'admin_export_action',
     'data_wizard',
@@ -318,3 +319,6 @@ DATA_WIZARD = {
     'AUTHENTICATION': 'rest_framework.authentication.SessionAuthentication',
     'PERMISSION': 'rest_framework.permissions.IsAdminUser',
 }
+
+DEFAULT_SOURCE_NAME = "---"
+DEFAULT_SOURCE_TYPE = "---"

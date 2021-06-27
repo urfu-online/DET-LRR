@@ -3,17 +3,15 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import MultipleObjectsReturned
 from django.db import models as models
-from django.db.models import CharField
+from django.db.models import CharField, Prefetch
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-
-# from lrr.repository.models import Direction
+from lrr.repository.models import Source, DigitalResource
 
 
 class User(AbstractUser):
-    # First Name and Last Name do not cover name patterns
-    # around the globe.
     name = CharField(_("Name of User"), blank=True, max_length=255)
 
     def get_absolute_url(self):
@@ -25,6 +23,17 @@ class User(AbstractUser):
             return person.first()
         except MultipleObjectsReturned:
             raise person
+
+    @cached_property
+    def get_groups(self):
+        return self.groups.all().values_list('name', flat=True)
+
+    def get_bookmarks(self):
+        return self.bookmarkdigitalresource_set.all().prefetch_related(
+            Prefetch('obj', queryset=DigitalResource.objects.prefetch_related("source_set", "copyright_holder", "owner",
+                                                                              "language", "platform")
+                     )
+        )
 
 
 class Person(models.Model):

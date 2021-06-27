@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('repository', '0008_auto_20210421_0940'),
     ]
@@ -13,6 +12,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='source',
             name='type',
-            field=models.CharField(blank=True, choices=[('URL', 'url'), ('FILE', 'Файл')], max_length=150, null=True, verbose_name='Тип'),
+            field=models.CharField(blank=True, choices=[('URL', 'url'), ('FILE', 'Файл')], max_length=150, null=True,
+                                   verbose_name='Тип'),
         ),
     ]

@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('survey', '0016_response_expertise_request'),
     ]
@@ -12,6 +11,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='response',
-            options={'get_latest_by': 'created', 'verbose_name': 'Set of answers to surveys', 'verbose_name_plural': 'Sets of answers to surveys'},
+            options={'get_latest_by': 'created', 'verbose_name': 'Set of answers to surveys',
+                     'verbose_name_plural': 'Sets of answers to surveys'},
         ),
     ]

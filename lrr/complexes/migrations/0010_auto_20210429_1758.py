@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('complexes', '0009_auto_20210428_1355'),
     ]
@@ -13,6 +12,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='digitalcomplex',
             name='title',
-            field=models.CharField(blank=True, default='', max_length=150, null=True, verbose_name='Наименование комплекса'),
+            field=models.CharField(blank=True, default='', max_length=150, null=True,
+                                   verbose_name='Наименование комплекса'),
         ),
     ]

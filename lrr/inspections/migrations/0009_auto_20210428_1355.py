@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('inspections', '0008_auto_20210421_0940'),
     ]
@@ -13,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='expertiserequest',
             name='status',
-            field=models.CharField(blank=True, choices=[('START', 'В процессе'), ('IN_PROCESS', 'В процессе'), ('END', 'Завершена')], default='START', max_length=30, verbose_name='Состояние'),
+            field=models.CharField(blank=True, choices=[('START', 'В процессе'), ('IN_PROCESS', 'В процессе'),
+                                                        ('END', 'Завершена')], default='START', max_length=30,
+                                   verbose_name='Состояние'),
         ),
     ]

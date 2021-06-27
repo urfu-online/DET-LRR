@@ -15,10 +15,10 @@ from . import forms
 from . import models
 from .filters import FilteredListView
 
-# Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 
+# noinspection DuplicatedCode
 class SubjectListView(generic.ListView):
     model = models.Subject
     form_class = forms.SubjectForm
@@ -109,8 +109,8 @@ class DigitalResourceFilter(django_filters.FilterSet):
         fields = {
             'title': ['icontains'],
             'type': ['exact'],
-            'copyright_holder__title': ['exact'],
-            'platform__title': ['exact'],
+            'copyright_holder': ['exact'],
+            'platform': ['exact'],
             'language': ['exact'],
             'subjects_tags__tag__title': ['icontains'],
             'edu_programs_tags__tag__title': ['icontains'],
@@ -123,11 +123,10 @@ class DigitalResourceListView(FilteredListView):
     model = models.DigitalResource
     form_class = forms.DigitalResourceForm
     filterset_class = DigitalResourceFilter
-
-    # def get_queryset(self):
-    #     qs = self.model.objects.all()
-    #     product_filtered_list = DigitalResourceFilter(self.request.GET, queryset=qs)
-    #     return product_filtered_list.qs
+    template_name = "repository/digitalresource_list.html"
+    queryset = models.DigitalResource.objects.all().prefetch_related("platform", "owner", "copyright_holder",
+                                                                     "source_set")
+    formhelper_class = forms.DigitalResourceFilterFormHelper
 
 
 class ResourceListView(GroupRequiredMixin, FilteredListView):
@@ -138,16 +137,20 @@ class ResourceListView(GroupRequiredMixin, FilteredListView):
     filterset_class = DigitalResourceFilter
     group_required = ['teacher', 'admins']
     template_name = "repository/digitalresource_list_owner.html"
-
-    # def get_context_data(self, **kwargs):
-    #     # Call the base implementation first to get a context
-    #     context = super().get_context_data(**kwargs)
-    #     # Add in a QuerySet of all the books
-    #     context['my_resources'] = models.DigitalResource.objects.filter(owner__user=self.request.user)
-    #     return context
+    formhelper_class = forms.DigitalResourceFilterFormHelper
 
     def get_queryset(self):
-        queryset = models.DigitalResource.objects.filter(owner__user=self.request.user)
+        queryset = models.DigitalResource.objects.filter(
+            owner__user=self.request.user).select_related(
+            "platform",
+            "owner",
+            "copyright_holder",
+            "language").prefetch_related(
+            'result_edu',
+            'competences',
+            'subjects_tags',
+            'edu_programs_tags',
+            'authors')
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
         if qs.count() == 0:
@@ -395,10 +398,10 @@ class DigitalResourceBookmarkListView(FilteredListView):
     form_class = forms.DigitalResourceForm
     filterset_class = DigitalResourceBookmarkFilter
 
-    # def get_queryset(self):
-    #     queryset = models.BookmarkDigitalResource.objects.filter(obj__user=self.request.user)
-    #     self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-    #     qs = self.filterset.qs.distinct()
-    #     if qs.count() == 0:
-    #         self.paginate_by = None
-    #     return qs
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if not qs.exists():
+            self.paginate_by = None
+        return qs

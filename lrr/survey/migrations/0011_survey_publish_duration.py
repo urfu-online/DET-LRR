@@ -7,7 +7,6 @@ import lrr.survey.models.survey
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("survey", "0010_survey_editable_answers")]
 
     operations = [

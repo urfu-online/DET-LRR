@@ -1,4 +1,5 @@
 import pprint
+
 from django.utils.text import slugify
 
 raw = [

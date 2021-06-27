@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load user_tags %}
+{% load user_tags crispy_forms_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
@@ -16,6 +16,7 @@
     <a class="btn btn-primary" href="{% url 'repository:repository_DigitalResource_create' %}"><i
             class="fas fa-folder-plus fa-lg"></i> Добавить ЭОР</a>
     <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
+
       <form action="" method="get">
         <div class="form-row p-2 align-items-end">
           <div class="form-group col-12 col-xl-2 col-md-6">
@@ -82,68 +83,34 @@
     </div>
   </div>
 
-
-
-  {#  <div class="row p-2">#}
-  {#    {% if page_obj|length != 0 %}#}
-  {#      {% for object in page_obj %}#}
-  {#        <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">#}
-  {#          <div class="card h-100 border-secondary shadow-2">#}
-  {#            <div class="card-header pb-0">#}
-  {#              <p class="mb-2 text-muted float-right"><i class="fas fa-university fa-lg"></i></i>#}
-  {#                {{ object.copyright_holder }}#}
-  {#              </p>#}
-  {#              <p class="mb-2 text-muted">{{ object.get_type_display }}</p>#}
-  {#            </div>#}
-  {#            <div class="card-body">#}
-  {#              <h5 class="card-title">{{ object.title }}</h5>#}
-  {#            </div>#}
-  {#            <div class="card-footer">#}
-  {#              {% if object.get_url %}#}
-  {#                <a href="{{ object.get_url }}" class="card-link">К материалам</a>#}
-  {#              {% else %}#}
-  {#                <a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled">К материалам</a>#}
-  {#              {% endif %}#}
-  {#              <a href="{{ object.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a>#}
-  {#            </div>#}
-  {##}
-  {#          </div>#}
-  {#        </div>#}
-  {#      {% endfor %}#}
-  {#    {% endif %}#}
-  {#  </div>#}
-
   <div class="row p-2">
-    {% if object_list %}
-      {% for object in object_list %}
-        <div class="col-12 col-lg-6 col-xl-4 p-2">
-          <div class="card border-secondary h-100 shadow-2">
-            <div class="card-header m-0">
-              <p class="float-right m-0"><i class="fas fa-university"></i> {{ object.copyright_holder }}</p>
-              <p class="">{{ object.get_type_display }}</p>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title lead">{{ object.title }}</h5>
-            </div>
-            <div class="card-footer">
-              {% if object.get_url %}
-                <a href="{{ object.get_url }}" class="btn btn-sm btn-outline-primary mb-1">К материалам</a>
-              {% else %}
-                <a href="{{ object.get_url }}" disabled="disabled" class="disabled btn btn-sm btn-outline-primary mb-1">К
-                  материалам</a>
-              {% endif %}
-              <a href="{{ object.get_absolute_url }}" class="btn btn-sm btn-outline-primary mb-1"><i
-                      class="fas fa-info-circle fa-lg"></i> Подробнее</a>
-            </div>
-
+    {% for object in object_list %}
+      <div class="col-12 col-lg-6 col-xl-4 p-2">
+        <div class="card border-secondary h-100 shadow-2">
+          <div class="card-header m-0">
+            <p class="float-right m-0"><i class="fas fa-university"></i> {{ object.copyright_holder }}</p>
+            <p class="">{{ object.get_type_display }}</p>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title lead">{{ object.title }}</h5>
+          </div>
+          <div class="card-footer">
+            {% if object.get_url %}
+              <a href="{{ object.get_url }}" class="btn btn-sm btn-outline-primary mb-1">К материалам</a>
+            {% else %}
+              <a href="{{ object.get_url }}" disabled="disabled" class="disabled btn btn-sm btn-outline-primary mb-1">К
+                материалам</a>
+            {% endif %}
+            <a href="{{ object.get_absolute_url }}" class="btn btn-sm btn-outline-primary mb-1"><i
+                    class="fas fa-info-circle fa-lg"></i> Подробнее</a>
           </div>
         </div>
-      {% endfor %}
       </div>
-      {% include "includes/paginator.html" %}
-    {% else %}
-      <p>У вас нет ресурсов</p>
-    {% endif %}
+    {% empty %}
+      <p>Ресурсы не найдены</p>
+    {% endfor %}
+  </div>
+  {% include "includes/paginator.html" %}
 
   </div>
 {% endblock %}

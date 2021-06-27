@@ -18,7 +18,8 @@ class Complex(models.Model):
 class Theme(models.Model):
     content = models.ManyToManyField("complexes.Container")
     title = models.CharField(max_length=64, db_index=True)
-    complex = models.ForeignKey("complexes.DigitalComplex", related_name="thematic_plan", on_delete=models.CASCADE, blank=True, null=True)
+    complex = models.ForeignKey("complexes.DigitalComplex", related_name="thematic_plan", on_delete=models.CASCADE,
+                                blank=True, null=True)
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
@@ -58,5 +59,3 @@ class Container(BaseModel):
 
     def __str__(self):
         return str(self.pk)
-
-

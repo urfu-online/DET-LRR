@@ -71,7 +71,8 @@ class ExpertiseCompletionView(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            expertise_request = inspections_models.ExpertiseRequest.objects.select_related("expertise").get(pk=kwargs["uuid"])
+            expertise_request = inspections_models.ExpertiseRequest.objects.select_related("expertise").get(
+                pk=kwargs["uuid"])
         except EmptyResultSet:
             expertise_request = inspections_models.ExpertiseRequest.objects.none()
 
@@ -368,7 +369,8 @@ class ExpertiseRequestDetailCloseView(generic.DetailView):
         response = Response.objects.prefetch_related("user", "survey", "expertise_request").filter(
             survey=self.object.survey, expertise_request=self.object
         ).latest()
-        answers = Answer.objects.filter(response=response).order_by('question__order')
+        answers = Answer.objects.filter(response=response).select_related("question").prefetch_related(
+            "question__category").order_by('question__order')
         context['answers'] = answers
         return context
 

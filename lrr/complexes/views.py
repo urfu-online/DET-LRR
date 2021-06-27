@@ -3,6 +3,7 @@ import logging
 
 import django_filters
 from django.db.models import Q
+from django.forms.models import inlineformset_factory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -14,10 +15,8 @@ from lrr.repository.filters import FilteredListView
 from lrr.repository.models import Subject
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Student, AcademicGroup
-from django.forms.models import inlineformset_factory
 
 logger = logging.getLogger(__name__)
-
 
 # def WorkPlanView(request):
 #     person = get_object_or_404(Person, user=request.user)
@@ -28,8 +27,10 @@ logger = logging.getLogger(__name__)
 #                    'DR': obj_plan[0].digital_resource.first()})
 
 ThemesFormset = inlineformset_factory(
-    complex_model.DigitalComplex, complex_model.Theme, fields=('title',)
+    complex_model.DigitalComplex, complex_model.Theme, fields=('title',), extra=1
 )
+
+
 class DigitalComplexFilter(django_filters.FilterSet):
     class Meta:
         model = complex_model.DigitalComplex
@@ -139,9 +140,9 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
             digital_complex=self.object)
 
         if self.request.POST:
-            context["thematic_plan"] = ThemesFormset(self.request.POST)
+            context["thematic_plan_formset"] = ThemesFormset(self.request.POST, instance=self.object)
         else:
-            context["thematic_plan"] = ThemesFormset()
+            context["thematic_plan_formset"] = ThemesFormset(instance=self.object)
         return context
 
 
@@ -670,4 +671,3 @@ class CellCreateView(GroupRequiredMixin, generic.CreateView):
                 digital_complex=context['dig_complex'])
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
         return context
-

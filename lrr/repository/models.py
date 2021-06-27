@@ -2,9 +2,11 @@
 import logging
 import uuid
 
+from django.conf import settings
 # from lrr.users.models import Person
 from django.contrib.postgres.fields import ArrayField
 from django.db import models as models
+from django.db import transaction
 from django.urls import reverse
 
 logger = logging.getLogger(__name__)
@@ -217,6 +219,9 @@ class ResultEdu(BaseModel):
         return reverse("repository_ResultEdu_update", args=(self.pk,))
 
 
+from django.utils.functional import cached_property
+
+
 class DigitalResource(BaseModel):
     # source_data
     MANUAL = 'MANUAL'
@@ -275,11 +280,12 @@ class DigitalResource(BaseModel):
     def get_update_url(self):
         return reverse("repository:repository_DigitalResource_update", args=(self.pk,))
 
+    @cached_property
     def get_url(self):
         # if  self.source_set.exists():
-        source = self.source_set.first()
-        if source:
-            return source.URL
+        source_set = self.source_set
+        if self.source_set.exists():
+            return source_set.first().URL
         else:
             return ""
 
@@ -288,7 +294,7 @@ class DigitalResource(BaseModel):
 
     def get_source(self):
         try:
-            obj = self.source_set #Source.objects.filter(digital_resource=self)
+            obj = self.source_set  # Source.objects.filter(digital_resource=self)
         except:
             obj = None
         return obj
@@ -327,13 +333,19 @@ class DigitalResource(BaseModel):
         }
 
 
+class SourceManager(models.Manager):
+    def update_type(self, sources):
+        for source in sources:
+            source.update_type()
+
+
 class Source(BaseModel):
     # type
     URL = 'URL'
     FILE = 'FILE'
 
     SOURCE_TYPE = [
-        (URL, 'url'),
+        (URL, 'Ссылочный'),
         (FILE, 'Файл'),
     ]
     link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
@@ -346,6 +358,25 @@ class Source(BaseModel):
     class Meta:
         verbose_name = u"Компонент"
         verbose_name_plural = u"Компоненты"
+
+    @transaction.atomic
+    def update_type(self):
+        if not self.type:
+            if self.URL and self.file:
+                logging.info(f"Source {self.pk} have ambiguous type")
+            elif self.URL and not self.file:
+                self.type = 'URL'
+                self.save()
+            elif self.file and not self.URL:
+                self.type = 'file'
+                self.save()
+            logging.info(f"Source {self.pk} type updated")
+
+    @property
+    def get_link_name(self):
+        if self.link_name:
+            return self.link_name
+        return settings.DEFAULT_SOURCE_NAME
 
     def __str__(self):
         return f"Компонент: {self.digital_resource.title}.{self.get_format()}"

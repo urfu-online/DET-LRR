@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('users', '0004_auto_20210427_1207'),
     ]
@@ -17,6 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='expert',
             name='types',
-            field=models.ManyToManyField(blank=True, null=True, to='users.ChoicesExpert', verbose_name='Вид экспертизы'),
+            field=models.ManyToManyField(blank=True, null=True, to='users.ChoicesExpert',
+                                         verbose_name='Вид экспертизы'),
         ),
     ]

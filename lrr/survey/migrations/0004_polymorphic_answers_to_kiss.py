@@ -17,7 +17,6 @@ def migrate_answers(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("survey", "0003_auto_20170320_0337")]
 
     operations = [

@@ -10,7 +10,6 @@ from lrr.survey.models.question import Question
 
 
 class SurveyCommand(BaseCommand):
-
     requires_system_checks = False
 
     def add_arguments(self, parser):

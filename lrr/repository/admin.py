@@ -99,10 +99,17 @@ class SourceAdmin(admin.ModelAdmin):
     form = SourceAdminForm
     search_fields = ["link_name", "digital_resource__title", "URL"]
     list_display = [
-        "link_name",
+        "get_link_name",
         "digital_resource",
         "URL",
     ]
+    actions = ['update_source_type']
+
+    def update_source_type(modeladmin, request, queryset):
+        for source in queryset:
+            source.update_type()
+
+    update_source_type.short_description = "Обновить тип компонентов"
 
 
 class DigitalResourceAdminForm(forms.ModelForm):

@@ -122,13 +122,15 @@
         <h5 class="card-subtitle mb-2 text-muted">Структурно-тематический план: </h5>
         Структурно-тематический план отсутсвует
 
-{{ thematic_plan }}
+        {{ thematic_plan }}
 
         <form method="post">{% csrf_token %}
-    <h2>children</h2>
-    {{ thematic_plan.as_p }}
-    <input type="submit" value="Save">
-</form>
+          <h2>children</h2>
+          {% for theme_form in thematic_plan_formset %}
+            {{ theme_form.as_p }}
+          {% endfor %}
+          <input type="submit" value="Save">
+        </form>
       </div>
       <br/>
       <div class="card shadow-1 p-3">

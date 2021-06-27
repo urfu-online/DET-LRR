@@ -6,7 +6,6 @@ from lrr.survey.exporter.tex.question2tex import Question2Tex
 
 
 class Question2TexRaw(Question2Tex):
-
     """
     This class permit to generate latex code directly from the Question
     object.

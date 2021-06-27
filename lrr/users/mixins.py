@@ -1,8 +1,8 @@
-from django.contrib.auth.decorators import user_passes_test
 import inspect
-from django.contrib.auth import REDIRECT_FIELD_NAME
+
 from django.conf import settings
-from django.contrib.auth.views import redirect_to_login, logout_then_login
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 
 try:
@@ -63,12 +63,10 @@ class AccessMixin(object):
 
     def handle_no_permission(self, request):
         if self.raise_exception:
-            if (self.redirect_unauthenticated_users
-                and not request.user.is_authenticated):
+            if self.redirect_unauthenticated_users and not request.user.is_authenticated:
                 return self.no_permissions_fail(request)
             else:
-                if (inspect.isclass(self.raise_exception)
-                    and issubclass(self.raise_exception, Exception)):
+                if inspect.isclass(self.raise_exception) and issubclass(self.raise_exception, Exception):
                     raise self.raise_exception
                 if callable(self.raise_exception):
                     ret = self.raise_exception(request)
@@ -109,7 +107,7 @@ class GroupRequiredMixin(AccessMixin):
         """ Check required group(s) """
         if self.request.user.is_superuser:
             return True
-        user_groups = self.request.user.groups.values_list("name", flat=True)
+        user_groups = self.request.user.get_groups
         return set(groups).intersection(set(user_groups))
 
     def dispatch(self, request, *args, **kwargs):

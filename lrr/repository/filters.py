@@ -1,14 +1,20 @@
-import django_filters
-from . import models
 from django.core.paginator import Paginator
 from django.views.generic import ListView
+from django_filters.views import FilterView
 
 
-class FilteredListView(ListView):
+class FilteredListView(ListView, FilterView):
     allow_empty = True
     filterset_class = None
     filterset = None
     paginator_class = Paginator
+    formhelper_class = None
+
+    def get_filterset(self, filterset_class):
+        kwargs = self.get_filterset_kwargs(filterset_class)
+        filterset = filterset_class(**kwargs)
+        filterset.form.helper = self.formhelper_class()
+        return filterset
 
     def get_paginator(self, queryset, per_page, orphans=3,
                       allow_empty_first_page=True, **kwargs):

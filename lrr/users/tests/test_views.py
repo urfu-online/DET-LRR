@@ -6,7 +6,6 @@ from django.test import RequestFactory
 from lrr.users.models import User
 from lrr.users.tests.factories import UserFactory
 from lrr.users.views import (
-    UserRedirectView,
     UserProfileUpdateView,
     user_detail_view,
 )

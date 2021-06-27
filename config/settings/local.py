@@ -16,10 +16,14 @@ ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "lrr.urfu.online", "192.16
 # ------------------------------------------------------------------------------
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "",
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": env("REDIS_URL"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
+
 SELECT2_CACHE_BACKEND = "default"
 
 # EMAIL
@@ -54,6 +58,3 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 CELERY_TASK_EAGER_PROPAGATES = True
 CSRF_COOKIE_SECURE = False
 SILKY_ANALYZE_QUERIES = True
-
-INSTALLED_APPS = ['postgres_metrics.apps.PostgresMetrics'] + INSTALLED_APPS
-
