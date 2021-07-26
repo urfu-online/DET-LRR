@@ -2,7 +2,6 @@
 import json
 import logging
 
-import django_filters
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -13,7 +12,7 @@ from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person
 from . import forms
 from . import models
-from .filters import FilteredListView
+from .filters import FilteredListView, DigitalResourceFilter, DigitalResourceBookmarkFilter
 
 logger = logging.getLogger(__name__)
 
@@ -101,37 +100,6 @@ class ResultEduUpdateView(generic.UpdateView):
     model = models.ResultEdu
     form_class = forms.ResultEduForm
     pk_url_kwarg = "pk"
-
-
-# type
-OK = 'OK'
-EUK = 'EUK'
-TEXT_EOR = 'TEXT_EOR'
-MULTIMEDIA_EOR = 'MULTIMEDIA_EOR'
-
-RESOURCE_TYPE = [
-    (OK, 'Онлайн-курс'),
-    (EUK, 'ЭУК'),  # что такое ЭУК ?
-    (TEXT_EOR, 'Текстовый электронный образовательный ресурс'),
-    (MULTIMEDIA_EOR, 'Мультимедийный электронный образовательный ресурс'),
-]
-
-
-class DigitalResourceFilter(django_filters.FilterSet):
-    title = django_filters.CharFilter(lookup_expr="icontains")
-
-    class Meta:
-        model = models.DigitalResource
-        fields = [
-            'title', 'type'
-        ]
-
-    def __init__(self, *args, **kwargs):
-        super(DigitalResourceFilter, self).__init__(*args, **kwargs)
-        self.filters['type'].extra.update(
-            {
-                'choices': RESOURCE_TYPE
-            })
 
 
 class DigitalResourceListView(FilteredListView):
@@ -394,20 +362,6 @@ class BookmarkView(View):
         )
 
 
-class DigitalResourceBookmarkFilter(django_filters.FilterSet):
-    class Meta:
-        model = models.BookmarkDigitalResource
-        fields = {
-            'obj__title': ['icontains'],
-            'obj__type': ['exact'],
-            'obj__copyright_holder': ['exact'],
-            'obj__platform': ['exact'],
-            'obj__language': ['exact'],
-            'obj__subjects_tags__tag__title': ['icontains'],
-            'obj__edu_programs_tags__tag__title': ['icontains'],
-        }
-
-
 class DigitalResourceBookmarkListView(FilteredListView):
     allow_empty = True
     paginate_by = 12
@@ -415,10 +369,10 @@ class DigitalResourceBookmarkListView(FilteredListView):
     form_class = forms.DigitalResourceForm
     filterset_class = DigitalResourceBookmarkFilter
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        qs = self.filterset  # .qs.distinct()
-        if not qs.exists():
-            self.paginate_by = None
-        return qs
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+    #     qs = self.filterset  # .qs.distinct()
+    #     if not qs.exists():
+    #         self.paginate_by = None
+    #     return qs

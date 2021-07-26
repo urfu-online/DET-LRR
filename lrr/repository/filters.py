@@ -1,6 +1,8 @@
 from django.core.paginator import Paginator
 from django.views.generic import ListView
 from django_filters.views import FilterView
+import django_filters
+from . import models
 
 
 class FilteredListView(ListView, FilterView):
@@ -35,3 +37,29 @@ class FilteredListView(ListView, FilterView):
         context = super().get_context_data(**kwargs)
         context['filterset'] = self.filterset
         return context
+
+
+class DigitalResourceFilter(django_filters.FilterSet):
+    title = django_filters.CharFilter(lookup_expr="icontains", label="Наименование")
+    subjects_tags = django_filters.CharFilter(lookup_expr="icontains", label="Дисциплина")
+    edu_programs_tags = django_filters.CharFilter(lookup_expr="icontains", label="Направление / ОП")
+
+    class Meta:
+        model = models.DigitalResource
+        fields = [
+            'title', 'type', 'copyright_holder', 'platform', 'language', 'subjects_tags', 'edu_programs_tags'
+        ]
+
+
+class DigitalResourceBookmarkFilter(django_filters.FilterSet):
+    class Meta:
+        model = models.BookmarkDigitalResource
+        fields = {
+            'obj__title': ['icontains'],
+            'obj__type': ['exact'],
+            'obj__copyright_holder': ['exact'],
+            'obj__platform': ['exact'],
+            'obj__language': ['exact'],
+            'obj__subjects_tags__tag__title': ['icontains'],
+            'obj__edu_programs_tags__tag__title': ['icontains'],
+        }
