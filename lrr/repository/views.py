@@ -368,7 +368,7 @@ class DigitalResourceBookmarkListView(FilteredListView):
     model = models.BookmarkDigitalResource
     form_class = forms.DigitalResourceForm
     filterset_class = DigitalResourceBookmarkFilter
-
+    template_name = "repository/bookmarkdigitalresource_list.html"
     # def get_queryset(self):
     #     queryset = super().get_queryset()
     #     self.filterset = self.filterset_class(self.request.GET, queryset=queryset)

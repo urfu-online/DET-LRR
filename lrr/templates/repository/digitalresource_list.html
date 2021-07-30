@@ -19,11 +19,6 @@
         <div class="well">
           <div class="row">
             {% for filter in filterset.form %}
-              {% if filter.label_tag == "Дисциплина"|cut:" " %}
-                <p>TEST</p>
-              {% else %}
-                <p>FALSE</p>
-              {% endif %}
               <div class="form-group col-12 col-xl-2 col-md-6">
                 {{ filter.label_tag }}
                 {% render_field filter class="form-control" %}
@@ -59,11 +54,13 @@
                 {% endif %}
                 <a href="{{ object.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i>
                   Подробнее</a>
-                <div style="display: contents" data-id="{{ object.id }}" data-type="resource" data-action="bookmark"
-                     title="Избранное">
+                {% if request.user.is_authenticated %}
+                  <div style="display: contents" data-id="{{ object.id }}" data-type="resource" data-action="bookmark"
+                       title="Избранное">
                 <span style="cursor: pointer" aria-hidden="true"
                       class="{% if object.bookmarkdigitalresource_set.all|user_in:user %}fa fa-star fa-lg{% else %}far fa-star fa-lg{% endif %}"></span>
-                </div>
+                  </div>
+                {% endif %}
               </div>
 
             </div>

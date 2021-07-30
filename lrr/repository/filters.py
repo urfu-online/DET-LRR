@@ -52,11 +52,17 @@ class DigitalResourceFilter(django_filters.FilterSet):
 
 
 class DigitalResourceBookmarkFilter(django_filters.FilterSet):
+    # title = django_filters.CharFilter(lookup_expr="icontains", label="Наименование")
+    type = django_filters.CharFilter(field_name='obj__type', lookup_expr='exact', label="Тип")
+    # copyright_holder = django_filters.ChoiceFilter(label="Правообладатель")
+    # subjects_tags = django_filters.CharFilter(lookup_expr="icontains", label="Дисциплина")
+    # edu_programs_tags = django_filters.CharFilter(lookup_expr="icontains", label="Направление / ОП")
+
     class Meta:
         model = models.BookmarkDigitalResource
         fields = {
             'obj__title': ['icontains'],
-            'obj__type': ['exact'],
+            # 'obj__type': ['exact'],
             'obj__copyright_holder': ['exact'],
             'obj__platform': ['exact'],
             'obj__language': ['exact'],
