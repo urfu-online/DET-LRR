@@ -155,6 +155,10 @@ class Expertise(repository_model.BaseModel):
     def get_digital_resource_status(cls, digital_resource):
         return cls.objects.filter(digital_resource=digital_resource)
 
+    @classmethod
+    def get_expertise_mthd(cls, digital_resource):
+        return cls.objects.get(digital_resource=digital_resource)
+
     class Meta:
         verbose_name = u"Экспертиза"
         verbose_name_plural = u"Экспертизы"
@@ -186,6 +190,9 @@ class Expertise(repository_model.BaseModel):
 
     def get_expertise_requests_ids(self):
         return self.expertiserequest_set.all().values_list("pk")
+
+    def get_temporary_status(self):
+        return self.temporarystatus_set.all()
 
     def get_responses(self):
         responses = SurveyResponse.objects.filter(expertise_request__in=self.get_expertise_requests_ids()).order_by(
@@ -421,3 +428,21 @@ class Status(models.Model):
                 status=self,
                 indicator=indicator
             )
+
+
+class TemporaryStatus(models.Model):
+    expertise = models.ForeignKey("Expertise", verbose_name="Экспертиза", null=True, blank=True,
+                                  on_delete=models.CASCADE)
+    name = models.TextField("Тело статуса", max_length=1024, blank=True, null=True)
+    date = models.DateTimeField("Дата выставления статуса", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.date.strftime('%d.%m.%Y')})"
+
+    class Meta:
+        verbose_name = "Временный статус"
+        verbose_name_plural = "Временные статусы"
+
+    @classmethod
+    def get_temporary_status(cls, expertise):
+        return cls.objects.filter(expertise=expertise)

@@ -103,3 +103,9 @@ class StatusAdmin(admin.ModelAdmin, DynamicArrayMixin):
         StatusRequirementInline,
     ]
     # autocomplete_fields = [StatusRequirementInline]
+
+
+@admin.register(models.TemporaryStatus)
+class TemporaryStatus(admin.ModelAdmin):
+    list_display = ["expertise", "name", "date"]
+    fields = ["expertise", "name", "date"]

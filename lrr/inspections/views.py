@@ -268,6 +268,7 @@ class ExpertiseUpdateView(GroupRequiredMixin, generic.UpdateView):
             #                                                                      instance=self.object)
         else:
             expertise = self.object
+            context['temporary_status'] = expertise.get_temporary_status()
             expertise_request = expertise.get_expertise_request()
             context['expertise_request'] = expertise_request
             response = Response.objects.select_related('survey').all()

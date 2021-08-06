@@ -113,6 +113,20 @@
           {% endif %}
         </div>
         <div class="form-group">
+          <h5>Статусы:</h5>
+          <div class="ui segment" style="background: #f7f7f9">
+            {% if temporary_status.all is not None %}
+              {% for item in temporary_status.all %}
+                <div class="ui segment">
+                  {{ item }}
+                </div>
+              {% endfor %}
+            {% else %}
+              Статусы отсутвуют
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
           <label>{{ form.date_end.label }}</label>
           {{ form.date_end }}
         </div>

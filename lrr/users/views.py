@@ -129,6 +129,7 @@ class ExpertListView(FilteredListView):
     allow_empty = True
     paginate_by = 12
     filterset_class = ExpertFilter
+    template_name = 'users/expert_list.html'
 
 
 expert_list_view = ExpertListView.as_view()

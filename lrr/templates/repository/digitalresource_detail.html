@@ -53,16 +53,26 @@
                 <thead>
                 <tr>
                   {#                <th>Наимкенование</th>#}
-                  <th>Дата</th>
                   <th>Статус</th>
+                  <th>Дата</th>
                 </tr>
                 </thead>
-                {% for item in expertise %}
+                {% if request.user|has_owner_resource:object %}
+                  {% for item in expertise %}
+                    <tbody>
+                    <tr>
+                      {#                  <td>{{ item.quality_category }} {{ item.interactive_category }} {{ item.subjects }} {{ item.direction }}</td>#}
+                      <td>{{ item.get_status_display }}</td>
+                      <td>{{ item.date }}</td>
+                    </tr>
+                    </tbody>
+                  {% endfor %}
+                {% endif %}
+                {% for i in temporary_status %}
                   <tbody>
                   <tr>
-                    {#                  <td>{{ item.quality_category }} {{ item.interactive_category }} {{ item.subjects }} {{ item.direction }}</td>#}
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.get_status_display }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.date }}</td>
                   </tr>
                   </tbody>
                 {% endfor %}
@@ -92,7 +102,7 @@
                 <tbody>
                 {% for item_source in source %}
                   <tr>
-                    <td style="word-break: break-all;" >{{ item_source.get_link_name }}</td>
+                    <td style="word-break: break-all;">{{ item_source.get_link_name }}</td>
                     <td><a style="word-break: break-all;" href="{{ item_source.URL }}">{{ item_source.URL }}</a></td>
                     <td>{{ item_source.get_type_display }}</td>
                   </tr>
