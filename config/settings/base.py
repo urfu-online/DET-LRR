@@ -2,6 +2,7 @@
 Base settings to build other settings files upon.
 """
 import os
+import sys
 from pathlib import Path
 
 import environ
@@ -41,6 +42,10 @@ DATABASES["default"]["CONN_MAX_AGE"] = 120
 # ------------------------------------------------------------------------------
 ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+sys.modules['fontawesome_free'] = __import__('fontawesome-free')
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -85,7 +90,7 @@ THIRD_PARTY_APPS = [
     "matplotlib",
     "pySankey",
     "seaborn",
-    "fontawesome-free",
+    "fontawesome_free",
     "silk",
     'permissions_auditor',
     # "det",

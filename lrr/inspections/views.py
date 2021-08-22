@@ -16,7 +16,7 @@ from lrr.repository.filters import FilteredListView
 from lrr.survey.models.answer import Answer, Response
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Expert
-from .indicators import indicators
+
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -96,42 +96,42 @@ class ExpertiseCompletionView(View):
 
         achievments_wait = list()
         achievments = list()
-        indicator_titles = [i.title for i in indicators]
+        indicators = inspections_models.Indicator.objects.all()
+        # indicator_questions = [i.question for i in indicators]
 
-        answers = answers.filter(question__text__in=indicator_titles)
+        # answers = answers.filter(question__in=indicator_questions)
 
         for indicator in indicators:
             achievment = Dict()
-
-            achievment.title = indicator.title
-            achievment.values_list = indicator.values_list
-            achievment.type = indicator.type
+            achievment.indicator = indicator.dict()
+            logger.info(f"{achievment.indicator}")
 
 
 
-            if answers.filter(question__text=indicator["title"]).exists():
-                ans = answers.filter(question__text=indicator["title"]).first()
-                if '0-100' not in indicator["values"]:
-                    logger.warning(f"Предполагаем список строк: {ans.body}")
-                    achievment.value_interpreted = value_to_int(slugify(ans.body, allow_unicode=True))
-                    achievment.value = slugify(ans.body, allow_unicode=True)
-                    # achievment["max_value"] = calc_max_value(indicator["values"])
-                    achievment.SCORE = achievment["value_interpreted"]  # / achievment["max_value"]
-                elif '0-100' in indicator["values"]:
-                    try:
-                        logging.warning(f"Предполагаем 0-100: {ans.body}")
-                        achievment["value_interpreted"] = float(ans.body) / 100
-                        achievment["value"] = ans.body
-                    except:
-                        achievment["value_interpreted"] = None
-                        achievment["value"] = ans.body
-            else:
-                logging.warning(f"Отброшено значение {indicator['title']}")
 
-            if "value_interpreted" not in achievment.keys():
-                achievments_wait.append(achievment)
-            else:
-                achievments.append(achievment)
+            # if answers.filter(question__text=indicator["title"]).exists():
+            #     ans = answers.filter(question__text=indicator["title"]).first()
+            #     if '0-100' not in indicator["values"]:
+            #         logger.warning(f"Предполагаем список строк: {ans.body}")
+            #         achievment.value_interpreted = value_to_int(slugify(ans.body, allow_unicode=True))
+            #         achievment.value = slugify(ans.body, allow_unicode=True)
+            #         # achievment["max_value"] = calc_max_value(indicator["values"])
+            #         achievment.SCORE = achievment["value_interpreted"]  # / achievment["max_value"]
+            #     elif '0-100' in indicator["values"]:
+            #         try:
+            #             logging.warning(f"Предполагаем 0-100: {ans.body}")
+            #             achievment["value_interpreted"] = float(ans.body) / 100
+            #             achievment["value"] = ans.body
+            #         except:
+            #             achievment["value_interpreted"] = None
+            #             achievment["value"] = ans.body
+            # else:
+            #     logging.warning(f"Отброшено значение {indicator['title']}")
+            #
+            # if "value_interpreted" not in achievment.keys():
+            #     achievments_wait.append(achievment)
+            # else:
+            achievments.append(achievment)
         status = {
             "answers": answers,
             "achievments": achievments,

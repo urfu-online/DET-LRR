@@ -91,9 +91,6 @@ class Question(auto_prefetch.Model):
             validate_choices(self.choices)
         super(Question, self).save(*args, **kwargs)
 
-    def bind_indicator(self):
-        pass
-
     def get_clean_choices(self):
         """ Return split and stripped list of choices with no null values. """
         if self.choices is None:

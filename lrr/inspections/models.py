@@ -2,15 +2,17 @@
 import logging
 
 import auto_prefetch
+from addict import Dict
 from django.conf import settings
-from django_better_admin_arrayfield.models.fields import ArrayField
-
 from django.contrib.postgres.fields import IntegerRangeField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
+from django.forms.models import model_to_dict
 from django.urls import reverse
 from django.utils import timezone
+from django_better_admin_arrayfield.models.fields import ArrayField
+
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
 from lrr.repository.models import DigitalResource
@@ -352,7 +354,7 @@ class IndicatorGroup(models.Model):
         ("12", "Доступ к ресурсу"),
         ("13", "Соответствие требованиям к структуре ресурса")
     )
-    title = models.CharField(max_length=1024, choices=GROUPS, default="qual", unique=True)
+    title = models.CharField(max_length=1024, choices=GROUPS, default="0", unique=True)
 
     class Meta:
         verbose_name = "Группа показателей"
@@ -388,6 +390,22 @@ class Indicator(auto_prefetch.Model):
         if qs.exists():
             self.question = qs.first()
             self.save()
+
+    def prefill_json_values(self, force=False):
+        if self.question and (not self.json_values or force):
+            l = list()
+            for i, v in enumerate(reversed(self.question.get_clean_choices())):
+                l.append({
+                    "title": v,
+                    "value": i
+                })
+                self.json_values = l
+                self.save()
+
+    def dict(self):
+        d = Dict(model_to_dict(self))
+        d.question = Dict(model_to_dict(Question.objects.get(pk=d.question)))
+        return d
 
 
 class StatusRequirement(models.Model):
