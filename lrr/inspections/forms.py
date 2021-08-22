@@ -223,3 +223,8 @@ class ExpertiseRequestUpdateForm(forms.ModelForm):
                 }
             )
         }
+
+
+class IndicatorWidget(s2forms.Select2Widget):
+    search_fields = ["group__title"]
+    max_results = 5

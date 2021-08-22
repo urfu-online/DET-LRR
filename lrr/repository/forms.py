@@ -2,7 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div
 from django import forms
 from django.forms import inlineformset_factory
-from django_select2 import forms as s2forms
+from django_select2.forms import ModelSelect2MultipleWidget, ModelSelect2Widget, Select2Widget
 
 from . import models
 
@@ -48,27 +48,27 @@ class ResultEduForm(forms.ModelForm):
         ]
 
 
-class EduProgramsWidget(s2forms.Select2MultipleWidget):
+class EduProgramsWidget(ModelSelect2MultipleWidget):
     search_fields = ["tag__title__icontains"]
-    max_results = 50
+    max_results = 20
 
 
-class SubjectsWidget(s2forms.Select2MultipleWidget):
+class SubjectsWidget(ModelSelect2MultipleWidget):
     search_fields = ["tag__title__icontains"]
-    max_results = 50
+    max_results = 20
 
 
-class ResultEduWidget(s2forms.Select2MultipleWidget):
+class ResultEduWidget(ModelSelect2MultipleWidget):
     search_fields = ["title__icontains"]
-    max_results = 50
+    max_results = 20
 
 
-class CompetenceWidget(s2forms.Select2MultipleWidget):
+class CompetenceWidget(ModelSelect2MultipleWidget):
     search_fields = ["title__icontains"]
-    max_results = 50
+    max_results = 20
 
 
-class AuthorsWidget(s2forms.Select2MultipleWidget):
+class AuthorsWidget(ModelSelect2MultipleWidget):
     search_fields = [
         "last_name__icontains",
         "first_name__icontains",
@@ -76,16 +76,32 @@ class AuthorsWidget(s2forms.Select2MultipleWidget):
         "user__email__icontains",
         "user__username__icontains",
     ]
-    max_results = 50
+    max_results = 20
 
 
-class ProvidedDisciplinesWidget(s2forms.Select2MultipleWidget):
+class ProvidedDisciplinesWidget(ModelSelect2MultipleWidget):
     search_fields = [
         "edu_program__title__icontains",
         "subject__title__icontains",
     ]
-    max_results = 50
+    max_results = 20
 
+
+class LanguageWidget(ModelSelect2Widget):
+    search_fields = ["title__search", "code__search"]
+    max_results = 20
+
+
+class PlatformWidget(ModelSelect2Widget):
+    search_fields = ["title__search", "description__search", "url__search"]
+    max_results = 10
+
+class OrganizationWidget(ModelSelect2Widget):
+    search_fields = ["title__search", "description__search" ]
+    max_results = 10
+
+class TypeWidget(Select2Widget):
+    max_results = 10
 
 class DigitalResourceForm(forms.ModelForm):
     class Meta:
@@ -112,7 +128,7 @@ class DigitalResourceForm(forms.ModelForm):
 
                 }
             ),
-            "type": forms.Select(
+            "type": TypeWidget(
                 attrs={
                     'class': 'form-control',
 
@@ -128,49 +144,56 @@ class DigitalResourceForm(forms.ModelForm):
                     'class': 'form-control',
                 }
             ),
-            "copyright_holder": forms.Select(
+            "copyright_holder": OrganizationWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
 
                 }
             ),
-            "language": forms.Select(
+            "language": LanguageWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
 
                 }
             ),
-            "platform": forms.Select(
+            "platform": PlatformWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
 
                 }
             ),
             "edu_programs_tags": EduProgramsWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
 
                 },
             ),
             "subjects_tags": SubjectsWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
-
                 },
             ),
             "authors": AuthorsWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
 
                 },
             ),
             "result_edu": ResultEduWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
                 },
             ),
             "competences": CompetenceWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
                 },
             ),
@@ -194,7 +217,7 @@ SourceFormset = inlineformset_factory(
     models.Source,
     fields=('link_name', 'type', 'URL', 'file'),
     exclude=('id',),
-    extra=0,
+    extra=1,
     widgets={
         'link_name': forms.TextInput(
             attrs={
@@ -215,7 +238,7 @@ SourceFormset = inlineformset_factory(
         ),
         'file': forms.FileInput(
             attrs={
-                'class': 'form-control-file',
+                'class': 'custom-file-input',
             },
         ),
     }

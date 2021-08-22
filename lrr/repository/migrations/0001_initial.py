@@ -211,7 +211,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'Тэг дисциплины',
-                'verbose_name_plural': 'Тэги дисциплин',
+                'verbose_name_plural': 'Теги дисциплин',
             },
         ),
         migrations.CreateModel(
@@ -278,7 +278,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'Тэг образовательной программы',
-                'verbose_name_plural': 'Тэги образовательных программ',
+                'verbose_name_plural': 'Теги образовательных программ',
             },
         ),
         migrations.CreateModel(

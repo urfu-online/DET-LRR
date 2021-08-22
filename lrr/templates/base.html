@@ -1,14 +1,16 @@
-{% load static i18n %}
-{% load user_tags %}
+{% load static i18n user_tags analytical %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  {% analytical_head_top %}
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>{% block title %}LRR{% endblock title %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
+  <script src='https://sentry.urfu.online/js-sdk-loader/40b9200bd9384638b40f68a9637cbc01.min.js' crossorigin="anonymous"></script>
+
   <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -36,9 +38,10 @@
   <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
-
+  {% analytical_head_bottom %}
 </head>
 <body class="back">
+{% analytical_body_top %}
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-left">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -274,6 +277,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
       integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+
+{% analytical_body_bottom %}
 </body>
 </html>
 

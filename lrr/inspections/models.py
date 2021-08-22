@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 import logging
 
+import auto_prefetch
 from django.conf import settings
+from django_better_admin_arrayfield.models.fields import ArrayField
+
 from django.contrib.postgres.fields import IntegerRangeField
 from django.core.exceptions import ValidationError
-from django.db import models as models
+from django.db import models
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
-from django_better_admin_arrayfield.models.fields import ArrayField
-
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
 from lrr.repository.models import DigitalResource
+from lrr.survey.models.question import Question
 from lrr.survey.models.response import Response as SurveyResponse
-from lrr.survey.models.survey import Survey
 from lrr.users.models import Person, Expert
 
 logger = logging.getLogger(__name__)
@@ -96,13 +97,13 @@ class Expertise(repository_model.BaseModel):
         (AUTO, 'автоматизированный'),
     ]
 
-    digital_resource = models.ForeignKey(repository_model.DigitalResource, verbose_name="Паспорт ЭОР",
-                                         on_delete=models.CASCADE)
+    digital_resource = auto_prefetch.ForeignKey(repository_model.DigitalResource, verbose_name="Паспорт ЭОР",
+                                                on_delete=models.CASCADE)
     date = models.DateTimeField("Дата заявки", blank=True, null=True)
-    subjects = models.ManyToManyField(repository_model.Subject, verbose_name="Дисциплина(ы)", blank=True)
-    directions = models.ManyToManyField(repository_model.Direction, verbose_name="Направление подготовки", blank=True)
-    digital_complexes = models.ManyToManyField(complex_model.DigitalComplex, verbose_name="ЭУМК", blank=True)
-    expert = models.ManyToManyField(Expert, verbose_name="Назначенные эксперты", blank=True)
+    subjects = models.ManyToManyField("repository.Subject", verbose_name="Дисциплина(ы)", blank=True)
+    directions = models.ManyToManyField("repository.Direction", verbose_name="Направление подготовки", blank=True)
+    digital_complexes = models.ManyToManyField("complexes.DigitalComplex", verbose_name="ЭУМК", blank=True)
+    expert = models.ManyToManyField("users.Expert", verbose_name="Назначенные эксперты", blank=True)
     date_end = models.DateTimeField("Срок действия статуса экспертизы", blank=True, null=True)
     file = models.FileField(
         verbose_name="№ протокола комиссии по ресурсному обеспечению модулей и ЭО методического совета",
@@ -116,8 +117,8 @@ class Expertise(repository_model.BaseModel):
     quality_category = models.CharField("Категория качества", max_length=30, choices=QUALITY_CATEGORIES, blank=True)
     interactive_category = models.CharField("Категория интерактивности", max_length=30, choices=INTERACTIVE_CATEGORIES,
                                             blank=True)
-    owner = models.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_expertise",
-                              verbose_name="Инициатор", blank=True, null=True)
+    owner = auto_prefetch.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_expertise",
+                                     verbose_name="Инициатор", blank=True, null=True)
 
     @classmethod
     def get_count_expertise_assigned_status(cls):
@@ -269,14 +270,14 @@ class ExpertiseRequest(repository_model.BaseModel):
 
     type = models.CharField("Тип заявки", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE, null=True,
                             blank=True)
-    expert = models.ForeignKey(Expert, verbose_name="Эксперт", on_delete=models.CASCADE, blank=True, null=True)
+    expert = auto_prefetch.ForeignKey("users.Expert", verbose_name="Эксперт", on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
     protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424, null=True,
                                 blank=True)
-    expertise = models.ForeignKey(Expertise, verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
+    expertise = auto_prefetch.ForeignKey("inspections.Expertise", verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
     status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
-    survey = models.ForeignKey('survey.Survey', verbose_name="Опросник", on_delete=models.PROTECT, blank=True,
-                               null=True)
+    survey = auto_prefetch.ForeignKey('survey.Survey', verbose_name="Опросник", on_delete=models.PROTECT, blank=True,
+                                      null=True)
 
     class Meta:
         verbose_name = u"Заявка"
@@ -317,18 +318,13 @@ class ExpertiseRequest(repository_model.BaseModel):
 
     @classmethod
     def get_checklists(cls, expertise):
-        try:
-            objs = cls.objects.filter(expertise=expertise)
-        except:
-            objs = None
-        return objs
+        return cls.objects.filter(expertise=expertise)
 
     def get_expertise(self, expertise):
         try:
-            obj = ExpertiseRequest.objects.get(expertise=expertise).expertise
+            return ExpertiseRequest.objects.get(expertise=expertise).expertise
         except:
-            obj = None
-        return obj
+            return None
 
     def get_dig_res(self, expertise):
         try:
@@ -366,30 +362,36 @@ class IndicatorGroup(models.Model):
         return self.get_title_display()
 
 
-class Indicator(models.Model):
+class Indicator(auto_prefetch.Model):
     title = models.CharField(max_length=1024, db_index=True, unique=True)
-    group = models.ForeignKey(IndicatorGroup, on_delete=models.CASCADE)
-    values = ArrayField(models.CharField(max_length=32, blank=True, null=True), blank=True, null=True)
+    group = auto_prefetch.ForeignKey("inspections.IndicatorGroup", on_delete=models.CASCADE)
+    values = ArrayField(
+        models.CharField(max_length=32, blank=True, null=True),
+        blank=True, null=True)
+    json_values = models.JSONField(blank=True, null=True)
+
     num_values = IntegerRangeField(blank=True, null=True)
-    survey = models.ForeignKey(Survey, null=True, on_delete=models.SET_NULL)
+    survey = models.ForeignKey("survey.Survey", null=True, on_delete=models.SET_NULL)
     per_discipline = models.BooleanField("Для каждой дисциплины", default=False)
-    order = models.PositiveSmallIntegerField(default=0)
+    question = auto_prefetch.ForeignKey("survey.Question", null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Показатель"
         verbose_name_plural = "Показатели"
-        ordering = ["order"]
+        # ordering = ["order"]
 
     def __str__(self):
         return self.title
-        # if len(self.title) > 60:
-        #     return f"{self.title[:60]}..."
-        # else:
-        #     return self.title
+
+    def bind_question(self):
+        qs = Question.objects.filter(text=self.title, survey=self.survey)
+        if qs.exists():
+            self.question = qs.first()
+            self.save()
 
 
 class StatusRequirement(models.Model):
-    indicator = models.ForeignKey(Indicator, verbose_name="Показатель", on_delete=models.CASCADE)
+    indicator = models.ForeignKey("inspections.Indicator", verbose_name="Показатель", on_delete=models.CASCADE)
     allowed_values = ArrayField(models.CharField(max_length=32, blank=True, null=True),
                                 verbose_name="Допустимые значения", blank=True, null=True)
     allowed_num_values = IntegerRangeField(verbose_name="Диапазон допустимых числовых значений", blank=True,

@@ -39,3 +39,4 @@ itertable
 # data-wizard
 # django-postgres-metrics
 django-schema-graph
+sentry_sdk==1.1.0

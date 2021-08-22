@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from lrr.repository.models import Source, DigitalResource
+from lrr.repository.models import Source, DigitalResource, EduProgram
 
 
 class User(AbstractUser):
@@ -166,7 +166,7 @@ class AcademicGroup(models.Model):
         try:
             obj = cls.objects.get(number=number)
         except cls.DoesNotExist:
-            obj = None
+            return None
         return obj.eduprogram
 
 

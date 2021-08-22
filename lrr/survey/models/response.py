@@ -5,7 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .survey import Survey
-
+import auto_prefetch
 try:
     from django.conf import settings
 
@@ -17,7 +17,7 @@ except (ImportError, AttributeError):
     user_model = User
 
 
-class Response(models.Model):
+class Response(auto_prefetch.Model):
     """
     A Response object is a collection of questions and answers with a
     unique interview uuid.
@@ -25,8 +25,8 @@ class Response(models.Model):
 
     created = models.DateTimeField(_("Creation date"), auto_now_add=True)
     updated = models.DateTimeField(_("Update date"), auto_now=True)
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name=_("Survey"), related_name="responses")
-    expertise_request = models.ForeignKey('inspections.ExpertiseRequest', on_delete=models.CASCADE,
+    survey = auto_prefetch.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name=_("Survey"), related_name="responses")
+    expertise_request = auto_prefetch.ForeignKey('inspections.ExpertiseRequest', on_delete=models.CASCADE,
                                           verbose_name="Заявка на экспертизу", related_name='requests', blank=True,
                                           null=True)
     user = models.ForeignKey(user_model, on_delete=models.SET_NULL, verbose_name=_("User"), null=True, blank=True)

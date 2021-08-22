@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
+import auto_prefetch
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
@@ -13,7 +14,7 @@ def in_duration_day():
     return now() + timedelta(days=settings.DEFAULT_SURVEY_PUBLISHING_DURATION)
 
 
-class Survey(models.Model):
+class Survey(auto_prefetch.Model):
     ALL_IN_ONE_PAGE = 0
     BY_QUESTION = 1
     BY_CATEGORY = 2

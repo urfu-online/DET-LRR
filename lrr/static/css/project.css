@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -11030,3 +11031,6 @@ form.expertise label {
     -webkit-column-count: 5;
        -moz-column-count: 5;
             column-count: 5; } }
+
+.custom-file-label::after {
+  content: "Выбрать файл" !important; }

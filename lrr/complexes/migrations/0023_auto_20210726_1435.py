@@ -15,24 +15,20 @@ class Migration(migrations.Migration):
             name='theme',
             options={'ordering': ['order']},
         ),
-        migrations.RemoveField(
-            model_name='digitalcomplex',
-            name='form_control',
-        ),
-        migrations.RemoveField(
-            model_name='digitalcomplex',
-            name='thematic_plan',
-        ),
-        migrations.AddField(
-            model_name='theme',
-            name='complex',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='thematic_plan', to='complexes.digitalcomplex'),
-        ),
-        migrations.AddField(
-            model_name='theme',
-            name='order',
-            field=models.PositiveSmallIntegerField(default=0),
-        ),
+        # migrations.RemoveField(
+        #     model_name='digitalcomplex',
+        #     name='thematic_plan',
+        # ),
+        # migrations.AddField(
+        #     model_name='theme',
+        #     name='complex',
+        #     field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='thematic_plan', to='complexes.digitalcomplex'),
+        # ),
+        # migrations.AddField(
+        #     model_name='theme',
+        #     name='order',
+        #     field=models.PositiveSmallIntegerField(default=0),
+        # ),
         migrations.AlterField(
             model_name='literarysourcescomponent',
             name='title',

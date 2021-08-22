@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
             model_name='digitalresource',
             name='edu_programs_tags',
             field=models.ManyToManyField(blank=True, to='repository.EduProgramTag',
-                                         verbose_name='Тэги образовательных программ ЭОР'),
+                                         verbose_name='Теги образовательных программ ЭОР'),
         ),
         migrations.AddField(
             model_name='digitalresource',
@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='digitalresource',
             name='subjects_tags',
-            field=models.ManyToManyField(blank=True, to='repository.SubjectTag', verbose_name='Тэги дисциплин ЭОР'),
+            field=models.ManyToManyField(blank=True, to='repository.SubjectTag', verbose_name='Теги дисциплин ЭОР'),
         ),
         migrations.AddField(
             model_name='conformitytheme',

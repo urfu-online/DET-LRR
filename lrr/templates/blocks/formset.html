@@ -1,0 +1,27 @@
+{% load static i18n %}
+{% load crispy_forms_tags %}
+
+{{ formset.management_form|crispy }}
+
+{% for form in formset.forms %}
+  <div class="formset_row-{{ formset.prefix }}">
+    {% for hidden in form.hidden_fields %}
+      {{ hidden|as_crispy_field }}
+    {% endfor %}
+    {% crispy form %}
+  </div>
+{% endfor %}
+
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+  $('.formset_row-{{ formset.prefix }}').formset({
+    addText: 'Добавить',
+    deleteText: '&times;',
+    prefix: '{{ formset.prefix }}',
+    deleteContainerClass: "formset_row-{{ formset.prefix }}"
+  });
+
+</script>
+
+
+

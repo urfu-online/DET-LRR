@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .category import Category
 from .survey import Survey
-
+import auto_prefetch
 try:  # pragma: no cover
     from _collections import OrderedDict
 except ImportError:  # pragma: no cover
@@ -46,7 +46,7 @@ class SortAnswer:
     ALPHANUMERIC = "alphanumeric"
 
 
-class Question(models.Model):
+class Question(auto_prefetch.Model):
     TEXT = "text"
     SHORT_TEXT = "short-text"
     RADIO = "radio"
@@ -72,12 +72,14 @@ class Question(models.Model):
     text = models.TextField(_("Text"))
     order = models.IntegerField(_("Order"))
     required = models.BooleanField(_("Required"))
-    category = models.ForeignKey(
+    category = auto_prefetch.ForeignKey(
         Category, on_delete=models.SET_NULL, verbose_name=_("Category"), blank=True, null=True, related_name="questions"
     )
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name=_("Survey"), related_name="questions")
+    survey = auto_prefetch.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name=_("Survey"), related_name="questions")
     type = models.CharField(_("Type"), max_length=200, choices=QUESTION_TYPES, default=TEXT)
     choices = models.TextField(_("Choices"), blank=True, null=True, help_text=CHOICES_HELP_TEXT)
+
+
 
     class Meta:
         verbose_name = _("question")
@@ -88,6 +90,9 @@ class Question(models.Model):
         if self.type in [Question.RADIO, Question.SELECT, Question.SELECT_MULTIPLE]:
             validate_choices(self.choices)
         super(Question, self).save(*args, **kwargs)
+
+    def bind_indicator(self):
+        pass
 
     def get_clean_choices(self):
         """ Return split and stripped list of choices with no null values. """

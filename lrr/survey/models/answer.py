@@ -8,22 +8,28 @@
 
 import logging
 
+import auto_prefetch
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+# from computedfields.models import ComputedFieldsModel, computed
 from .question import Question
 from .response import Response
+from lrr.inspections.indicators import indicators
 
 LOGGER = logging.getLogger(__name__)
 
 
-class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name=_("Question"), related_name="answers")
-    response = models.ForeignKey(Response, on_delete=models.CASCADE, verbose_name=_("Response"), related_name="answers")
+class Answer(auto_prefetch.Model):
+    question = auto_prefetch.ForeignKey(Question, on_delete=models.CASCADE, verbose_name=_("Question"), related_name="answers")
+    response = auto_prefetch.ForeignKey(Response, on_delete=models.CASCADE, verbose_name=_("Response"), related_name="answers")
     created = models.DateTimeField(_("Creation date"), auto_now_add=True)
     updated = models.DateTimeField(_("Update date"), auto_now=True)
     body = models.TextField(_("Content"), blank=True, null=True)
+
+    # @computed(models.JSONField(), depends=[['self', ['body']]])
+    # def indicator(self):
+    #     return next(indicator for indicator in indicators if indicator["title"] == self.question.text)
 
     def __init__(self, *args, **kwargs):
         try:

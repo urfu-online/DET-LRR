@@ -39,6 +39,7 @@ class DigitalComplex(Complex, BaseModel):
     keywords = models.CharField("Ключевые слова", max_length=300, null=True, blank=True)
     owner = models.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_digital_complex",
                               verbose_name="Владелец", blank=True, null=True)
+    form_control = models.CharField("Форма контроля", choices=FORM_TYPES, max_length=300, blank=True, null=True)
 
     class Meta:
         verbose_name = u"Цифровой Комплекс (ЭУМК)"
@@ -47,7 +48,7 @@ class DigitalComplex(Complex, BaseModel):
     @property
     def cipher(self):
         try:
-            s, o, f, fc = self.subjects.all().first(), self.owner, self.format, self.form_control
+            s, o, f, fc = self.subjects.all().first(), self.owner, self.format  # , self.form_control
             return f'ЭУМК "{s} - {o} [{f}] {fc}"'
         except:
             return ""

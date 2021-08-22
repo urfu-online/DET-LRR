@@ -56,6 +56,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django.contrib.postgres",
     # "django.contrib.admin",
     "django.forms",
     "corsheaders",
@@ -76,6 +77,7 @@ THIRD_PARTY_APPS = [
     "dynamic_formsets",
     "six",
     "django_select2",
+    "easy_select2",
     'django_better_admin_arrayfield',
     "rest_polymorphic",
     "bootstrapform",
@@ -91,7 +93,9 @@ THIRD_PARTY_APPS = [
     'import_export',
     'import_export_celery',
     'widget_tweaks',
-    "sortedm2m"
+    'django_json_widget',
+    "sortedm2m",
+    "analytical",
 
 ]
 
@@ -337,3 +341,12 @@ USE_DJANGO_JQUERY = True
 
 DEFAULT_SOURCE_NAME = "---"
 DEFAULT_SOURCE_TYPE = "---"
+
+MATOMO_DOMAIN_PATH = 'tracker.urfu.online'
+MATOMO_SITE_ID = '2'
+ANALYTICAL_AUTO_IDENTIFY = False
+ANALYTICAL_INTERNAL_IPS = []
+
+SELECT2_JS = 'admin/js/vendor/select2/select2.full.js'
+SELECT2_CSS = 'admin/css/vendor/select2/select2.css'
+SELECT2_USE_BUNDLED_JQUERY = False

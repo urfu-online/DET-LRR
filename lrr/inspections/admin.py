@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
-from import_export.admin import ImportExportModelAdmin
-
+from django_json_widget.widgets import JSONEditorWidget
+from django_reverse_admin import ReverseModelAdmin
+from easy_select2 import select2_modelform
+from django.db.models import JSONField
 from lrr.inspections import forms_admin
 from lrr.inspections import models
 
@@ -52,7 +55,7 @@ class ExpertiseAdmin(admin.ModelAdmin):
         CheckListInline,
         # DRStatusInline
     ]
-    # filter_horizontal = ["subjects_tags", ]
+    filter_horizontal = ["subjects", "expert", ]
     autocomplete_fields = []
     # list_filter = ["platform"]
     search_fields = ["type"]
@@ -73,14 +76,32 @@ class IndicatorGroupAdmin(admin.ModelAdmin):
     search_fields = ["indicator"]
 
 
+IndicatorForm = select2_modelform(models.Indicator, attrs={'width': '274px'})
+
+
+def bind_questions(modeladmin, request, queryset):
+    for indicator in queryset:
+        indicator.bind_question()
+
+
+bind_questions.short_description = _('Bind questions to indicators')
+
+
 @admin.register(models.Indicator)
-class IndicatorAdmin(admin.ModelAdmin, DynamicArrayMixin):
-    model = models.Indicator
-    list_display = ["order", "title", "group", "values", "num_values"]
-    fields = ["order", "title", "group", "values", "num_values"]
+class IndicatorAdmin(ReverseModelAdmin, DynamicArrayMixin):
+    form = IndicatorForm
+    list_display = ["title", "group", "values", "num_values", "question"]
+    fields = ["title", "group", "values", "json_values", "num_values"]
     search_fields = ["title", "group__title"]
-    list_filter = ["group"]
+    list_filter = ["group", "question"]
     autocomplete_fields = ["group"]
+    inline_type = 'tabular'
+    inline_reverse = [('question', {'fields': ('text', 'order', 'required', 'category', 'survey', 'type', 'choices')})]
+    actions = [bind_questions]
+
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditorWidget},
+    }
 
 
 class StatusRequirementInline(admin.TabularInline):

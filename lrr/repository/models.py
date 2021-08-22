@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
 import uuid
 
+import auto_prefetch
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
-from django.db import models as models
+from django.db import models
 from django.db import transaction
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -12,7 +14,7 @@ from django.utils.functional import cached_property
 logger = logging.getLogger(__name__)
 
 
-class BaseModel(models.Model):
+class BaseModel(auto_prefetch.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
@@ -101,8 +103,8 @@ class Direction(BaseModel):
     uni_id = models.CharField(db_index=True, max_length=64, null=True, blank=True)
     title = models.CharField("Наименование", max_length=150, db_index=True)
     code = models.CharField("Код направления", max_length=8, db_index=True)
-    scientific_branch = models.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions",
-                                          null=True, blank=True, on_delete=models.CASCADE)
+    scientific_branch = auto_prefetch.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions",
+                                                 null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = u"Направление подготовки"
@@ -170,8 +172,8 @@ class EduProgram(BaseModel):
     head = models.CharField("Руководитель", max_length=300, null=True, blank=True)
     site_admin = models.CharField("Администратор сайта ОП", max_length=300, null=True, blank=True)
 
-    direction = models.ForeignKey(Direction, verbose_name="Направление подготовки", related_name="programs", null=True,
-                                  blank=True, on_delete=models.CASCADE)
+    direction = auto_prefetch.ForeignKey(Direction, verbose_name="Направление подготовки", related_name="programs", null=True,
+                                         blank=True, on_delete=models.CASCADE)
 
     @property
     def cipher(self):
@@ -202,8 +204,8 @@ class ResultEdu(BaseModel):
     # Fields
     title = models.CharField("Наименование", max_length=150, db_index=True)
     description = models.TextField("Описание", blank=True)
-    competence = models.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
-                                   on_delete=models.PROTECT)
+    competence = auto_prefetch.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
+                                          on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = u"Образовательный результат"
@@ -245,14 +247,14 @@ class DigitalResource(BaseModel):
     # Relationships
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
-    copyright_holder = models.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
-    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Тэги дисциплин ЭОР", blank=True)
-    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Тэги образовательных программ ЭОР",
+    copyright_holder = auto_prefetch.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
+    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Теги дисциплин ЭОР", blank=True)
+    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Теги образовательных программ ЭОР",
                                                blank=True)
-    owner = models.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
-                              verbose_name="Владелец", blank=True, null=True)
-    language = models.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
-    platform = models.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
+    owner = auto_prefetch.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource",
+                                     verbose_name="Владелец", blank=True, null=True)
+    language = auto_prefetch.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
+    platform = auto_prefetch.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
     competences = models.ManyToManyField("Competence", verbose_name="Компетенции", blank=True)
 
@@ -335,14 +337,14 @@ class Source(BaseModel):
     FILE = 'FILE'
 
     SOURCE_TYPE = [
-        (URL, 'Ссылочный'),
+        (URL, 'URL'),
         (FILE, 'Файл'),
     ]
     link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
     URL = models.URLField("Ссылка", null=True, blank=True)
     file = models.FileField(verbose_name="Файл", upload_to="upload/files", null=True, blank=True)
-    digital_resource = models.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
-                                         on_delete=models.CASCADE)
+    digital_resource = auto_prefetch.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
+                                                on_delete=models.CASCADE)
     type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=150, null=True, blank=True)
 
     class Meta:
@@ -476,7 +478,7 @@ class Language(models.Model):
 # TODO: Карасик спросил для чего эта модель
 class SubjectTag(BaseModel):
     # Relationships
-    tag = models.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
+    tag = auto_prefetch.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
 
     class Meta:
         verbose_name = "Тег дисциплины"
@@ -498,7 +500,7 @@ class SubjectTag(BaseModel):
 
 class EduProgramTag(BaseModel):
     # Relationships
-    tag = models.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
+    tag = auto_prefetch.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
 
     class Meta:
         verbose_name = "Тег образовательной программы"
@@ -518,7 +520,7 @@ class BookmarkBase(models.Model):
     class Meta:
         abstract = True
 
-    user = models.ForeignKey("users.User", verbose_name="Пользователь", on_delete=models.CASCADE)
+    user = auto_prefetch.ForeignKey("users.User", verbose_name="Пользователь", on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
@@ -531,22 +533,19 @@ class BookmarkDigitalResource(BookmarkBase):
     class Meta:
         db_table = "bookmark__digital_resource"
 
-    obj = models.ForeignKey('repository.DigitalResource', verbose_name="Паспорт ЭОР", on_delete=models.CASCADE)
+    obj = auto_prefetch.ForeignKey('repository.DigitalResource', verbose_name="Паспорт ЭОР", on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.obj.title)
 
 
-from json import JSONEncoder
-from uuid import UUID
-
-old_default = JSONEncoder.default
+old_default = json.JSONEncoder.default
 
 
 def new_default(self, obj):
-    if isinstance(obj, UUID):
+    if isinstance(obj, uuid.UUID):
         return str(obj)
     return old_default(self, obj)
 
 
-JSONEncoder.default = new_default
+json.JSONEncoder.default = new_default

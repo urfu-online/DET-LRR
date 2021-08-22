@@ -681,7 +681,7 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         # context['subject'] = Subject.objects.filter(pk__in=self.subject)
         context['student'] = Student.get_student(user)
         context['academic_group'] = academic_group
-        context['direction'] = eduprogram
+        context['direction'] = eduprogram if eduprogram else None
         return context
 
 

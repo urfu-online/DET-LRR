@@ -213,3 +213,7 @@ form.expertise {
   }
 }
 
+
+.custom-file-label::after {
+  content: "Выбрать файл" !important;
+}

@@ -89,7 +89,7 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
         "directions",
         "competences",
         # "results_edu",
-        # "form_control"
+        "form_control"
     ]
     list_display = [
         "format",
@@ -105,7 +105,7 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
     ]
     # filter_horizontal = ["subjects_tags", ]
     autocomplete_fields = ["subjects", "competences", "results_edu", "directions"]
-    # list_filter = ["form_control"]
+    list_filter = ["form_control"]
     search_fields = ["keywords", "format"]
 
 

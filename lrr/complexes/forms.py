@@ -39,7 +39,7 @@ class DigitalComplexForm(forms.ModelForm):
             "subjects",
             "directions",
             "competences",
-            # "form_control"
+            "form_control"
         ]
         exclude = ["title", "owner", "digital_resources", "results_edu"]
 
@@ -79,11 +79,11 @@ class DigitalComplexForm(forms.ModelForm):
                     'class': 'form-control',
                 },
             ),
-            # "form_control": forms.Select(
-            #     attrs={
-            #         'class': 'form-control',
-            #     },
-            # ),
+            "form_control": forms.Select(
+                attrs={
+                    'class': 'form-control',
+                },
+            ),
             # "results_edu": ResultsEduWidget(
             #     attrs={
             #         'class': 'form-control',

@@ -1,9 +1,10 @@
 import logging
-
 import sentry_sdk
+from sentry_sdk import Hub
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.excepthook import ExcepthookIntegration
 
 from .base import *  # noqa
 from .base import env
@@ -120,7 +121,7 @@ LOGGING = {
             "propagate": False,
         },
         # Errors logged by the SDK itself
-        "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
+        "sentry_sdk": {"level": "WARNING", "handlers": ["console"], "propagate": False},
         "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console"],
@@ -134,15 +135,21 @@ LOGGING = {
 SENTRY_DSN = env("SENTRY_DSN")
 SENTRY_LOG_LEVEL = env.int("DJANGO_SENTRY_LOG_LEVEL", logging.INFO)
 
+client = Hub.current.client
+
+if client is not None:
+    client.close(timeout=2.0)
+
 sentry_logging = LoggingIntegration(
     level=SENTRY_LOG_LEVEL,
     event_level=logging.ERROR,
 )
+
 sentry_sdk.init(
     dsn=SENTRY_DSN,
-    integrations=[sentry_logging, DjangoIntegration(), CeleryIntegration()],
+    integrations=[sentry_logging, DjangoIntegration(), CeleryIntegration(), ExcepthookIntegration(always_run=True)],
+    traces_sample_rate=1.0,
+    send_default_pii=True,
+    environment="production",
+
 )
-
-# INSTALLED_APPS += ["schema_graph", ]
-# INSTALLED_APPS += ["django_extensions"]  # noqa F405
-

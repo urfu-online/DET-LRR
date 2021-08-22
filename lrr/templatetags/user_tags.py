@@ -43,6 +43,8 @@ def has_group(user, group_name):
     """
     Проверяет, принадлежит ли этот пользователь к группе
     """
+    if not user:
+        return False
     if not user.is_authenticated:
         return False
     return group_name in user.get_groups

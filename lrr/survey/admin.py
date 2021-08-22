@@ -60,7 +60,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ("text", "survey", "order")
     list_filter = ("survey", "category")
-    search_fields = ['survey', ]
+    search_fields = ['text', 'survey__name', ]
     autocomplete_fields = ['survey', "category"]
 
 

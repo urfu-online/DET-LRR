@@ -1,6 +1,6 @@
 import logging
 from copy import copy
-
+from addict import Dict
 import django_filters
 from django.core.exceptions import EmptyResultSet
 from django.shortcuts import render, get_object_or_404
@@ -82,6 +82,7 @@ class ExpertiseCompletionView(View):
             answers = Answer.objects.filter(response__in=expertise.get_responses())
         else:
             typed_responses = expertise.get_typed_responses()
+
             methodical_response = typed_responses["methodical"]
             methodical_answers = Answer.objects.filter(response=methodical_response)
 
@@ -95,17 +96,27 @@ class ExpertiseCompletionView(View):
 
         achievments_wait = list()
         achievments = list()
+        indicator_titles = [i.title for i in indicators]
+
+        answers = answers.filter(question__text__in=indicator_titles)
+
         for indicator in indicators:
-            achievment = copy(indicator)
+            achievment = Dict()
+
+            achievment.title = indicator.title
+            achievment.values_list = indicator.values_list
+            achievment.type = indicator.type
+
+
 
             if answers.filter(question__text=indicator["title"]).exists():
                 ans = answers.filter(question__text=indicator["title"]).first()
                 if '0-100' not in indicator["values"]:
                     logger.warning(f"Предполагаем список строк: {ans.body}")
-                    achievment["value_interpreted"] = value_to_int(slugify(ans.body, allow_unicode=True))
-                    achievment["value"] = slugify(ans.body, allow_unicode=True)
+                    achievment.value_interpreted = value_to_int(slugify(ans.body, allow_unicode=True))
+                    achievment.value = slugify(ans.body, allow_unicode=True)
                     # achievment["max_value"] = calc_max_value(indicator["values"])
-                    achievment["SCORE"] = achievment["value_interpreted"]  # / achievment["max_value"]
+                    achievment.SCORE = achievment["value_interpreted"]  # / achievment["max_value"]
                 elif '0-100' in indicator["values"]:
                     try:
                         logging.warning(f"Предполагаем 0-100: {ans.body}")

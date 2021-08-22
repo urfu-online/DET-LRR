@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='digitalcomplex',
-            name='form_control',
-            field=models.CharField(blank=True, choices=[('0', 'зачет'), ('1', 'экзамен ')], max_length=300, null=True, verbose_name='Форма контроля'),
-        ),
+        # migrations.AddField(
+        #     model_name='digitalcomplex',
+        #     name='form_control',
+        #     field=models.CharField(blank=True, choices=[('0', 'зачет'), ('1', 'экзамен ')], max_length=300, null=True, verbose_name='Форма контроля'),
+        # ),
     ]
