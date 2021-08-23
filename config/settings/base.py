@@ -356,3 +356,5 @@ ANALYTICAL_INTERNAL_IPS = []
 SELECT2_JS = 'admin/js/vendor/select2/select2.full.js'
 SELECT2_CSS = 'admin/css/vendor/select2/select2.css'
 SELECT2_USE_BUNDLED_JQUERY = False
+
+MD_ICONS_BASE_URL = 'https://cdn.jsdelivr.net/npm/@mdi/svg@5.9.55/'

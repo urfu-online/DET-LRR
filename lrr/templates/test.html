@@ -3,12 +3,12 @@
 {% block content %}
 
   {% for status in expertise_statuses %}
-    <h2>{{ status.title }}</h2>
+    <h2>{{ status.group }} {{ status.title }}</h2>
     {% for answer in status.answers %}
       <p>{% if answer.success %}
-        {% md_icon "success" %}
+        {% md_icon "success" color='green' %}
       {% else %}
-        {% md_icon "danger" %}
+        {% md_icon "danger" color='red' %}
       {% endif %}
         {{ answer.title }}
       </p>

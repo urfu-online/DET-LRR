@@ -115,6 +115,7 @@ class ExpertiseCompletionView(View):
         for s in statuses:
             status = Dict()
             status.title = s.title
+            status.generic = s.group
             status.answers = list()
             requirements = s.requirements.filter(available=True)
             logger.info(f"{requirements}")
@@ -123,6 +124,7 @@ class ExpertiseCompletionView(View):
                 for achievment in achievments:
                     if achievment.indicator.title == r.indicator.title:
                         status.answers.append(Dict({"title": r.indicator.title, "success": r.is_ok(achievment.answer.value)}))
+                        logger.info(f"{achievment} -- {r.indicator.title}")
             expertise_statuses.append(status)
 
         context = {
