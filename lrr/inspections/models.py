@@ -418,8 +418,8 @@ class Indicator(auto_prefetch.Model):
         return None
 
 
-class StatusRequirement(models.Model):
-    indicator = models.ForeignKey("inspections.Indicator", verbose_name="Показатель", on_delete=models.CASCADE)
+class StatusRequirement(auto_prefetch.Model):
+    indicator = auto_prefetch.ForeignKey("inspections.Indicator", verbose_name="Показатель", on_delete=models.CASCADE)
     allowed_values = ArrayField(models.CharField(max_length=32, blank=True, null=True),
                                 verbose_name="Допустимые значения", blank=True, null=True)
     allowed_num_values = IntegerRangeField(verbose_name="Диапазон допустимых числовых значений", blank=True,
@@ -427,7 +427,7 @@ class StatusRequirement(models.Model):
     exclude_values = ArrayField(models.CharField(max_length=32, blank=True, null=True),
                                 verbose_name="Исключаемые значения", blank=True, null=True)
     available = models.BooleanField(default=True, verbose_name="Используется")
-    status = models.ForeignKey("Status", on_delete=models.CASCADE, related_name="requirements")
+    status = auto_prefetch.ForeignKey("Status", on_delete=models.CASCADE, related_name="requirements")
 
     def __str__(self):
         return self.indicator.group.get_title_display()

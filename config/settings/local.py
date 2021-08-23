@@ -74,7 +74,7 @@ if client is not None:
 
 sentry_logging = LoggingIntegration(
     level=SENTRY_LOG_LEVEL,
-    event_level=logging.INFO,
+    event_level=logging.WARNING,
 )
 
 sentry_sdk.init(

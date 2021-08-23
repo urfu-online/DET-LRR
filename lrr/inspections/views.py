@@ -94,20 +94,21 @@ class ExpertiseCompletionView(View):
 
             answers = methodical_answers | contental_answers | technical_answers
 
-        achievments_wait = list()
         achievments = list()
         indicators = inspections_models.Indicator.objects.all()
 
         for indicator in indicators:
             achievment = Dict()
-            achievment.indicator = indicator.dict()
+            # achievment.indicator = indicator.dict()
+            achievment.title = indicator.title
 
-            answer_qs = answers.filter(question__text__iexact=achievment.indicator.title)
-            if answer_qs.exists():
+            answer_qs = answers.filter(question=indicator.question)
+            try:
                 answer = answer_qs.first().body
                 achievment.answer.title = answer
                 achievment.answer.value = indicator.get_value(answer)
-
+            except:
+                pass
             achievments.append(achievment)
 
         expertise_statuses = list()
@@ -115,16 +116,16 @@ class ExpertiseCompletionView(View):
         for s in statuses:
             status = Dict()
             status.title = s.title
-            status.generic = s.group
+            status.group = s.get_group_display()
             status.answers = list()
             requirements = s.requirements.filter(available=True)
-            logger.info(f"{requirements}")
-            for r_index, r in enumerate(requirements):
+            # logger.info(f"{requirements}")
+            for  r in requirements:
 
                 for achievment in achievments:
-                    if achievment.indicator.title == r.indicator.title:
+                    if achievment.title == r.indicator.title:
                         status.answers.append(Dict({"title": r.indicator.title, "success": r.is_ok(achievment.answer.value)}))
-                        logger.info(f"{achievment} -- {r.indicator.title}")
+                        # logger.info(f"{achievment} -- {r.indicator.title}")
             expertise_statuses.append(status)
 
         context = {

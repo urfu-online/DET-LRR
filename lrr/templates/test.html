@@ -6,9 +6,9 @@
     <h2>{{ status.group }} {{ status.title }}</h2>
     {% for answer in status.answers %}
       <p>{% if answer.success %}
-        {% md_icon "success" color='green' %}
+        {% md_icon "check" color='green' %}
       {% else %}
-        {% md_icon "danger" color='red' %}
+        {% md_icon "alert-octagon" color='red' %}
       {% endif %}
         {{ answer.title }}
       </p>

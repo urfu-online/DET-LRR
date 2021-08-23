@@ -92,7 +92,7 @@ THIRD_PARTY_APPS = [
     "seaborn",
     "fontawesome_free",
     "django_bootstrap_icons",
-    "silk",
+    # "silk",
     'permissions_auditor',
     # "det",
     "smart_selects",
@@ -168,7 +168,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "silk.middleware.SilkyMiddleware",
+    # "silk.middleware.SilkyMiddleware",
     "author.middlewares.AuthorDefaultBackendMiddleware",
 ]
 
