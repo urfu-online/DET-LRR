@@ -91,6 +91,7 @@ THIRD_PARTY_APPS = [
     "pySankey",
     "seaborn",
     "fontawesome_free",
+    "django_bootstrap_icons",
     "silk",
     'permissions_auditor',
     # "det",

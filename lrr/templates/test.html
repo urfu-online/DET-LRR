@@ -1,11 +1,26 @@
 {% extends "base.html" %}
+{% load bootstrap_icons %}
 {% block content %}
+
+  {% for status in expertise_statuses %}
+    <h2>{{ status.title }}</h2>
+    {% for answer in status.answers %}
+      <p>{% if answer.success %}
+        {% md_icon "success" %}
+      {% else %}
+        {% md_icon "danger" %}
+      {% endif %}
+        {{ answer.title }}
+      </p>
+    {% endfor %}
+
+  {% endfor %}
 
   <h1 class="display-4">Значения индикаторов({{ status.achievments|length }})</h1>
 
   <div class="card-columns">
     {% for i in status.achievments %}
-      {{ i.indicator }}
+      {{ i }}
       <div class="card answer-item text-white d-inline-block {% if i.SCORE > 0.5 %}bg-primary{% else %}bg-danger{% endif %} mb-3">
         <div class="card-header p-3 text-uppercase"><i class="fas fa-layer-group"></i> <small class="group">{{ i.group }}</small></div>
         <div class="card-body text-white p-3">

@@ -7,7 +7,7 @@ tr.dynamic-statusrequirement_set {
   font-size: 0.6vw !important;
 
   td.original p {
-    font-size: 0.7vw !important;
+    font-size: 13px !important;
   }
 
   td.field-exclude_values {
@@ -17,7 +17,7 @@ tr.dynamic-statusrequirement_set {
   }
 
   td.field-indicator {
-    padding-top: 1.3vw !important;
+    padding-top: 25px !important;
     max-width: 500px;
     vertical-align: top;
     display: block;
@@ -31,6 +31,7 @@ tr.dynamic-statusrequirement_set {
 
   td.field-allowed_num_values > input {
     margin-right: 1rem;
+    width: 60px;
   }
 }
 
@@ -49,5 +50,46 @@ tr.dynamic-statusrequirement_set {
     }
   }
 }
+
+.admin-interface .inline-group .tabular tr.dynamic-statusrequirement_set {
+  td {
+    vertical-align: top;
+    padding-top: 0.5em;
+  }
+
+  td.field-indicator {
+    border-bottom: none;
+  }
+
+  td.field-exclude_values, td.field-allowed_num_values, td.field-allowed_values {
+    vertical-align: bottom;
+  }
+
+  td.field-allowed_num_values {
+    padding-bottom: 63px;
+  }
+
+  &:hover {
+    background-color: #A9FFFF;
+  }
+
+  li.array-item {
+    margin-bottom: 3px;
+  }
+
+  .field-indicator p {
+    white-space: break-spaces;
+  }
+
+  th, td {
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+
+
+
+
+
 
 

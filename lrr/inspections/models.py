@@ -407,6 +407,16 @@ class Indicator(auto_prefetch.Model):
         d.question = Dict(model_to_dict(Question.objects.get(pk=d.question)))
         return d
 
+    def get_value(self, title):
+        if self.question.type == "integer":
+            return int(title)
+        if not self.json_values:
+            return None
+        for pair in self.json_values:
+            if pair.get('title', None) == title:
+                return pair.get('value', None)
+        return None
+
 
 class StatusRequirement(models.Model):
     indicator = models.ForeignKey("inspections.Indicator", verbose_name="Показатель", on_delete=models.CASCADE)
@@ -416,10 +426,30 @@ class StatusRequirement(models.Model):
                                            null=True)  # null - нет, 0 - любое
     exclude_values = ArrayField(models.CharField(max_length=32, blank=True, null=True),
                                 verbose_name="Исключаемые значения", blank=True, null=True)
-    status = models.ForeignKey("Status", on_delete=models.CASCADE)
+    available = models.BooleanField(default=True, verbose_name="Используется")
+    status = models.ForeignKey("Status", on_delete=models.CASCADE, related_name="requirements")
 
     def __str__(self):
         return self.indicator.group.get_title_display()
+
+    def is_ok(self, value):
+        if not value:
+            return False
+        values_is_ok, range_is_ok, not_exclude = False, False, False
+        if self.allowed_values:
+            values_is_ok = value in self.allowed_values
+        else:
+            values_is_ok = True
+        if self.allowed_num_values:
+            range_is_ok = self.allowed_num_values.lower <= value <= self.allowed_num_values.upper
+        else:
+            range_is_ok = True
+        if self.exclude_values:
+            not_exclude = value not in self.exclude_values
+        else:
+            not_exclude = True
+
+        return all([values_is_ok, range_is_ok, not_exclude])
 
 
 class Status(models.Model):

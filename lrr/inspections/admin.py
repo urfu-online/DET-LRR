@@ -111,7 +111,7 @@ class IndicatorAdmin(ReverseModelAdmin, DynamicArrayMixin):
     inline_reverse = [('question', {'fields': ('text', 'order', 'required', 'category', 'survey', 'type', 'choices')})]
     actions = [bind_questions, prefill_json_values, prefill_json_values_force]
     readonly_fields = ["has_question", "values_map"]
-    search_fields = ["title", "group"]
+    search_fields = ["title", "group__title"]
 
     formfield_overrides = {
         JSONField: {'widget': JSONEditorWidget},
@@ -141,10 +141,16 @@ class StatusRequirementInline(admin.TabularInline):
     autocomplete_fields = ["indicator"]
     extra = 0
     ordering = ["indicator__question__group", "indicator__question__order"]
-    readonly_fields = ["indicator"]
-    fields = ["indicator", "allowed_values", "exclude_values", "allowed_num_values"]
+    readonly_fields = ["indicator", "values_map"]
+    fields = ["indicator", "values_map", "allowed_values", "exclude_values", "allowed_num_values", "available"]
     search_fields = ["indicator__title", "indicator__question__text", "indicator__group"]
     can_delete = True
+
+    def values_map(self, obj):
+        if obj.indicator.json_values:
+            return mark_safe("<br>".join(list([f"<strong>{v['value']}</strong>: {v['title']}" for v in sorted(obj.indicator.json_values, key=lambda i: i['value'])])))
+        if obj.indicator.num_values:
+            return mark_safe(f"{obj.indicator.num_values.lower} - {obj.indicator.num_values.upper}")
 
 
 @admin.register(models.Status)

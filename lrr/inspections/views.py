@@ -1,12 +1,12 @@
 import logging
 from copy import copy
-from addict import Dict
+
 import django_filters
+from addict import Dict
 from django.core.exceptions import EmptyResultSet
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.utils.text import slugify
 from django.views import generic
 from django.views.generic import View
 
@@ -16,7 +16,6 @@ from lrr.repository.filters import FilteredListView
 from lrr.survey.models.answer import Answer, Response
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Expert
-
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -77,6 +76,7 @@ class ExpertiseCompletionView(View):
             expertise_request = inspections_models.ExpertiseRequest.objects.none()
 
         expertise = expertise_request.expertise
+        statuses = inspections_models.Status.objects.all()
 
         if self.allow_heap:
             answers = Answer.objects.filter(response__in=expertise.get_responses())
@@ -97,51 +97,40 @@ class ExpertiseCompletionView(View):
         achievments_wait = list()
         achievments = list()
         indicators = inspections_models.Indicator.objects.all()
-        # indicator_questions = [i.question for i in indicators]
-
-        # answers = answers.filter(question__in=indicator_questions)
 
         for indicator in indicators:
             achievment = Dict()
             achievment.indicator = indicator.dict()
-            logger.info(f"{achievment.indicator}")
 
+            answer_qs = answers.filter(question__text__iexact=achievment.indicator.title)
+            if answer_qs.exists():
+                answer = answer_qs.first().body
+                achievment.answer.title = answer
+                achievment.answer.value = indicator.get_value(answer)
 
-
-
-            # if answers.filter(question__text=indicator["title"]).exists():
-            #     ans = answers.filter(question__text=indicator["title"]).first()
-            #     if '0-100' not in indicator["values"]:
-            #         logger.warning(f"Предполагаем список строк: {ans.body}")
-            #         achievment.value_interpreted = value_to_int(slugify(ans.body, allow_unicode=True))
-            #         achievment.value = slugify(ans.body, allow_unicode=True)
-            #         # achievment["max_value"] = calc_max_value(indicator["values"])
-            #         achievment.SCORE = achievment["value_interpreted"]  # / achievment["max_value"]
-            #     elif '0-100' in indicator["values"]:
-            #         try:
-            #             logging.warning(f"Предполагаем 0-100: {ans.body}")
-            #             achievment["value_interpreted"] = float(ans.body) / 100
-            #             achievment["value"] = ans.body
-            #         except:
-            #             achievment["value_interpreted"] = None
-            #             achievment["value"] = ans.body
-            # else:
-            #     logging.warning(f"Отброшено значение {indicator['title']}")
-            #
-            # if "value_interpreted" not in achievment.keys():
-            #     achievments_wait.append(achievment)
-            # else:
             achievments.append(achievment)
-        status = {
-            "answers": answers,
-            "achievments": achievments,
-            "achievments_wait": achievments_wait,
-        }
+
+        expertise_statuses = list()
+
+        for s in statuses:
+            status = Dict()
+            status.title = s.title
+            status.answers = list()
+            requirements = s.requirements.filter(available=True)
+            logger.info(f"{requirements}")
+            for r_index, r in enumerate(requirements):
+
+                for achievment in achievments:
+                    if achievment.indicator.title == r.indicator.title:
+                        status.answers.append(Dict({"title": r.indicator.title, "success": r.is_ok(achievment.answer.value)}))
+            expertise_statuses.append(status)
 
         context = {
-            "expertise_request": expertise_request,
-            "expertise": expertise,
-            "status": status,
+            # "expertise_request": expertise_request,
+            # "expertise": expertise,
+            # "achievments": achievments,
+            # "answers": answers,
+            "expertise_statuses": expertise_statuses,
         }
         return render(request, "test.html", context)
 
