@@ -96,12 +96,15 @@ class PlatformWidget(ModelSelect2Widget):
     search_fields = ["title__search", "description__search", "url__search"]
     max_results = 10
 
+
 class OrganizationWidget(ModelSelect2Widget):
-    search_fields = ["title__search", "description__search" ]
+    search_fields = ["title__search", "description__search"]
     max_results = 10
+
 
 class TypeWidget(Select2Widget):
     max_results = 10
+
 
 class DigitalResourceForm(forms.ModelForm):
     class Meta:
@@ -215,9 +218,10 @@ class DigitalResourceForm(forms.ModelForm):
 SourceFormset = inlineformset_factory(
     models.DigitalResource,
     models.Source,
-    fields=('link_name', 'type', 'URL', 'file'),
+    fields=('type', 'link_name', 'file', 'URL',),
     exclude=('id',),
     extra=1,
+    max_num=1,
     widgets={
         'link_name': forms.TextInput(
             attrs={

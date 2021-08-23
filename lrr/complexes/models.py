@@ -48,8 +48,7 @@ class DigitalComplex(Complex, BaseModel):
     @property
     def cipher(self):
         try:
-            s, o, f, fc = self.subjects.all().first(), self.owner, self.format  # , self.form_control
-            return f'ЭУМК "{s} - {o} [{f}] {fc}"'
+            return f'ЭУМК "{self.subjects.all().first()} - {self.owner} [{self.format}] {self.form_control}"'
         except:
             return ""
 
@@ -64,10 +63,7 @@ class DigitalComplex(Complex, BaseModel):
 
     def get_owner(self, user):
         try:
-            if self.owner.user == user:
-                return True
-            else:
-                return False
+            return self.owner.user == user
         except:
             return False
 

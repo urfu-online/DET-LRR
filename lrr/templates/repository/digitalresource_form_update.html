@@ -90,21 +90,22 @@
               <div class="card source_form shadow-3 mb-3">
                 <div class="card-body">
                   <div class="form-group">
-                    <label>{{ source.link_name.label }}</label>
-                    {{ source.link_name }}
-                  </div>
-                  <div class="form-group">
                     <label>{{ source.type.label }}</label>
                     {{ source.type }}
                   </div>
-                  <div class="form-group" id="id_source_set-0-URL_1">
-                    <label> {{ source.URL.label }}</label>
-                    {{ source.URL }}
+                  <div class="form-group">
+                    <label>{{ source.link_name.label }}</label>
+                    {{ source.link_name }}
                   </div>
                   <div class="form-group" id="id_source_set-0-file_1">
                     <label>{{ source.file.label }}</label>
                     {{ source.file }}
                   </div>
+                  <div class="form-group" id="id_source_set-0-URL_1">
+                    <label> {{ source.URL.label }}</label>
+                    {{ source.URL }}
+                  </div>
+
                   {#                <div class="field">#}
                   {#                  {{ source }}#}
                   {#                </div>#}

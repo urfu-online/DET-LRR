@@ -7,7 +7,7 @@
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a></li>
+        href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a></li>
       <li class="breadcrumb-item active" aria-current="page">Создание паспорта ЭОР</li>
     </ol>
   </nav>
@@ -84,24 +84,21 @@
               <div class="card source_form shadow-3 mb-3">
                 <div class="card-body">
                   <div class="form-group">
-                    <label>{{ source.link_name.label }}</label>
-                    {{ source.link_name }}
+                    <label>{{ source.type.label }}</label>
+                    {{ source.type }}
                   </div>
                   <div class="form-group">
-                    <label> {{ source.URL.label }}</label>
-                    {{ source.URL }}
+                    <label>{{ source.link_name.label }}</label>
+                    {{ source.link_name }}
                   </div>
                   <div class="form-group custom-file">
                     {{ source.file }}
                     <label class="custom-file-label" data-content="{{ source.file.label }}"></label>
                   </div>
                   <div class="form-group">
-                    <label>{{ source.type.label }}</label>
-                    {{ source.type }}
+                    <label> {{ source.URL.label }}</label>
+                    {{ source.URL }}
                   </div>
-                  {#                <div class="field">#}
-                  {#                  {{ source }}#}
-                  {#                </div>#}
                 </div>
               </div>
             {% endfor %}
