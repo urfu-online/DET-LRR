@@ -16,27 +16,4 @@
 
   {% endfor %}
 
-  <h1 class="display-4">Значения индикаторов({{ status.achievments|length }})</h1>
-
-  <div class="card-columns">
-    {% for i in status.achievments %}
-      {{ i }}
-      <div class="card answer-item text-white d-inline-block {% if i.SCORE > 0.5 %}bg-primary{% else %}bg-danger{% endif %} mb-3">
-        <div class="card-header p-3 text-uppercase"><i class="fas fa-layer-group"></i> <small class="group">{{ i.group }}</small></div>
-        <div class="card-body text-white p-3">
-          <div class="card-title title">{{ i.title }}</div>
-          <p class="values">{{ i.values }}</p>
-          <hr>
-          <p>
-            <span class="value">{{ i.value }}</span>
-            <span class="value_interpreted badge badge-light badge-pill">{{ i.value_interpreted }}</span>
-          </p>
-        </div>
-        <div class="card-footer text-muted">
-          <p><span class="SCORE">{{ i.SCORE }}</span> <span class="type font-weight-light text-right">{{ i.type }}</span></p>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-
 {% endblock %}

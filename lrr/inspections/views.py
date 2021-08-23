@@ -2,7 +2,6 @@ import logging
 from copy import copy
 
 import django_filters
-from addict import Dict
 from django.core.exceptions import EmptyResultSet
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -64,6 +63,14 @@ class DigitalResourceFilter(django_filters.FilterSet):
         }
 
 
+def find_by_title_with_answer(lst, title):
+    logger.info(f"{title} -- {lst}")
+    for l in lst:
+        if title == l.get("title", None):
+            return l if l.get("answer", None) else None
+        return
+
+
 class ExpertiseCompletionView(View):
     url = reverse_lazy("inspections:inspections_ExpertiseMyClose_list")
     allow_heap = True
@@ -98,41 +105,30 @@ class ExpertiseCompletionView(View):
         indicators = inspections_models.Indicator.objects.all()
 
         for indicator in indicators:
-            achievment = Dict()
-            # achievment.indicator = indicator.dict()
-            achievment.title = indicator.title
-
-            answer_qs = answers.filter(question=indicator.question)
-            try:
-                answer = answer_qs.first().body
-                achievment.answer.title = answer
-                achievment.answer.value = indicator.get_value(answer)
-            except:
-                pass
-            achievments.append(achievment)
-
+            answer = "".join(answers.filter(question=indicator.question).values_list('body', flat=True))
+            achievments.append({
+                "title": indicator.title,
+                "answer": {
+                    "title": answer,
+                    "value": indicator.get_value(answer)
+                }
+            })
         expertise_statuses = list()
 
         for s in statuses:
-            status = Dict()
-            status.title = s.title
-            status.group = s.get_group_display()
-            status.answers = list()
+            status = {
+                "title": s.title,
+                "group": s.get_group_display(),
+                "answers": list()
+            }
             requirements = s.requirements.filter(available=True)
-            # logger.info(f"{requirements}")
-            for  r in requirements:
-
+            for r in requirements:
                 for achievment in achievments:
-                    if achievment.title == r.indicator.title:
-                        status.answers.append(Dict({"title": r.indicator.title, "success": r.is_ok(achievment.answer.value)}))
-                        # logger.info(f"{achievment} -- {r.indicator.title}")
+                    if achievment["title"] == r.indicator.title:
+                        status["answers"].append({"title": r.indicator.title, "success": r.is_ok(achievment.get("answer", {"value": None})["value"])})
             expertise_statuses.append(status)
 
         context = {
-            # "expertise_request": expertise_request,
-            # "expertise": expertise,
-            # "achievments": achievments,
-            # "answers": answers,
             "expertise_statuses": expertise_statuses,
         }
         return render(request, "test.html", context)

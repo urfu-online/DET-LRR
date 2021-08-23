@@ -170,6 +170,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # "silk.middleware.SilkyMiddleware",
     "author.middlewares.AuthorDefaultBackendMiddleware",
+    # 'htmlmin.middleware.HtmlMinifyMiddleware',
+    # 'htmlmin.middleware.MarkRequestMiddleware',
 ]
 
 # STATIC
@@ -358,3 +360,6 @@ SELECT2_CSS = 'admin/css/vendor/select2/select2.css'
 SELECT2_USE_BUNDLED_JQUERY = False
 
 MD_ICONS_BASE_URL = 'https://cdn.jsdelivr.net/npm/@mdi/svg@5.9.55/'
+
+
+HTML_MINIFY = True

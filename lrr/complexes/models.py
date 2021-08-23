@@ -5,7 +5,7 @@ from smart_selects.db_fields import ChainedForeignKey
 from django.db import models
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
-
+from polymorphic.managers import PolymorphicManager
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
 from lrr.users.models import Person, Student, AcademicGroup, GroupDisciplines
@@ -155,6 +155,8 @@ class AssignmentAcademicGroup(BaseModel):
 
 
 class ComponentComplex(BaseModel, PolymorphicModel):
+    objects = PolymorphicManager()
+
     digital_complex = models.ForeignKey(DigitalComplex, verbose_name="ЭУМК", on_delete=models.CASCADE, blank=True)
     description = models.TextField("Как используется при изучении дисциплины", max_length=1024, blank=True, null=True)
     order = models.IntegerField("Порядрок отображения компонента", blank=True, null=True)
