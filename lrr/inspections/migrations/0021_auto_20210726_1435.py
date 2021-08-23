@@ -25,11 +25,7 @@ class Migration(migrations.Migration):
             name='status',
             options={'verbose_name': 'Статус', 'verbose_name_plural': 'Статусы'},
         ),
-        migrations.AddField(
-            model_name='indicator',
-            name='order',
-            field=models.PositiveSmallIntegerField(default=0),
-        ),
+
         migrations.AddField(
             model_name='indicator',
             name='per_discipline',
