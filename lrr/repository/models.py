@@ -340,12 +340,12 @@ class Source(BaseModel):
         (URL, 'URL'),
         (FILE, 'Файл'),
     ]
-    link_name = models.CharField("Наименование", max_length=150, null=True, blank=True)
+    link_name = models.CharField("Наименование", max_length=150, null=True)
     URL = models.URLField("Ссылка", null=True, blank=True)
     file = models.FileField(verbose_name="Файл", upload_to="upload/files", null=True, blank=True)
     digital_resource = auto_prefetch.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
                                                 on_delete=models.CASCADE)
-    type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=150, null=True, blank=True)
+    type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=8)
 
     class Meta:
         verbose_name = u"Компонент"

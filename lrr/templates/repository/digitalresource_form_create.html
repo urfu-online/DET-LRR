@@ -113,4 +113,33 @@
   </div>
   {{ form.media.js }}
   </div>
+  <script>
+    function singleSelectChangeValue() {
+      //Getting Value
+
+      // METHOD 1
+      var selValue = document.getElementById("id_source_set-0-type").value;
+      var file = document.getElementById("id_source_set-0-file_1");
+      var URL = document.getElementById("id_source_set-0-URL_1");
+      if (selValue === "URL") {
+        file.style.display = 'none';
+        URL.style.display = 'block';
+        URL.getElementsByTagName("input")[0].required=true;
+      } else if (selValue === 'FILE') {
+        URL.style.display = 'none';
+        file.style.display = 'block';
+        file.getElementsByTagName("input")[0].required=true;
+      } else if (selValue === "") {
+        URL.style.display = 'block';
+        file.style.display = 'block';
+      }
+    }
+
+    window.onload = function () {
+      singleSelectChangeValue()
+    };
+    window.onchange = function () {
+      singleSelectChangeValue()
+    };
+  </script>
 {% endblock %}

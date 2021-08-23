@@ -134,9 +134,11 @@
       if (selValue === "URL") {
         file.style.display = 'none';
         URL.style.display = 'block';
+        URL.getElementsByTagName("input")[0].required=true;
       } else if (selValue === 'FILE') {
         URL.style.display = 'none';
         file.style.display = 'block';
+        file.getElementsByTagName("input")[0].required=true;
       } else if (selValue === "") {
         URL.style.display = 'block';
         file.style.display = 'block';

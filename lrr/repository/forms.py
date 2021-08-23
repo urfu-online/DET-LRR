@@ -226,6 +226,7 @@ SourceFormset = inlineformset_factory(
         'link_name': forms.TextInput(
             attrs={
                 'class': 'form-control',
+                'required': 'required'
 
             },
         ),
