@@ -67,9 +67,9 @@ class Migration(migrations.Migration):
                 ('prefetch_manager', django.db.models.manager.Manager()),
             ],
         ),
-        migrations.AddField(
-            model_name='digitalcomplex',
-            name='form_control',
-            field=models.CharField(blank=True, choices=[('0', 'зачет'), ('1', 'экзамен ')], max_length=300, null=True, verbose_name='Форма контроля'),
-        ),
+        # migrations.AddField(
+        #     model_name='digitalcomplex',
+        #     name='form_control',
+        #     field=models.CharField(blank=True, choices=[('0', 'зачет'), ('1', 'экзамен ')], max_length=300, null=True, verbose_name='Форма контроля'),
+        # ),
     ]
