@@ -1,6 +1,6 @@
 import django_filters
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Column, Row, Div
+from crispy_forms.layout import Layout, Column, Div, Row
 from django import forms
 from django.core.paginator import Paginator
 from django.views.generic import ListView
@@ -9,7 +9,10 @@ from easy_select2 import Select2Multiple, Select2
 
 from . import models
 from .models import DigitalResource
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 class ThemedSelect2Multiple(Select2Multiple):
     class Media:
@@ -60,6 +63,7 @@ class FilteredListView(ListView, FilterView):
 
 
 class DigitalResourceFilterForm(forms.ModelForm):
+
     class Meta:
         model = DigitalResource
         fields = ['title', 'type', 'copyright_holder', 'platform', 'language', 'subjects_tags', 'edu_programs_tags']
@@ -69,25 +73,35 @@ class DigitalResourceFilterForm(forms.ModelForm):
             'copyright_holder': ThemedSelect2(select2attrs={'width': 'auto'}),
             'subjects_tags': ThemedSelect2Multiple(select2attrs={'width': 'auto'}),
             'edu_programs_tags': ThemedSelect2Multiple(select2attrs={'width': 'auto'}),
+            'type':ThemedSelect2(select2attrs={'width': 'auto'})
 
         }
 
     def __init__(self, *args, **kwargs):
         super(DigitalResourceFilterForm, self).__init__(*args, **kwargs)
-        # formtag_prefix = re.sub('-[0-9]+$', '', kwargs.get('prefix', ''))  # noqa
+        for field in self.fields:
+            logger.info(f"{field}")
+            # field.required = False
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.disable_csrf = False
         self.helper.form_style = 'default'
-        # self.helper.label_class = 'sr-only'
+        self.helper.render_required_fields = False
         self.helper.layout = Layout(
             Div(
                 Row(
-                    Column('copyright_holder', css_class='form-group col-2 mb-0'),
-                    Column('platform', css_class='form-group col-9 mb-0')
+                    Column('subjects_tags', css_class='form-group col-12'),
+                    Column('edu_programs_tags', css_class='form-group col-12'),
 
                 ),
-                css_class='well')
+                Div(
+                    Column('title', css_class='form-group col-12 col-md-6'),
+                    Column('type', css_class='form-group col-12  col-md-6'),
+                    Column('copyright_holder', css_class='form-group col-12  col-md-6'),
+                    Column('platform', css_class='form-group col-12 col-md-6'),
+                    Column('language', css_class='form-group col-12 col-md-6'),
+                    css_class='row'),
+                css_class="well")
         )
 
 
@@ -95,9 +109,11 @@ class DigitalResourceFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(lookup_expr="icontains", label="Наименование")
     subjects_tags = django_filters.CharFilter(lookup_expr="icontains", label="Дисциплина")
     edu_programs_tags = django_filters.CharFilter(lookup_expr="icontains", label="Направление / ОП")
+    # type = django_filters.AllValuesFilter(field_name='type', lookup_expr='exact', label="Тип")
 
     class Meta:
-        form = DigitalResourceFilterForm
+        # form = DigitalResourceFilterForm
+        model = DigitalResource
         fields = [
             'title', 'type', 'copyright_holder', 'platform', 'language', 'subjects_tags', 'edu_programs_tags'
         ]

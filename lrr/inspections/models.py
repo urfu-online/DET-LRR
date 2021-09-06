@@ -160,7 +160,10 @@ class Expertise(repository_model.BaseModel):
 
     @classmethod
     def get_expertise_mthd(cls, digital_resource):
-        return cls.objects.get(digital_resource=digital_resource)
+        try:
+            cls.objects.filter(digital_resource=digital_resource)
+        except:
+            return cls.objects.none()
 
     class Meta:
         verbose_name = u"Экспертиза"
@@ -495,4 +498,6 @@ class TemporaryStatus(models.Model):
 
     @classmethod
     def get_temporary_status(cls, expertise):
-        return cls.objects.filter(expertise=expertise)
+        if expertise:
+            return cls.objects.filter(expertise=expertise)
+        return None
