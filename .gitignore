@@ -334,3 +334,4 @@ lrr/media/
 /.idea/
 /parsed/.idea/
 lrr/frontend/node_modules
+!/lrr/static/gridstack/dist/
