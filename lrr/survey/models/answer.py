@@ -42,6 +42,12 @@ class Answer(auto_prefetch.Model):
         super(Answer, self).__init__(*args, **kwargs)
 
     @property
+    def category(self):
+        return self.question.category
+
+
+
+    @property
     def values(self):
         if self.body is None:
             return [None]

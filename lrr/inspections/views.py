@@ -372,6 +372,7 @@ class ExpertiseRequestDetailCloseView(generic.DetailView):
         answers = Answer.objects.filter(response=response).select_related("question").prefetch_related(
             "question__category").order_by('question__order')
         context['answers'] = answers
+        context['categories'] = list(set([a.category for a in answers]))
         return context
 
 

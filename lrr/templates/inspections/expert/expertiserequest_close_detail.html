@@ -51,19 +51,42 @@
       <div class="form-group">
         <label><b>Значения показателей экспертизы</b></label>
         <br/>
-      {{ response }}
-        {% for answer in answers %}
-          <h5>{{ answer.question.category }}</h5>
-          <b>{{ answer.question.text }}</b>
-          <br/>
-          {{ answer.body }}
-          <br/>
-          <hr/>
-        {% endfor %}
+        {{ response }}
+
+        <table class="table table-sm table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Формулировка критерия</th>
+            <th scope="col">Значение</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for category in categories %}
+
+            <tr class="table-dark">
+              <td class="text-dark"><strong>{{ category }}</strong></td>
+              <td></td>
+            </tr>
+
+            {% for answer in answers %}
+              {% if answer.category == category %}
+                <tr>
+                  <td>{{ answer.question.text }}</td>
+                  <td>{{ answer.body }}</td>
+                </tr>
+
+              {% endif %}
+            {% endfor %}
+
+            </tbody>
+          {% endfor %}
+
+        </table>
+
       </div>
     </diV>
   </div>
   {% if request.user|has_group:"secretary" %}
-    <a class="btn btn-primary" href="{% url 'inspections:inspections_Expertise_detail' pk=object.expertise.pk %}">Данные экспертизы</a>
+    <a class="btn btn-primary mt-4" href="{% url 'inspections:inspections_Expertise_detail' pk=object.expertise.pk %}">Данные экспертизы</a>
   {% endif %}
 {% endblock %}

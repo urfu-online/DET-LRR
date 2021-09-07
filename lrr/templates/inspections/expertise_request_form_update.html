@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static crispy_forms_tags widget_tweaks %}
 {% block content %}
 
   <nav aria-label="breadcrumb">
@@ -22,48 +22,53 @@
             {{ form.errors }}
             {{ form.non_field_errors }}
             {{ form.media.css }}
-            <a class="btn btn-outline-primary float-right"
+            <a class="btn btn-outline-primary position-absolute" style="right: 2em;"
                href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}"><i
-                    class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
-            <div class="form-group">
-              <h5>Тип заявки</h5>
-              <p>{{ object.expertise.get_type_display }}</p>
-            </div>
-            <div class="form-group">
-              <h5>Инициатор</h5>
-              <p>{{ object.expertise.owner }}</p>
-            </div>
-            <div class="form-group">
-              <h5>Дата заявки</h5>
-              <p>{{ object.expertise.date }}</p>
-            </div>
-            <div class="form-group">
-              <h5>Дисциплина(ы)</h5>
-              {% for subject in object.expertise.subjects.all %}
-                <p>{{ subject }}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <h5>Направления подготовки/Образовательная программа</h5>
-              {% for direction in object.expertise.directions.all %}
-                <p>{{ direction }}</p>
-              {% endfor %}
-            </div>
-            <div class="form-group">
-              <h5>ЭУМК</h5>
-              {% for digital_complex in object.expertise.digital_complexes.all %}
-                <p><a class="btn btn-outline-link"
-                      href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}"><i
-                        class="fas fa-link"></i> {{ digital_complex }}</a></p>
-              {% empty %}
-                <p class="text-muted">отсутсвуют</p>
-              {% endfor %}
+              class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
+            <dl class="row">
+              <dt class="col-sm-3">Тип заявки</dt>
+              <dd class="col-sm-9">{{ object.expertise.get_type_display }}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-3">Инициатор</dt>
+              <dd class="col-sm-9">{{ object.expertise.owner }}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-3">Дата заявки</dt>
+              <dd class="col-sm-9">{{ object.expertise.date }}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-3">Дисциплина(ы)</dt>
+              <dd class="col-sm-9">
+                {% for subject in object.expertise.subjects.all %}
+                  {{ subject }}<br>
+                {% endfor %}
+              </dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-3">Направления подготовки/Образовательная программа</dt>
+              <dd class="col-sm-9">
+                {% for direction in object.expertise.directions.all %}
+                  {{ direction }}<br>
+                {% endfor %}
+              </dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-3">ЭУМК</dt>
+              <dd class="col-sm-9">
 
-            </div>
-            <div class="form-group">
-              <h5>Тип экспертизы</h5>
-              <p>{{ form.survey }}</p>
-            </div>
+                {% for digital_complex in object.expertise.digital_complexes.all %}
+                  <a class="btn btn-outline-link pl-0"
+                     href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}"><i
+                    class="fas fa-link"></i> {{ digital_complex }}</a>
+                {% empty %}
+                  <span class="text-muted">отсутсвуют</span>
+                {% endfor %}
+              </dd>
+            </dl>
+
+            <h5>Тип экспертизы</h5>
+            {% render_field form.survey class+="form-select form-control mb-3" %}
             <button type="submit" class="btn btn-primary">Взять на экспертизу</button>
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>
