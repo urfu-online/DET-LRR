@@ -1,5 +1,5 @@
 from django import forms
-
+from easy_select2 import apply_select2
 from lrr.inspections import models as inspection_models
 
 
@@ -19,6 +19,15 @@ class ExpertiseAdminForm(forms.ModelForm):
             "status",
             "owner",
         ]
+        widgets = {
+            'directions': apply_select2(forms.SelectMultiple),
+            'expert': apply_select2(forms.SelectMultiple),
+            'digital_complexes': apply_select2(forms.SelectMultiple),
+            'subjects': apply_select2(forms.SelectMultiple),
+            'digital_resource': apply_select2(forms.Select),
+            'owner': apply_select2(forms.Select),
+            'status': apply_select2(forms.Select),
+        }
 
 
 class ExpertiseRequestAdminForm(forms.ModelForm):

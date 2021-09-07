@@ -7,12 +7,21 @@ from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 from django_json_widget.widgets import JSONEditorWidget
 from django_reverse_admin import ReverseModelAdmin
 from easy_select2 import select2_modelform
+from easy_select2.widgets import Select2
 
 from lrr.inspections import forms_admin
 from lrr.inspections import models
 
+IndicatorForm = select2_modelform(models.Indicator, attrs={'width': '274px'})
+
 
 class CheckListInline(admin.TabularInline):
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name in ['expert', "type", "status", "survey"]:
+            kwargs['widget'] = Select2()
+        return super(CheckListInline, self).formfield_for_dbfield(db_field, **kwargs)
+
     model = models.ExpertiseRequest
     list_display = [
         "type",
@@ -76,9 +85,6 @@ class IndicatorGroupAdmin(admin.ModelAdmin):
     model = models.IndicatorGroup
     list_display = ["title"]
     search_fields = ["indicator"]
-
-
-IndicatorForm = select2_modelform(models.Indicator, attrs={'width': '274px'})
 
 
 def bind_questions(modeladmin, request, queryset):
