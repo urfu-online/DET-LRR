@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django import forms
 from django.contrib import admin
 from django.db.models import JSONField
 from django.utils.safestring import mark_safe
@@ -20,6 +21,8 @@ class CheckListInline(admin.TabularInline):
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name in ['expert', "type", "status", "survey"]:
             kwargs['widget'] = Select2()
+        elif db_field.name == 'date':
+            kwargs['widget'] = forms.DateTimeInput(attrs={'type': 'date'})
         return super(CheckListInline, self).formfield_for_dbfield(db_field, **kwargs)
 
     model = models.ExpertiseRequest
@@ -147,10 +150,16 @@ class StatusRequirementInline(admin.TabularInline):
     autocomplete_fields = ["indicator"]
     extra = 0
     ordering = ["indicator__question__group", "indicator__question__order"]
-    readonly_fields = ["indicator", "values_map"]
-    fields = ["indicator", "values_map", "allowed_values", "exclude_values", "allowed_num_values", "available"]
+    readonly_fields = ["indicator", "values_map", "per_discipline"]
+    fields = ["indicator", "per_discipline", "values_map", "allowed_values", "exclude_values", "allowed_num_values", "available"]
     search_fields = ["indicator__title", "indicator__question__text", "indicator__group"]
     can_delete = True
+
+    def per_discipline(self, obj):
+        return obj.indicator.per_discipline
+
+    per_discipline.boolean = True
+    per_discipline.short_description = "Для каждой дисциплины"
 
     def values_map(self, obj):
         if obj.indicator.json_values:

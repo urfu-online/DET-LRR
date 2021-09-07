@@ -3,7 +3,8 @@
  * Цифровой университет/Цифровые образовательные технологии
  */
 
-tr.dynamic-statusrequirement_set {
+tr.dynamic-statusrequirement_set,
+tr.dynamic-requirements {
   font-size: 0.6vw !important;
 
   td.original p {
@@ -12,7 +13,7 @@ tr.dynamic-statusrequirement_set {
 
   td.field-exclude_values {
     input.add-array-item {
-      background-color: #BA2121;
+      background-color: var(--error-fg);
     }
   }
 
@@ -51,7 +52,9 @@ tr.dynamic-statusrequirement_set {
   }
 }
 
-.admin-interface .inline-group .tabular tr.dynamic-statusrequirement_set {
+.admin-interface .inline-group .tabular tr.dynamic-statusrequirement_set,
+.admin-interface .inline-group .tabular tr.dynamic-requirements,
+{
   td {
     vertical-align: top;
     padding-top: 0.5em;

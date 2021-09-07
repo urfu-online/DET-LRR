@@ -1,5 +1,6 @@
 from django import forms
-from easy_select2 import apply_select2
+from easy_select2.widgets import Select2Multiple, Select2
+
 from lrr.inspections import models as inspection_models
 
 
@@ -20,13 +21,15 @@ class ExpertiseAdminForm(forms.ModelForm):
             "owner",
         ]
         widgets = {
-            'directions': apply_select2(forms.SelectMultiple),
-            'expert': apply_select2(forms.SelectMultiple),
-            'digital_complexes': apply_select2(forms.SelectMultiple),
-            'subjects': apply_select2(forms.SelectMultiple),
-            'digital_resource': apply_select2(forms.Select),
-            'owner': apply_select2(forms.Select),
-            'status': apply_select2(forms.Select),
+            'directions': Select2Multiple,
+            'expert': Select2Multiple,
+            'digital_complexes': Select2Multiple,
+            'subjects': Select2Multiple,
+            'digital_resource': Select2,
+            'owner': Select2,
+            'status': Select2,
+            'date': forms.DateTimeInput(attrs={'type': 'date'}),
+            'date_end': forms.DateTimeInput(attrs={'type': 'date'})
         }
 
 
@@ -42,3 +45,12 @@ class ExpertiseRequestAdminForm(forms.ModelForm):
             "protocol",
             "survey"
         ]
+
+        widgets = {
+            'expert': Select2,
+            'type': Select2,
+            'expertise': Select2,
+            'status': Select2,
+            'survey': Select2,
+            'date': forms.DateTimeInput(attrs={'type': 'date'})
+        }

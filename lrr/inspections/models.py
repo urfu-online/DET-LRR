@@ -438,6 +438,10 @@ class StatusRequirement(auto_prefetch.Model):
     def is_ok(self, value):
         if not value:
             return False
+
+        # if value in list(self.allowed_values) and value not in list(self.exclude_values):
+        #     return True
+
         values_is_ok, range_is_ok, not_exclude = False, False, False
         if self.allowed_values:
             values_is_ok = value in self.allowed_values

@@ -76,6 +76,8 @@ class ExpertiseCompletionView(View):
     allow_heap = True
 
     def get(self, request, *args, **kwargs):
+        # import speedscope, time
+
         try:
             expertise_request = inspections_models.ExpertiseRequest.objects.select_related("expertise").get(
                 pk=kwargs["uuid"])
@@ -115,6 +117,7 @@ class ExpertiseCompletionView(View):
             })
         expertise_statuses = list()
 
+        # def ss():
         for s in statuses:
             status = {
                 "title": s.title,
@@ -123,10 +126,16 @@ class ExpertiseCompletionView(View):
             }
             requirements = s.requirements.filter(available=True)
             for r in requirements:
+                r_title = r.indicator.title
                 for achievment in achievments:
-                    if achievment["title"] == r.indicator.title:
-                        status["answers"].append({"title": r.indicator.title, "success": r.is_ok(achievment.get("answer", {"value": None})["value"])})
+                    if achievment["title"] == r_title:
+                        success = r.is_ok(achievment["answer"].get("value", None))
+                        status["answers"].append({"title": r_title, "success": success})
+
             expertise_statuses.append(status)
+
+        # with speedscope.track(f'speedscopes/speedscope-{time.time()}.json'):
+        #     ss()
 
         context = {
             "expertise_statuses": expertise_statuses,
