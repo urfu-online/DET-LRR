@@ -105,6 +105,7 @@ class SourceAdmin(ImportExportModelAdmin):
         "get_link_name",
         "digital_resource",
         "URL",
+        "type",
     ]
     actions = ['update_source_type']
 
