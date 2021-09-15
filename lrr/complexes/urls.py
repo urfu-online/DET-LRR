@@ -58,8 +58,8 @@ urlpatterns = (
          name="complexes_AssignmentAcademicGroup_delete"),
     path("my_subjects/<str:username>/", view=views.AssignmentAcademicGroupMyListView.as_view(),
          name="complexes_AssignmentAcademicGroupMy_list"),
-    path("cell/list/<uuid:digital_complex_pk>/", views.CellListView.as_view(),
-         name="complexes_Cell_list"),
-    path("cell/create/<uuid:digital_complex_pk>/", views.CellCreateView.as_view(),
-         name="complexes_Cell_create"),
+    path("cell/list/<uuid:digital_complex_pk>/", views.ThematicPlanListView.as_view(),
+         name="complexes_ThematicPlan_list"),
+    path("cell/create/<uuid:digital_complex_pk>/", views.ThematicPlanCreateView.as_view(),
+         name="complexes_ThematicPlan_create"),
 )

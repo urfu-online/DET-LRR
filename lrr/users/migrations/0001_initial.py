@@ -63,9 +63,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('number', models.CharField(max_length=30, verbose_name='Номер академической группы')),
-                ('direction', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
-                                                to='repository.direction',
-                                                verbose_name='Образовательная программа/Направление подготовки')),
+                # ('direction', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
+                #                                 to='repository.direction',
+                #                                 verbose_name='Образовательная программа/Направление подготовки')),
             ],
             options={
                 'verbose_name': 'Академическая группа',

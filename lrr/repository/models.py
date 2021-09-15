@@ -345,7 +345,7 @@ class Source(BaseModel):
     file = models.FileField(verbose_name="Файл", upload_to="upload/files", null=True, blank=True)
     digital_resource = auto_prefetch.ForeignKey("repository.DigitalResource", verbose_name="Паспорт ЭОР",
                                                 on_delete=models.CASCADE)
-    type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=8)
+    type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=8, null=True)
 
     class Meta:
         verbose_name = u"Компонент"

@@ -5,17 +5,17 @@ from polymorphic.formsets import polymorphic_modelformset_factory, PolymorphicFo
 from lrr.complexes import models as complex_models
 
 
-class DirectionsWidget(s2forms.Select2MultipleWidget):
+class DirectionsWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
 
-class SubjectsWidget(s2forms.Select2MultipleWidget):
+class SubjectsWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
 
-class CompetencesWidget(s2forms.Select2MultipleWidget):
+class CompetencesWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = [
         "title__icontains",
         "code__icontains"
@@ -23,7 +23,7 @@ class CompetencesWidget(s2forms.Select2MultipleWidget):
     max_results = 50
 
 
-class ResultsEduWidget(s2forms.Select2MultipleWidget):
+class ResultsEduWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
@@ -66,16 +66,19 @@ class DigitalComplexForm(forms.ModelForm):
             ),
             "subjects": SubjectsWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
                 },
             ),
             "directions": DirectionsWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
                 },
             ),
             "competences": CompetencesWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
                 },
             ),
@@ -92,7 +95,7 @@ class DigitalComplexForm(forms.ModelForm):
         }
 
 
-class CellForm(forms.ModelForm):
+class ThematicPlanForm(forms.ModelForm):
     class Meta:
         model = complex_models.Cell
         fields = "__all__"
