@@ -9,7 +9,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('complexes', '0028_digitalcomplex_form_control'),
+        ('complexes', '0027_digitalcomplex_form_control'),
     ]
 
     operations = [
