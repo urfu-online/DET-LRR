@@ -40,6 +40,7 @@ class PersonAdmin(ImportExportModelAdmin):
     readonly_fields = [
         "created",
     ]
+    search_fields = ["last_name", "user__email", "user__username", "first_name", "middle_name", ]
 
 
 class StudentAdminForm(form.ModelForm):

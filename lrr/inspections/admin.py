@@ -25,7 +25,7 @@ class CheckListInline(admin.TabularInline):
         "created",
     ]
     extra = 0
-    autocomplete_fields = ["expertise", 'expert', "type", "status", "survey"]
+    autocomplete_fields = ["expertise", 'expert',  "survey"]
 
 
 @admin.register(models.Expertise)
@@ -59,7 +59,7 @@ class ExpertiseAdmin(admin.ModelAdmin):
         # DRStatusInline
     ]
     filter_horizontal = ["subjects", "expert", ]
-    autocomplete_fields = ["status", "owner", "digital_resource", "subjects", "directions", "expert", "digital_complexes"]
+    autocomplete_fields = ["owner", "digital_resource", "subjects", "directions", "expert", "digital_complexes"]
     # list_filter = ["platform"]
     search_fields = ["type", "digital_resource__title"]
 
@@ -69,7 +69,7 @@ class ExpertiseRequestAdmin(admin.ModelAdmin):
     model = models.ExpertiseRequest
 
     list_display = ['survey', 'expert', 'status', 'expertise', 'created']
-    autocomplete_fields = ['status', 'owner', 'survey', 'expert', 'expertise']
+    autocomplete_fields = ['survey', 'expert', 'expertise']
     extra = 0
 
 
