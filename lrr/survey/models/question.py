@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from _collections import OrderedDict
 
+import auto_prefetch
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -10,11 +12,6 @@ from django.utils.translation import gettext_lazy as _
 
 from .category import Category
 from .survey import Survey
-import auto_prefetch
-try:  # pragma: no cover
-    from _collections import OrderedDict
-except ImportError:  # pragma: no cover
-    from ordereddict import OrderedDict
 
 LOGGER = logging.getLogger(__name__)
 
@@ -77,9 +74,10 @@ class Question(auto_prefetch.Model):
     )
     survey = auto_prefetch.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name=_("Survey"), related_name="questions")
     type = models.CharField(_("Type"), max_length=200, choices=QUESTION_TYPES, default=TEXT)
+    per_discipline = models.BooleanField("Для каждой дисциплины", default=False)
+    discipline = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", blank=True, null=True, on_delete=models.SET_NULL)
     choices = models.TextField(_("Choices"), blank=True, null=True, help_text=CHOICES_HELP_TEXT)
-
-
+    parent = models.ForeignKey('self', related_name='referrals', null=True, default=None, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = _("question")
@@ -112,6 +110,12 @@ class Question(auto_prefetch.Model):
             for value in answer.values:
                 answers_as_text.append(value)
         return answers_as_text
+
+    def is_group_question(self):
+        if self.per_discipline and not (self.discipline or self.parent):
+            LOGGER.debug(f"is_group_question {self.text}: {self.per_discipline} and {not (self.discipline or self.parent)}")
+            return True
+        return False
 
     @staticmethod
     def standardize(value, group_by_letter_case=None, group_by_slugify=None):

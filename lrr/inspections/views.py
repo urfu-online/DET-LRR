@@ -107,7 +107,10 @@ class ExpertiseCompletionView(View):
         indicators = inspections_models.Indicator.objects.all()
 
         for indicator in indicators:
-            answer = "".join(answers.filter(question=indicator.question).values_list('body', flat=True))
+            if indicator.question.is_group_question():
+                answer = "".join(answers.filter(question__parent=indicator.question).values_list('body', flat=True))
+            else:
+                answer = "".join(answers.filter(question=indicator.question).values_list('body', flat=True))
             achievments.append({
                 "title": indicator.title,
                 "answer": {

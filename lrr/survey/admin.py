@@ -35,7 +35,7 @@ class SurveyAdmin(admin.ModelAdmin):
 
 
 class AnswerBaseInline(admin.StackedInline):
-    fields = ("question", "body")
+    fields = ("question", "discipline", "body")
     readonly_fields = ("question",)
     extra = 0
     model = Answer
@@ -58,10 +58,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("text", "survey", "order")
-    list_filter = ("survey", "category")
+    list_display = ("pk", "text", "survey", "order", "per_discipline")
+    list_filter = ("survey", "category", "per_discipline")
     search_fields = ['text', 'survey__name', ]
-    autocomplete_fields = ['survey', "category"]
+    autocomplete_fields = ['survey', "category", "discipline"]
+    readonly_fields = ("parent",)
 
 
 # admin.site.register(Question, QuestionInline)

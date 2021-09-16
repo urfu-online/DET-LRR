@@ -92,6 +92,7 @@ class ExpertAdmin(ImportExportModelAdmin):
         "subdivision",
     ]
     filter_horizontal = ('types',)
+    search_fields = ['person__user__email', 'person__last_name']
 
 
 class ChoicesExpertAdmin(admin.ModelAdmin):
