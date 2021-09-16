@@ -156,78 +156,76 @@
         Структурно-тематический план отсутсвует
       </div>
       <br/>
-      {% if request.user|has_owner_complex:object %}
-        <div class="col-4 p-2">
-          {% if component_complex.all %}
-            <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
-               class="btn btn-block btn-primary"><i class="fas fa-plus"></i> Создать структурно-тематический план</a>
-          {% else %}
-            {% if assigment_academic_group.all %}
-              <a href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=object.pk %}"
-                 class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический
-                план</a>
-            {% endif %}
-          {% endif %}
-        </div>
-      {% endif %}
     </div>
+    {% if request.user|has_owner_complex:object %}
+      <div class="col-4 p-2">
+        {% if thematic_plan.all %}
+          <a href="{% url 'complexes:complexes_ThematicPlan_create' digital_complex_pk=object.pk %}"
+             class="btn btn-block btn-primary"><i class="fas fa-plus"></i> Создать структурно-тематический план</a>
+        {% else %}
+          <a href="{% url 'complexes:complexes_ThematicPlan_detail' digital_complex_pk=object.pk %}"
+             class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический
+            план</a>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
   <div class="row">
     <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-    <div class="card shadow-1 p-3">
-      <h5 class="card-subtitle mb-2 text-muted">Назначение академическим группам: </h5>
-      {% if assigment_academic_group.all %}
-        <table class="table table-striped table-bordered">
-          <thead>
-          <tr>
-            <th>Академическая группа</th>
-            <th>Дисциплина</th>
-            <th>Учебный год</th>
-          </tr>
-          </thead>
-          <tbody>
-          {% for component in assigment_academic_group %}
-            <tr>
-            <td>{{ component.academic_group }}</td>
-            <td>{{ component.subject }}</td>
-            <td>{{ component.learn_date }}</td>
-            {#                <td>{{ component.semestr }}</td>#}
-          {% endfor %}
-          </tbody>
-        </table>
-      {% else %}
-        Назначенные группы отсутсвуют
-      {% endif %}
-    </div>
-  </div>
-    {% if request.user|has_owner_complex:object %}
-    <div class="col-4 p-2">
-      <div class="card shadow-1">
+      <div class="card shadow-1 p-3">
+        <h5 class="card-subtitle mb-2 text-muted">Назначение академическим группам: </h5>
         {% if assigment_academic_group.all %}
-          <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-             class="btn btn-block btn-primary"><i class="pen icon"></i>Изменить назначение академических
-            групп</a>
+          <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+              <th>Академическая группа</th>
+              <th>Дисциплина</th>
+              <th>Учебный год</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for component in assigment_academic_group %}
+              <tr>
+              <td>{{ component.academic_group }}</td>
+              <td>{{ component.subject }}</td>
+              <td>{{ component.learn_date }}</td>
+              {#                <td>{{ component.semestr }}</td>#}
+            {% endfor %}
+            </tbody>
+          </table>
         {% else %}
-          <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
-             class="btn btn-block btn-primary"><i class="pen icon"></i>Назначить академическим группам</a>
+          Назначенные группы отсутсвуют
         {% endif %}
       </div>
     </div>
-  {% endif %}
+    {% if request.user|has_owner_complex:object %}
+      <div class="col-4 p-2">
+        <div class="shadow-1">
+          {% if assigment_academic_group.all %}
+            <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+               class="btn btn-block btn-primary"><i class="pen icon"></i>Изменить назначение академических
+              групп</a>
+          {% else %}
+            <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"
+               class="btn btn-block btn-primary"><i class="pen icon"></i>Назначить академическим группам</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
 
-{#  {% if request.user|has_owner_complex:object %}#}
-{#    <div class="col-4 p-2">#}
-{#      <div class="card shadow-1">#}
-{#        {% if assigment_academic_group.all %}#}
-{#          <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"#}
-{#             class="btn btn-block btn-primary"><i class="pen icon"></i>Изменить назначение академических#}
-{#            групп</a>#}
-{#        {% else %}#}
-{#          <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"#}
-{#             class="btn btn-block btn-primary"><i class="pen icon"></i>Назначить академическим группам</a>#}
-{#        {% endif %}#}
-{#      </div>#}
-{#    </div>#}
-{#  {% endif %}#}
+    {#  {% if request.user|has_owner_complex:object %}#}
+    {#    <div class="col-4 p-2">#}
+    {#      <div class="card shadow-1">#}
+    {#        {% if assigment_academic_group.all %}#}
+    {#          <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"#}
+    {#             class="btn btn-block btn-primary"><i class="pen icon"></i>Изменить назначение академических#}
+    {#            групп</a>#}
+    {#        {% else %}#}
+    {#          <a href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.pk %}"#}
+    {#             class="btn btn-block btn-primary"><i class="pen icon"></i>Назначить академическим группам</a>#}
+    {#        {% endif %}#}
+    {#      </div>#}
+    {#    </div>#}
+    {#  {% endif %}#}
   </div>
 {% endblock %}

@@ -1,6 +1,5 @@
 from django import forms
 from easy_select2.widgets import Select2Multiple, Select2
-
 from lrr.inspections import models as inspection_models
 
 
