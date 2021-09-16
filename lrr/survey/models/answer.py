@@ -26,6 +26,7 @@ class Answer(auto_prefetch.Model):
     created = models.DateTimeField(_("Creation date"), auto_now_add=True)
     updated = models.DateTimeField(_("Update date"), auto_now=True)
     body = models.TextField(_("Content"), blank=True, null=True)
+    discipline = auto_prefetch.ForeignKey("repository.Subject", verbose_name="Дисциплина", on_delete=models.SET_NULL, null=True, blank=True)
 
     # @computed(models.JSONField(), depends=[['self', ['body']]])
     # def indicator(self):

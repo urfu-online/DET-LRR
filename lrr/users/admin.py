@@ -40,6 +40,7 @@ class PersonAdmin(ImportExportModelAdmin):
     readonly_fields = [
         "created",
     ]
+    search_fields = ["last_name", "user__email", "user__username", "first_name", "middle_name", ]
 
 
 class StudentAdminForm(form.ModelForm):
@@ -92,6 +93,7 @@ class ExpertAdmin(ImportExportModelAdmin):
         "subdivision",
     ]
     filter_horizontal = ('types',)
+    search_fields = ['person__user__email', 'person__last_name']
 
 
 class ChoicesExpertAdmin(admin.ModelAdmin):

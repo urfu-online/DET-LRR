@@ -2,6 +2,7 @@
 
 import logging
 import uuid
+from copy import deepcopy
 
 from django import forms
 from django.conf import settings
@@ -80,19 +81,34 @@ class ResponseForm(models.ModelForm):
         # add a field for each survey question, corresponding to the question
         # type as appropriate.
 
-        if self.survey.display_method == Survey.BY_CATEGORY and self.step is not None:
-            if self.step == len(self.categories):
-                qs_for_step = self.survey.questions.filter(category__isnull=True).order_by("order", "id")
-            else:
-                qs_for_step = self.survey.questions.filter(category=self.categories[self.step])
+        # if self.survey.display_method == Survey.BY_CATEGORY and self.step is not None:
+        #     if self.step == len(self.categories):
+        #         qs_for_step = self.survey.questions.filter(category__isnull=True).order_by("order", "id")
+        #     else:
+        #         qs_for_step = self.survey.questions.filter(category=self.categories[self.step])
+        #
+        #     for questioin qs_for_step:
+        #         self.add_question(question, data)
+        # else:
 
-            for question in qs_for_step:
-                self.add_question(question, data)
-        else:
-            for i, question in enumerate(self.survey.questions.all()):
-                not_to_keep = i != self.step and self.step is not None
-                if self.survey.display_method == Survey.BY_QUESTION and not_to_keep:
-                    continue
+        disciplines = self.expertise_request.expertise.subjects.all()
+        per_discipline_questions_count = self.survey.questions.filter(per_discipline=True).count()
+
+        for i, question in enumerate(self.survey.questions.all()):
+            # not_to_keep = i != self.step and self.step is not None
+            # if self.survey.display_method == Survey.BY_QUESTION and not_to_keep:
+            #     continue
+            if question.is_group_question():
+                for discipline in disciplines:
+                    if not Question.objects.filter(parent=question, discipline=discipline).exists():
+                        subquestion = deepcopy(question)
+                        subquestion.pk = None
+                        subquestion.per_discipline = False
+                        subquestion.discipline = discipline
+                        subquestion.parent = question
+                        subquestion.save()
+                        self.add_question(subquestion, data)
+            else:
                 self.add_question(question, data)
 
     def current_categories(self):

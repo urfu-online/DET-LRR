@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django import forms
 from django.contrib import admin
 from django.db.models import JSONField
 from django.utils.safestring import mark_safe
@@ -8,23 +7,13 @@ from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 from django_json_widget.widgets import JSONEditorWidget
 from django_reverse_admin import ReverseModelAdmin
 from easy_select2 import select2_modelform
-from easy_select2.widgets import Select2
 
-from lrr.inspections import forms_admin
 from lrr.inspections import models
 
 IndicatorForm = select2_modelform(models.Indicator, attrs={'width': '274px'})
 
 
 class CheckListInline(admin.TabularInline):
-
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        if db_field.name in ['expert', "type", "status", "survey"]:
-            kwargs['widget'] = Select2()
-        elif db_field.name == 'date':
-            kwargs['widget'] = forms.DateTimeInput(attrs={'type': 'date'})
-        return super(CheckListInline, self).formfield_for_dbfield(db_field, **kwargs)
-
     model = models.ExpertiseRequest
     list_display = [
         "type",
@@ -36,12 +25,12 @@ class CheckListInline(admin.TabularInline):
         "created",
     ]
     extra = 0
-    autocomplete_fields = ["expertise"]
+    autocomplete_fields = ["expertise", 'expert',  "survey"]
 
 
 @admin.register(models.Expertise)
 class ExpertiseAdmin(admin.ModelAdmin):
-    form = forms_admin.ExpertiseAdminForm
+    model = models.Expertise
     fields = [
         "digital_resource",
         "date",
@@ -70,16 +59,17 @@ class ExpertiseAdmin(admin.ModelAdmin):
         # DRStatusInline
     ]
     filter_horizontal = ["subjects", "expert", ]
-    autocomplete_fields = []
+    autocomplete_fields = ["owner", "digital_resource", "subjects", "directions", "expert", "digital_complexes"]
     # list_filter = ["platform"]
-    search_fields = ["type"]
+    search_fields = ["type", "digital_resource__title"]
 
 
 @admin.register(models.ExpertiseRequest)
 class ExpertiseRequestAdmin(admin.ModelAdmin):
-    form = forms_admin.ExpertiseRequestAdminForm
+    model = models.ExpertiseRequest
 
     list_display = ['survey', 'expert', 'status', 'expertise', 'created']
+    autocomplete_fields = ['survey', 'expert', 'expertise']
     extra = 0
 
 
@@ -113,7 +103,7 @@ prefill_json_values_force.short_description = _("Force prefill `json_values` fro
 @admin.register(models.Indicator)
 class IndicatorAdmin(ReverseModelAdmin, DynamicArrayMixin):
     form = IndicatorForm
-    list_display = ["title", "group", "values_map", "has_question"]
+    list_display = ["title", "group", "values_map", "has_question", "per_discipline"]
     fields = ["title", "group", "values", "json_values", "num_values"]
     autocomplete_fields = ["group"]
     inline_type = 'tabular'
@@ -177,7 +167,6 @@ class StatusAdmin(admin.ModelAdmin, DynamicArrayMixin):
     inlines = [
         StatusRequirementInline,
     ]
-    # autocomplete_fields = [StatusRequirementInline]
 
 
 @admin.register(models.TemporaryStatus)

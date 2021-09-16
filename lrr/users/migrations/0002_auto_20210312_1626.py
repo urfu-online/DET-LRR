@@ -11,11 +11,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='academicgroup',
-            name='direction',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
-                                    related_name='direction_academic_group', to='repository.direction',
-                                    verbose_name='Образовательная программа/Направление подготовки'),
-        ),
+        # migrations.AlterField(
+        #     model_name='academicgroup',
+        #     name='direction',
+        #     field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
+        #                             related_name='direction_academic_group', to='repository.direction',
+        #                             verbose_name='Образовательная программа/Направление подготовки'),
+        # ),
     ]

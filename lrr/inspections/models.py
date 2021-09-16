@@ -276,7 +276,7 @@ class ExpertiseRequest(repository_model.BaseModel):
     type = models.CharField("Тип заявки", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE, null=True,
                             blank=True)
     expert = auto_prefetch.ForeignKey("users.Expert", verbose_name="Эксперт", on_delete=models.CASCADE, blank=True, null=True)
-    date = models.DateTimeField("Дата проведения экспертизы", blank=True, null=True)
+    date = models.DateField("Дата проведения экспертизы", blank=True, null=True)
     protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424, null=True,
                                 blank=True)
     expertise = auto_prefetch.ForeignKey("inspections.Expertise", verbose_name="Экспертиза", on_delete=models.CASCADE, blank=True)
@@ -411,6 +411,8 @@ class Indicator(auto_prefetch.Model):
         return d
 
     def get_value(self, title):
+        if self.question.per_discipline and not self.question.discipline:
+            return None
         if self.question.type == "integer":
             return int(title)
         if not self.json_values:

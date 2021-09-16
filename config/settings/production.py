@@ -9,6 +9,7 @@ from sentry_sdk.integrations.excepthook import ExcepthookIntegration
 from .base import *  # noqa
 from .base import env
 
+
 # GENERAL
 # ------------------------------------------------------------------------------
 SECRET_KEY = env("DJANGO_SECRET_KEY")
@@ -51,7 +52,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 
 # STATIC
 # ------------------------
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "lrr.storage.WhiteNoiseStaticFilesStorage"
 # MEDIA
 # ------------------------------------------------------------------------------
 

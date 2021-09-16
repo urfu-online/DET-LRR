@@ -17,10 +17,6 @@ class Migration(migrations.Migration):
             old_name='subject',
             new_name='subjects',
         ),
-        # migrations.RemoveField(
-        #     model_name='academicgroup',
-        #     name='direction',
-        # ),
         migrations.AddField(
             model_name='academicgroup',
             name='eduprogram',
