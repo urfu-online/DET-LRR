@@ -59,3 +59,16 @@ class Container(BaseModel):
 
     def __str__(self):
         return str(self.pk)
+
+
+class ThematicPlan(BaseModel):
+    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Цифровой Комплекс (ЭУМК)",
+                                        on_delete=models.CASCADE, null=True, blank=True)
+    plan_object = models.JSONField(verbose_name="Объект плана", null=True, blank=True)
+
+    class Meta:
+        verbose_name = u"Структурно-тематический план"
+        verbose_name_plural = u"Структурно-тематические планы"
+
+    def __str__(self):
+        return str(self.digital_complex)

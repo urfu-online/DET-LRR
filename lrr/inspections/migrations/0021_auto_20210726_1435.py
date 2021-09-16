@@ -26,11 +26,11 @@ class Migration(migrations.Migration):
             options={'verbose_name': 'Статус', 'verbose_name_plural': 'Статусы'},
         ),
 
-        migrations.AddField(
-            model_name='indicator',
-            name='per_discipline',
-            field=models.BooleanField(default=False, verbose_name='Для каждой дисциплины'),
-        ),
+        # migrations.AddField(
+        #     model_name='indicator',
+        #     name='per_discipline',
+        #     field=models.BooleanField(default=False, verbose_name='Для каждой дисциплины'),
+        # ),
         migrations.AlterField(
             model_name='status',
             name='group',
@@ -41,15 +41,15 @@ class Migration(migrations.Migration):
             name='title',
             field=models.CharField(db_index=True, max_length=1024, verbose_name='Наименование'),
         ),
-        migrations.CreateModel(
-            name='StatusRequirement',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('allowed_values', django_better_admin_arrayfield.models.fields.ArrayField(base_field=models.CharField(blank=True, max_length=32, null=True), blank=True, null=True, size=None, verbose_name='Допустимые значения')),
-                ('allowed_num_values', django.contrib.postgres.fields.ranges.IntegerRangeField(blank=True, null=True, verbose_name='Диапазон допустимых числовых значений')),
-                ('exclude_values', django_better_admin_arrayfield.models.fields.ArrayField(base_field=models.CharField(blank=True, max_length=32, null=True), blank=True, null=True, size=None, verbose_name='Исключаемые значения')),
-                ('indicator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='inspections.indicator', verbose_name='Показатель')),
-                ('status', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='inspections.status')),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='StatusRequirement',
+        #     fields=[
+        #         ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('allowed_values', django_better_admin_arrayfield.models.fields.ArrayField(base_field=models.CharField(blank=True, max_length=32, null=True), blank=True, null=True, size=None, verbose_name='Допустимые значения')),
+        #         ('allowed_num_values', django.contrib.postgres.fields.ranges.IntegerRangeField(blank=True, null=True, verbose_name='Диапазон допустимых числовых значений')),
+        #         ('exclude_values', django_better_admin_arrayfield.models.fields.ArrayField(base_field=models.CharField(blank=True, max_length=32, null=True), blank=True, null=True, size=None, verbose_name='Исключаемые значения')),
+        #         ('indicator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='inspections.indicator', verbose_name='Показатель')),
+        #         ('status', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='inspections.status')),
+        #     ],
+        # ),
     ]

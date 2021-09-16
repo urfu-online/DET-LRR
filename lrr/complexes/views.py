@@ -140,10 +140,10 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
         context['assigment_academic_group'] = complex_model.AssignmentAcademicGroup.objects.filter(
             digital_complex=self.object)
 
-        if self.request.POST:
-            context["thematic_plan_formset"] = ThemesFormset(self.request.POST, instance=self.object)
-        else:
-            context["thematic_plan_formset"] = ThemesFormset(instance=self.object)
+        # if self.request.POST:
+        #     context["thematic_plan_formset"] = ThemesFormset(self.request.POST, instance=self.object)
+        # else:
+        #     context["thematic_plan_formset"] = ThemesFormset(instance=self.object)
         return context
 
 
@@ -685,18 +685,18 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         return context
 
 
-class CellListView(GroupRequiredMixin, FilteredListView):
-    model = complex_model.Cell
+class ThematicPlanListView(GroupRequiredMixin, FilteredListView):
+    model = grid_models.ThematicPlan
     allow_empty = True
     group_required = [u'teacher', u'admins']
     template_name = 'complexes/teacher/thematic_plan/list.html'
 
     def get_queryset(self, **kwargs):
         try:
-            queryset = complex_model.Cell.objects.filter(
+            queryset = grid_models.ThematicPlan.objects.filter(
                 digital_complex=self.request.resolver_match.kwargs['digital_complex_pk'])
         except:
-            queryset = complex_model.Cell.objects.all()
+            queryset = grid_models.ThematicPlan.objects.all()
         # self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         # qs = self.filterset.qs.distinct()
         # if qs.count() == 0:
@@ -704,21 +704,21 @@ class CellListView(GroupRequiredMixin, FilteredListView):
         return queryset
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CellListView, self).get_context_data(**kwargs)
+        context = super(ThematicPlanListView, self).get_context_data(**kwargs)
         context['dig_complex'] = complex_model.DigitalComplex.objects.get(
             pk=self.request.resolver_match.kwargs['digital_complex_pk'])
         return context
 
 
-class CellCreateView(GroupRequiredMixin, generic.CreateView):
-    model = complex_model.Cell
-    form_class = forms.CellForm
+class ThematicPlanCreateView(GroupRequiredMixin, generic.CreateView):
+    model = grid_models.ThematicPlan
+    form_class = forms.ThematicPlanForm
     group_required = ["teacher", "admins"]
     template_name = 'complexes/teacher/thematic_plan/form_create.html'
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_Cell_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ThematicPlan_list", args=(dig_complex_id,))
 
     def form_valid(self, form):
         # context = self.get_context_data()
@@ -728,17 +728,17 @@ class CellCreateView(GroupRequiredMixin, generic.CreateView):
         # if assignment_formset.is_valid():
         #     assignment_formset.instance = self.object
         #     assignment_formset.save()
-        form_valid = super(CellCreateView, self).form_valid(form)
+        form_valid = super(ThematicPlanCreateView, self).form_valid(form)
         return form_valid
 
     def get_context_data(self, **kwargs):
-        context = super(CellCreateView, self).get_context_data(**kwargs)
+        context = super(ThematicPlanCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context["form"] = forms.CellForm(self.request.POST, instance=self.object)
+            context["form"] = forms.ThematicPlanForm(self.request.POST, instance=self.object)
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
             #                                                                      instance=self.object)
         else:
-            context["form"] = forms.CellForm(instance=self.object)
+            context["form"] = forms.ThematicPlanForm(instance=self.object)
             context['digital_complex_pk'] = self.request.resolver_match.kwargs['digital_complex_pk']
             context['dig_complex'] = complex_model.DigitalComplex.objects.get(
                 pk=self.request.resolver_match.kwargs['digital_complex_pk'])

@@ -4,17 +4,17 @@ from django_select2 import forms as s2forms
 from lrr.inspections import models as inspections_models
 
 
-class DirectionsWidget(s2forms.Select2MultipleWidget):
+class DirectionsWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
 
-class SubjectsWidget(s2forms.Select2MultipleWidget):
+class SubjectsWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = ["title__icontains"]
     max_results = 50
 
 
-class DigitalComplexesWidget(s2forms.Select2MultipleWidget):
+class DigitalComplexesWidget(s2forms.ModelSelect2MultipleWidget):
     search_fields = [
         "keywords__icontains",
         "format__icontains"
@@ -37,16 +37,19 @@ class ExpertiseCreateForm(forms.ModelForm):
         widgets = {
             "subjects": SubjectsWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
                 },
             ),
             "directions": DirectionsWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
                 },
             ),
             "digital_complexes": DigitalComplexesWidget(
                 attrs={
+                    'data-minimum-input-length': 0,
                     'class': 'form-control',
                 },
             ),
