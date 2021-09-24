@@ -163,7 +163,7 @@
           <a href="{% url 'complexes:complexes_ThematicPlan_create' digital_complex_pk=object.pk %}"
              class="btn btn-block btn-primary"><i class="fas fa-plus"></i> Создать структурно-тематический план</a>
         {% else %}
-          <a href="{% url 'complexes:complexes_ThematicPlan_detail' digital_complex_pk=object.pk %}"
+          <a href="{% url 'complexes:complexes_ThematicPlan_list' digital_complex_pk=object.pk %}"
              class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический
             план</a>
         {% endif %}
