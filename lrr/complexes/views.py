@@ -139,6 +139,9 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
             digital_complex=self.object)
         context['assigment_academic_group'] = complex_model.AssignmentAcademicGroup.objects.filter(
             digital_complex=self.object)
+        context['thematic_plan'] = grid_models.ThematicPlan.objects.filter(
+            digital_complex=self.object
+        )
 
         # if self.request.POST:
         #     context["thematic_plan_formset"] = ThemesFormset(self.request.POST, instance=self.object)
