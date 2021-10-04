@@ -46,6 +46,7 @@ services:
 
   celeryworker:
     <<: *django
+
     image: lrr_celeryworker
     networks:
       - lrr
