@@ -1,0 +1,69 @@
+version: '3'
+
+networks:
+  lrr:
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: compose/production.urfu/django/Dockerfile
+    image: lrr_django
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - lrr
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    volumes:
+      - ${WEB_APP_PATH}/uploads:/app/uploads
+      - ${WEB_APP_PATH}/logs:/app/logs
+      - ${WEB_APP_PATH}/media:/app/dp/media
+      - ${WEB_APP_PATH}/gunicorn_socket/:/gunicorn_socket
+    restart: unless-stopped
+    command: /start
+
+  postgres:
+    build:
+      context: .
+      dockerfile: compose/production.urfu/postgres/Dockerfile
+    image: lrr_postgres
+    networks:
+      - lrr
+    volumes:
+      - ${WEB_APP_PATH}/pgdata:/var/lib/postgresql/data
+      - ${WEB_APP_PATH}/backups:/backups
+    env_file:
+      - ./.envs/.production/.postgres
+
+
+  redis:
+    image: redis:5.0
+    networks:
+      - lrr
+
+  celeryworker:
+    <<: *django
+
+    image: lrr_celeryworker
+    networks:
+      - lrr
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: lrr_celerybeat
+    networks:
+      - lrr
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: lrr_flower
+    networks:
+      - lrr
+    command: /start-flower
+
+

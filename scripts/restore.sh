@@ -3,7 +3,7 @@
 source .env
 
 bck_file=""
-profile="production"
+profile="production.urfu"
 
 
 for i in "$@"

@@ -9,7 +9,7 @@ services:
   django: &django
     build:
       context: .
-      dockerfile: ./compose/production/django/Dockerfile
+      dockerfile: compose/production.urfu/django/Dockerfile
     image: lrr_production_django
     depends_on:
       - postgres
@@ -22,7 +22,7 @@ services:
   postgres:
     build:
       context: .
-      dockerfile: ./compose/production/postgres/Dockerfile
+      dockerfile: compose/production.urfu/postgres/Dockerfile
     image: lrr_production_postgres
     volumes:
       - production_postgres_data:/var/lib/postgresql/data
@@ -33,7 +33,7 @@ services:
   traefik:
     build:
       context: .
-      dockerfile: ./compose/production/traefik/Dockerfile
+      dockerfile: compose/production.urfu/traefik/Dockerfile
     image: lrr_production_traefik
     depends_on:
       - django
@@ -62,4 +62,4 @@ services:
     image: lrr_production_flower
     command: /start-flower
 
-  
+

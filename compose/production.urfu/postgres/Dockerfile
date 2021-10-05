@@ -1,6 +1,6 @@
-FROM postgres:11.3
+FROM postgres:12-alpine
 
-COPY ./compose/production/postgres/maintenance /usr/local/bin/maintenance
+COPY ./compose/production.urfu/postgres/maintenance /usr/local/bin/maintenance
 RUN chmod +x /usr/local/bin/maintenance/*
 RUN mv /usr/local/bin/maintenance/* /usr/local/bin \
     && rmdir /usr/local/bin/maintenance
