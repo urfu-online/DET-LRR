@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from django.db.models import JSONField
 from django.utils.html import format_html_join
@@ -26,12 +27,9 @@ class ThemeAdmin(admin.ModelAdmin):
     ]
 
 
-class ThemeAdminInline(admin.StackedInline):
+class ThemeAdminInline(SortableInlineAdminMixin, admin.StackedInline):
     model = grid_models.Theme
-    list_display = [
-        "title",
-        "order",
-    ]
+    extra = 1
 
 
 @admin.register(grid_models.ThematicPlan)

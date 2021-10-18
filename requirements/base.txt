@@ -58,7 +58,8 @@ django_reverse_admin
 django-json-widget==1.1.1
 
 django_material_icons
-django_bootstrap_icons== 0.6.4
+django_bootstrap_icons==0.6.4
 
 django-htmlmin
 django-taggit
+django-admin-sortable2

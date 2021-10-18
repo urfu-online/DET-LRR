@@ -33,6 +33,8 @@ class Theme(models.Model):
 
     class Meta:
         ordering = ["order"]
+        verbose_name = "тема"
+        verbose_name_plural = "темы структурно-тематического плана"
 
     def __str__(self):
         return f"{self.thematic_plan.digital_complex}: {self.order} - {self.title}"
