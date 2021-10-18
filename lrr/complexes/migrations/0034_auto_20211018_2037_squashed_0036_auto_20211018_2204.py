@@ -10,8 +10,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    replaces = [('complexes', '0034_auto_20211018_2037'), ('complexes', '0035_auto_20211018_2200'), ('complexes', '0036_auto_20211018_2204')]
-
     dependencies = [
         ('taggit', '0003_taggeditem_add_unique_index'),
         ('contenttypes', '0002_remove_content_type_name'),
