@@ -1,4 +1,4 @@
-{% load static i18n user_tags analytical %}
+{% load static i18n user_tags analytical bootstrap_icons %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,10 +13,6 @@
 
   <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>
-  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-  <!--[if lt IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <![endif]-->
 
   <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
@@ -26,12 +22,8 @@
 
   {% block css %}
 
-    {#    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"#}
-    {#          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>#}
-
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css"/>
     <link rel="stylesheet" href="{% static 'bootstrap_icons/css/bootstrap_icons.css' %}">
-
 
   {% endblock %}
 
@@ -199,7 +191,7 @@
     {% for message in messages %}
       <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                aria-hidden="true"><i class="fas fa-times fa-lg"></i></span></button>
+                aria-hidden="true">{% md_icon 'close' %}</button>
       </div>
     {% endfor %}
   {% endif %}
