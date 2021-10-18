@@ -53,7 +53,7 @@ class Component(models.Model):
     ]
 
     thematic_plan = models.ForeignKey(ThematicPlan, on_delete=models.CASCADE, null=False)
-    type = models.CharField("Тип", max_length=5, choices=CELL_TYPE, null=True)
+    type = models.CharField("Тип", max_length=7, choices=CELL_TYPE, null=True)
     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True, null=True)
     content = models.JSONField(verbose_name="Содержимое ячейки структурно-тематического плана", null=True, blank=True)
     week_range = IntegerRangeField("Диапазон", blank=True, null=True)
