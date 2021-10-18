@@ -39,12 +39,22 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     autocomplete_fields = ["digital_complex"]
     list_display = [
         "digital_complex",
+        "themes",
+        "created",
+        "last_updated",
     ]
     inlines = [ThemeAdminInline]
 
     formfield_overrides = {
         JSONField: {'widget': JSONEditorWidget},
     }
+
+    @admin.display(description="Темы")
+    def themes(self, obj):
+        return format_html_join(
+            '\n', "<p>{}</p>",
+            [[t.title] for t in obj.themes.all()]
+        )
 
 
 class ThematicPlanAdminInline(admin.StackedInline):

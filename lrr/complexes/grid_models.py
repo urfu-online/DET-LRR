@@ -28,14 +28,14 @@ class ThematicPlan(BaseModel):
 class Theme(models.Model):
     title = models.CharField(max_length=64, db_index=True)
     thematic_plan = models.ForeignKey(ThematicPlan, related_name="themes", on_delete=models.CASCADE,
-                                blank=True, null=True)
+                                      blank=True, null=True)
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
         ordering = ["order"]
 
     def __str__(self):
-        return f"{self.complex}: {self.order} - {self.title}"
+        return f"{self.thematic_plan.digital_complex}: {self.order} - {self.title}"
 
 
 class Component(models.Model):

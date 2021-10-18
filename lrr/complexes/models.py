@@ -60,7 +60,7 @@ class DigitalComplex(BaseModel):
     @property
     def cipher(self):
         # try:
-        return f'ЭУМК "{self.subjects.all().first()} - {self.owner} [{self.format}] {self.form_control}"'
+        return f'ЭУМК "{self.subjects.all().first()} - {self.owner} [{self.get_format_display()}] {self.get_form_control_display()}"'
         # except:
         #     return ""
 
