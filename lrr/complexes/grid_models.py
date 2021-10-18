@@ -2,6 +2,7 @@
 #  Цифровой университет/Цифровые образовательные технологии
 
 import auto_prefetch
+from django.contrib.postgres.fields import IntegerRangeField
 from django.db import models
 from django.urls import reverse
 from sortedm2m.fields import SortedManyToManyField
@@ -41,23 +42,25 @@ class Theme(models.Model):
 
 
 class Component(models.Model):
-    thematic_plan = models.ForeignKey(ThematicPlan, on_delete=models.CASCADE, null=False)
-    content = models.JSONField(verbose_name="Содержимое ячейки структурно-тематического плана", null=True, blank=True)
+    ASYNC = 'ASYNC'
+    SYNC = 'SYNC'
+    UNKNOWN = 'UNKNOWN'
 
-    #     ASYNC = 'ASYNC'
-    #     SYNC = 'SYNC'
-    #
-    #     CELL_TYPE = [
-    #         (ASYNC, 'асинхронные мероприятия'),
-    #         (SYNC, 'синхронные мероприятия'),
-    #     ]
-    #
-    #     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
-    #     week_range = IntegerRangeField("Диапозон ", blank=True, null=True)
-    #     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True, null=True)
+    CELL_TYPE = [
+        (UNKNOWN, 'не определено'),
+        (ASYNC, 'асинхронные мероприятия'),
+        (SYNC, 'синхронные мероприятия'),
+    ]
+
+    thematic_plan = models.ForeignKey(ThematicPlan, on_delete=models.CASCADE, null=False)
+    type = models.CharField("Тип", max_length=5, choices=CELL_TYPE, null=True)
+    methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True, null=True)
+    content = models.JSONField(verbose_name="Содержимое ячейки структурно-тематического плана", null=True, blank=True)
+    week_range = IntegerRangeField("Диапазон", blank=True, null=True)
 
     class Meta:
-        pass
+        verbose_name = "компонент"
+        verbose_name_plural = "компоненты структурно-тематического плана"
 
     def __str__(self):
         return str(self.pk)
