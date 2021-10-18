@@ -4,19 +4,19 @@
 from django.db import models
 from django.urls import reverse
 from sortedm2m.fields import SortedManyToManyField
-
+import auto_prefetch
 from lrr.repository.models import BaseModel
 
 
-class Complex(models.Model):
+class Complex(auto_prefetch.Model):
     # thematic_plan = SortedManyToManyField("complexes.Theme")
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         abstract = True
 
 
 class Theme(models.Model):
-    content = models.ManyToManyField("complexes.Container")
+    # content = models.ManyToManyField("complexes.Container")
     title = models.CharField(max_length=64, db_index=True)
     complex = models.ForeignKey("complexes.DigitalComplex", related_name="thematic_plan", on_delete=models.CASCADE,
                                 blank=True, null=True)
@@ -26,13 +26,7 @@ class Theme(models.Model):
         ordering = ["order"]
 
     def __str__(self):
-        return str(self.pk)
-
-    def get_absolute_url(self):
-        return reverse("complexes_Theme_detail", args=(self.pk,))
-
-    def get_update_url(self):
-        return reverse("complexes_Theme_update", args=(self.pk,))
+        return f"{self.complex}: {self.order} - {self.title}"
 
 
 class Cell(BaseModel):
@@ -72,3 +66,6 @@ class ThematicPlan(BaseModel):
 
     def __str__(self):
         return str(self.digital_complex)
+
+    def get_themes(self):
+        return self.digital_complex.get_themes()

@@ -1,12 +1,11 @@
 """
 Base settings to build other settings files upon.
 """
+import environ
 import os
 import sys
-from pathlib import Path
-
-import environ
 from django.conf.global_settings import DATETIME_INPUT_FORMATS
+from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # lrr/
@@ -92,7 +91,6 @@ THIRD_PARTY_APPS = [
     "seaborn",
     "fontawesome_free",
     "django_bootstrap_icons",
-    # "silk",
     'permissions_auditor',
     # "det",
     "smart_selects",
@@ -102,6 +100,7 @@ THIRD_PARTY_APPS = [
     'django_json_widget',
     "sortedm2m",
     "analytical",
+    "postgres_metrics.apps.PostgresMetrics"
 
 ]
 
@@ -360,6 +359,5 @@ SELECT2_CSS = 'admin/css/vendor/select2/select2.css'
 SELECT2_USE_BUNDLED_JQUERY = False
 
 MD_ICONS_BASE_URL = 'https://cdn.jsdelivr.net/npm/@mdi/svg@5.9.55/'
-
 
 HTML_MINIFY = True

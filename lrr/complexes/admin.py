@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.db.models import JSONField
+from django_json_widget.widgets import JSONEditorWidget
 from import_export.admin import ImportExportModelAdmin
 from polymorphic.admin import (
     PolymorphicParentModelAdmin,
@@ -30,6 +32,33 @@ class ThemeAdmin(admin.ModelAdmin):
     ]
     readonly_fields = [
         "title",
+    ]
+
+
+class ThemeAdminInline(admin.StackedInline):
+    model = grid_models.Theme
+    list_display = [
+        "title",
+        "order",
+    ]
+
+
+@admin.register(grid_models.ThematicPlan)
+class ThematicPlanAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["digital_complex"]
+    list_display = [
+        "digital_complex",
+    ]
+
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditorWidget},
+    }
+
+
+class ThematicPlanAdminInline(admin.StackedInline):
+    model = grid_models.ThematicPlan
+    list_display = [
+        "plan_object",
     ]
 
 
@@ -89,9 +118,11 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
         "directions",
         "competences",
         # "results_edu",
-        "form_control"
+        "form_control",
     ]
     list_display = [
+        "title",
+        "description",
         "format",
     ]
     readonly_fields = [
@@ -102,11 +133,12 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
     inlines = [
         # ComplexSpaceCellInline,
         # DRStatusInline
+        ThemeAdminInline
     ]
     # filter_horizontal = ["subjects_tags", ]
     autocomplete_fields = ["subjects", "competences", "results_edu", "directions"]
     list_filter = ["form_control"]
-    search_fields = ["keywords", "format"]
+    search_fields = ["title", "description", "keywords"]
 
 
 @admin.register(models.AssignmentAcademicGroup)

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+import auto_prefetch
 import logging
-from smart_selects.db_fields import ChainedForeignKey
-
 from django.db import models
 from django.urls import reverse
-from polymorphic.models import PolymorphicModel
 from polymorphic.managers import PolymorphicManager
+from polymorphic.models import PolymorphicModel
+from smart_selects.db_fields import ChainedForeignKey
+
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
 from lrr.users.models import Person, Student, AcademicGroup, GroupDisciplines
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 class DigitalComplex(Complex, BaseModel):
     FORMAT_TYPES = (
+        ("-", "Не определено"),
         ("0", "смешанное обучение (Ауд+Дист+ЭИОС)"),
         ("1", "смешанное обучение (Ауд+Дист)"),
         ("2", "смешанное обучение (Ауд+ЭИОС)"),
@@ -25,6 +27,7 @@ class DigitalComplex(Complex, BaseModel):
         ("6", "традиционное обучение"),
     )
     FORM_TYPES = (
+        ("-", "Не определено"),
         ("0", "зачет"),
         ("1", "экзамен "),
     )
@@ -34,12 +37,12 @@ class DigitalComplex(Complex, BaseModel):
     description = models.TextField('Описание', blank=True)
     competences = models.ManyToManyField(Competence, verbose_name="Компетенции", blank=True)
     results_edu = models.ManyToManyField(ResultEdu, verbose_name="Результаты обучения", blank=True)
-    format = models.CharField("Формат использования", choices=FORMAT_TYPES, max_length=300, blank=True)
-    language = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name="Язык комплекса")
+    format = models.CharField("Формат использования", choices=FORMAT_TYPES, max_length=1, default="-")
+    language = auto_prefetch.ForeignKey(Language, on_delete=models.PROTECT, verbose_name="Язык комплекса")
     keywords = models.CharField("Ключевые слова", max_length=300, null=True, blank=True)
-    owner = models.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_digital_complex",
+    owner = auto_prefetch.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_digital_complex",
                               verbose_name="Владелец", blank=True, null=True)
-    form_control = models.CharField("Форма контроля", choices=FORM_TYPES, max_length=300, blank=True, null=True)
+    form_control = models.CharField("Форма контроля", choices=FORM_TYPES, max_length=1, default="-")
 
     class Meta:
         verbose_name = u"Цифровой Комплекс (ЭУМК)"
@@ -47,10 +50,10 @@ class DigitalComplex(Complex, BaseModel):
 
     @property
     def cipher(self):
-        try:
-            return f'ЭУМК "{self.subjects.all().first()} - {self.owner} [{self.format}] {self.form_control}"'
-        except:
-            return ""
+        # try:
+        return f'ЭУМК "{self.subjects.all().first()} - {self.owner} [{self.format}] {self.form_control}"'
+        # except:
+        #     return ""
 
     def __str__(self):
         return self.cipher
@@ -66,6 +69,9 @@ class DigitalComplex(Complex, BaseModel):
             return self.owner.user == user
         except:
             return False
+
+    def get_themes(self):
+        return self.thematic_plan
 
     @classmethod
     def get_count_complex(cls):
@@ -121,7 +127,7 @@ class AssignmentAcademicGroup(BaseModel):
     ]
     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="ЭУМКи", on_delete=models.CASCADE,
                                         blank=True, null=True)
-    academic_group = models.ForeignKey(AcademicGroup, on_delete=models.PROTECT,
+    academic_group = auto_prefetch.ForeignKey(AcademicGroup, on_delete=models.PROTECT,
                                        verbose_name="Академическая группа", blank=True, null=True)
     learn_date = models.PositiveSmallIntegerField("Учебный год", null=True, blank=True)
     group_subject = ChainedForeignKey(GroupDisciplines, chained_field="academic_group",

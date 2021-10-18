@@ -3,7 +3,6 @@ version: '3'
 networks:
   lrr:
 
-
 services:
   django: &django
     build:
@@ -38,6 +37,8 @@ services:
         - lrr
     env_file:
       - ./.envs/.local/.postgres
+    ports:
+      - "5432:5432"
 
   mailhog:
     image: mailhog/mailhog:v1.0.0

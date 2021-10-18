@@ -42,7 +42,6 @@ class ThemeForm(forms.ModelForm):
         model = models.Theme
         fields = [
             "title",
-            "content",
         ]
 
 

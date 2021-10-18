@@ -39,11 +39,11 @@ class User(AbstractUser):
 
 
 class Person(models.Model):
-    # Relationships
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                              related_name='person')
 
-    # Fields
+
     location = models.CharField("Адрес проживания", max_length=150, null=True, blank=True)
     date_birthday = models.DateTimeField("Дата рождения", null=True, blank=True)
     city = models.CharField("Город", max_length=100, null=True, blank=True)
@@ -101,7 +101,7 @@ class Person(models.Model):
 
 
 class Student(models.Model):
-    # Relationships
+
     person = models.ForeignKey("users.Person", on_delete=models.CASCADE)
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
                                        verbose_name="Номер академической группы", null=True)
@@ -180,7 +180,7 @@ class ChoicesExpert(models.Model):
         (METHODICAL, 'Методическая'),
         (CONTENT, 'Содержательная'),
         (TECH, 'Техническая'),
-        # Fields
+
 
     ]
     type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)

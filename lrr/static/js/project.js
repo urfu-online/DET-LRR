@@ -1,8 +1,8 @@
-/* Project specific Javascript goes here. */
-
-document.getElementById('resurse-list-hide').addEventListener("click", function(){
-    document.getElementById('resurse-list-hide').parentNode.classList.toggle('resurse-list-hide')
-
-})
+let resourceListHideElement = document.getElementById('resurse-list-hide');
+if (resourceListHideElement != null) {
+    resourceListHideElement.addEventListener("click", function () {
+        resourceListHideElement.parentNode.classList.toggle('resurse-list-hide')
+    })
+}
 
 

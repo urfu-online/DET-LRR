@@ -258,7 +258,7 @@ class ExpertiseRequest(repository_model.BaseModel):
         (CONTENT, 'Содержательная'),
         (TECH, 'Техническая'),
         (NO_TYPE, 'Отсутствует тип экспертизы')
-        # Fields
+
     ]
 
     # status
@@ -270,7 +270,7 @@ class ExpertiseRequest(repository_model.BaseModel):
         (START, 'В процессе'),
         (IN_PROCESS, 'В процессе'),
         (END, 'Завершена')
-        # Fields
+
     ]
 
     type = models.CharField("Тип заявки", max_length=30, choices=TYPE_CHOICES, default=NO_TYPE, null=True,

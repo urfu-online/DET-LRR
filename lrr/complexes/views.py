@@ -688,29 +688,17 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         return context
 
 
-class ThematicPlanListView(GroupRequiredMixin, FilteredListView):
-    model = grid_models.ThematicPlan
-    allow_empty = True
+class ThematicPlanListView(GroupRequiredMixin, generic.DetailView):
+    model = complex_model.DigitalComplex
     group_required = [u'teacher', u'admins']
     template_name = 'complexes/teacher/thematic_plan/list.html'
 
-    def get_queryset(self, **kwargs):
-        try:
-            queryset = grid_models.ThematicPlan.objects.filter(
-                digital_complex=self.request.resolver_match.kwargs['digital_complex_pk'])
-        except:
-            queryset = grid_models.ThematicPlan.objects.all()
-        # self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        # qs = self.filterset.qs.distinct()
-        # if qs.count() == 0:
-        #     self.paginate_by = None
-        return queryset
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(ThematicPlanListView, self).get_context_data(**kwargs)
-        context['dig_complex'] = complex_model.DigitalComplex.objects.get(
-            pk=self.request.resolver_match.kwargs['digital_complex_pk'])
-        return context
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(ThematicPlanListView, self).get_context_data(**kwargs)
+    #     context['dig_complex'] = complex_model.DigitalComplex.objects.get(
+    #         pk=self.request.resolver_match.kwargs['digital_complex_pk'])
+    #     return context
 
 
 class ThematicPlanCreateView(GroupRequiredMixin, generic.CreateView):
@@ -745,7 +733,7 @@ class ThematicPlanCreateView(GroupRequiredMixin, generic.CreateView):
             context['digital_complex_pk'] = self.request.resolver_match.kwargs['digital_complex_pk']
             context['dig_complex'] = complex_model.DigitalComplex.objects.get(
                 pk=self.request.resolver_match.kwargs['digital_complex_pk'])
-            context['component_complex'] = complex_model.ComponentComplex.objects.filter(
-                digital_complex=context['dig_complex'])
+            # context['component_complex'] = complex_model.ComponentComplex.objects.filter(
+            #     digital_complex=context['dig_complex'])
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
         return context

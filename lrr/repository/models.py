@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
+import auto_prefetch
 import json
 import logging
 import uuid
-
-import auto_prefetch
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -19,12 +18,11 @@ class BaseModel(auto_prefetch.Model):
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         abstract = True
 
 
 class Subject(BaseModel):
-    # Fields
     title = models.CharField("Наименование", max_length=255, db_index=True)
     description = models.TextField("Описание", null=True, blank=True)
     labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
@@ -50,7 +48,6 @@ class Subject(BaseModel):
 
 
 class Organization(BaseModel):
-    # Fields
     title = models.CharField("Наименование", max_length=150, db_index=True)
     description = models.TextField("Описание", null=True, blank=True)
     url_logo = models.URLField("Ссылка на логотип", blank=True, null=True)
@@ -154,11 +151,10 @@ class EduProgram(BaseModel):
     #     (ON_EXPERTISE, 'на экспертизе'),
     #     (ON_REVISION, 'на доработку'),
     #     (ASSIGNED_STATUS, 'присвоен статус'),
-    #     # Fields
+    #
     #
     # ]
 
-    # Fields
     title = models.CharField("Наименование", max_length=450, db_index=True)
     _cipher = models.CharField("Шифр ОП", max_length=5, blank=True, null=True)
     short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
@@ -201,7 +197,6 @@ class EduProgram(BaseModel):
 
 
 class ResultEdu(BaseModel):
-    # Fields
     title = models.CharField("Наименование", max_length=150, db_index=True)
     description = models.TextField("Описание", blank=True)
     competence = auto_prefetch.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
@@ -244,7 +239,6 @@ class DigitalResource(BaseModel):
         (MULTIMEDIA_EOR, 'Мультимедийный электронный образовательный ресурс'),
     ]
 
-    # Relationships
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
     copyright_holder = auto_prefetch.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
@@ -258,7 +252,6 @@ class DigitalResource(BaseModel):
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
     competences = models.ManyToManyField("Competence", verbose_name="Компетенции", blank=True)
 
-    # Fields
     title = models.CharField("Наименование ресурса", max_length=1024)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
@@ -408,7 +401,7 @@ class CompetenceGroup(models.Model):
 
 class Competence(BaseModel):
     TYPES = ("ОК", "ОПК", "ПК", "ПСК", "УК", "ДОК", "ДОПК", "ДПК")
-    # Fields
+
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код", max_length=8)
     okso = models.CharField("Код", max_length=8, null=True)
@@ -430,7 +423,6 @@ class Competence(BaseModel):
 
 
 class Platform(BaseModel):
-    # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", null=True, blank=True)
     url = models.URLField("Ссылка")
@@ -453,8 +445,6 @@ class Platform(BaseModel):
 
 
 class Language(models.Model):
-    # Fields
-
     title = models.CharField("Наименование", max_length=80)
     code = models.CharField("Код языка", max_length=4, primary_key=True)
 
@@ -475,9 +465,7 @@ class Language(models.Model):
         return reverse("repository_Language_update", args=(self.code,))
 
 
-# TODO: Карасик спросил для чего эта модель
 class SubjectTag(BaseModel):
-    # Relationships
     tag = auto_prefetch.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
 
     class Meta:
@@ -499,7 +487,6 @@ class SubjectTag(BaseModel):
 
 
 class EduProgramTag(BaseModel):
-    # Relationships
     tag = auto_prefetch.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
 
     class Meta:
