@@ -61,3 +61,4 @@ django_material_icons
 django_bootstrap_icons== 0.6.4
 
 django-htmlmin
+django-taggit

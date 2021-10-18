@@ -15,8 +15,6 @@ class DigitalComplexAdminForm(forms.ModelForm):
             "directions",
             "competences",
             "results_edu",
-            # "thematic_plan",
-            # "form_control"
         ]
 
 
@@ -38,14 +36,6 @@ class ThemeForm(forms.ModelForm):
             "title",
         ]
 
-
-#
-# class CellForm(forms.ModelForm):
-#     class Meta:
-#         model = grid_models.Cell
-#         fields = '__all__'
-
-
 class ComponentForm(forms.ModelForm):
     class Meta:
         model = models.ComponentComplex
@@ -57,8 +47,3 @@ class ThemeAdminForm(forms.ModelForm):
         model = models.Theme
         fields = "__all__"
 
-# class CellAdminForm(forms.ModelForm):
-#     class Meta:
-#         model = grid_models.Cell
-#
-#         fields = "__all__"

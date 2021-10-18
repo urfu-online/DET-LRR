@@ -70,13 +70,27 @@ tr.dynamic-requirements {
 
 .admin-interface .inline-group .tabular tr.dynamic-statusrequirement_set li.array-item,
 .admin-interface .inline-group .tabular tr.dynamic-requirements li.array-item {
-  margin-bottom: 3px; }
+  margin-bottom: 3px;
+}
 
 .admin-interface .inline-group .tabular tr.dynamic-statusrequirement_set .field-indicator p,
 .admin-interface .inline-group .tabular tr.dynamic-requirements .field-indicator p {
-  white-space: break-spaces; }
+  white-space: break-spaces;
+}
 
 .admin-interface .inline-group .tabular tr.dynamic-statusrequirement_set th, .admin-interface .inline-group .tabular tr.dynamic-statusrequirement_set td,
 .admin-interface .inline-group .tabular tr.dynamic-requirements th,
 .admin-interface .inline-group .tabular tr.dynamic-requirements td {
-  border-bottom: 1px solid #ddd; }
+  border-bottom: 1px solid #ddd;
+}
+
+tag {
+  display: inline-block;
+  padding: 2px 5px;
+  background-color: var(--admin-interface-header-background-color);
+  border-radius: 3px;
+  color: white;
+  font-weight: bolder;
+  font-size: 12px;
+  margin-bottom: 2px;
+}

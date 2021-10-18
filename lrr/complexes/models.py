@@ -6,6 +6,9 @@ from django.urls import reverse
 from polymorphic.managers import PolymorphicManager
 from polymorphic.models import PolymorphicModel
 from smart_selects.db_fields import ChainedForeignKey
+from taggit.managers import TaggableManager
+from taggit.managers import TaggableManager
+from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
 
 from lrr.repository.models import BaseModel, Subject, Direction, Competence, ResultEdu, DigitalResource, Language, \
     Platform
@@ -13,6 +16,12 @@ from lrr.users.models import Person, Student, AcademicGroup, GroupDisciplines
 from .grid_models import *
 
 logger = logging.getLogger(__name__)
+
+
+class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+    class Meta:
+        verbose_name = "тег"
+        verbose_name_plural = "теги"
 
 
 class DigitalComplex(BaseModel):
@@ -39,7 +48,7 @@ class DigitalComplex(BaseModel):
     results_edu = models.ManyToManyField(ResultEdu, verbose_name="Результаты обучения", blank=True)
     format = models.CharField("Формат использования", choices=FORMAT_TYPES, max_length=1, default="-")
     language = auto_prefetch.ForeignKey(Language, on_delete=models.PROTECT, verbose_name="Язык комплекса")
-    keywords = models.CharField("Ключевые слова", max_length=300, null=True, blank=True)
+    keywords = TaggableManager(verbose_name="Ключевые слова", blank=True, through=UUIDTaggedItem)
     owner = auto_prefetch.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_digital_complex",
                                      verbose_name="Владелец", blank=True, null=True)
     form_control = models.CharField("Форма контроля", choices=FORM_TYPES, max_length=1, default="-")
@@ -83,45 +92,6 @@ class DigitalComplex(BaseModel):
         return cls.objects.count()
 
 
-# class Cell(BaseModel):
-#     ASYNC = 'ASYNC'
-#     SYNC = 'SYNC'
-#
-#     CELL_TYPE = [
-#         (ASYNC, 'асинхронные мероприятия'),
-#         (SYNC, 'синхронные мероприятия'),
-#     ]
-#
-#     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
-#     include_practice = models.BooleanField("Практика", blank=True, null=True)
-#     include_theory = models.BooleanField("Теория", blank=True, null=True)
-#     week_range = IntegerRangeField("Диапозон ", blank=True, null=True)
-#     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True, null=True)
-#     component_complexes = models.ManyToManyField("complexes.ComponentComplex", verbose_name="Компоненты ЭУМК",
-#                                                  blank=True)
-#
-#     class Meta:
-#         verbose_name = "Ячейка цифрового комплекса ЭУМК"
-#         verbose_name_plural = "Ячейки цифрового комплекса ЭУМК"
-#
-#     def __str__(self):
-#         return self.get_type_display()
-
-
-# class ComplexSpaceCell(BaseModel):
-#     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Комплекс ЭУМК",
-#                                         on_delete=models.CASCADE, blank=True, null=True)
-#     theme_name = models.CharField("Тема / Раздел", max_length=1024, blank=True, null=True)
-#     cell_json = models.JSONField("Координаты ячеек", blank=True, null=True)
-#
-#     class Meta:
-#         verbose_name = "Компонент ячейки комплекса"
-#         verbose_name_plural = "Компоненты ячеек комплекса"
-#
-#     def __str__(self):
-#         return self.theme_name
-
-
 class AssignmentAcademicGroup(BaseModel):
     FIRST = 'FIRST'
     SECOND = 'SECOND'
@@ -148,9 +118,6 @@ class AssignmentAcademicGroup(BaseModel):
 
     def __str__(self):
         return f"{self.academic_group} {self.learn_date} {self.group_subject}"
-
-    # def get_absolute_url(self):
-    #     return reverse("complexes:complexes_AssignmentAcademicGroup_detail", args=(self.pk,))
 
     def get_update_url(self):
         return reverse("complexes:complexes_AssignmentAcademicGroup_update", args=(self.pk,))

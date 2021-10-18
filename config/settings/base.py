@@ -89,6 +89,7 @@ THIRD_PARTY_APPS = [
     "matplotlib",
     "pySankey",
     "seaborn",
+    "taggit",
     "fontawesome_free",
     "django_bootstrap_icons",
     'permissions_auditor',
@@ -167,10 +168,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "silk.middleware.SilkyMiddleware",
     "author.middlewares.AuthorDefaultBackendMiddleware",
-    # 'htmlmin.middleware.HtmlMinifyMiddleware',
-    # 'htmlmin.middleware.MarkRequestMiddleware',
 ]
 
 # STATIC
@@ -361,3 +359,4 @@ SELECT2_USE_BUNDLED_JQUERY = False
 MD_ICONS_BASE_URL = 'https://cdn.jsdelivr.net/npm/@mdi/svg@5.9.55/'
 
 HTML_MINIFY = True
+TAGGIT_CASE_INSENSITIVE = True

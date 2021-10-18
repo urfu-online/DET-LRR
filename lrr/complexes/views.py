@@ -6,15 +6,17 @@ from django.forms.models import inlineformset_factory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
+from django_filters.views import FilterView
+from taggit.forms import TagField
 
-from lrr.complexes import forms
-from lrr.complexes import grid_models
-from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_models
 from lrr.repository.filters import FilteredListView
 from lrr.repository.models import Subject
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Student, AcademicGroup
+from . import forms
+from . import grid_models
+from . import models as complex_model
 
 logger = logging.getLogger(__name__)
 
@@ -31,11 +33,20 @@ ThemesFormset = inlineformset_factory(
 )
 
 
+class TagFilter(django_filters.CharFilter):
+    field_class = TagField
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('lookup_expr', 'in')
+        super().__init__(*args, **kwargs)
+
+
 class DigitalComplexFilter(django_filters.FilterSet):
+    keywords = TagFilter(field_name='keywords__name')
+
     class Meta:
         model = complex_model.DigitalComplex
         fields = {
-            'keywords': ['contains'],
             'format': ['contains'],
             'language': ['exact'],
             'subjects__title': ['icontains'],

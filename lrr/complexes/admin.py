@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.db.models import JSONField
+from django.utils.html import format_html_join
+from django.utils.safestring import mark_safe
 from django_json_widget.widgets import JSONEditorWidget
 from import_export.admin import ImportExportModelAdmin
 from polymorphic.admin import (
@@ -53,6 +55,10 @@ class ThematicPlanAdminInline(admin.StackedInline):
     min_num = 1
     max_num = 1
 
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditorWidget},
+    }
+
 
 @admin.register(models.ComponentComplex)
 class ComponentAdmin(ImportExportModelAdmin):
@@ -84,12 +90,12 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
         "subjects",
         "directions",
         "competences",
-        # "results_edu",
         "form_control",
     ]
     list_display = [
         "title",
         "description",
+        "view_keywords",
         "format",
     ]
     readonly_fields = [
@@ -100,10 +106,17 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
     inlines = [
         ThematicPlanAdminInline
     ]
-    # filter_horizontal = ["subjects_tags", ]
+
     autocomplete_fields = ["subjects", "competences", "results_edu", "directions"]
     list_filter = ["form_control"]
-    search_fields = ["title", "description", "keywords"]
+    search_fields = ["title", "description", "view_keywords"]
+
+    @admin.display(description='Ключевые слова')
+    def view_keywords(self, obj):
+        return format_html_join(
+            '\n', "<tag>{}</tag>",
+            [[o.name] for o in obj.keywords.all()]
+        )
 
 
 @admin.register(models.AssignmentAcademicGroup)
@@ -164,7 +177,6 @@ class PlatformComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin)
 class LiterarySourcesComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
     base_model = models.LiterarySourcesComponent
     search_fields = ["title", ]
-    # autocomplete_fields = ["title", ]
 
 
 #
@@ -172,4 +184,3 @@ class LiterarySourcesComponentAdmin(ComponentComplexChildAdmin, ImportExportMode
 class TraditionalSessionComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
     base_model = models.TraditionalSessionComponent
     search_fields = ["title", ]
-    # autocomplete_fields = ["title", ]

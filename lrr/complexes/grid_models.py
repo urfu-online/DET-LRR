@@ -42,6 +42,18 @@ class Component(models.Model):
     thematic_plan = models.ForeignKey(ThematicPlan, on_delete=models.CASCADE, null=False)
     content = models.JSONField(verbose_name="Содержимое ячейки структурно-тематического плана", null=True, blank=True)
 
+    #     ASYNC = 'ASYNC'
+    #     SYNC = 'SYNC'
+    #
+    #     CELL_TYPE = [
+    #         (ASYNC, 'асинхронные мероприятия'),
+    #         (SYNC, 'синхронные мероприятия'),
+    #     ]
+    #
+    #     type = models.CharField("Тип ячейки", max_length=50, choices=CELL_TYPE, null=True)
+    #     week_range = IntegerRangeField("Диапозон ", blank=True, null=True)
+    #     methodology_description = models.CharField("Методологическое описание", max_length=1024, blank=True, null=True)
+
     class Meta:
         pass
 
