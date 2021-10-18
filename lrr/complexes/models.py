@@ -15,7 +15,7 @@ from .grid_models import *
 logger = logging.getLogger(__name__)
 
 
-class DigitalComplex(Complex, BaseModel):
+class DigitalComplex(BaseModel):
     FORMAT_TYPES = (
         ("-", "Не определено"),
         ("0", "смешанное обучение (Ауд+Дист+ЭИОС)"),
@@ -41,12 +41,12 @@ class DigitalComplex(Complex, BaseModel):
     language = auto_prefetch.ForeignKey(Language, on_delete=models.PROTECT, verbose_name="Язык комплекса")
     keywords = models.CharField("Ключевые слова", max_length=300, null=True, blank=True)
     owner = auto_prefetch.ForeignKey(Person, on_delete=models.PROTECT, related_name="owner_digital_complex",
-                              verbose_name="Владелец", blank=True, null=True)
+                                     verbose_name="Владелец", blank=True, null=True)
     form_control = models.CharField("Форма контроля", choices=FORM_TYPES, max_length=1, default="-")
 
     class Meta:
-        verbose_name = u"Цифровой Комплекс (ЭУМК)"
-        verbose_name_plural = u"Цифровые Комплексы (ЭУМК)"
+        verbose_name = "Цифровой Комплекс (ЭУМК)"
+        verbose_name_plural = "Цифровые Комплексы (ЭУМК)"
 
     @property
     def cipher(self):
@@ -71,6 +71,11 @@ class DigitalComplex(Complex, BaseModel):
             return False
 
     def get_themes(self):
+        if self.thematic_plan.exists():
+            return self.thematic_plan.first().themes
+        return []
+
+    def get_thematic_plan(self):
         return self.thematic_plan
 
     @classmethod
@@ -96,8 +101,8 @@ class DigitalComplex(Complex, BaseModel):
 #                                                  blank=True)
 #
 #     class Meta:
-#         verbose_name = u"Ячейка цифрового комплекса ЭУМК"
-#         verbose_name_plural = u"Ячейки цифрового комплекса ЭУМК"
+#         verbose_name = "Ячейка цифрового комплекса ЭУМК"
+#         verbose_name_plural = "Ячейки цифрового комплекса ЭУМК"
 #
 #     def __str__(self):
 #         return self.get_type_display()
@@ -110,8 +115,8 @@ class DigitalComplex(Complex, BaseModel):
 #     cell_json = models.JSONField("Координаты ячеек", blank=True, null=True)
 #
 #     class Meta:
-#         verbose_name = u"Компонент ячейки комплекса"
-#         verbose_name_plural = u"Компоненты ячеек комплекса"
+#         verbose_name = "Компонент ячейки комплекса"
+#         verbose_name_plural = "Компоненты ячеек комплекса"
 #
 #     def __str__(self):
 #         return self.theme_name
@@ -128,7 +133,7 @@ class AssignmentAcademicGroup(BaseModel):
     digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="ЭУМКи", on_delete=models.CASCADE,
                                         blank=True, null=True)
     academic_group = auto_prefetch.ForeignKey(AcademicGroup, on_delete=models.PROTECT,
-                                       verbose_name="Академическая группа", blank=True, null=True)
+                                              verbose_name="Академическая группа", blank=True, null=True)
     learn_date = models.PositiveSmallIntegerField("Учебный год", null=True, blank=True)
     group_subject = ChainedForeignKey(GroupDisciplines, chained_field="academic_group",
                                       show_all=False,
@@ -138,8 +143,8 @@ class AssignmentAcademicGroup(BaseModel):
                                       null=True)
 
     class Meta:
-        verbose_name = u"Ресурсное обеспечение академической группы"
-        verbose_name_plural = u"Ресурсное обеспечение академических групп"
+        verbose_name = "Ресурсное обеспечение академической группы"
+        verbose_name_plural = "Ресурсное обеспечение академических групп"
 
     def __str__(self):
         return f"{self.academic_group} {self.learn_date} {self.group_subject}"

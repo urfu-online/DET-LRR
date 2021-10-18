@@ -13,17 +13,6 @@ from lrr.complexes import grid_models
 from lrr.complexes import models
 
 
-@admin.register(grid_models.Container)
-class ContainerAdmin(admin.ModelAdmin):
-    form = forms_admin.ContainerAdminForm
-    list_display = [
-        "type",
-    ]
-    readonly_fields = [
-        "type",
-    ]
-
-
 @admin.register(grid_models.Theme)
 class ThemeAdmin(admin.ModelAdmin):
     form = forms_admin.ThemeAdminForm
@@ -49,6 +38,7 @@ class ThematicPlanAdmin(admin.ModelAdmin):
     list_display = [
         "digital_complex",
     ]
+    inlines = [ThemeAdminInline]
 
     formfield_overrides = {
         JSONField: {'widget': JSONEditorWidget},
@@ -60,15 +50,8 @@ class ThematicPlanAdminInline(admin.StackedInline):
     list_display = [
         "plan_object",
     ]
-
-
-# @admin.register(grid_models.Cell)
-# class CellAdmin(admin.ModelAdmin):
-#     form = forms_admin.CellAdminForm
-#     list_display = [
-#     ]
-#     readonly_fields = [
-#     ]
+    min_num = 1
+    max_num = 1
 
 
 @admin.register(models.ComponentComplex)
@@ -77,22 +60,6 @@ class ComponentAdmin(ImportExportModelAdmin):
     list_display = [
         "__str__",
     ]
-
-
-# class ComplexSpaceCellInline(admin.TabularInline):
-#     model = models.ComplexSpaceCell
-#     list_display = [
-#         "title",
-#         "description",
-#         "cells",
-#         "digital_complex",
-#         "link"
-#     ]
-#     readonly_fields = [
-#         "created",
-#     ]
-#     extra = 0
-#     autocomplete_fields = ['digital_complex', ]
 
 
 class WorkPlanAcademicGroupAdminInline(admin.TabularInline):
@@ -131,9 +98,7 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
         "last_updated",
     ]
     inlines = [
-        # ComplexSpaceCellInline,
-        # DRStatusInline
-        ThemeAdminInline
+        ThematicPlanAdminInline
     ]
     # filter_horizontal = ["subjects_tags", ]
     autocomplete_fields = ["subjects", "competences", "results_edu", "directions"]

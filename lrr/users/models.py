@@ -55,8 +55,8 @@ class Person(models.Model):
     last_name = models.CharField("Фамилия", max_length=100, null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Профиль"
-        verbose_name_plural = u"Профили"
+        verbose_name = "Профиль"
+        verbose_name_plural = "Профили"
 
     def __str__(self):
         return f"{self.last_name} {self.first_name} {self.middle_name}"
@@ -109,8 +109,8 @@ class Student(models.Model):
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
     class Meta:
-        verbose_name = u"Студент"
-        verbose_name_plural = u"Студенты"
+        verbose_name = "Студент"
+        verbose_name_plural = "Студенты"
 
     def __str__(self):
         return str(self.person)
@@ -149,8 +149,8 @@ class AcademicGroup(models.Model):
                                    on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:
-        verbose_name = u"Академическая группа"
-        verbose_name_plural = u"Академические группы"
+        verbose_name = "Академическая группа"
+        verbose_name_plural = "Академические группы"
 
     def __str__(self):
         return self.number
@@ -186,8 +186,8 @@ class ChoicesExpert(models.Model):
     type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)
 
     class Meta:
-        verbose_name = u"Тип экспертизы"
-        verbose_name_plural = u"Типы экспертиз"
+        verbose_name = "Тип экспертизы"
+        verbose_name_plural = "Типы экспертиз"
 
     def __str__(self):
         return self.get_type_display()
@@ -199,8 +199,8 @@ class Expert(models.Model):
     subdivision = models.CharField('Подразделение/отрасль', max_length=500)
 
     class Meta:
-        verbose_name = u"Эксперт"
-        verbose_name_plural = u"Эксперты"
+        verbose_name = "Эксперт"
+        verbose_name_plural = "Эксперты"
 
     def __str__(self):
         return str(self.person)
@@ -232,8 +232,8 @@ class GroupDisciplines(models.Model):
     semestr = models.PositiveSmallIntegerField(verbose_name="Семестр", blank=True, null=True)
 
     class Meta:
-        verbose_name = u"Дисциплина группы"
-        verbose_name_plural = u"Дисциплины групп"
+        verbose_name = "Дисциплина группы"
+        verbose_name_plural = "Дисциплины групп"
 
     def __str__(self):
         return f"{self.subject} - {self.semestr} семестр"

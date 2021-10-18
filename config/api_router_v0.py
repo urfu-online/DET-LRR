@@ -33,11 +33,10 @@ router.register("Source", repository_api.SourceViewSet)
 # COMPLEXES
 
 router.register("digitalComplex", complexes_api.DigitalComplexViewSet)
-router.register("cell", complexes_api.CellViewSet)
-router.register("my_sbuject/digital_complex", complexes_api.AssignmentAcademicGroupComplexListViewSet)
-router.register("my_sbuject/digital_resource_recomend", complexes_api.DigitalResourceSubjectListRecomended)
-router.register("my_sbuject/digital_resource", complexes_api.DigitalResourceSubjectListViewSet)
-router.register("my_sbuject", complexes_api.ResourceAssignedStatusTag)
+router.register("my_subject/digital_complex", complexes_api.AssignmentAcademicGroupComplexListViewSet)
+router.register("my_subject/digital_resource_recomend", complexes_api.DigitalResourceSubjectListRecomended)
+router.register("my_subject/digital_resource", complexes_api.DigitalResourceSubjectListViewSet)
+router.register("my_subject", complexes_api.ResourceAssignedStatusTag)
 
 # INSPECTIONS
 

@@ -166,8 +166,8 @@ class Expertise(repository_model.BaseModel):
             return cls.objects.none()
 
     class Meta:
-        verbose_name = u"Экспертиза"
-        verbose_name_plural = u"Экспертизы"
+        verbose_name = "Экспертиза"
+        verbose_name_plural = "Экспертизы"
 
     def __str__(self):
         return f"{self.get_status_display()} {self.digital_resource.title} {self.date} {self.owner}"
@@ -285,8 +285,8 @@ class ExpertiseRequest(repository_model.BaseModel):
                                       null=True)
 
     class Meta:
-        verbose_name = u"Заявка"
-        verbose_name_plural = u"Заявка"
+        verbose_name = "Заявка"
+        verbose_name_plural = "Заявка"
 
     def __str__(self):
         return f"{self.expertise} {self.status} {self.survey}"

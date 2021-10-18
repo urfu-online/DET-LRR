@@ -150,7 +150,7 @@ expert_detail_view = ExpertDetailView.as_view()
 class ExpertCreateView(GroupRequiredMixin, CreateView):
     model = models.Expert
     form_class = forms.ExpertForm
-    group_required = [u"admins", u"secretary"]
+    group_required = ["admins", "secretary"]
 
     def get_success_url(self):
         return reverse_lazy("users:expert_list")
@@ -170,7 +170,7 @@ expert_create_view = ExpertCreateView.as_view()
 class ExpertUpdateView(GroupRequiredMixin, UpdateView):
     model = models.Expert
     form_class = forms.ExpertForm
-    group_required = [u"admins", u"secretary"]
+    group_required = ["admins", "secretary"]
 
     def get_success_url(self):
         return reverse_lazy("users:expert_list")

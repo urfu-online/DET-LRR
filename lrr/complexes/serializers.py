@@ -46,12 +46,6 @@ class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer)
         ]
 
 
-class CellSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = grid_models.Cell
-        fields = [
-        ]
-
 
 class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
     eduprogram = serializers.CharField(source='academic_group.eduprogram')

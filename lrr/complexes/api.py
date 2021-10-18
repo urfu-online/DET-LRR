@@ -27,14 +27,6 @@ class DigitalComplexViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class CellViewSet(viewsets.ModelViewSet):
-    """ViewSet for the Expertise_status class"""
-
-    queryset = grid_models.Cell.objects.all()
-    serializer_class = serializers.CellSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
 class AssignmentAcademicGroupComplexListViewSet(GroupRequiredMixin, viewsets.ModelViewSet):
     """ViewSet for the Subject class"""
 

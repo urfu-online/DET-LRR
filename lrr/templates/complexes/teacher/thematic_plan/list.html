@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load static user_tags %}
+{% load static user_tags bootstrap_icons %}
 
 {% block content %}
   <link href="{% static 'gridstack/dist/gridstack.min.css' %}" rel="stylesheet"/>
-  <link href="{% static 'gridstack/dist/gridstack-extra.css' %}" rel="stylesheet"/>
+  <link href="{% static 'gridstack/dist/gridstack-extra.min.css' %}" rel="stylesheet"/>
   <script src="{% static 'gridstack/dist/gridstack-h5.js' %}"></script>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
@@ -29,11 +29,24 @@
           <div class="card-body">
 
             <div class="container">
-              <div class="row">
-                <div class="newWidget col-sm-3 bg-info mx-3" style="height:90px;">+</div>
-                <div class="col-sm-3 bg-danger mx-3" id="trash" style="height:90px;">-</div>
+              <div class="row justify-content-between my-3">
+                <div class="col-sm"></div>
+                <div class="col-sm">
+                  <div class="sidebar">
+                    <!-- will size to match content -->
+                    <div class="grid-stack-item ui-draggable newWidget" gs-x="4" gs-y="1" gs-w="1" gs-h="1">
+                      <div class="grid-stack-item-content" draggable="true">Новый компонент</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm">
+                  <div class="trash ui-droppable p-2">
+                    {% md_icon "trash-can-outline" size="1.5em" color="darkred" %}
+                    <p>Перетащите сюда для удаления</p>
+                  </div>
+                </div>
               </div>
-              <div class="row">
+              <div class="row font-weight-bold text-uppercase border">
                 <div class="col-sm">
                   Тема / раздел
                 </div>
@@ -44,7 +57,7 @@
                   Практика
                 </div>
               </div>
-              <div class="row grid-stack">
+              <div class="row grid-stack border border-top-0">
 
               </div>
             </div>
@@ -54,30 +67,132 @@
     </div>
   {% endif %}
 
+  <div class="modal fade" id="cellEditModal" tabindex="-1" role="dialog" aria-labelledby="cellEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cellEditModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Recipient:</label>
+              <input type="text" class="form-control" id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Send message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <style>
     div[gs-x="0"] > .grid-stack-item-content {
-      background-color: grey;
+      background-color: whitesmoke;
+      border: none;
+    }
+
+    .trash {
+      height: 90px;
+      border: 1px dashed darkred;
+      background: #8b000017;
+      border-radius: 2px;
+      text-align: center;
+      line-height: 35px;
+      z-index: 10;
+
+    }
+
+    .sidebar {
+      border: 1px dashed darkred;
+      background: rgba(30, 139, 0, 0.09);
+      padding: 1.8em .5em;
+      height: 90px;
+      text-align: center;
+    }
+
+    .sidebar .grid-stack-item {
+      background-color: white;
+      text-align: center;
+      line-height: 35px;
+      z-index: 10;
+      cursor: copy;
+    }
+
+    .sidebar .grid-stack-item .grid-stack-item-content {
+      background: none;
+    }
+
+    .themeTitle {
+      text-align: left;
+      height: 100%;
+    }
+
+    .editButton {
+      position: absolute;
+      left: 3px;
+      top: 0;
+      font-size: 85%;
     }
   </style>
   <script type="text/javascript">
+    let editButton = '<a type="button" class="editButton" data-toggle="modal" data-target="#cellEditModal">Редактировать</a>'
     let items = [
       {% for theme in object.get_themes.all %}
-        {x: 0, y: {{ forloop.counter0 }}, content: '{{theme.title }}', noResize: true, noMove: true},
+        {x: 0, y: {{ forloop.counter0 }}, content: '<div class="themeTitle p-2"><p class="lead">{{theme.title }}</p></div>', locked: true, noResize: true, noMove: true},
       {% endfor %}
-      {content: 'another longer widget!'} // will be placed next at (1,0) and 2x1
+      {content: '<div class="cellContent m-2" data-cell="{title:\"Cell title\"}"></div>'} // will be placed next at (1,0) and 2x1
     ];
     let grid = GridStack.init({
       disableOneColumnMode: true,
       column: 3,
-      float: true,
+      float: false,
       dragIn: '.newWidget',
       cellHeight: 90,
-      acceptWidgets: true,
-      dragInOptions: {revert: 'invalid', scroll: false, appendTo: 'body', helper: 'clone', handle: '.grid-stack-item-content'},
-      removable: '#trash',
-      removeTimeout: 100
+      acceptWidgets: '.newWidget',
+      dragInOptions: {revert: 'invalid', scroll: false, appendTo: 'body', helper: 'clone'},
+      removable: '.trash',
+      removeTimeout: 100,
+      resizable: {
+        handles: 'n,s'
+      }
     });
+
+    grid.on('added', function (event, items) {
+      items.forEach(function (item) {
+        if (!item.locked) {
+          console.log(item);
+          grid.update(item.el, {
+            content: item.content + editButton
+          });
+        }
+
+      });
+    });
+
     grid.load(items);
+
+    $('#cellEditModal').on('show.bs.modal', function (event) {
+  let button = $(event.relatedTarget) // Button that triggered the modal
+  let recipient = button.parent.data('cell') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
+
+
   </script>
 
 {% endblock %}

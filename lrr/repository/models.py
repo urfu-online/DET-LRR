@@ -28,8 +28,8 @@ class Subject(BaseModel):
     labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Дисциплина"
-        verbose_name_plural = u"Дисциплины"
+        verbose_name = "Дисциплина"
+        verbose_name_plural = "Дисциплины"
 
     def __str__(self):
         return self.title
@@ -56,8 +56,8 @@ class Organization(BaseModel):
     url = models.URLField("URL", null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Организация"
-        verbose_name_plural = u"Организации"
+        verbose_name = "Организация"
+        verbose_name_plural = "Организации"
 
     def __str__(self):
         return self.title
@@ -74,8 +74,8 @@ class ScientificBranch(BaseModel):
     code = models.PositiveSmallIntegerField("Код", blank=True, null=True, unique=True)
 
     class Meta:
-        verbose_name = u"научная отрасль"
-        verbose_name_plural = u"научные отрасли"
+        verbose_name = "научная отрасль"
+        verbose_name_plural = "научные отрасли"
 
     def __str__(self):
         return f"{self.code} {self.title}"
@@ -89,8 +89,8 @@ class DirectionsEnlargedGroup(BaseModel):
     code = models.CharField("Код УГН", max_length=64, unique=True)
 
     class Meta:
-        verbose_name = u"укрупненная группа направлений"
-        verbose_name_plural = u"укрупненные группа направлений"
+        verbose_name = "укрупненная группа направлений"
+        verbose_name_plural = "укрупненные группа направлений"
 
     def __str__(self):
         return f"{self.code} {self.title}"
@@ -104,8 +104,8 @@ class Direction(BaseModel):
                                                  null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = u"Направление подготовки"
-        verbose_name_plural = u"Направления подготовки"
+        verbose_name = "Направление подготовки"
+        verbose_name_plural = "Направления подготовки"
 
     def __str__(self):
         return f"{self.code} {self.title}"
@@ -180,8 +180,8 @@ class EduProgram(BaseModel):
             return ""
 
     class Meta:
-        verbose_name = u"Образовательная программа"
-        verbose_name_plural = u"Образовательные программы"
+        verbose_name = "Образовательная программа"
+        verbose_name_plural = "Образовательные программы"
 
     def __str__(self):
         return f"{self.cipher} {self.title}"
@@ -203,8 +203,8 @@ class ResultEdu(BaseModel):
                                           on_delete=models.PROTECT)
 
     class Meta:
-        verbose_name = u"Образовательный результат"
-        verbose_name_plural = u"Образовательные результаты"
+        verbose_name = "Образовательный результат"
+        verbose_name_plural = "Образовательные результаты"
 
     def __str__(self):
         return self.title
@@ -259,8 +259,8 @@ class DigitalResource(BaseModel):
     description = models.TextField("Описание", null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Паспорт ЭОР"
-        verbose_name_plural = u"Паспорта ЭОР"
+        verbose_name = "Паспорт ЭОР"
+        verbose_name_plural = "Паспорта ЭОР"
         ordering = ["title"]
 
     def __str__(self):
@@ -341,8 +341,8 @@ class Source(BaseModel):
     type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=8, null=True)
 
     class Meta:
-        verbose_name = u"Компонент"
-        verbose_name_plural = u"Компоненты"
+        verbose_name = "Компонент"
+        verbose_name_plural = "Компоненты"
 
     def __str__(self):
         return f"Компонент: {self.digital_resource.title}.{self.get_format()}"
@@ -381,8 +381,8 @@ class Source(BaseModel):
 #     competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT, verbose_name="Компетенция")
 #
 #     class Meta:
-#         verbose_name = u"Паспорт ЭОР / Компетенция"
-#         verbose_name_plural = u"Паспорт ЭОР / Компетенции"
+#         verbose_name = "Паспорт ЭОР / Компетенция"
+#         verbose_name_plural = "Паспорт ЭОР / Компетенции"
 #
 #     def __str__(self):
 #         return "{}".format(self.competence)
@@ -409,8 +409,8 @@ class Competence(BaseModel):
     # TODO: add fields
     # type choices_to TYPES
     class Meta:
-        verbose_name = u"Компетенция"
-        verbose_name_plural = u"Компетенции"
+        verbose_name = "Компетенция"
+        verbose_name_plural = "Компетенции"
 
     def __str__(self):
         return f"{self.code} {self.title}"
@@ -431,8 +431,8 @@ class Platform(BaseModel):
     contacts = models.TextField("Контакты", null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Платформа"
-        verbose_name_plural = u"Платформы"
+        verbose_name = "Платформа"
+        verbose_name_plural = "Платформы"
 
     def __str__(self):
         return self.title
@@ -452,8 +452,8 @@ class Language(models.Model):
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
-        verbose_name = u"Язык ресура"
-        verbose_name_plural = u"Языки ресурсов"
+        verbose_name = "Язык ресура"
+        verbose_name_plural = "Языки ресурсов"
 
     def __str__(self):
         return self.title

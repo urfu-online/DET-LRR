@@ -2,7 +2,8 @@ from django import forms
 from django_select2 import forms as s2forms
 from polymorphic.formsets import polymorphic_modelformset_factory, PolymorphicFormSetChild
 
-from lrr.complexes import models as complex_models
+from . import grid_models
+from . import models as complex_models
 
 
 class DirectionsWidget(s2forms.ModelSelect2MultipleWidget):
@@ -97,21 +98,8 @@ class DigitalComplexForm(forms.ModelForm):
 
 class ThematicPlanForm(forms.ModelForm):
     class Meta:
-        model = complex_models.Cell
+        model = grid_models.ThematicPlan
         fields = "__all__"
-        #
-        # widgets = {
-        #     "type": forms.Select(
-        #         attrs={
-        #             'class': 'form-control',
-        #         },
-        #     ),
-        #     "methodology_description": forms.TextInput(
-        #         attrs={
-        #             'class': 'form-control',
-        #         },
-        #     ),
-        # }
 
 
 class DigitalComplexWidget(s2forms.Select2Widget):

@@ -3,12 +3,6 @@ from django import forms
 from lrr.complexes import models
 
 
-class ContainerAdminForm(forms.ModelForm):
-    class Meta:
-        model = models.Container
-        fields = "__all__"
-
-
 class DigitalComplexAdminForm(forms.ModelForm):
     class Meta:
         model = models.DigitalComplex
@@ -50,14 +44,6 @@ class ThemeForm(forms.ModelForm):
 #     class Meta:
 #         model = grid_models.Cell
 #         fields = '__all__'
-
-
-class ContainerForm(forms.ModelForm):
-    class Meta:
-        model = models.Container
-        fields = [
-            "type",
-        ]
 
 
 class ComponentForm(forms.ModelForm):
