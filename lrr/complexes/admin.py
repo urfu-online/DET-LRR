@@ -55,13 +55,6 @@ class ThematicPlanAdminInline(admin.StackedInline):
     }
 
 
-@admin.register(models.ComponentComplex)
-class ComponentAdmin(ImportExportModelAdmin):
-    list_display = [
-        '__str__',
-    ]
-
-
 class WorkPlanAcademicGroupAdminInline(admin.TabularInline):
     list_display = [
         'academic_group',
@@ -100,7 +93,7 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
         ThematicPlanAdminInline
     ]
 
-    autocomplete_fields = ['subjects', 'competences', 'results_edu', 'directions']
+    autocomplete_fields = ['subjects', 'competences', 'results_edu', 'directions', 'language']
     list_filter = ['form_control', 'format']
     search_fields = ['title', 'description', 'view_keywords']
 
@@ -130,53 +123,51 @@ class AssignmentAcademicGroupAdmin(ImportExportModelAdmin):
     autocomplete_fields = ['digital_complex', 'academic_group', 'group_subject']
 
 
-# @admin.register(models.ComponentComplex)
-class ComponentComplexChildAdmin(PolymorphicChildModelAdmin):
-    base_model = models.ComponentComplex
+class ComplexParentComponentChildAdmin(PolymorphicChildModelAdmin):
+    base_model = models.ComplexParentComponent
+    base_fields = ["digital_complex", "description"]
 
 
-class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
-    base_model = models.ComponentComplex
+@admin.register(models.ComplexParentComponent)
+class ComplexParentComponentParentAdmin(PolymorphicParentModelAdmin):
+    base_model = models.ComplexParentComponent
     search_fields = ['digital_complex__title', 'digital_complex__keywords', 'digital_complex__format']
-    # form = ProgramComponentForm
-    # autocomplete_fields = ['logistical_resource', 'personnel_resource', 'digital_resource', 'competence']
+    autocomplete_fields = ['digital_complex']
     child_models = (
         models.ResourceComponent,
         models.PlatformComponent,
         models.TraditionalSessionComponent,
-        models.ComponentComplex
+        models.ComplexParentComponent,
+        models.LiterarySourcesComponent,
     )
 
     list_filter = (PolymorphicChildModelFilter,)
     fields = ('digital_complex', 'description')
 
 
-# @admin.register(models.ComponentComplex)
-class ComponentComplexChiledAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
-    base_model = models.ComponentComplex
-    search_fields = ['digital_complex__title', 'digital_complex__keywords', 'digital_complex__format']
-
-
 @admin.register(models.ResourceComponent)
-class ResourceComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
+class ResourceComponentAdmin(ComplexParentComponentChildAdmin, ImportExportModelAdmin):
     base_model = models.ResourceComponent
     search_fields = ['digital_resource__title', ]
-    autocomplete_fields = ['digital_resource', ]
+    autocomplete_fields = ['digital_resource', 'digital_complex']
 
 
 @admin.register(models.PlatformComponent)
-class PlatformComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
+class PlatformComponentAdmin(ComplexParentComponentChildAdmin, ImportExportModelAdmin):
     base_model = models.PlatformComponent
-    search_fields = ['title', ]
+    search_fields = ['title', 'url']
+    autocomplete_fields = ['digital_complex']
 
 
 @admin.register(models.LiterarySourcesComponent)
-class LiterarySourcesComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
+class LiterarySourcesComponentAdmin(ComplexParentComponentChildAdmin, ImportExportModelAdmin):
     base_model = models.LiterarySourcesComponent
-    search_fields = ['title', ]
+    search_fields = ['title', 'url']
+    autocomplete_fields = ['digital_complex']
 
 
 @admin.register(models.TraditionalSessionComponent)
-class TraditionalSessionComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
+class TraditionalSessionComponentAdmin(ComplexParentComponentChildAdmin, ImportExportModelAdmin):
     base_model = models.TraditionalSessionComponent
-    search_fields = ['title', ]
+    search_fields = ['title', 'description_session', 'url']
+    autocomplete_fields = ['digital_complex']

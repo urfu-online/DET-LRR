@@ -52,8 +52,8 @@
                   <td>{{ component }}</td>
                   <td>{{ component.description }}</td>
                   <td><a class="btn "
-                         href="{% url 'complexes:complexes_ComponentComplex_delete' pk=component.pk %}"><i
-                          class="fas fa-trash-alt"></i></a></td>
+                         href="{% url 'complexes:complexes_ComplexParentComponent_delete' pk=component.pk %}"><i
+                    class="fas fa-trash-alt"></i></a></td>
                 </tr>
               {% endfor %}
               </tbody>

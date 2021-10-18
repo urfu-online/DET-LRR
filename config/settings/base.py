@@ -1,11 +1,12 @@
 """
 Base settings to build other settings files upon.
 """
-import environ
 import os
 import sys
-from django.conf.global_settings import DATETIME_INPUT_FORMATS
 from pathlib import Path
+
+import environ
+from django.conf.global_settings import DATETIME_INPUT_FORMATS
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # lrr/
@@ -84,6 +85,7 @@ THIRD_PARTY_APPS = [
     'easy_select2',
     'django_better_admin_arrayfield',
     'adminsortable2',
+    'lineup.apps.LineupConfig',
     'rest_polymorphic',
     'bootstrapform',
     'pandas',

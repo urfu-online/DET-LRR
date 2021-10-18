@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
-from rest_framework import viewsets, permissions
-from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+
 from django_filters import rest_framework as filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework import viewsets, permissions
 
-from lrr.complexes import grid_models
 from lrr.complexes import models
 from lrr.complexes import serializers
 from lrr.inspections.models import Expertise
@@ -85,7 +83,7 @@ class DigitalResourceSubjectListRecomended(viewsets.ModelViewSet):
 
 
 class ComponentsSerializer(GroupRequiredMixin, viewsets.ModelViewSet):
-    queryset = models.ComponentComplex.objects.all()
+    queryset = models.ComplexParentComponent.objects.all()
     serializer_class = serializers.ComponentsPolymorphicSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['polymorphic_ctype']

@@ -4,7 +4,6 @@ import logging
 from rest_framework import serializers
 from rest_polymorphic.serializers import PolymorphicSerializer
 
-from lrr.complexes import grid_models
 from lrr.complexes import models as complexes_models
 from lrr.repository import serializers as repo_serializers
 
@@ -98,9 +97,9 @@ class DigitalComplexSerializer(serializers.ModelSerializer):
         ]
 
 
-class ComponentComplexSerializer(serializers.ModelSerializer):
+class ComplexParentComponentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = complexes_models.ComponentComplex
+        model = complexes_models.ComplexParentComponent
         fields = '__all__'
 
 
@@ -124,7 +123,7 @@ class TraditionalSessionComponentSerializer(serializers.ModelSerializer):
 
 class ComponentsPolymorphicSerializer(PolymorphicSerializer):
     model_serializer_mapping = {
-        complexes_models.ComponentComplex: ComponentComplexSerializer,
+        complexes_models.ComplexParentComponent: ComplexParentComponentSerializer,
         complexes_models.ResourceComponent: ResourceComponentSerializer,
         complexes_models.PlatformComponent: PlatformComponentSerializer,
         complexes_models.TraditionalSessionComponent: TraditionalSessionComponentSerializer

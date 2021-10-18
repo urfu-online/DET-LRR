@@ -179,13 +179,13 @@ class AssignmentAcademicGroupForm(forms.ModelForm):
 # )
 
 
-class ComponentComplexForm(forms.ModelForm):
+class ComplexParentComponentForm(forms.ModelForm):
     class Meta:
-        model = complex_models.ComponentComplex
+        model = complex_models.ComplexParentComponent
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        super(ComponentComplexForm, self).__init__(*args, **kwargs)
+        super(ComplexParentComponentForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 
@@ -322,8 +322,8 @@ class LiterarySourcesComponentForm(forms.ModelForm):
         }
 
 
-ComponentComplexFormSet = polymorphic_modelformset_factory(
-    complex_models.ComponentComplex,
+ComplexParentComponentFormSet = polymorphic_modelformset_factory(
+    complex_models.ComplexParentComponent,
     fields='__all__',
     extra=1,
     formset_children=(

@@ -140,10 +140,10 @@
     {% if request.user|has_owner_complex:object %}
       <div class="col-4 p-2">
         {% if component_complex.all %}
-          <a href="{% url 'complexes:complexes_ComponentComplex_list' pk=object.pk %}"
+          <a href="{% url 'complexes:complexes_ComplexParentComponent_list' pk=object.pk %}"
              class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>
         {% else %}
-          <a href="{% url 'complexes:complexes_ComponentComplex_list' pk=object.pk %}"
+          <a href="{% url 'complexes:complexes_ComplexParentComponent_list' pk=object.pk %}"
              class="btn btn-block btn-primary"><i class="fas fa-plus"></i> Добавить компоненты в ЭУМК</a>
         {% endif %}
       </div>

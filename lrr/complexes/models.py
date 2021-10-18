@@ -131,7 +131,7 @@ class AssignmentAcademicGroup(BaseModel):
         return cls.objects.filter(digital_complex__pk=digital_complex_pk)
 
 
-class ComponentComplex(BaseModel, PolymorphicModel):
+class ComplexParentComponent(BaseModel, PolymorphicModel):
     objects = PolymorphicManager()
 
     digital_complex = models.ForeignKey(DigitalComplex, verbose_name="ЭУМК", on_delete=models.CASCADE, blank=True)
@@ -139,7 +139,7 @@ class ComponentComplex(BaseModel, PolymorphicModel):
     order = models.IntegerField("Порядрок отображения компонента", blank=True, null=True)
 
     def __str__(self):
-        return f"{self.digital_complex.title} - {self.digital_complex.keywords} - {self.digital_complex.format}"
+        return f"{self.digital_complex.title} - {self.digital_complex.get_format_display()}: {self.order}"
 
     def get_absolute_url(self):
         return reverse("complexes:complexes_DigitalComplex_detail", args=(self.digital_complex.pk,))
@@ -147,23 +147,24 @@ class ComponentComplex(BaseModel, PolymorphicModel):
     class Meta:
         verbose_name = 'компонент комплекса'
         verbose_name_plural = 'компоненты комплексов'
+        ordering = ["order"]
 
 
-class ResourceComponent(ComponentComplex):
-    digital_resource = models.ForeignKey(DigitalResource, verbose_name="ЭОР", on_delete=models.CASCADE, blank=True)
+class ResourceComponent(ComplexParentComponent):
+    digital_resource = models.ForeignKey(DigitalResource, verbose_name="ЭОР", on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.digital_resource.title
 
     def get_absolute_url(self):
-        return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
+        return reverse("complexes:complexes_ComplexParentComponent_create", args=(self.digital_complex.pk,))
 
     class Meta:
         verbose_name = 'компонент ЭОР'
         verbose_name_plural = 'компоненты ЭОР'
 
 
-class LiterarySourcesComponent(ComponentComplex):
+class LiterarySourcesComponent(ComplexParentComponent):
     title = models.TextField("Библиографическая ссылка", null=True, blank=True)
     url = models.URLField("URL", null=True, blank=True)
 
@@ -171,14 +172,14 @@ class LiterarySourcesComponent(ComponentComplex):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
+        return reverse("complexes:complexes_ComplexParentComponent_create", args=(self.digital_complex.pk,))
 
     class Meta:
         verbose_name = 'литературный источник'
         verbose_name_plural = 'литературные источники'
 
 
-class PlatformComponent(ComponentComplex):
+class PlatformComponent(ComplexParentComponent):
     title = models.CharField("Наименование", max_length=150, blank=True)
     description_self = models.TextField("Описание", blank=True, null=True)
     url = models.URLField("Ссылка на онлайн-расписание занятий", null=True, blank=True)
@@ -187,20 +188,20 @@ class PlatformComponent(ComponentComplex):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
+        return reverse("complexes:complexes_ComplexParentComponent_create", args=(self.digital_complex.pk,))
 
     class Meta:
         verbose_name = 'среда обучения'
         verbose_name_plural = 'среда обучения'
 
 
-class TraditionalSessionComponent(ComponentComplex):
+class TraditionalSessionComponent(ComplexParentComponent):
     title = models.CharField("Наименование вида занятий", max_length=150, blank=True)
     description_session = models.TextField("Описание занятий", blank=True, null=True)
     url = models.URLField("Ссылка на онлайн-расписание занятий", null=True, blank=True)
 
     def get_absolute_url(self):
-        return reverse("complexes:complexes_ComponentComplex_create", args=(self.digital_complex.pk,))
+        return reverse("complexes:complexes_ComplexParentComponent_create", args=(self.digital_complex.pk,))
 
     def __str__(self):
         return self.title

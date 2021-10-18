@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib import admin
-from import_export.admin import ImportExportModelAdmin, ImportExportMixin
+from import_export.admin import ImportExportModelAdmin
 from import_export_celery.admin_actions import create_export_job_action
-
 
 from . import models
 
@@ -167,7 +166,7 @@ class DigitalResourceAdmin(ImportExportModelAdmin):
     autocomplete_fields = ["subjects_tags", "copyright_holder", "edu_programs_tags", "platform",
                            "language"]
     list_filter = ["platform"]
-    search_fields = ["title"]
+    search_fields = ["title", "description", ]
     actions = (create_export_job_action,)
 
 
