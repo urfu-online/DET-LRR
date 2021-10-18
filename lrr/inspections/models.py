@@ -492,7 +492,7 @@ class Status(models.Model):
 class TemporaryStatus(models.Model):
     expertise = models.ForeignKey("Expertise", verbose_name="Экспертиза", null=True, blank=True,
                                   on_delete=models.CASCADE)
-    name = models.TextField("Тело статуса", max_length=1024, blank=True, null=True)
+    name = models.TextField("Тело статуса", blank=True, null=True)
     date = models.DateTimeField("Дата выставления статуса", blank=True, null=True)
 
     def __str__(self):

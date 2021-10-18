@@ -4,15 +4,14 @@
 import auto_prefetch
 from django.contrib.postgres.fields import IntegerRangeField
 from django.db import models
-from django.urls import reverse
-from sortedm2m.fields import SortedManyToManyField
 
 from lrr.repository.models import BaseModel
 
 
 class ThematicPlan(BaseModel):
-    digital_complex = models.ForeignKey("complexes.DigitalComplex", verbose_name="Цифровой Комплекс (ЭУМК)",
-                                        related_name="thematic_plan", on_delete=models.CASCADE)
+    digital_complex = auto_prefetch.ForeignKey("complexes.DigitalComplex",
+                                               verbose_name="Цифровой Комплекс (ЭУМК)",
+                                               related_name="thematic_plan", on_delete=models.CASCADE)
     plan_object = models.JSONField(verbose_name="Объект плана", null=True, blank=True)
 
     class Meta:
@@ -28,8 +27,9 @@ class ThematicPlan(BaseModel):
 
 class Theme(models.Model):
     title = models.CharField(max_length=64, db_index=True)
-    thematic_plan = models.ForeignKey(ThematicPlan, related_name="themes", on_delete=models.CASCADE,
-                                      blank=True, null=True)
+    thematic_plan = auto_prefetch.ForeignKey(ThematicPlan, related_name="themes",
+                                             on_delete=models.CASCADE,
+                                             blank=True, null=True)
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
@@ -41,7 +41,7 @@ class Theme(models.Model):
         return f"{self.thematic_plan.digital_complex}: {self.order} - {self.title}"
 
 
-class Component(models.Model):
+class PlanComponent(models.Model):
     ASYNC = 'ASYNC'
     SYNC = 'SYNC'
     UNKNOWN = 'UNKNOWN'
