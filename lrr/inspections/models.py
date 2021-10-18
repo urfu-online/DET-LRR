@@ -166,8 +166,8 @@ class Expertise(repository_model.BaseModel):
             return cls.objects.none()
 
     class Meta:
-        verbose_name = "Экспертиза"
-        verbose_name_plural = "Экспертизы"
+        verbose_name = "экспертиза"
+        verbose_name_plural = "экспертизы"
 
     def __str__(self):
         return f"{self.get_status_display()} {self.digital_resource.title} {self.date} {self.owner}"
@@ -285,8 +285,8 @@ class ExpertiseRequest(repository_model.BaseModel):
                                       null=True)
 
     class Meta:
-        verbose_name = "Заявка"
-        verbose_name_plural = "Заявка"
+        verbose_name = "эаявка"
+        verbose_name_plural = "эаявка"
 
     def __str__(self):
         return f"{self.expertise} {self.status} {self.survey}"
@@ -360,8 +360,8 @@ class IndicatorGroup(models.Model):
     title = models.CharField(max_length=1024, choices=GROUPS, default="0", unique=True)
 
     class Meta:
-        verbose_name = "Группа показателей"
-        verbose_name_plural = "Группы показателей"
+        verbose_name = "группа показателей"
+        verbose_name_plural = "группы показателей"
 
     def __str__(self):
         return self.get_title_display()
@@ -381,8 +381,8 @@ class Indicator(auto_prefetch.Model):
     question = auto_prefetch.ForeignKey("survey.Question", null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = "Показатель"
-        verbose_name_plural = "Показатели"
+        verbose_name = "показатель"
+        verbose_name_plural = "показатели"
         # ordering = ["order"]
 
     def __str__(self):
@@ -441,9 +441,6 @@ class StatusRequirement(auto_prefetch.Model):
         if not value:
             return False
 
-        # if value in list(self.allowed_values) and value not in list(self.exclude_values):
-        #     return True
-
         values_is_ok, range_is_ok, not_exclude = False, False, False
         if self.allowed_values:
             values_is_ok = value in self.allowed_values
@@ -474,8 +471,8 @@ class Status(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = "Статус"
-        verbose_name_plural = "Статусы"
+        verbose_name = "статус"
+        verbose_name_plural = "статусы"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -499,8 +496,8 @@ class TemporaryStatus(models.Model):
         return f"{self.name} ({self.date.strftime('%d.%m.%Y')})"
 
     class Meta:
-        verbose_name = "Временный статус"
-        verbose_name_plural = "Временные статусы"
+        verbose_name = "временный статус"
+        verbose_name_plural = "временные статусы"
 
     @classmethod
     def get_temporary_status(cls, expertise):

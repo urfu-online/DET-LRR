@@ -15,8 +15,8 @@ class ThematicPlan(BaseModel):
     plan_object = models.JSONField(verbose_name="Объект плана", null=True, blank=True)
 
     class Meta:
-        verbose_name = "Структурно-тематический план"
-        verbose_name_plural = "Структурно-тематические планы"
+        verbose_name = "структурно-тематический план"
+        verbose_name_plural = "структурно-тематические планы"
 
     def __str__(self):
         return str(self.digital_complex)

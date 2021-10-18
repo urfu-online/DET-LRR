@@ -55,8 +55,8 @@ class Person(models.Model):
     last_name = models.CharField("Фамилия", max_length=100, null=True, blank=True)
 
     class Meta:
-        verbose_name = "Профиль"
-        verbose_name_plural = "Профили"
+        verbose_name = "профиль"
+        verbose_name_plural = "профили"
 
     def __str__(self):
         return f"{self.last_name} {self.first_name} {self.middle_name}"
@@ -109,8 +109,8 @@ class Student(models.Model):
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
     class Meta:
-        verbose_name = "Студент"
-        verbose_name_plural = "Студенты"
+        verbose_name = "студент"
+        verbose_name_plural = "студенты"
 
     def __str__(self):
         return str(self.person)
@@ -149,8 +149,8 @@ class AcademicGroup(models.Model):
                                    on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:
-        verbose_name = "Академическая группа"
-        verbose_name_plural = "Академические группы"
+        verbose_name = "академическая группа"
+        verbose_name_plural = "академические группы"
 
     def __str__(self):
         return self.number
@@ -186,8 +186,8 @@ class ChoicesExpert(models.Model):
     type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)
 
     class Meta:
-        verbose_name = "Тип экспертизы"
-        verbose_name_plural = "Типы экспертиз"
+        verbose_name = "тип экспертизы"
+        verbose_name_plural = "типы экспертиз"
 
     def __str__(self):
         return self.get_type_display()
@@ -199,8 +199,8 @@ class Expert(models.Model):
     subdivision = models.CharField('Подразделение/отрасль', max_length=500)
 
     class Meta:
-        verbose_name = "Эксперт"
-        verbose_name_plural = "Эксперты"
+        verbose_name = "эксперт"
+        verbose_name_plural = "эксперты"
 
     def __str__(self):
         return str(self.person)
@@ -216,9 +216,6 @@ class Expert(models.Model):
             obj = None
         return obj
 
-    # def get_update_url(self):
-    #     return reverse("", args=(self.pk,))
-
 
 class GroupDisciplines(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -232,8 +229,8 @@ class GroupDisciplines(models.Model):
     semestr = models.PositiveSmallIntegerField(verbose_name="Семестр", blank=True, null=True)
 
     class Meta:
-        verbose_name = "Дисциплина группы"
-        verbose_name_plural = "Дисциплины групп"
+        verbose_name = "дисциплина группы"
+        verbose_name_plural = "дисциплины групп"
 
     def __str__(self):
         return f"{self.subject} - {self.semestr} семестр"
