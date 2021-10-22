@@ -2,7 +2,8 @@ from django import forms
 from django_select2 import forms as s2forms
 from polymorphic.formsets import polymorphic_modelformset_factory, PolymorphicFormSetChild
 
-from lrr.complexes import models as complex_models
+from . import grid_models
+from . import models as complex_models
 
 
 class DirectionsWidget(s2forms.ModelSelect2MultipleWidget):
@@ -97,21 +98,8 @@ class DigitalComplexForm(forms.ModelForm):
 
 class ThematicPlanForm(forms.ModelForm):
     class Meta:
-        model = complex_models.Cell
+        model = grid_models.ThematicPlan
         fields = "__all__"
-        #
-        # widgets = {
-        #     "type": forms.Select(
-        #         attrs={
-        #             'class': 'form-control',
-        #         },
-        #     ),
-        #     "methodology_description": forms.TextInput(
-        #         attrs={
-        #             'class': 'form-control',
-        #         },
-        #     ),
-        # }
 
 
 class DigitalComplexWidget(s2forms.Select2Widget):
@@ -191,13 +179,13 @@ class AssignmentAcademicGroupForm(forms.ModelForm):
 # )
 
 
-class ComponentComplexForm(forms.ModelForm):
+class ComplexParentComponentForm(forms.ModelForm):
     class Meta:
-        model = complex_models.ComponentComplex
+        model = complex_models.ComplexParentComponent
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        super(ComponentComplexForm, self).__init__(*args, **kwargs)
+        super(ComplexParentComponentForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 
@@ -334,8 +322,8 @@ class LiterarySourcesComponentForm(forms.ModelForm):
         }
 
 
-ComponentComplexFormSet = polymorphic_modelformset_factory(
-    complex_models.ComponentComplex,
+ComplexParentComponentFormSet = polymorphic_modelformset_factory(
+    complex_models.ComplexParentComponent,
     fields='__all__',
     extra=1,
     formset_children=(

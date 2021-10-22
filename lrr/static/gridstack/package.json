@@ -1,51 +1,59 @@
 {
-  "_from": "gridstack",
-  "_id": "gridstack@4.2.6",
-  "_inBundle": false,
-  "_integrity": "sha512-DTfH2ayR3aOqo26RTiMEYtbOVOnVXLG+lnmWRAYazhW1uixxqOvmV0nxjqyFRJLV9uRudY5adiaFzfk1pGgSTA==",
-  "_location": "/gridstack",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "gridstack",
-    "name": "gridstack",
-    "escapedName": "gridstack",
-    "rawSpec": "",
-    "saveSpec": null,
-    "fetchSpec": "latest"
+  "name": "gridstack",
+  "version": "4.3.0",
+  "description": "TypeScript/JS lib for dashboard layout and creation, no external dependencies, with many wrappers (React, Angular, Vue, Ember, knockout...)",
+  "main": "./dist/gridstack.js",
+  "types": "./dist/gridstack.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gridstack/gridstack.js.git"
   },
-  "_requiredBy": [
-    "#USER",
-    "/"
+  "funding": [
+    {
+      "type": "paypal",
+      "url": "https://www.paypal.me/alaind831"
+    },
+    {
+      "type": "venmo",
+      "url": "https://www.venmo.com/adumesny"
+    }
   ],
-  "_resolved": "https://registry.npmjs.org/gridstack/-/gridstack-4.2.6.tgz",
-  "_shasum": "d8436bb8b2fb34690ea5a6de1011a5db30ad5d3d",
-  "_spec": "gridstack",
-  "_where": "/projects/urfu.online/DET/lrr",
-  "author": {
-    "name": "Pavel Reznikov",
-    "email": "pashka.reznikov@gmail.com"
+  "scripts": {
+    "build": "yarn --no-progress && rm -rf dist/* && grunt && webpack && tsc --stripInternal && yarn doc",
+    "w": "rm -rf dist/* && grunt && webpack",
+    "t": "rm -rf dist/* && grunt && tsc --stripInternal",
+    "doc": "doctoc ./README.md && doctoc ./doc/README.md && doctoc ./doc/CHANGES.md",
+    "test": "yarn lint && karma start karma.conf.js",
+    "lint": "tsc --noEmit && eslint src/*.ts",
+    "reset": "rm -rf dist node_modules",
+    "prepublishOnly": "yarn build"
   },
+  "keywords": [
+    "Typescript",
+    "gridstack.js",
+    "grid",
+    "gridster",
+    "layout",
+    "responsive",
+    "dashboard",
+    "resize",
+    "drag&drop",
+    "widgets",
+    "Angular",
+    "React",
+    "Vue",
+    "JavaScript"
+  ],
+  "author": "Pavel Reznikov <pashka.reznikov@gmail.com>",
+  "contributors": [
+    "Dylan Weiss <dylan.weiss@gmail.com> (https://dylandreams.com)",
+    "Alain Dumesny <alaind831+github@gmail.com> (https://github.com/adumesny)"
+  ],
+  "license": "see GridStack root license",
   "bugs": {
     "url": "https://github.com/gridstack/gridstack.js/issues"
   },
-  "bundleDependencies": false,
-  "contributors": [
-    {
-      "name": "Dylan Weiss",
-      "email": "dylan.weiss@gmail.com",
-      "url": "https://dylandreams.com"
-    },
-    {
-      "name": "Alain Dumesny",
-      "email": "alaind831+github@gmail.com",
-      "url": "https://github.com/adumesny"
-    }
-  ],
-  "dependencies": {},
-  "deprecated": false,
-  "description": "TypeScript/JS lib for dashboard layout and creation, no external dependencies, with many wrappers (React, Angular, Vue, Ember, knockout...)",
+  "homepage": "http://gridstack.github.io/gridstack.js/",
   "devDependencies": {
     "@types/jasmine": "^3.5.9",
     "@types/jquery": "^3.5.1",
@@ -74,59 +82,13 @@
     "karma-cli": "^2.0.0",
     "karma-jasmine": "^4.0.1",
     "karma-typescript": "4.1.1",
-    "node-sass": "^5.0.0",
     "protractor": "^7.0.0",
     "puppeteer": "^5.4.1",
+    "sass": "^1.42.1",
     "serve-static": "^1.14.1",
     "ts-loader": "^8.0.7",
     "typescript": "^3.7",
     "webpack": "^5.3.2",
     "webpack-cli": "^4.6.0"
-  },
-  "funding": [
-    {
-      "type": "paypal",
-      "url": "https://www.paypal.me/alaind831"
-    },
-    {
-      "type": "venmo",
-      "url": "https://www.venmo.com/adumesny"
-    }
-  ],
-  "homepage": "http://gridstack.github.io/gridstack.js/",
-  "keywords": [
-    "Typescript",
-    "gridstack.js",
-    "grid",
-    "gridster",
-    "layout",
-    "responsive",
-    "dashboard",
-    "resize",
-    "drag&drop",
-    "widgets",
-    "Angular",
-    "React",
-    "Vue",
-    "JavaScript"
-  ],
-  "license": "see GridStack root license",
-  "main": "./dist/gridstack.js",
-  "name": "gridstack",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gridstack/gridstack.js.git"
-  },
-  "scripts": {
-    "build": "yarn --no-progress && rm -rf dist/* && grunt && webpack && tsc --stripInternal && yarn doc",
-    "doc": "doctoc ./README.md && doctoc ./doc/README.md && doctoc ./doc/CHANGES.md",
-    "lint": "tsc --noEmit && eslint src/*.ts",
-    "prepublishOnly": "yarn build",
-    "reset": "rm -rf dist node_modules",
-    "t": "rm -rf dist/* && grunt && tsc --stripInternal",
-    "test": "yarn lint && karma start karma.conf.js",
-    "w": "rm -rf dist/* && grunt && webpack"
-  },
-  "types": "./dist/gridstack.d.ts",
-  "version": "4.2.6"
+  }
 }

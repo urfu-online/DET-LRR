@@ -4,10 +4,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-
-
 python /app/manage.py collectstatic --noinput
 python /app/manage.py compilemessages
 
-/usr/local/bin/gunicorn config.asgi --bind unix:///gunicorn_socket/lrr.sock --workers 4 --max-requests 200 --chdir=/app -k uvicorn.workers.UvicornWorker
-
+/usr/local/bin/gunicorn config.asgi --bind unix:///gunicorn_socket/lrr.sock --workers 4 --max-requests 200 --reload --chdir=/app -k uvicorn.workers.UvicornWorker

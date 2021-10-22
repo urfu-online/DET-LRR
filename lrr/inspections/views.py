@@ -216,7 +216,7 @@ class ExpertiseCreateView(GroupRequiredMixin, generic.CreateView):
     form_class = forms.ExpertiseCreateForm
     pk_url_kwarg = "pk"
     template_name = 'inspections/expertise_form_create.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_resource = get_object_or_404(inspections_models.DigitalResource,
@@ -336,7 +336,7 @@ class ExpertiseRequestCreateView(GroupRequiredMixin, generic.CreateView):
     model = inspections_models.ExpertiseRequest
     form_class = forms.ExpertiseRequestCreateForm
     template_name = 'inspections/expertise_request_form_create.html'
-    group_required = [u"expert", u"admins", u"secretary"]
+    group_required = ["expert", "admins", "secretary"]
 
     def dispatch(self, request, *args, **kwargs):
         self.expertise = get_object_or_404(inspections_models.Expertise, pk=kwargs["expertise_pk"])
@@ -396,7 +396,7 @@ class ExpertiseRequestUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = inspections_models.ExpertiseRequest
     form_class = forms.ExpertiseRequestUpdateForm
     pk_url_kwarg = "pk"
-    group_required = [u"expert", u"admins"]
+    group_required = ["expert", "admins"]
     template_name = 'inspections/expertise_request_form_update.html'
 
     # METHODICAL = 'METHODICAL'
@@ -433,7 +433,7 @@ class ExpertiseRequestUpdateExpertView(GroupRequiredMixin, generic.UpdateView):
     model = inspections_models.ExpertiseRequest
     form_class = forms.ExpertiseRequestUpdateForm
     pk_url_kwarg = "pk"
-    group_required = [u"expert", u"admins"]
+    group_required = ["expert", "admins"]
     template_name = 'inspections/expertise_request_form_update_expert.html'
 
     def dispatch(self, request, *args, **kwargs):

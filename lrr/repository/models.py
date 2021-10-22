@@ -19,19 +19,18 @@ class BaseModel(auto_prefetch.Model):
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         abstract = True
 
 
 class Subject(BaseModel):
-    # Fields
     title = models.CharField("Наименование", max_length=255, db_index=True)
     description = models.TextField("Описание", null=True, blank=True)
     labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Дисциплина"
-        verbose_name_plural = u"Дисциплины"
+        verbose_name = "дисциплина"
+        verbose_name_plural = "дисциплины"
 
     def __str__(self):
         return self.title
@@ -50,7 +49,6 @@ class Subject(BaseModel):
 
 
 class Organization(BaseModel):
-    # Fields
     title = models.CharField("Наименование", max_length=150, db_index=True)
     description = models.TextField("Описание", null=True, blank=True)
     url_logo = models.URLField("Ссылка на логотип", blank=True, null=True)
@@ -59,8 +57,8 @@ class Organization(BaseModel):
     url = models.URLField("URL", null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Организация"
-        verbose_name_plural = u"Организации"
+        verbose_name = "организация"
+        verbose_name_plural = "организации"
 
     def __str__(self):
         return self.title
@@ -77,8 +75,8 @@ class ScientificBranch(BaseModel):
     code = models.PositiveSmallIntegerField("Код", blank=True, null=True, unique=True)
 
     class Meta:
-        verbose_name = u"научная отрасль"
-        verbose_name_plural = u"научные отрасли"
+        verbose_name = "научная отрасль"
+        verbose_name_plural = "научные отрасли"
 
     def __str__(self):
         return f"{self.code} {self.title}"
@@ -92,8 +90,8 @@ class DirectionsEnlargedGroup(BaseModel):
     code = models.CharField("Код УГН", max_length=64, unique=True)
 
     class Meta:
-        verbose_name = u"укрупненная группа направлений"
-        verbose_name_plural = u"укрупненные группа направлений"
+        verbose_name = "укрупненная группа направлений"
+        verbose_name_plural = "укрупненные группа направлений"
 
     def __str__(self):
         return f"{self.code} {self.title}"
@@ -107,8 +105,8 @@ class Direction(BaseModel):
                                                  null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = u"Направление подготовки"
-        verbose_name_plural = u"Направления подготовки"
+        verbose_name = "направление подготовки"
+        verbose_name_plural = "направления подготовки"
 
     def __str__(self):
         return f"{self.code} {self.title}"
@@ -154,11 +152,10 @@ class EduProgram(BaseModel):
     #     (ON_EXPERTISE, 'на экспертизе'),
     #     (ON_REVISION, 'на доработку'),
     #     (ASSIGNED_STATUS, 'присвоен статус'),
-    #     # Fields
+    #
     #
     # ]
 
-    # Fields
     title = models.CharField("Наименование", max_length=450, db_index=True)
     _cipher = models.CharField("Шифр ОП", max_length=5, blank=True, null=True)
     short_description = models.CharField("Короткое описание", max_length=300, null=True, blank=True)
@@ -184,8 +181,8 @@ class EduProgram(BaseModel):
             return ""
 
     class Meta:
-        verbose_name = u"Образовательная программа"
-        verbose_name_plural = u"Образовательные программы"
+        verbose_name = "образовательная программа"
+        verbose_name_plural = "образовательные программы"
 
     def __str__(self):
         return f"{self.cipher} {self.title}"
@@ -201,15 +198,14 @@ class EduProgram(BaseModel):
 
 
 class ResultEdu(BaseModel):
-    # Fields
     title = models.CharField("Наименование", max_length=150, db_index=True)
     description = models.TextField("Описание", blank=True)
     competence = auto_prefetch.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
                                           on_delete=models.PROTECT)
 
     class Meta:
-        verbose_name = u"Образовательный результат"
-        verbose_name_plural = u"Образовательные результаты"
+        verbose_name = "образовательный результат"
+        verbose_name_plural = "образовательные результаты"
 
     def __str__(self):
         return self.title
@@ -244,7 +240,6 @@ class DigitalResource(BaseModel):
         (MULTIMEDIA_EOR, 'Мультимедийный электронный образовательный ресурс'),
     ]
 
-    # Relationships
     authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
                                      related_name="authors_digital_resource")
     copyright_holder = auto_prefetch.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
@@ -258,7 +253,6 @@ class DigitalResource(BaseModel):
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
     competences = models.ManyToManyField("Competence", verbose_name="Компетенции", blank=True)
 
-    # Fields
     title = models.CharField("Наименование ресурса", max_length=1024)
     type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
@@ -266,8 +260,8 @@ class DigitalResource(BaseModel):
     description = models.TextField("Описание", null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Паспорт ЭОР"
-        verbose_name_plural = u"Паспорта ЭОР"
+        verbose_name = "паспорт ЭОР"
+        verbose_name_plural = "паспорта ЭОР"
         ordering = ["title"]
 
     def __str__(self):
@@ -348,8 +342,8 @@ class Source(BaseModel):
     type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=8, null=True)
 
     class Meta:
-        verbose_name = u"Компонент"
-        verbose_name_plural = u"Компоненты"
+        verbose_name = "компонент"
+        verbose_name_plural = "компоненты"
 
     def __str__(self):
         return f"Компонент: {self.digital_resource.title}.{self.get_format()}"
@@ -388,8 +382,8 @@ class Source(BaseModel):
 #     competence = models.ForeignKey("repository.Competence", on_delete=models.PROTECT, verbose_name="Компетенция")
 #
 #     class Meta:
-#         verbose_name = u"Паспорт ЭОР / Компетенция"
-#         verbose_name_plural = u"Паспорт ЭОР / Компетенции"
+#         verbose_name = "Паспорт ЭОР / Компетенция"
+#         verbose_name_plural = "Паспорт ЭОР / Компетенции"
 #
 #     def __str__(self):
 #         return "{}".format(self.competence)
@@ -408,7 +402,7 @@ class CompetenceGroup(models.Model):
 
 class Competence(BaseModel):
     TYPES = ("ОК", "ОПК", "ПК", "ПСК", "УК", "ДОК", "ДОПК", "ДПК")
-    # Fields
+
     title = models.CharField("Наименование", max_length=150)
     code = models.CharField("Код", max_length=8)
     okso = models.CharField("Код", max_length=8, null=True)
@@ -416,8 +410,8 @@ class Competence(BaseModel):
     # TODO: add fields
     # type choices_to TYPES
     class Meta:
-        verbose_name = u"Компетенция"
-        verbose_name_plural = u"Компетенции"
+        verbose_name = "компетенция"
+        verbose_name_plural = "компетенции"
 
     def __str__(self):
         return f"{self.code} {self.title}"
@@ -430,7 +424,6 @@ class Competence(BaseModel):
 
 
 class Platform(BaseModel):
-    # Fields
     title = models.CharField("Наименование", max_length=150)
     description = models.TextField("Описание", null=True, blank=True)
     url = models.URLField("Ссылка")
@@ -439,8 +432,8 @@ class Platform(BaseModel):
     contacts = models.TextField("Контакты", null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Платформа"
-        verbose_name_plural = u"Платформы"
+        verbose_name = "платформа"
+        verbose_name_plural = "платформы"
 
     def __str__(self):
         return self.title
@@ -453,8 +446,6 @@ class Platform(BaseModel):
 
 
 class Language(models.Model):
-    # Fields
-
     title = models.CharField("Наименование", max_length=80)
     code = models.CharField("Код языка", max_length=4, primary_key=True)
 
@@ -462,8 +453,8 @@ class Language(models.Model):
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     class Meta:
-        verbose_name = u"Язык ресура"
-        verbose_name_plural = u"Языки ресурсов"
+        verbose_name = "язык ресура"
+        verbose_name_plural = "языки ресурсов"
 
     def __str__(self):
         return self.title
@@ -475,14 +466,12 @@ class Language(models.Model):
         return reverse("repository_Language_update", args=(self.code,))
 
 
-# TODO: Карасик спросил для чего эта модель
 class SubjectTag(BaseModel):
-    # Relationships
     tag = auto_prefetch.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
 
     class Meta:
-        verbose_name = "Тег дисциплины"
-        verbose_name_plural = "Теги дисциплин"
+        verbose_name = "тег дисциплины"
+        verbose_name_plural = "теги дисциплин"
 
     def __str__(self):
         return str(self.tag)
@@ -499,12 +488,11 @@ class SubjectTag(BaseModel):
 
 
 class EduProgramTag(BaseModel):
-    # Relationships
     tag = auto_prefetch.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
 
     class Meta:
-        verbose_name = "Тег образовательной программы"
-        verbose_name_plural = "Теги образовательных программ"
+        verbose_name = "тег образовательной программы"
+        verbose_name_plural = "теги образовательных программ"
 
     def __str__(self):
         return str(self.tag)

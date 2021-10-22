@@ -1,38 +1,37 @@
-
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
-<p>
+
+  <p>
     <a class="btn btn-light" href="{% url 'repository_EduProgram_list' %}">
-    EduProgram Listing
+      EduProgram Listing
     </a>
-</p>
-    
-<form method="post">
-  {% csrf_token %}
-  {{form.errors}}
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="description">description: </label>
-  <input class="form-control col-sm-10" id="description" type="text" name="description" value="{{ object.description }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="last_updated">last_updated: </label>
-  <input class="form-control col-sm-10" id="last_updated" type="datetime-local" name="last_updated" value="{{ object.last_updated }}" disabled>
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="created">created: </label>
-  <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="short_description">short_description: </label>
-  <input class="form-control col-sm-10" id="short_description" type="text" name="short_description" value="{{ object.short_description }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="title">title: </label>
-  <input class="form-control col-sm-10" id="title" type="text" name="title" value="{{ object.title }}">
-  </div>
-  <input type="submit" value="Save" class="btn btn-primary">
-</form>
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="description">description: </label>
+      <input class="form-control col-sm-10" id="description" type="text" name="description" value="{{ object.description }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="last_updated">last_updated: </label>
+      <input class="form-control col-sm-10" id="last_updated" type="datetime-local" name="last_updated" value="{{ object.last_updated }}" disabled>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="created">created: </label>
+      <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="short_description">short_description: </label>
+      <input class="form-control col-sm-10" id="short_description" type="text" name="short_description" value="{{ object.short_description }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="title">title: </label>
+      <input class="form-control col-sm-10" id="title" type="text" name="title" value="{{ object.title }}">
+    </div>
+    <input type="submit" value="Save" class="btn btn-primary">
+  </form>
 
 {% endblock %}

@@ -18,7 +18,7 @@ SECRET_KEY = env(
     "DJANGO_SECRET_KEY",
     default="wqIxUuiCZKNIYaAxrc9NN7jLBlObdIgKSrFzjHI4ulxWiAgt52lcD4UAO2LmdbJY",
 )
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "lrr.urfu.online", "192.168.0.151"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "lrr.urfu.online", "192.168.0.151", "212.220.200.128"]
 
 # CACHES
 # ------------------------------------------------------------------------------

@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static bootstrap_icons %}
 {% load user_tags %}
 {% load crispy_forms_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       {% if request.user|has_group:"student" %}
         <li class="breadcrumb-item"><a
-                href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user %}">Мои
+          href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user %}">Мои
           дисциплины</a></li>
         <li class="breadcrumb-item active" aria-current="page">Электронное обеспечение дисциплины</li>
       {% else %}
@@ -20,7 +20,7 @@
   <header class="pb-4 px-2">
     {% if request.user|has_owner_complex:object or request.user.is_superuser %}
       <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i
-              class="pen icon"></i>Редактировать</a>
+        class="pen icon"></i>Редактировать</a>
     {% endif %}
     {% if request.user|has_group:"student" %}
       <h2>Электронное обеспечение дисциплины
@@ -140,10 +140,10 @@
     {% if request.user|has_owner_complex:object %}
       <div class="col-4 p-2">
         {% if component_complex.all %}
-          <a href="{% url 'complexes:complexes_ComponentComplex_list' pk=object.pk %}"
+          <a href="{% url 'complexes:complexes_ComplexParentComponent_list' pk=object.pk %}"
              class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать состав компонентов</a>
         {% else %}
-          <a href="{% url 'complexes:complexes_ComponentComplex_list' pk=object.pk %}"
+          <a href="{% url 'complexes:complexes_ComplexParentComponent_list' pk=object.pk %}"
              class="btn btn-block btn-primary"><i class="fas fa-plus"></i> Добавить компоненты в ЭУМК</a>
         {% endif %}
       </div>
@@ -163,7 +163,7 @@
           <a href="{% url 'complexes:complexes_ThematicPlan_create' digital_complex_pk=object.pk %}"
              class="btn btn-block btn-primary"><i class="fas fa-plus"></i> Создать структурно-тематический план</a>
         {% else %}
-          <a href="{% url 'complexes:complexes_ThematicPlan_list' digital_complex_pk=object.pk %}"
+          <a href="{% url 'complexes:complexes_ThematicPlan_detail' pk=object.pk %}"
              class="btn btn-block btn-primary"><i class="pen icon"></i>Редактировать структурно-тематический
             план</a>
         {% endif %}

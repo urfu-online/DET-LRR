@@ -19,14 +19,8 @@ class UserAdmin(auth_admin.UserAdmin):
     search_fields = ["name"]
 
 
-class PersonAdminForm(form.ModelForm):
-    class Meta:
-        model = models.Person
-        fields = "__all__"
-
-
+@admin.register(models.Person)
 class PersonAdmin(ImportExportModelAdmin):
-    form = PersonAdminForm
     list_display = [
         "last_name",
         "first_name",
@@ -43,14 +37,8 @@ class PersonAdmin(ImportExportModelAdmin):
     search_fields = ["last_name", "user__email", "user__username", "first_name", "middle_name", ]
 
 
-class StudentAdminForm(form.ModelForm):
-    class Meta:
-        model = models.Student
-        fields = "__all__"
-
-
+@admin.register(models.Student)
 class StudentAdmin(ImportExportModelAdmin):
-    form = StudentAdminForm
     list_display = [
         "person",
         "academic_group",
@@ -66,6 +54,7 @@ class AcademicGroupAdminForm(form.ModelForm):
         fields = "__all__"
 
 
+@admin.register(models.AcademicGroup)
 class AcademicGroupAdmin(ImportExportModelAdmin):
     form = AcademicGroupAdminForm
     list_display = [
@@ -74,20 +63,8 @@ class AcademicGroupAdmin(ImportExportModelAdmin):
     search_fields = ['number']
 
 
-class ExpertAdminForm(form.ModelForm):
-    class Meta:
-        model = models.Expert
-        fields = "__all__"
-
-
-class ChoicesExpertAdminForm(form.ModelForm):
-    class Meta:
-        model = models.ChoicesExpert
-        fields = "__all__"
-
-
+@admin.register(models.Expert)
 class ExpertAdmin(ImportExportModelAdmin):
-    form = ExpertAdminForm
     list_display = [
         "person",
         "subdivision",
@@ -96,32 +73,19 @@ class ExpertAdmin(ImportExportModelAdmin):
     search_fields = ['person__user__email', 'person__last_name']
 
 
+@admin.register(models.ChoicesExpert)
 class ChoicesExpertAdmin(admin.ModelAdmin):
-    form = ChoicesExpertAdminForm
     list_display = [
         "type"
     ]
 
 
-class GroupDisciplinesAdminForm(form.ModelForm):
-    class Meta:
-        model = models.GroupDisciplines
-        fields = "__all__"
-
-
+@admin.register(models.GroupDisciplines)
 class GroupDisciplinesAdmin(ImportExportModelAdmin):
-    form = GroupDisciplinesAdminForm
     list_display = [
         "academic_group",
         "subject",
         "semestr",
     ]
     exclude = ["id", "created", "last_updated"]
-
-
-admin.site.register(models.GroupDisciplines, GroupDisciplinesAdmin)
-admin.site.register(models.ChoicesExpert, ChoicesExpertAdmin)
-admin.site.register(models.Expert, ExpertAdmin)
-admin.site.register(models.AcademicGroup, AcademicGroupAdmin)
-admin.site.register(models.Student, StudentAdmin)
-admin.site.register(models.Person, PersonAdmin)
+    search_fields = ["academic_group", "subject", "semestr"]

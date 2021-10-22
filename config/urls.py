@@ -9,6 +9,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_swagger.views import get_swagger_view
 
 from lrr.repository.views import DigitalResourceListView
+from lrr.views import Favicon
 
 schema_view = get_swagger_view(title='LRR API')
 
@@ -29,6 +30,8 @@ urlpatterns = [
 
                   path("select2/", include("django_select2.urls")),
                   path("chaining/", include("smart_selects.urls")),
+                  path("favicon.ico", Favicon.as_view(), name="favicon"),
+                  path('oauth2/', include('django_auth_adfs.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
@@ -46,11 +49,6 @@ urlpatterns += [
     path("auth-token/", obtain_auth_token),
 
 ]
-
-if 'silk' in settings.INSTALLED_APPS:
-    urlpatterns += [
-        path('silk/', include('silk.urls', namespace='silk'))
-    ]
 
 if "admin_export_action" in settings.INSTALLED_APPS:
     urlpatterns += [
@@ -81,13 +79,6 @@ if settings.DEBUG or settings.DEVELOPMENT:
         ),
         path("500/", default_views.server_error),
     ]
-
-# if 'schema_graph' in settings.INSTALLED_APPS:
-#     from schema_graph.views import Schema
-#
-#     urlpatterns += [
-#         path("schema/", Schema.as_view())
-#     ]
 
 if "postgres_metrics.apps.PostgresMetrics" in settings.INSTALLED_APPS:
     urlpatterns += [path(f"{settings.ADMIN_URL}postgres-metrics/", include('postgres_metrics.urls')), path(settings.ADMIN_URL, admin.site.urls)]

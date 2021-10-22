@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load user_tags %}
+{% load user_tags bootstrap_icons %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Список ЭУМК</li>
     </ol>
   </nav>
@@ -65,7 +65,7 @@
   {#        <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">#}
   {#          <div class="card h-100 border-secondary shadow-2">#}
   {#            <div class="card-header pb-0">#}
-  {#              <p class="mb-2 text-muted float-right"><i class="fas fa-university fa-lg"></i></i>#}
+  {#              <p class="mb-2 text-muted float-right">{% md_icon "bank-outline" %}</i>#}
   {#                {{ object.copyright_holder }}#}
   {#              </p>#}
   {#              <p class="mb-2 text-muted">{{ object.get_type_display }}</p>#}
@@ -102,7 +102,7 @@
           </div>
           <div class="card-footer">
             <a href="{{ object.get_absolute_url }}" class="btn btn-sm btn-outline-primary mb-1"><i
-                    class="fas fa-info-circle fa-lg"></i> Подробнее</a>
+              class="fas fa-info-circle fa-lg"></i> Подробнее</a>
           </div>
         </div>
       </div>

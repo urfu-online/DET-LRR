@@ -4,5 +4,5 @@ from django.apps import AppConfig
 
 class ComplexesConfig(AppConfig):
     name = "lrr.complexes"
-    verbose_name = "Комплексы ЭУМК"
+    verbose_name = "комплексы ЭУМК"
     label = "complexes"

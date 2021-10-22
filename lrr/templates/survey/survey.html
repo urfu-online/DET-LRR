@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n bootstrap_icons %}
 {% load static %}
 {% load survey_extras %}
 
@@ -24,7 +24,7 @@
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Активные заявки</li>
     </ol>
   </nav>
@@ -32,7 +32,6 @@
 
 
   <div class="row">
-
 
 
     <div class="col-12 w-75">

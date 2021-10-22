@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags bootstrap_icons %}
 {% load static %}
 {% block content %}
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.digital_complex.pk %}">
+        href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.digital_complex.pk %}">
         Назначение академических групп для {{ object.digital_complex }}
       </a></li>
       {#      <li class="breadcrumb-item"><a#}

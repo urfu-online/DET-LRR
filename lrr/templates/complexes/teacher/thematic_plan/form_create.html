@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags bootstrap_icons %}
 {% load static %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'complexes:complexes_Cell_list' digital_complex_pk=digital_complex_pk %}">Редактирование
+        href="{% url 'complexes:complexes_ThematicPlan_detail' pk=digital_complex_pk %}">Редактирование
         структурно-тематического плана
         ЭУМК {{ dig_complex }}</a></li>
       {#      <li class="breadcrumb-item"><a#}
@@ -56,11 +56,11 @@
             <td></td>
             <td><a class="btn btn-outline-primary text-nowrap"
                    href="{% url 'complexes:complexes_AssignmentAcademicGroup_update' pk=object.pk %}"><i
-                    class="fas fa-edit"></i> Добавить</a>
+              class="fas fa-edit"></i> Добавить</a>
             </td>
             <td><a class="btn btn-primary"
                    href="{% url 'complexes:complexes_AssignmentAcademicGroup_delete' pk=object.pk %}"><i
-                    class="fas fa-trash-alt"></i></a></td>
+              class="fas fa-trash-alt"></i></a></td>
           {% endfor %}
           </tbody>
         </table>

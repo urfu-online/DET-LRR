@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static bootstrap_icons %}
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Список экспертов</li>
     </ol>
   </nav>
-  <header><h1 class="display-3">Эксперты</h1></header>
+  <h2 class="font-weight-light mt-4">Эксперты</h2>
   <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false" aria-controls="filters"><i class="fas fa-search fa-lg"></i> Фильтры и поиск</button>
   <a class="btn btn-primary mt-3 " href="{% url 'users:expert_create' %}"><i class="fas fa-user-plus"></i> Добавить эксперта </a>
   <div class="row actions" id="accordion">
@@ -101,7 +101,7 @@
 {#              </div>#}
 {#              <div class="extra">#}
 {#                <div class="right floated author">#}
-{#                  <a class="ui button mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>#}
+{#                  <a class="btn btn-primary mini" href="{{ object.get_absolute_url }}"><i class="eye outline icon"></i>Посмотреть</a>#}
 {#                </div>#}
 {#              </div>#}
 {#            </div>#}

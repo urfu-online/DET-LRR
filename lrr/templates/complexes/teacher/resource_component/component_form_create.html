@@ -1,19 +1,19 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags bootstrap_icons %}
 {% load static %}
 {% block content %}
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Каталог
         ЭУМК</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a>
+        href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a>
       </li>
       <li class="breadcrumb-item"><a
-              href="{% url 'complexes:complexes_ComponentComplex_list' pk=dig_complex.pk %}">Редактирование компонентов
+        href="{% url 'complexes:complexes_ComplexParentComponent_list' pk=dig_complex.pk %}">Редактирование компонентов
         ЭУМК</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">Добавление компонента ЭОР</li>

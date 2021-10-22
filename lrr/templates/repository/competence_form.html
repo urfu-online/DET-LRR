@@ -1,30 +1,29 @@
-
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
-<p>
+
+  <p>
     <a class="btn btn-light" href="{% url 'repository_Competence_list' %}">
-    Competence Listing
+      Competence Listing
     </a>
-</p>
-    
-<form method="post">
-  {% csrf_token %}
-  {{form.errors}}
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="created">created: </label>
-  <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="title">title: </label>
-  <input class="form-control col-sm-10" id="title" type="text" name="title" value="{{ object.title }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="code">code: </label>
-  <input class="form-control col-sm-10" id="code" type="text" name="code" value="{{ object.code }}">
-  </div>
-  <input type="submit" value="Save" class="btn btn-primary">
-</form>
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="created">created: </label>
+      <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="title">title: </label>
+      <input class="form-control col-sm-10" id="title" type="text" name="title" value="{{ object.title }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="code">code: </label>
+      <input class="form-control col-sm-10" id="code" type="text" name="code" value="{{ object.code }}">
+    </div>
+    <input type="submit" value="Save" class="btn btn-primary">
+  </form>
 
 {% endblock %}

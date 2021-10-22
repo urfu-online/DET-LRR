@@ -3,7 +3,6 @@ version: '3'
 networks:
   lrr:
 
-
 services:
   django: &django
     build:
@@ -34,10 +33,12 @@ services:
     volumes:
       - ${WEB_APP_PATH}/pgdata:/var/lib/postgresql/data
       - ${WEB_APP_PATH}/backups:/backups
+      - ./compose/production.urfu/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     networks:
         - lrr
     env_file:
       - ./.envs/.local/.postgres
+
 
   mailhog:
     image: mailhog/mailhog:v1.0.0

@@ -1,21 +1,35 @@
-
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
 
-<p>
+  <p>
     <a class="btn btn-light" href="{% url 'repository:repository_ExpertiseStatus_list' %}">
-    Expertise_status Listing
+      Expertise_status Listing
     </a>
-</p>
+  </p>
 
-<table class="table">
-    <tr><td>last_updated</td><td>{{ object.last_updated }}</td></tr>
-    <tr><td>end_date</td><td>{{ object.end_date }}</td></tr>
-    <tr><td>status</td><td>{{ object.status }}</td></tr>
-    <tr><td>accepted_status</td><td>{{ object.accepted_status }}</td></tr>
-    <tr><td>created</td><td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td></tr>
-</table>
-<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+  <table class="table">
+    <tr>
+      <td>last_updated</td>
+      <td>{{ object.last_updated }}</td>
+    </tr>
+    <tr>
+      <td>end_date</td>
+      <td>{{ object.end_date }}</td>
+    </tr>
+    <tr>
+      <td>status</td>
+      <td>{{ object.status }}</td>
+    </tr>
+    <tr>
+      <td>accepted_status</td>
+      <td>{{ object.accepted_status }}</td>
+    </tr>
+    <tr>
+      <td>created</td>
+      <td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td>
+    </tr>
+  </table>
+  <a class="btn btn-primary" href="{{ object.get_update_url }}">Edit</a>
 
 {% endblock %}

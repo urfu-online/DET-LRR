@@ -217,3 +217,13 @@ form.expertise {
 .custom-file-label::after {
   content: "Выбрать файл" !important;
 }
+
+#mdi-close {
+  vertical-align: text-top;
+}
+
+.alert {
+  max-width: 500px;
+  float: right;
+  margin-top: 1rem;
+}

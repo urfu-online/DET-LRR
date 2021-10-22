@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
-import django_filters
 import logging
+
+import django_filters
 from django.db.models import Q
 from django.forms.models import inlineformset_factory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
+from taggit.forms import TagField
 
-from lrr.complexes import forms
-from lrr.complexes import grid_models
-from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_models
 from lrr.repository.filters import FilteredListView
-from lrr.repository.models import Subject
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Student, AcademicGroup
+from . import forms
+from . import grid_models
+from . import models as complex_model
 
 logger = logging.getLogger(__name__)
-
 
 # def WorkPlanView(request):
 #     person = get_object_or_404(Person, user=request.user)
@@ -28,15 +28,24 @@ logger = logging.getLogger(__name__)
 #                    'DR': obj_plan[0].digital_resource.first()})
 
 ThemesFormset = inlineformset_factory(
-    complex_model.DigitalComplex, complex_model.Theme, fields=('title',), extra=1
+    grid_models.ThematicPlan, complex_model.Theme, fields=('title',), extra=1
 )
 
 
+class TagFilter(django_filters.CharFilter):
+    field_class = TagField
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('lookup_expr', 'in')
+        super().__init__(*args, **kwargs)
+
+
 class DigitalComplexFilter(django_filters.FilterSet):
+    keywords = TagFilter(field_name='keywords__name')
+
     class Meta:
         model = complex_model.DigitalComplex
         fields = {
-            'keywords': ['contains'],
             'format': ['contains'],
             'language': ['exact'],
             'subjects__title': ['icontains'],
@@ -71,7 +80,7 @@ class DigitalComplexMyListView(GroupRequiredMixin, FilteredListView):
     paginate_by = 12
     filterset_class = DigitalComplexFilter
     template_name = 'complexes/teacher/digitalcomplex_my_list.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def get_queryset(self):
         queryset = complex_model.DigitalComplex.objects.filter(owner__user=self.request.user)
@@ -90,7 +99,7 @@ class DigitalComplexListView(GroupRequiredMixin, FilteredListView):
     paginate_by = 12
     filterset_class = DigitalComplexFilter
     template_name = 'complexes/teacher/digitalcomplex_list.html'
-    group_required = [u"rop", u"admins"]
+    group_required = ["rop", "admins"]
 
     def get_queryset(self):
         queryset = complex_model.DigitalComplex.objects.all()
@@ -119,14 +128,14 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_detail.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def get_context_data(self, **kwargs):
         context = super(DigitalComplexDetailView, self).get_context_data(**kwargs)
-        component_complex = complex_model.ComponentComplex.objects.instance_of(complex_model.ResourceComponent,
-                                                                               complex_model.PlatformComponent,
-                                                                               complex_model.LiterarySourcesComponent,
-                                                                               complex_model.TraditionalSessionComponent)
+        component_complex = complex_model.ComplexParentComponent.objects.instance_of(complex_model.ResourceComponent,
+                                                                                     complex_model.PlatformComponent,
+                                                                                     complex_model.LiterarySourcesComponent,
+                                                                                     complex_model.TraditionalSessionComponent)
         dig_complex = complex_model.DigitalComplex.objects.get(pk=self.request.resolver_match.kwargs['pk'])
         context['component_complex'] = component_complex.filter(digital_complex=dig_complex)
         for component in component_complex:
@@ -154,7 +163,7 @@ class DigitalComplexUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.DigitalComplex
     form_class = forms.DigitalComplexForm
     template_name = 'complexes/teacher/digitalcomplex_form.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def form_valid(self, form):
         person = Person.get_person(user=self.request.user)
@@ -169,11 +178,11 @@ class DigitalComplexUpdateView(GroupRequiredMixin, generic.UpdateView):
     #     self.fields['title'].initial =
 
 
-class ComponentComplexCreateView(GroupRequiredMixin, generic.CreateView):
-    model = complex_model.ComponentComplex
-    form_class = forms.ComponentComplexForm
+class ComplexParentComponentCreateView(GroupRequiredMixin, generic.CreateView):
+    model = complex_model.ComplexParentComponent
+    form_class = forms.ComplexParentComponentForm
     template_name = 'complexes/teacher/componentcomplex_form_create.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
@@ -182,22 +191,22 @@ class ComponentComplexCreateView(GroupRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.digital_complex = self.digital_complex
         form.save()
-        form_valid = super(ComponentComplexCreateView, self).form_valid(form)
+        form_valid = super(ComplexParentComponentCreateView, self).form_valid(form)
         return form_valid
 
     def get_context_data(self, **kwargs):
-        context = super(ComponentComplexCreateView, self).get_context_data(**kwargs)
+        context = super(ComplexParentComponentCreateView, self).get_context_data(**kwargs)
         if self.request.method == "POST":
-            formset = forms.ComponentComplexFormSet(self.request.POST, self.request.FILES,
-                                                    queryset=complex_model.ComponentComplex.objects.all())
+            formset = forms.ComplexParentComponentFormSet(self.request.POST, self.request.FILES,
+                                                          queryset=complex_model.ComplexParentComponent.objects.all())
             if formset.is_valid():
                 formset.save()
         else:
-            context["formset"] = forms.ComponentComplexFormSet(queryset=complex_model.ComponentComplex.objects.all())
+            context["formset"] = forms.ComplexParentComponentFormSet(queryset=complex_model.ComplexParentComponent.objects.all())
             dig_complex = self.digital_complex
             context['dig_complex'] = self.digital_complex
-            context['component_complex'] = complex_model.ComponentComplex.objects.filter(digital_complex=dig_complex)
-            # context["form"] = forms.ComponentComplexForm(instance=self.object)
+            context['component_complex'] = complex_model.ComplexParentComponent.objects.filter(digital_complex=dig_complex)
+            # context["form"] = forms.ComplexParentComponentForm(instance=self.object)
         # context["source_formset"] = forms.SourceFormset(instance=self.object)
         return context
 
@@ -206,7 +215,7 @@ class ResourceComponentUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.ResourceComponent
     form_class = forms.ResourceComponentForm
     template_name = 'complexes/teacher/resource_component/component_form_update.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     # def dispatch(self, request, *args, **kwargs):
     #     self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
@@ -233,14 +242,14 @@ class ResourceComponentUpdateView(GroupRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class PlatformComponentUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.PlatformComponent
     form_class = forms.PlatformComponentForm
     template_name = 'complexes/teacher/platform_component/component_form_update.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def form_valid(self, form):
         form.instance.digital_complex = self.object.digital_complex
@@ -255,14 +264,14 @@ class PlatformComponentUpdateView(GroupRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class TraditionalSessionComponentUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.TraditionalSessionComponent
     form_class = forms.TraditionalSessionComponentForm
     template_name = 'complexes/teacher/traditional_component/component_form_update.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def form_valid(self, form):
         form.instance.digital_complex = self.object.digital_complex
@@ -277,14 +286,14 @@ class TraditionalSessionComponentUpdateView(GroupRequiredMixin, generic.UpdateVi
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class LiterarySourcesComponentUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.LiterarySourcesComponent
     form_class = forms.LiterarySourcesComponentForm
     template_name = 'complexes/teacher/literary_component/component_form_update.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def form_valid(self, form):
         form.instance.digital_complex = self.object.digital_complex
@@ -299,13 +308,13 @@ class LiterarySourcesComponentUpdateView(GroupRequiredMixin, generic.UpdateView)
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
-class ComponentComplexListView(GroupRequiredMixin, FilteredListView):
-    model = complex_model.ComponentComplex
-    form_class = forms.ComponentComplexForm
-    group_required = [u"teacher", u"admins"]
+class ComplexParentComponentListView(GroupRequiredMixin, FilteredListView):
+    model = complex_model.ComplexParentComponent
+    form_class = forms.ComplexParentComponentForm
+    group_required = ["teacher", "admins"]
     template_name = 'complexes/teacher/componentcomplex_list.html'
     allow_empty = True
     paginate_by = 12
@@ -316,10 +325,10 @@ class ComponentComplexListView(GroupRequiredMixin, FilteredListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
-        component_complex = complex_model.ComponentComplex.objects.instance_of(complex_model.ResourceComponent,
-                                                                               complex_model.PlatformComponent,
-                                                                               complex_model.LiterarySourcesComponent,
-                                                                               complex_model.TraditionalSessionComponent)
+        component_complex = complex_model.ComplexParentComponent.objects.instance_of(complex_model.ResourceComponent,
+                                                                                     complex_model.PlatformComponent,
+                                                                                     complex_model.LiterarySourcesComponent,
+                                                                                     complex_model.TraditionalSessionComponent)
         queryset = component_complex.filter(digital_complex=self.digital_complex).order_by('order')
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
         qs = self.filterset.qs.distinct()
@@ -328,9 +337,9 @@ class ComponentComplexListView(GroupRequiredMixin, FilteredListView):
         return qs
 
     def get_context_data(self, **kwargs):
-        context = super(ComponentComplexListView, self).get_context_data(**kwargs)
+        context = super(ComplexParentComponentListView, self).get_context_data(**kwargs)
         context['dig_complex'] = self.digital_complex
-        context['component_complex'] = complex_model.ComponentComplex.objects.filter(
+        context['component_complex'] = complex_model.ComplexParentComponent.objects.filter(
             digital_complex=self.digital_complex)
         return context
 
@@ -339,7 +348,7 @@ class ResourceComponentCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.ResourceComponent
     form_class = forms.ResourceComponentForm
     template_name = 'complexes/teacher/resource_component/component_form_create.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
@@ -366,14 +375,14 @@ class ResourceComponentCreateView(GroupRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class ResourceBookmarkComponentCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.ResourceComponent
     form_class = forms.ResourceComponentForm
     template_name = 'complexes/teacher/resource_component/component_form_create.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
@@ -394,33 +403,32 @@ class ResourceBookmarkComponentCreateView(GroupRequiredMixin, generic.CreateView
             pass
         else:
             dig_resource_queryset = repository_models.DigitalResource.objects.all()
-            context[
-                'alarm'] = 'Предупреждение! Избранные ЭОР отсутсвуют. В списке сейчас отображаются все доступные ЭОР'
+            context['alarm'] = 'Предупреждение! Избранные ЭОР отсутсвуют. В списке сейчас отображаются все доступные ЭОР'
         context['form'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
-class ComponentComplexDeleteView(GroupRequiredMixin, generic.DeleteView):
-    model = complex_model.ComponentComplex
-    form_class = forms.ComponentComplexForm
+class ComplexParentComponentDeleteView(GroupRequiredMixin, generic.DeleteView):
+    model = complex_model.ComplexParentComponent
+    form_class = forms.ComplexParentComponentForm
     template_name = 'complexes/teacher/resource_component/component_form_delete.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     pk_url_kwarg = "pk"
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class PlatformComponentCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.PlatformComponent
     form_class = forms.PlatformComponentForm
     template_name = 'complexes/teacher/platform_component/component_form_create.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
@@ -439,26 +447,26 @@ class PlatformComponentCreateView(GroupRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class PlatformComponentDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = complex_model.PlatformComponent
     form_class = forms.PlatformComponentForm
     template_name = 'complexes/teacher/platform_component/component_form_delete.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     pk_url_kwarg = "pk"
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class TraditionalSessionComponentCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.TraditionalSessionComponent
     form_class = forms.TraditionalSessionComponentForm
     template_name = 'complexes/teacher/traditional_component/component_form_create.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
@@ -477,26 +485,26 @@ class TraditionalSessionComponentCreateView(GroupRequiredMixin, generic.CreateVi
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class TraditionalSessionComponentDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = complex_model.TraditionalSessionComponent
     form_class = forms.TraditionalSessionComponentForm
     template_name = 'complexes/teacher/traditional_component/component_form_delete.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     pk_url_kwarg = "pk"
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class LiterarySourcesComponentCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.LiterarySourcesComponent
     form_class = forms.LiterarySourcesComponentForm
     template_name = 'complexes/teacher/literary_component/component_form_create.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
@@ -515,24 +523,24 @@ class LiterarySourcesComponentCreateView(GroupRequiredMixin, generic.CreateView)
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class LiterarySourcesComponentDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = complex_model.LiterarySourcesComponent
     form_class = forms.LiterarySourcesComponentForm
     template_name = 'complexes/teacher/literary_component/component_form_delete.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     pk_url_kwarg = "pk"
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComponentComplex_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
 class AssignmentAcademicGroupListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.AssignmentAcademicGroup
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     template_name = 'complexes/teacher/assigment_academic_group/list.html'
     allow_empty = True
     paginate_by = 12
@@ -559,7 +567,7 @@ class AssignmentAcademicGroupListView(GroupRequiredMixin, FilteredListView):
 
 class AssignmentAcademicGroupDetailView(GroupRequiredMixin, generic.DetailView):
     model = complex_model.AssignmentAcademicGroup
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     template_name = 'complexes/teacher/assigment_academic_group/detail.html'
 
 
@@ -567,7 +575,7 @@ class AssignmentAcademicGroupDeleteView(GroupRequiredMixin, generic.DeleteView):
     model = complex_model.AssignmentAcademicGroup
     form_class = forms.AssignmentAcademicGroupForm
     template_name = 'complexes/teacher/resource_component/component_form_delete.html'
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     pk_url_kwarg = "pk"
 
     def get_success_url(self):
@@ -578,7 +586,7 @@ class AssignmentAcademicGroupDeleteView(GroupRequiredMixin, generic.DeleteView):
 class AssignmentAcademicGroupCreateView(GroupRequiredMixin, generic.CreateView):
     model = complex_model.AssignmentAcademicGroup
     form_class = forms.AssignmentAcademicGroupForm
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     template_name = 'complexes/teacher/assigment_academic_group/form_create.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -615,7 +623,7 @@ class AssignmentAcademicGroupCreateView(GroupRequiredMixin, generic.CreateView):
 class AssignmentAcademicGroupUpdateView(GroupRequiredMixin, generic.UpdateView):
     model = complex_model.AssignmentAcademicGroup
     form_class = forms.AssignmentAcademicGroupForm
-    group_required = [u"teacher", u"admins"]
+    group_required = ["teacher", "admins"]
     template_name = 'complexes/teacher/assigment_academic_group/form_update.html'
 
     def get_success_url(self):
@@ -659,7 +667,7 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.AssignmentAcademicGroup
     allow_empty = True
     paginate_by = 12
-    group_required = [u'student', u'admins']
+    group_required = ["student", "admins"]
     filterset_class = AssignmentAcademicGroupMyFilter
     template_name = 'complexes/student/my_subjects_list.html'
     subjects = []
@@ -688,29 +696,16 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         return context
 
 
-class ThematicPlanListView(GroupRequiredMixin, FilteredListView):
-    model = grid_models.ThematicPlan
-    allow_empty = True
-    group_required = [u'teacher', u'admins']
+class ThematicPlanDetailView(GroupRequiredMixin, generic.DetailView):
+    model = complex_model.DigitalComplex
+    group_required = ['teacher', 'admins']
     template_name = 'complexes/teacher/thematic_plan/list.html'
 
-    def get_queryset(self, **kwargs):
-        try:
-            queryset = grid_models.ThematicPlan.objects.filter(
-                digital_complex=self.request.resolver_match.kwargs['digital_complex_pk'])
-        except:
-            queryset = grid_models.ThematicPlan.objects.all()
-        # self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        # qs = self.filterset.qs.distinct()
-        # if qs.count() == 0:
-        #     self.paginate_by = None
-        return queryset
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(ThematicPlanListView, self).get_context_data(**kwargs)
-        context['dig_complex'] = complex_model.DigitalComplex.objects.get(
-            pk=self.request.resolver_match.kwargs['digital_complex_pk'])
-        return context
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(ThematicPlanDetailView, self).get_context_data(**kwargs)
+    #     context['dig_complex'] = complex_model.DigitalComplex.objects.get(
+    #         pk=self.request.resolver_match.kwargs['digital_complex_pk'])
+    #     return context
 
 
 class ThematicPlanCreateView(GroupRequiredMixin, generic.CreateView):
@@ -721,7 +716,7 @@ class ThematicPlanCreateView(GroupRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ThematicPlan_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ThematicPlan_detail", args=(dig_complex_id,))
 
     def form_valid(self, form):
         # context = self.get_context_data()
@@ -745,7 +740,7 @@ class ThematicPlanCreateView(GroupRequiredMixin, generic.CreateView):
             context['digital_complex_pk'] = self.request.resolver_match.kwargs['digital_complex_pk']
             context['dig_complex'] = complex_model.DigitalComplex.objects.get(
                 pk=self.request.resolver_match.kwargs['digital_complex_pk'])
-            context['component_complex'] = complex_model.ComponentComplex.objects.filter(
-                digital_complex=context['dig_complex'])
+            # context['component_complex'] = complex_model.ComplexParentComponent.objects.filter(
+            #     digital_complex=context['dig_complex'])
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
         return context

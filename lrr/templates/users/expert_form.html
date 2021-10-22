@@ -1,43 +1,31 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
-{% load tz %}
-
+{% load crispy_forms_tags bootstrap_icons tz %}
 
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'users:expert_list' %}">Список экспертов</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Добавление эксперта</li>
+    </ol>
+  </nav>
+
+  <h2 class="font-weight-light mt-4">Эксперт</h2>
+
   {% localtime on %}
-    <div class="ui container">
-
-      {% if form.errors %}
-        {% for field in form %}
-          {% for error in field.errors %}
-            <div class="alert alert-danger">
-              <strong>{{ error|escape }}</strong>
-            </div>
-          {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
-          <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-          </div>
-        {% endfor %}
-      {% endif %}
-
-      <form class="ui form segment" method="post">
+    <div class="container">
+      <form class="form-horizontal" method="post">
         {% csrf_token %}
-        <h2>Пользователь: {{ user.username }}</h2>
-        <div class="three fields">
-          <div class="field">
-            {{ form }}
+        {% crispy form %}
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" class="btn btn-primary px-3">Сохранить</button>
+            <a class="btn btn-secondary submit button" href="{% url 'users:expert_list' %}">Закрыть</a>
           </div>
         </div>
-        <div class="right control-group">
-          <div class="right controls">
-            <button class="ui secondary submit button" type="submit">Сохранить</button>
-            <a class="ui secondary submit button" href="{% url 'users:expert_list' %}">Закрыть</a>
-          </div>
-        </div>
+
       </form>
     </div>
 

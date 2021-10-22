@@ -2,25 +2,38 @@
 {% load static %}
 
 {% block content %}
-  <div class="ui segment container">
-    <div class="ui middle aligned stackable grid container">
-      <div class="row">
-        <div class="eight wide column">
-          <a class="btn btn-primary" href="{% url "users:expert_update" slug=object.person.user %}">Редактировать</a>
-          <h3 class="ui header">Данные эксперта</h3>
-          <p>ФИО: {{ object.person.last_name }} {{ object.person.first_name }} {{ object.person.middle_name }}</p>
-          <p>Вид экспертизы: {% for type in object.types.all %}{{ type }} {% endfor %}</p>
-          <p>Подразделение/отрасль: {{ object.subdivision }}</p>
-        </div>
-        <div class="six wide right floated column">
-          {% if object.person.avatar %}
-          <img src='/media/{{ object.person.avatar }}' class="ui large bordered rounded image">
-          {% else %}
-            <p>Нет аватара</p>
-          {% endif %}
+  <div class="container">
 
+    <div class="row mt-3">
+      <div class="col-6">
+        <h3>Данные эксперта</h3>
+        <div class="row">
+          <div class="col"><p>ФИО:</p></div>
+          <div class="col"><p>{{ object.person.last_name }} {{ object.person.first_name }} {{ object.person.middle_name }}</p></div>
+        </div>
+        <div class="row">
+          <div class="col"><p>Вид экспертизы:</p></div>
+          <div class="col"><p> {% for type in object.types.all %}{{ type }} {% endfor %}</p></div>
+        </div>
+        <div class="row">
+          <div class="col"><p>Подразделение/отрасль:</p></div>
+          <div class="col"><p> {{ object.subdivision }}</p></div>
         </div>
       </div>
+      <div class="col-6 d-flex justify-content-center align-items-center">
+        {% if object.person.avatar %}
+          <img src='/media/{{ object.person.avatar }}' class="ui large bordered rounded image">
+        {% else %}
+          <p>Нет аватара</p>
+        {% endif %}
+
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <a class="btn btn-primary" href="{% url "users:expert_update" slug=object.person.user %}">Редактировать</a>
+      </div>
+      <div class="col"></div>
     </div>
   </div>
 {% endblock content %}

@@ -89,8 +89,17 @@ tr.dynamic-requirements {
   }
 }
 
-
-
+tag {
+  display: inline-block;
+  padding: 2px 5px;
+  background-color: var(--admin-interface-header-background-color);
+  border-radius: 3px;
+  color: white;
+  font-weight: bolder;
+  font-size: 12px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
 
 
 

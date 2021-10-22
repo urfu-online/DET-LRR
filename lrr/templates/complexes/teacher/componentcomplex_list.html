@@ -1,15 +1,15 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags bootstrap_icons %}
 {% load static %}
 {% block content %}
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои
         ЭУМК</a></li>
       <li class="breadcrumb-item"><a
-              href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a>
+        href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">{{ dig_complex }}</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">Редактирование компонентов ЭУМК</li>
     </ol>
@@ -36,7 +36,7 @@
             <tr>
               <th>Ресурс/Среда/Занятие/Источник</th>
               <th>Как используется при изучении дисциплины</th>
-{#              <th>Порядок отображения</th>#}
+              {#              <th>Порядок отображения</th>#}
               <th></th>
               <th></th>
             </tr>
@@ -60,24 +60,24 @@
                   {% if component.polymorphic_ctype|cut:" " == "complexes|КомпонентЭОР" %}
                     <a class="btn btn-outline-primary mx-1"
                        href="{% url 'complexes:complexes_ResourceComponent_update' pk=component.pk %}"><i
-                            class="pen icon"></i></a>
+                      class="pen icon"></i></a>
                   {% elif component.polymorphic_ctype|cut:" " == "complexes|Средаобучения" %}
                     <a class="btn btn-outline-primary mx-1"
                        href="{% url 'complexes:complexes_PlatformComponent_update' pk=component.pk %}"><i
-                            class="pen icon"></i></a>
+                      class="pen icon"></i></a>
                   {% elif component.polymorphic_ctype|cut:" " == "complexes|Литературныйисточник" %}
                     <a class="btn btn-outline-primary mx-1"
                        href="{% url 'complexes:complexes_LiterarySourcesComponent_update' pk=component.pk %}"><i
-                            class="pen icon"></i></a>
+                      class="pen icon"></i></a>
                   {% elif component.polymorphic_ctype|cut:" " == "complexes|Синхронноезанятие" %}
                     <a class="btn btn-outline-primary mx-1"
                        href="{% url 'complexes:complexes_TraditionalSessionComponent_update' pk=component.pk %}"><i
-                            class="pen icon"></i></a>
+                      class="pen icon"></i></a>
                   {% endif %}
                 </td>
                 <td><a class="btn btn-outline-primary "
-                       href="{% url 'complexes:complexes_ComponentComplex_delete' pk=component.pk %}"><i
-                        class="fas fa-trash-alt"></i></a></td>
+                       href="{% url 'complexes:complexes_ComplexParentComponent_delete' pk=component.pk %}"><i
+                  class="fas fa-trash-alt"></i></a></td>
               </tr>
             {% endfor %}
             </tbody>
@@ -86,19 +86,19 @@
           <div class="card d-flex flex-row my-3 float-right">
             <a class="btn btn-outline-primary mx-1"
                href="{% url 'complexes:complexes_ResourceComponent_create' pk=dig_complex.pk %}"><i
-                    class="fas fa-plus"></i> ЭОР</a>
+              class="fas fa-plus"></i> ЭОР</a>
             <a class="btn btn-outline-primary mx-1"
                href="{% url 'complexes:complexes_ResourceBookmarkComponent_create' pk=dig_complex.pk %}"><i
-                    class="fas fa-plus"></i> Избранные ЭОР</a>
+              class="fas fa-plus"></i> Избранные ЭОР</a>
             <a class="btn btn-outline-primary mx-1"
                href="{% url 'complexes:complexes_PlatformComponent_create' pk=dig_complex.pk %}"><i
-                    class="fas fa-plus"></i> Среда обучения</a>
+              class="fas fa-plus"></i> Среда обучения</a>
             <a class="btn btn-outline-primary mx-1"
                href="{% url 'complexes:complexes_TraditionalSessionComponent_create' pk=dig_complex.pk %}"><i
-                    class="fas fa-plus"></i> Синхронные занятия</a>
+              class="fas fa-plus"></i> Синхронные занятия</a>
             <a class="btn btn-outline-primary mx-1"
                href="{% url 'complexes:complexes_LiterarySourcesComponent_create' pk=dig_complex.pk %}"><i
-                    class="fas fa-plus"></i> Литературные источники</a>
+              class="fas fa-plus"></i> Литературные источники</a>
           </div>
           <div class="card-footer">
             <a class="btn btn-primary" href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">Вернуться

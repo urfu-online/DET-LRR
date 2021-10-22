@@ -1,178 +1,173 @@
 # -*- coding: utf-8 -*-
+from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
+from django.db.models import JSONField
+from django.utils.html import format_html_join
+from django_json_widget.widgets import JSONEditorWidget
 from import_export.admin import ImportExportModelAdmin
 from polymorphic.admin import (
     PolymorphicParentModelAdmin,
     PolymorphicChildModelAdmin,
     PolymorphicChildModelFilter)
 
-from lrr.complexes import forms_admin
 from lrr.complexes import grid_models
 from lrr.complexes import models
 
 
-@admin.register(grid_models.Container)
-class ContainerAdmin(admin.ModelAdmin):
-    form = forms_admin.ContainerAdminForm
+class ThemeAdminInline(SortableInlineAdminMixin, admin.StackedInline):
+    model = grid_models.Theme
+    extra = 1
+
+
+@admin.register(grid_models.ThematicPlan)
+class ThematicPlanAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['digital_complex']
     list_display = [
-        "type",
+        'digital_complex',
+        'themes',
+        'created',
+        'last_updated',
     ]
-    readonly_fields = [
-        "type",
-    ]
+    inlines = [ThemeAdminInline]
+
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditorWidget},
+    }
+
+    @admin.display(description='Темы')
+    def themes(self, obj):
+        return format_html_join(
+            '\n', '<p>{}</p>',
+            [[t.title] for t in obj.themes.all()]
+        )
 
 
-@admin.register(grid_models.Theme)
-class ThemeAdmin(admin.ModelAdmin):
-    form = forms_admin.ThemeAdminForm
+class ThematicPlanAdminInline(admin.StackedInline):
+    model = grid_models.ThematicPlan
     list_display = [
-        "title",
+        'plan_object',
     ]
-    readonly_fields = [
-        "title",
-    ]
+    min_num = 1
+    max_num = 1
 
-
-# @admin.register(grid_models.Cell)
-# class CellAdmin(admin.ModelAdmin):
-#     form = forms_admin.CellAdminForm
-#     list_display = [
-#     ]
-#     readonly_fields = [
-#     ]
-
-
-@admin.register(models.ComponentComplex)
-class ComponentAdmin(ImportExportModelAdmin):
-    form = forms_admin.ComponentForm
-    list_display = [
-        "__str__",
-    ]
-
-
-# class ComplexSpaceCellInline(admin.TabularInline):
-#     model = models.ComplexSpaceCell
-#     list_display = [
-#         "title",
-#         "description",
-#         "cells",
-#         "digital_complex",
-#         "link"
-#     ]
-#     readonly_fields = [
-#         "created",
-#     ]
-#     extra = 0
-#     autocomplete_fields = ['digital_complex', ]
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditorWidget},
+    }
 
 
 class WorkPlanAcademicGroupAdminInline(admin.TabularInline):
     list_display = [
-        "academic_group",
-        "learn_date",
+        'academic_group',
+        'learn_date',
     ]
     readonly_fields = [
-        "created",
+        'created',
     ]
 
 
 @admin.register(models.DigitalComplex)
 class DigitalComplexAdmin(ImportExportModelAdmin):
-    form = forms_admin.DigitalComplexAdminForm
     fields = [
-        "title",
-        "keywords",
-        "description",
-        "language",
-        "format",
-        "subjects",
-        "directions",
-        "competences",
-        # "results_edu",
-        "form_control"
+        'title',
+        'keywords',
+        'description',
+        'language',
+        'format',
+        'subjects',
+        'directions',
+        'competences',
+        'form_control',
     ]
     list_display = [
-        "format",
+        'title',
+        'description',
+        'view_keywords',
+        'format',
     ]
     readonly_fields = [
-        "id",
-        "created",
-        "last_updated",
+        'id',
+        'created',
+        'last_updated',
     ]
     inlines = [
-        # ComplexSpaceCellInline,
-        # DRStatusInline
+        ThematicPlanAdminInline
     ]
-    # filter_horizontal = ["subjects_tags", ]
-    autocomplete_fields = ["subjects", "competences", "results_edu", "directions"]
-    list_filter = ["form_control"]
-    search_fields = ["keywords", "format"]
+
+    autocomplete_fields = ['subjects', 'competences', 'results_edu', 'directions', 'language']
+    list_filter = ['form_control', 'format']
+    search_fields = ['title', 'description', 'view_keywords']
+
+    @admin.display(description='Ключевые слова')
+    def view_keywords(self, obj):
+        return format_html_join(
+            '\n', '<tag>{}</tag>',
+            [[o.name] for o in obj.keywords.all()]
+        )
 
 
 @admin.register(models.AssignmentAcademicGroup)
 class AssignmentAcademicGroupAdmin(ImportExportModelAdmin):
-    form = forms_admin.AssignmentAcademicGroupForm
-    list_display = [
+    fields = [
+        "digital_complex",
         "academic_group",
+        "group_subject",
         "learn_date"
     ]
-    readonly_fields = [
-        "created",
+    list_display = [
+        'academic_group',
+        'learn_date'
     ]
-
-    autocomplete_fields = ["digital_complex"]
-
-
-# @admin.register(models.ComponentComplex)
-class ComponentComplexChildAdmin(PolymorphicChildModelAdmin):
-    base_model = models.ComponentComplex
+    readonly_fields = [
+        'created',
+    ]
+    autocomplete_fields = ['digital_complex', 'academic_group', 'group_subject']
 
 
-class ComponentComplexParentAdmin(PolymorphicParentModelAdmin):
-    base_model = models.ComponentComplex
-    search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]
-    # form = ProgramComponentForm
-    # autocomplete_fields = ["logistical_resource", "personnel_resource", "digital_resource", "competence"]
+class ComplexParentComponentChildAdmin(PolymorphicChildModelAdmin):
+    base_model = models.ComplexParentComponent
+    base_fields = ["digital_complex", "description"]
+
+
+@admin.register(models.ComplexParentComponent)
+class ComplexParentComponentParentAdmin(PolymorphicParentModelAdmin):
+    base_model = models.ComplexParentComponent
+    search_fields = ['digital_complex__title', 'digital_complex__keywords', 'digital_complex__format']
+    autocomplete_fields = ['digital_complex']
     child_models = (
         models.ResourceComponent,
         models.PlatformComponent,
         models.TraditionalSessionComponent,
-        models.ComponentComplex
+        models.ComplexParentComponent,
+        models.LiterarySourcesComponent,
     )
 
     list_filter = (PolymorphicChildModelFilter,)
-    fields = ("digital_complex", "description")
-
-
-# @admin.register(models.ComponentComplex)
-class ComponentComplexChiledAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
-    base_model = models.ComponentComplex
-    search_fields = ["digital_complex__title", "digital_complex__keywords", "digital_complex__format"]
+    fields = ('digital_complex', 'description')
 
 
 @admin.register(models.ResourceComponent)
-class ResourceComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
+class ResourceComponentAdmin(ComplexParentComponentChildAdmin, ImportExportModelAdmin):
     base_model = models.ResourceComponent
-    search_fields = ["digital_resource__title", ]
-    autocomplete_fields = ["digital_resource", ]
+    search_fields = ['digital_resource__title', ]
+    autocomplete_fields = ['digital_resource', 'digital_complex']
 
 
 @admin.register(models.PlatformComponent)
-class PlatformComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
+class PlatformComponentAdmin(ComplexParentComponentChildAdmin, ImportExportModelAdmin):
     base_model = models.PlatformComponent
-    search_fields = ["title", ]
+    search_fields = ['title', 'url']
+    autocomplete_fields = ['digital_complex']
 
 
 @admin.register(models.LiterarySourcesComponent)
-class LiterarySourcesComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
+class LiterarySourcesComponentAdmin(ComplexParentComponentChildAdmin, ImportExportModelAdmin):
     base_model = models.LiterarySourcesComponent
-    search_fields = ["title", ]
-    # autocomplete_fields = ["title", ]
+    search_fields = ['title', 'url']
+    autocomplete_fields = ['digital_complex']
 
 
-#
 @admin.register(models.TraditionalSessionComponent)
-class TraditionalSessionComponentAdmin(ComponentComplexChildAdmin, ImportExportModelAdmin):
+class TraditionalSessionComponentAdmin(ComplexParentComponentChildAdmin, ImportExportModelAdmin):
     base_model = models.TraditionalSessionComponent
-    search_fields = ["title", ]
-    # autocomplete_fields = ["title", ]
+    search_fields = ['title', 'description_session', 'url']
+    autocomplete_fields = ['digital_complex']

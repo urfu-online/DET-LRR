@@ -1,19 +1,27 @@
-
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
 
-<p>
+  <p>
     <a class="btn btn-light" href="{% url 'repository_ProvidingDiscipline_list' %}">
-    Providing_discipline Listing
+      Providing_discipline Listing
     </a>
-</p>
+  </p>
 
-<table class="table">
-    <tr><td>rate</td><td>{{ object.rate }}</td></tr>
-    <tr><td>created</td><td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td></tr>
-    <tr><td>last_updated</td><td>{{ object.last_updated }}</td></tr>
-</table>
-<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+  <table class="table">
+    <tr>
+      <td>rate</td>
+      <td>{{ object.rate }}</td>
+    </tr>
+    <tr>
+      <td>created</td>
+      <td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td>
+    </tr>
+    <tr>
+      <td>last_updated</td>
+      <td>{{ object.last_updated }}</td>
+    </tr>
+  </table>
+  <a class="btn btn-primary" href="{{ object.get_update_url }}">Edit</a>
 
 {% endblock %}

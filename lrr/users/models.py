@@ -39,11 +39,11 @@ class User(AbstractUser):
 
 
 class Person(models.Model):
-    # Relationships
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                              related_name='person')
 
-    # Fields
+
     location = models.CharField("Адрес проживания", max_length=150, null=True, blank=True)
     date_birthday = models.DateTimeField("Дата рождения", null=True, blank=True)
     city = models.CharField("Город", max_length=100, null=True, blank=True)
@@ -55,8 +55,8 @@ class Person(models.Model):
     last_name = models.CharField("Фамилия", max_length=100, null=True, blank=True)
 
     class Meta:
-        verbose_name = u"Профиль"
-        verbose_name_plural = u"Профили"
+        verbose_name = "профиль"
+        verbose_name_plural = "профили"
 
     def __str__(self):
         return f"{self.last_name} {self.first_name} {self.middle_name}"
@@ -101,7 +101,7 @@ class Person(models.Model):
 
 
 class Student(models.Model):
-    # Relationships
+
     person = models.ForeignKey("users.Person", on_delete=models.CASCADE)
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
                                        verbose_name="Номер академической группы", null=True)
@@ -109,8 +109,8 @@ class Student(models.Model):
     created = models.DateTimeField("Создано", auto_now_add=True, editable=False)
 
     class Meta:
-        verbose_name = u"Студент"
-        verbose_name_plural = u"Студенты"
+        verbose_name = "студент"
+        verbose_name_plural = "студенты"
 
     def __str__(self):
         return str(self.person)
@@ -149,8 +149,8 @@ class AcademicGroup(models.Model):
                                    on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:
-        verbose_name = u"Академическая группа"
-        verbose_name_plural = u"Академические группы"
+        verbose_name = "академическая группа"
+        verbose_name_plural = "академические группы"
 
     def __str__(self):
         return self.number
@@ -180,14 +180,14 @@ class ChoicesExpert(models.Model):
         (METHODICAL, 'Методическая'),
         (CONTENT, 'Содержательная'),
         (TECH, 'Техническая'),
-        # Fields
+
 
     ]
     type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)
 
     class Meta:
-        verbose_name = u"Тип экспертизы"
-        verbose_name_plural = u"Типы экспертиз"
+        verbose_name = "тип экспертизы"
+        verbose_name_plural = "типы экспертиз"
 
     def __str__(self):
         return self.get_type_display()
@@ -199,8 +199,8 @@ class Expert(models.Model):
     subdivision = models.CharField('Подразделение/отрасль', max_length=500)
 
     class Meta:
-        verbose_name = u"Эксперт"
-        verbose_name_plural = u"Эксперты"
+        verbose_name = "эксперт"
+        verbose_name_plural = "эксперты"
 
     def __str__(self):
         return str(self.person)
@@ -216,9 +216,6 @@ class Expert(models.Model):
             obj = None
         return obj
 
-    # def get_update_url(self):
-    #     return reverse("", args=(self.pk,))
-
 
 class GroupDisciplines(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -232,8 +229,8 @@ class GroupDisciplines(models.Model):
     semestr = models.PositiveSmallIntegerField(verbose_name="Семестр", blank=True, null=True)
 
     class Meta:
-        verbose_name = u"Дисциплина группы"
-        verbose_name_plural = u"Дисциплины групп"
+        verbose_name = "дисциплина группы"
+        verbose_name_plural = "дисциплины групп"
 
     def __str__(self):
         return f"{self.subject} - {self.semestr} семестр"
