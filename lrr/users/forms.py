@@ -83,7 +83,7 @@ class PersonForm(form.ModelForm):
         fields = ["first_name", "middle_name", "last_name", "avatar", "date_birthday", "city", ]
 
 
-class PersonWidget(s2forms.Select2Widget):
+class PersonWidget(s2forms.ModelSelect2Widget):
     search_fields = [
         "first_name__icontains",
         "middle_name__icontains",
@@ -92,11 +92,29 @@ class PersonWidget(s2forms.Select2Widget):
     max_results = 50
 
 
-class ExpertWidget(s2forms.Select2TagWidget):
+class ExpertWidget(s2forms.ModelSelect2Widget):
     pass
 
 
 class ExpertForm(form.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ExpertForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.use_custom_control = False
+        self.helper.render_hidden_fields = False
+        # ['first_name', 'middle_name', 'last_name', 'location', 'avatar', 'date_birthday']
+
+        for field in self._meta.fields:
+            self.fields[field].help_text = self.fields[field].label
+            self.fields[field].label = ""
+
+        self.helper.layout = Layout(
+            Field('person', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+            Field('types', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+            Field('subdivision', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+        )
+
     class Meta:
         model = models.Expert
         fields = [
@@ -104,22 +122,13 @@ class ExpertForm(form.ModelForm):
             "types",
             "subdivision",
         ]
+
         widgets = {
-            "person": form.Select(
-                attrs={
-                    'class': 'form-control',
-                },
-            ),
-            "types": form.CheckboxSelectMultiple(
-                attrs={
-                    'class': 'form-check-input checkbox-custom',
-                },
-            ),
-            "subdivision": form.TextInput(
-                attrs={
-                    'class': 'form-control',
-                },
-            ),
+            'types': s2forms.Select2Widget,
+            'person': PersonWidget(select2_options={
+                'minimumResultsForSearch': 10,
+                'closeOnSelect': True,
+            })
         }
 
 # class SignupForm(form.Form):
