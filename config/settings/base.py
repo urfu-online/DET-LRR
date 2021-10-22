@@ -72,6 +72,7 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django_auth_adfs',
     'django_celery_beat',
     'rest_framework',
     'rest_framework.authtoken',
@@ -86,8 +87,8 @@ THIRD_PARTY_APPS = [
     'django_better_admin_arrayfield',
     'adminsortable2',
     'lineup.apps.LineupConfig',
+    'versatileimagefield',
     'rest_polymorphic',
-    'bootstrapform',
     'pandas',
     'matplotlib',
     'pySankey',
@@ -219,6 +220,7 @@ TEMPLATES = [
 ]
 
 FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
+
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # FIXTURES
@@ -294,8 +296,14 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_ADAPTER = "lrr.users.adapters.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "lrr.users.adapters.SocialAccountAdapter"
-
-ACCOUNT_FORMS = {'signup': 'lrr.users.forms.UserSignupForm'}
+DEFAULT_FORMFIELD_CLASSES = 'mt-4 shadow-sm bg-white border border-secondary'
+# ACCOUNT_FORMS = {'signup': 'lrr.users.forms.UserSignupForm'}
+ACCOUNT_FORMS = {
+    'login': 'lrr.forms.DETLoginForm',
+    'reset_password': 'lrr.forms.DETResetPasswordForm',
+    'add_email': 'lrr.forms.DETAddEmailForm',
+    'change_password': 'lrr.forms.DETChangePasswordForm',
+}
 
 # ACCOUNT_SIGNUP_FORM_CLASS = 'lrr.users.forms.UserSignupForm'
 
@@ -362,3 +370,78 @@ MD_ICONS_BASE_URL = 'https://cdn.jsdelivr.net/npm/@mdi/svg@5.9.55/'
 
 HTML_MINIFY = True
 TAGGIT_CASE_INSENSITIVE = True
+
+AUTH_ADFS = {
+    "SERVER": "sts.urfu.ru",
+    "CLIENT_ID": "your-configured-client-id",
+    "RELYING_PARTY_ID": "your-adfs-RPT-name",
+    # Make sure to read the documentation about the AUDIENCE setting
+    # when you configured the identifier as a URL!
+    "AUDIENCE": "microsoft:identityserver:your-RelyingPartyTrust-identifier",
+    # "CA_BUNDLE": "/path/to/ca-bundle.pem",
+    "CLAIM_MAPPING": {"first_name": "given_name",
+                      "last_name": "family_name",
+                      "email": "email"},
+}
+
+DJRICHTEXTFIELD_CONFIG = {
+    'js': ['https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js'],
+    'init_template': 'includes/dj.js',
+    'settings': {
+        'menubar': True,
+        'plugins': 'link image',
+        'toolbar': 'bold italic | link image | removeformat',
+        'width': 700
+    }
+}
+
+VERSATILEIMAGEFIELD_SETTINGS = {
+    # The amount of time, in seconds, that references to created images
+    # should be stored in the cache. Defaults to `2592000` (30 days)
+    'cache_length': 2592000,
+    # The name of the cache you'd like `django-versatileimagefield` to use.
+    # Defaults to 'versatileimagefield_cache'. If no cache exists with the name
+    # provided, the 'default' cache will be used instead.
+    'cache_name': 'versatileimagefield_cache',
+    # The save quality of modified JPEG images. More info here:
+    # https://pillow.readthedocs.io/en/latest/handbook/image-file-formats.html#jpeg
+    # Defaults to 70
+    'jpeg_resize_quality': 70,
+    # The name of the top-level folder within storage classes to save all
+    # sized images. Defaults to '__sized__'
+    'sized_directory_name': '__sized__',
+    # The name of the directory to save all filtered images within.
+    # Defaults to '__filtered__':
+    'filtered_directory_name': '__filtered__',
+    # The name of the directory to save placeholder images within.
+    # Defaults to '__placeholder__':
+    'placeholder_directory_name': '__placeholder__',
+    # Whether or not to create new images on-the-fly. Set this to `False` for
+    # speedy performance but don't forget to 'pre-warm' to ensure they're
+    # created and available at the appropriate URL.
+    'create_images_on_demand': True,
+    # A dot-notated python path string to a function that processes sized
+    # image keys. Typically used to md5-ify the 'image key' portion of the
+    # filename, giving each a uniform length.
+    # `django-versatileimagefield` ships with two post processors:
+    # 1. 'versatileimagefield.processors.md5' Returns a full length (32 char)
+    #    md5 hash of `image_key`.
+    # 2. 'versatileimagefield.processors.md5_16' Returns the first 16 chars
+    #    of the 32 character md5 hash of `image_key`.
+    # By default, image_keys are unprocessed. To write your own processor,
+    # just define a function (that can be imported from your project's
+    # python path) that takes a single argument, `image_key` and returns
+    # a string.
+    'image_key_post_processor': None,
+    # Whether to create progressive JPEGs. Read more about progressive JPEGs
+    # here: https://optimus.io/support/progressive-jpeg/
+    'progressive_jpeg': True
+}
+
+VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
+    'eduapps_logo': [
+        ('logo_large', 'thumbnail__1278x500'),
+        ('logo_small', 'thumbnail__639x250')
+    ],
+}
+COMPUTEDFIELDS_ALLOW_RECURSION = True

@@ -11,20 +11,33 @@
     </ol>
   </nav>
 
-  <div class="ui segment container">
-    <div class="ui middle aligned stackable grid container">
+  <div class="container mt-5">
+  <h3>Профиль</h3>
+
+    <div class="row">
       <div class="row">
-        <div class="eight wide column">
-          <h3 class="ui header">Профиль</h3>
-        <p>Имя пользователя: <strong>{{ object.username }}</strong></p>
-          <p>ФИО: {{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p>
-          <p>Страна: {% if person.country %}{{ person.country }}{% else %}<em>Не задана</em>{% endif %}</p>
-          <p>Город: {% if person.city %}{{ person.city }}{% else %}<em>Не задан</em>{% endif %}</p>
-          <p>Адрес проживания: {% if person.location %}{{ person.location }}{% else %}<em>Не задан</em>{% endif %}</p>
-          <p>Дата рождения: {% if person.date_birthday %}{{ person.date_birthday }}{% else %}<em>Не задан</em>{% endif %}</p>
-          <p>Академическая группа: {{ student.academic_group }}</p>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-sm-4 p-2">Имя пользователя:</div>
+            <div class="col p-2"><p>{{ object.username }}</p></div>
+            <div class="w-100"></div>
+            <div class="col-sm-4 p-2">ФИО:</div>
+            <div class="col p-2"><p>{{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p></div>
+            <div class="w-100"></div>
+            <div class="col-sm-4 p-2">Страна:</div>
+            <div class="col p-2"><p>{% if person.country %}{{ person.country }}{% else %}<em>Не задана</em>{% endif %}</p></div>
+            <div class="w-100"></div>
+            <div class="col-sm-4 p-2">Город:</div>
+            <div class="col p-2"><p>{% if person.city %}{{ person.city }}{% else %}<em>Не задан</em>{% endif %}</p></div>
+            <div class="w-100"></div>
+            <div class="col-sm-4 p-2">Адрес проживания:</div>
+            <div class="col p-2"><p>{% if person.location %}{{ person.location }}{% else %}<em>Не задан</em>{% endif %}</p></div>
+            <div class="w-100"></div>
+            <div class="col-sm-4 p-2">Дата рождения:</div>
+            <div class="col p-2"><p>{% if person.date_birthday %}{{ person.date_birthday }}{% else %}<em>Не задан</em>{% endif %}</p></div>
+          </div>
         </div>
-        <div class="six wide right floated column">
+        <div class="col">
           {% if person.avatar %}
             <img src='/media/{{ person.avatar }}' class="ui large bordered rounded image">
           {% else %}
@@ -32,15 +45,17 @@
           {% endif %}
         </div>
       </div>
-      {% if object == request.user %}
-        <div class="row">
-          <div class="left aligned column">
-            <a class="ui button" href="{% url 'users:update' %}" role="button">Редактировать</a>
-            <a class="ui button" href="{% url 'account_email' %}" role="button">Сменить E-Mail</a>
-          </div>
-        </div>
-      {% endif %}
     </div>
+
+    {% if object == request.user %}
+      <div class="row">
+        <div class="left aligned column">
+          <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Редактировать</a>
+          <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">Сменить E-Mail</a>
+        </div>
+      </div>
+    {% endif %}
+
   </div>
 {% endblock content %}
 

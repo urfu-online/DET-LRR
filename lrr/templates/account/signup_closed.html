@@ -2,11 +2,12 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+{% block head_title %}{% translate "Sign Up Closed" %}{% endblock %}
 
 {% block inner %}
-<h1>{% trans "Sign Up Closed" %}</h1>
-
-<p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+  <div class="alert alert-danger">Извините, но самостоятельная регистрация в настоящий момент закрыта. Вы можете обратиться в подразделение, отвечающее за работу Сервиса<br>
+    <hr>
+    {{ settings.DEPARTMENT_CONTACTS|safe }}
+  </div>
 {% endblock %}
 

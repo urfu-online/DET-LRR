@@ -1,22 +1,27 @@
 {% extends "account/base.html" %}
 
-{% load i18n %}
+{% load i18n bootstrap_icons %}
 
-{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+{% block head_title %}{% translate "Sign Out" %}{% endblock %}
 
 {% block inner %}
-{#<h1>{% trans "Sign Out" %}</h1>#}
+  <h2 class="font-weight-light mt-4">{% translate "Sign Out" %}</h2>
 
-<h3>{% trans 'Are you sure you want to sign out?' %}</h3>
+  <p class="text-secondary">{% translate 'Are you sure you want to sign out?' %}</p>
 
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <button class="red ui button " type="submit">{% trans 'Sign Out' %}</button>
-</form>
-
+  <form method="post" action="{% url 'account_logout' %}">
+    {% csrf_token %}
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
+    <button class="btn btn-success mr-2" type="button" onclick="goBack()">{% md_icon "map-marker-check-outline" %}Остаться</button>
+    <button class="btn btn-danger" type="submit">{% md_icon "exit-run" %}{% translate 'Sign Out' %}</button>
+  </form>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 
 {% endblock %}
 

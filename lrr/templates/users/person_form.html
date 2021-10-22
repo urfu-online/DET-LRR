@@ -6,7 +6,7 @@
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
-    <nav aria-label="breadcrumb">
+  <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
       <li class="breadcrumb-item"><a href="{% url 'users:detail' user.username %}">Профиль</a></li>
@@ -15,71 +15,19 @@
   </nav>
 
   {% localtime on %}
-    <div class="ui container">
-
-      {% if form.errors %}
-        {% for field in form %}
-          {% for error in field.errors %}
-            <div class="alert alert-danger">
-              <strong>{{ error|escape }}</strong>
-            </div>
-          {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
-          <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-          </div>
-        {% endfor %}
+    <div class="container mt-5">
+      {% if user.full_name %}
+        <h2 class="font-weight-light mt-4">{{ user.full_name }}</h2>
+      {% else %}
+        <h2 class="font-weight-light mt-4">{{ user.username }}</h2>
       {% endif %}
 
-      <form class="ui form segment" method="post" enctype="multipart/form-data" action="{% url 'users:update' %}">
+      <form class="form-horizontal" method="post" enctype="multipart/form-data" action="{% url 'users:update' %}">
         {% csrf_token %}
-        <h2>Пользователь: {{ user.username }}</h2>
-        <div class="three fields">
-          <div class="field">
-            <label>{{ form.last_name.label }}</label>
-            {{ form.last_name }}
-          </div>
-          <div class="field">
-            <label>{{ form.first_name.label }}</label>
-            {{ form.first_name }}
-          </div>
-          <div class="field">
-            <label>{{ form.middle_name.label }}</label>
-            {{ form.middle_name }}
-          </div>
-        </div>
-        <div class="three fields">
-          <div class="field">
-            <label>{{ form.location.label }}</label>
-            {{ form.location }}
-          </div>
-          <div class="field">
-            <label>{{ form.city.label }}</label>
-            {{ form.city }}
-          </div>
-          <div class="field">
-            <label>{{ form.country.label }}</label>
-            {{ form.country }}
-          </div>
-        </div>
-        <div class="field">
-
-          <label>{{ form.date_birthday.label }}</label>
-          <div class="ui calendar" id="standard_calendar">
-            <div class="ui input left icon">
-              <i class="calendar icon"></i>
-              {{ form.date_birthday }}
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <label>{{ form.avatar.label }}</label>
-          {{ form.avatar }}
-        </div>
-        <div class="right control-group">
-          <div class="right controls">
-            <button class="ui secondary submit button" type="submit">Сохранить</button>
+        {% crispy form %}
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" class="btn btn-primary px-3">Сохранить</button>
           </div>
         </div>
       </form>

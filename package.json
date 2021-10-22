@@ -2,12 +2,10 @@
   "name": "lrr",
   "version": "0.1.0",
   "dependencies": {
-    "gridstack": "^4.3.0"
+    "gridstack": "^4.3.0",
+    "stylelint-config-standard": "^22.0.0"
   },
   "devDependencies": {
-    "sass": "^1.43.2",
-    "y18n": "^3.2.2",
-    "postcss": "^8.3.9",
     "autoprefixer": "^10.3.7",
     "bootstrap": "^4.6.0",
     "browser-sync": "^2.26.14",
@@ -22,7 +20,10 @@
     "gulp-uglify-es": "^2.0.0",
     "jquery": "^3.6.0",
     "pixrem": "^5.0.0",
-    "popper.js": "1.14.7"
+    "popper.js": "1.14.7",
+    "postcss": "^8.3.9",
+    "sass": "^1.43.2",
+    "y18n": "^3.2.2"
   },
   "engines": {
     "node": ">=8"

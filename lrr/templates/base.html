@@ -12,17 +12,17 @@
   <script src='https://sentry.urfu.online/js-sdk-loader/40b9200bd9384638b40f68a9637cbc01.min.js' crossorigin="anonymous"></script>
 
   <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>
+  {#  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>#}
 
   <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 
-  <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
+  <link rel="icon" href="{% url 'favicon' %}">
 
   {% block css %}
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css"/>
+    {#    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css"/>#}
     <link rel="stylesheet" href="{% static 'bootstrap_icons/css/bootstrap_icons.css' %}">
 
   {% endblock %}
@@ -33,165 +33,17 @@
   <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
   {% analytical_head_bottom %}
 </head>
+
 <body class="back">
 {% analytical_body_top %}
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-left">
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-          aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand mb-3" href="{% url 'home' %}">
-    <img class="d-none d-sm-none d-xs-none d-md-block d-lg-block d-xl-block" width="100%"
-         src="{% static 'images/logo.png' %}" alt="Каталог ЭОР">
-    <span class="d-block d-sm-block d-xs-block d-md-none d-lg-none d-xl-none">Каталог ЭОР</span>
-  </a>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      {#      {% if request.user|has_group:"student" %}#}
-      {#        <li class="nav-item">#}
-      {#          <a class="nav-link" href="{% url 'complexes:complexes_WorkPlan' %}">{% trans "Рабочий план группы" %}</a>#}
-      {#        </li>#}
-      {#      {% endif %}#}
-
-      {% if request.user|has_group:"teacher" %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">
-            Кабинет преподавателя
-          </a>
-          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-          </div>
-          {% if request.user|has_group:"teacher" %}
-            <a class="dropdown-item" href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a>
-            <a class="dropdown-item" href="/">{% trans "Поиск ЭОР" %}</a>
-            <a class="dropdown-item" href="{% url "repository:repository_digitalresource_list_fav" %}">Избранные ЭОР</a>
-            <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои ЭУМК</a>
-          {% endif %}
-        </li>
-      {% endif %}
-
-      {% if request.user|has_group:"secretary" %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">
-            Кабинет секретаря комиссии
-          </a>
-          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-          </div>
-          {% if request.user|has_group:"secretary" %}
-            <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveSecretary_list' %}">Активные
-              заявки</a>
-            <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseCloseSecretary_list' %}">Закрытые
-              заявки</a>
-            <a class="dropdown-item" href="{% url 'users:expert_list' %}">Эксперты</a>
-          {% endif %}
-        </li>
-      {% endif %}
-
-      {% if request.user|has_group:"expert" %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">
-            Кабинет эксперта
-          </a>
-          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-          </div>
-          {% if request.user|has_group:"expert" %}
-            <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseMy_list' %}">Мои экспертизы</a>
-            <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveExpert_list' %}">Активные
-              заявки</a>
-            <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseMyClose_list' %}">Мои
-              заключения</a>
-          {% endif %}
-        </li>
-      {% endif %}
-
-      {% if request.user|has_group:"rop" %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">
-            Кабинет РОП
-          </a>
-          {#                <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">#}
-          {% if request.user|has_group:"rop" %}
-            <a class="dropdown-item" href="{% url 'repository:repository_statistics' %}">Статистика ЭОР</a>
-            <a class="dropdown-item"
-               href="{% url 'complexes:complexes_DigitalComplex_all_list' %}">{% trans "Каталог ЭУМК" %}</a>
-            {#                    <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplex_list' %}">Поиск ЭУМК</a>#}
-            {#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>#}
-            {#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>#}
-          {% endif %}
-          {#                </div>#}
-        </li>
-      {% endif %}
-
-      {% if request.user|has_group:"student" %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">
-            Кабинет студента
-          </a>
-          {#          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">#}
-          {% if request.user|has_group:"student" %}
-            <a class="dropdown-item"
-               href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user.username %}">Мои
-              дисциплины</a>
-          {% endif %}
-          {#          </div>#}
-        </li>
-      {% endif %}
-
-      {% if request.user.is_superuser %}
-        <hr class="dotted">
-        {#        <li class="nav-item">#}
-        {#          <a class="nav-link" href="/">{% trans "Каталог ЭОР" %}</a>#}
-        {#        </li>#}
-        {#        <li class="nav-item">#}
-        {#          <a class="nav-link" href="{% url 'repository:repository_statistics' %}">{% trans "Статистика" %}</a>#}
-        {#        </li>#}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">
-            Администрирование
-          </a>
-          <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{% url 'admin:index' %}">Административная панель</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'repository:repository_DigitalResource_create' %}">+ Добавить паспорт
-              ЭОР</a>
-          </div>
-        </li>
-      {% endif %}
-
-      {% if request.user.is_authenticated %}
-        <hr class="dotted">
-        <li class="nav-item">
-          <a class="nav-link"
-             href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
-        </li>
-      {% else %}
-        <li class="nav-item">
-          <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
-        </li>
-        <li class="nav-item">
-          <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
-        </li>
-      {% endif %}
-    </ul>
-  </div>
-</nav>
+{%  include 'includes/navigation.html' %}
 
 <main class="col-12 col-xl-11 py-md-3 pl-md-5 bd-content" role="main">
   {% if messages %}
     {% for message in messages %}
       <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                aria-hidden="true">{% md_icon 'close' %}</button>
+          aria-hidden="true">{% md_icon 'close' %}</button>
       </div>
     {% endfor %}
   {% endif %}
