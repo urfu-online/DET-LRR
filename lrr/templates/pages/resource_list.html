@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static bootstrap_icons %}
 {% load user_tags %}
 {% block content %}
   <div class="ui two column doubling grid" style="padding-left: 10em; padding-right: 10em;">
@@ -24,7 +24,7 @@
               </div>
               <div class="extra">
                 <div class="left floated author">
-                  <i class="fas fa-university fa-lg"></i></i>
+                  {% md_icon "bank-outline" %}</i>
                   {{ object.copyright_holder }}
                 </div>
                 <div class="right floated author">

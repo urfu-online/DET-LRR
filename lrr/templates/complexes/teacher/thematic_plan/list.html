@@ -7,7 +7,7 @@
   <script src="{% static 'gridstack/dist/gridstack-h5.js' %}"></script>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Список ЭУМК</a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_detail' pk=object.pk %}">{{ object }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Редактирование структурно-тематического плана
@@ -183,14 +183,14 @@
     grid.load(items);
 
     $('#cellEditModal').on('show.bs.modal', function (event) {
-  let button = $(event.relatedTarget) // Button that triggered the modal
-  let recipient = button.parent.data('cell') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
+      let button = $(event.relatedTarget) // Button that triggered the modal
+      let recipient = button.parent.data('cell') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-title').text('New message to ' + recipient)
+      modal.find('.modal-body input').val(recipient)
+    })
 
 
   </script>

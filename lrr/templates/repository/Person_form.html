@@ -1,54 +1,53 @@
-
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    
-<p>
+
+  <p>
     <a class="btn btn-light" href="{% url 'repository_Person_list' %}">
-    Person Listing
+      Person Listing
     </a>
-</p>
-    
-<form method="post">
-  {% csrf_token %}
-  {{form.errors}}
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="location">location: </label>
-  <input class="form-control col-sm-10" id="location" type="text" name="location" value="{{ object.location }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="date_birthday">date_birthday: </label>
-  <input class="form-control col-sm-10" id="date_birthday" type="datetime-local" name="date_birthday" value="{{ object.date_birthday }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="city">city: </label>
-  <input class="form-control col-sm-10" id="city" type="text" name="city" value="{{ object.city }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="created">created: </label>
-  <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="middle_name">middle_name: </label>
-  <input class="form-control col-sm-10" id="middle_name" type="text" name="middle_name" value="{{ object.middle_name }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="country">country: </label>
-  <input class="form-control col-sm-10" id="country" type="text" name="country" value="{{ object.country }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="first_name">first_name: </label>
-  <input class="form-control col-sm-10" id="first_name" type="text" name="first_name" value="{{ object.first_name }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="avatar">avatar: </label>
-  <input class="form-control col-sm-10" id="avatar" type="text" name="avatar" value="{{ object.avatar }}">
-  </div>
-  <div class="form-group row">
-  <label class="col-sm-2 col-form-label" for="last_name">last_name: </label>
-  <input class="form-control col-sm-10" id="last_name" type="text" name="last_name" value="{{ object.last_name }}">
-  </div>
-  <input type="submit" value="Save" class="btn btn-primary">
-</form>
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="location">location: </label>
+      <input class="form-control col-sm-10" id="location" type="text" name="location" value="{{ object.location }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="date_birthday">date_birthday: </label>
+      <input class="form-control col-sm-10" id="date_birthday" type="datetime-local" name="date_birthday" value="{{ object.date_birthday }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="city">city: </label>
+      <input class="form-control col-sm-10" id="city" type="text" name="city" value="{{ object.city }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="created">created: </label>
+      <input class="form-control col-sm-10" id="created" type="datetime-local" name="created" value="{{ object.created }}" disabled>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="middle_name">middle_name: </label>
+      <input class="form-control col-sm-10" id="middle_name" type="text" name="middle_name" value="{{ object.middle_name }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="country">country: </label>
+      <input class="form-control col-sm-10" id="country" type="text" name="country" value="{{ object.country }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="first_name">first_name: </label>
+      <input class="form-control col-sm-10" id="first_name" type="text" name="first_name" value="{{ object.first_name }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="avatar">avatar: </label>
+      <input class="form-control col-sm-10" id="avatar" type="text" name="avatar" value="{{ object.avatar }}">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="last_name">last_name: </label>
+      <input class="form-control col-sm-10" id="last_name" type="text" name="last_name" value="{{ object.last_name }}">
+    </div>
+    <input type="submit" value="Save" class="btn btn-primary">
+  </form>
 
 {% endblock %}

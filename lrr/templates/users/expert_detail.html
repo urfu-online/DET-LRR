@@ -29,12 +29,12 @@
 
       </div>
     </div>
-  <div class="row mt-3">
-    <div class="col">
-      <a class="btn btn-primary" href="{% url "users:expert_update" slug=object.person.user %}">Редактировать</a>
+    <div class="row mt-3">
+      <div class="col">
+        <a class="btn btn-primary" href="{% url "users:expert_update" slug=object.person.user %}">Редактировать</a>
+      </div>
+      <div class="col"></div>
     </div>
-    <div class="col"></div>
-  </div>
   </div>
 {% endblock content %}
 

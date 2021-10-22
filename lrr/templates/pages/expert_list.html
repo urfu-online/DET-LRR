@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static bootstrap_icons %}
 {% load user_tags %}
 {% block content %}
-  <div class="ui container">
+  <div class="container">
     <div class="ui segment">
       <div class="ui grid ">
         <div class="eleven wide column "><h2 class="font-weight-light my-4">Ресурсы</h2></div>
@@ -40,7 +40,7 @@
               </div>
               <div class="extra">
                 <div class="left floated author">
-                  <i class="fas fa-university fa-lg"></i></i>
+                  {% md_icon "bank-outline" %}</i>
                   {{ object.digital_resource.copyright_holder }}
                 </div>
                 <div class="right floated author">

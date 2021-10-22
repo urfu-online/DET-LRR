@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static bootstrap_icons %}
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Мои экспертизы</li>
     </ol>
   </nav>
@@ -75,7 +75,7 @@
           <td>{{ object.expertise.owner }}</td>
           <td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td>
           <td>{{ object.survey }}</td>
-          <td><a class="btn btn-outline-primary text-nowrap"href="{% url 'survey:survey-detail' id=object.survey.pk expertise_request_pk=object.pk %}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
+          <td><a class="btn btn-outline-primary text-nowrap" href="{% url 'survey:survey-detail' id=object.survey.pk expertise_request_pk=object.pk %}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
         </tr>
       {% endfor %}
       </tbody>

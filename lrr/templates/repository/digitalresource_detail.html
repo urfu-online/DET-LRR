@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static bootstrap_icons %}
 {% load user_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
       <li class="breadcrumb-item active" aria-current="page">Паспорт ЭОР: {{ object.title }}</li>
     </ol>
@@ -84,7 +84,7 @@
             {#            {% else %}#}
             {% if request.user|has_owner_resource:object %}
               <a href="{{ object.get_create_expertise_url }}" class="btn btn-block btn-primary mb-3"><i
-                      class="fas fa-share-square"></i> Подать заявку на экспертизу</a>
+                class="fas fa-share-square"></i> Подать заявку на экспертизу</a>
               {#            {% endif %}#}
             {% endif %}
             <hr/>

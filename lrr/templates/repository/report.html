@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load user_tags %}
+{% load user_tags bootstrap_icons %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Статистика</li>
     </ol>
   </nav>
@@ -11,16 +11,16 @@
   <div class="row p-2">
     <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
       <div class="card h-100 border-secondary shadow-2 p-3 text-center">
-          <div class="card-body">
-            <h5 class="display-1">{{ dp_count }}</h5>
-            <h5 class="">Общее количество цифровых образовательных ресурсов</h5>
-          </div>
+        <div class="card-body">
+          <h5 class="display-1">{{ dp_count }}</h5>
+          <h5 class="">Общее количество цифровых образовательных ресурсов</h5>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="row p-2">
-      {% for platform, count in by_platform.items %}
+    {% for platform, count in by_platform.items %}
 
       <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
         <div class="card h-100 border-secondary shadow-2 text-center">
@@ -35,23 +35,23 @@
 
 
 
-    <div class="col-12">
-      <table class="table table-striped table-bordered">
+  <div class="col-12">
+    <table class="table table-striped table-bordered">
 
-        <thead>
-        <th>Образовательная программа</th>
-        <th>Цифровых образовательных ресурсов</th>
-        </thead>
-        <tbody>
-        {% for ep, count in eduprograms.items %}
-          <tr>
-            <td>{{ ep }}</td>
-            <td>{{ count }}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
+      <thead>
+      <th>Образовательная программа</th>
+      <th>Цифровых образовательных ресурсов</th>
+      </thead>
+      <tbody>
+      {% for ep, count in eduprograms.items %}
+        <tr>
+          <td>{{ ep }}</td>
+          <td>{{ count }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
 
 {% endblock %}

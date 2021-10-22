@@ -16,9 +16,9 @@
           {% if form.field.required %}
             <span class="glyphicon glyphicon-asterisk" style="color:#ff0000"> </span>
           {% endif %}
-{#          <span class="help-inline" style="color:red">#}
-{#	                <strong> {% for error in  form.errors %}{{ error }}{% endfor %} </strong>#}
-{#	            </span> <br>#}
+          {#          <span class="help-inline" style="color:red">#}
+          {#	                <strong> {% for error in  form.errors %}{{ error }}{% endfor %} </strong>#}
+          {#	            </span> <br>#}
           {% if form.field.widget.input_type == 'select' %}
             <select class="form-control custom-select" name="{{ form.name }}"{% if form.field.widget.attrs.disabled %} disabled{% endif %}>
           {% endif %}

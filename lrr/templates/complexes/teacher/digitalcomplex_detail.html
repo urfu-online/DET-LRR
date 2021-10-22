@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static bootstrap_icons %}
 {% load user_tags %}
 {% load crispy_forms_tags %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       {% if request.user|has_group:"student" %}
         <li class="breadcrumb-item"><a
-                href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user %}">Мои
+          href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user %}">Мои
           дисциплины</a></li>
         <li class="breadcrumb-item active" aria-current="page">Электронное обеспечение дисциплины</li>
       {% else %}
@@ -20,7 +20,7 @@
   <header class="pb-4 px-2">
     {% if request.user|has_owner_complex:object or request.user.is_superuser %}
       <a class="btn btn-primary float-right" href="{{ object.get_update_url }}"><i
-              class="pen icon"></i>Редактировать</a>
+        class="pen icon"></i>Редактировать</a>
     {% endif %}
     {% if request.user|has_group:"student" %}
       <h2>Электронное обеспечение дисциплины

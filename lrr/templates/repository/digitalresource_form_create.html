@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags bootstrap_icons %}
 {% load static %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
       <li class="breadcrumb-item"><a
         href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a></li>
@@ -124,11 +124,11 @@
       if (selValue === "URL") {
         file.style.display = 'none';
         URL.style.display = 'block';
-        URL.getElementsByTagName("input")[0].required=true;
+        URL.getElementsByTagName("input")[0].required = true;
       } else if (selValue === 'FILE') {
         URL.style.display = 'none';
         file.style.display = 'block';
-        file.getElementsByTagName("input")[0].required=true;
+        file.getElementsByTagName("input")[0].required = true;
       } else if (selValue === "") {
         URL.style.display = 'block';
         file.style.display = 'block';

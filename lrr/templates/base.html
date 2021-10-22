@@ -14,7 +14,8 @@
   <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
   {#  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>#}
 
-  <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
+  <script src="{% static 'fontawesome_free/js/fontawesome.min.js' %}"></script>
+  <script src="{% static 'fontawesome_free/js/solid.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 
@@ -36,7 +37,7 @@
 
 <body class="back">
 {% analytical_body_top %}
-{%  include 'includes/navigation.html' %}
+{% include 'includes/navigation.html' %}
 
 <main class="col-12 col-xl-11 py-md-3 pl-md-5 bd-content" role="main">
   {% if messages %}
@@ -82,9 +83,6 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 {% block javascript %}
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="{% static 'js/project.js' %}"></script>
   <script src="{% static 'js/jquery.formset.js' %}"></script>
 

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static bootstrap_icons %}
 {% load user_tags %}
 {% block content %}
 
@@ -12,7 +12,7 @@
   </script>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Каталог ЭУМК</a></li>
       <li class="breadcrumb-item active" aria-current="page">Паспорт ЭУМК</li>
     </ol>
@@ -102,7 +102,7 @@
                   <td>{{ item.get_status_display }}</td>
                   <td><a class=""
                          href="{% url 'inspections:inspections_ExpertiseRequestClose_detail' pk=item.pk %}"><i
-                          class="fas fa-info-circle fa-lg"></i> Подробнее</a>
+                    class="fas fa-info-circle fa-lg"></i> Подробнее</a>
                   </td>
                 {% endif %}
               {% endfor %}

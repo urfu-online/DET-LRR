@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load bootstrap_icons %}
 {% block title %}{% block head_title %}{% endblock head_title %}{% endblock title %}
 
 {% block content %}
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
-      <li class="breadcrumb-item"><a href="/"><i class="fas fa-university fa-lg"></i></a></li>
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'users:detail' user.username %}">Профиль</a></li>
       <li class="breadcrumb-item active" aria-current="page">Редактирование</li>
     </ol>
