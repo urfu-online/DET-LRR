@@ -18,6 +18,24 @@ class UserChangeForm(forms.UserChangeForm):
 
 
 class UserSignupForm(SignupForm):
+    def __init__(self, *args, **kwargs):
+        super(UserSignupForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.use_custom_control = True
+        self.helper.render_hidden_fields = False
+
+        for field in self._meta.fields:
+            self.fields[field].help_text = self.fields[field].label
+            self.fields[field].label = ""
+
+        self.helper.layout = Layout(
+            Field('email', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+            Field('username', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+            Field('password1', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+            Field('password2', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+        )
+
     def save(self, request):
         # Ensure you call the parent class's save.
         # .save() returns a User object.
@@ -54,7 +72,14 @@ class PersonForm(form.ModelForm):
         # ['first_name', 'middle_name', 'last_name', 'location', 'avatar', 'date_birthday']
 
         for field in self._meta.fields:
+            self.fields[field].help_text = self.fields[field].label
             self.fields[field].label = ""
+
+        self.helper.layout = Layout(
+            Field('person', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+            Field('types', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+            Field('subdivision', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
+        )
 
         self.fields['first_name'].help_text = "Имя"
         self.fields['middle_name'].help_text = "Отчество, если есть"

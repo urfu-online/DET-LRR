@@ -303,6 +303,7 @@ ACCOUNT_FORMS = {
     'reset_password': 'lrr.forms.DETResetPasswordForm',
     'add_email': 'lrr.forms.DETAddEmailForm',
     'change_password': 'lrr.forms.DETChangePasswordForm',
+    'signup': 'lrr.users.forms.UserSignupForm',
 }
 
 # ACCOUNT_SIGNUP_FORM_CLASS = 'lrr.users.forms.UserSignupForm'

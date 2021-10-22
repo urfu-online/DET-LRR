@@ -14,7 +14,6 @@ from lrr.views import Favicon
 schema_view = get_swagger_view(title='LRR API')
 
 urlpatterns = [
-
                   path("", DigitalResourceListView.as_view(), name="home"),
                   path(
                       "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
