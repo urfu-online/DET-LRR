@@ -1,16 +1,21 @@
-FROM python:3.9-slim-buster
+FROM python:3.10-slim-bullseye
 
+ENV LC_ALL ru_RU.UTF-8
+ENV LANG ru_RU.UTF-8
+ENV LANGUAGE ru_RU.UTF-8
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
+ENV TZ 'Asia/Yekaterinburg'
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
   # dependencies for building Python packages
-  && apt-get install -y build-essential \
+  && apt-get install -y build-essential apt-utils \
   # psycopg2 dependencies
   && apt-get install -y libpq-dev \
   # Translations dependencies
   && apt-get install -y gettext \
-  && apt-get install -y graphviz libgraphviz-dev pkg-config \
+  && apt-get install -y graphviz libgraphviz-dev pkg-config git \
   && apt-get install -y zlib1g-dev libtiff-dev libfreetype6 libfreetype6-dev libwebp-dev libopenjp2-7-dev libopenjp2-7-dev poppler-utils libmagic-dev  \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
@@ -18,7 +23,11 @@ RUN apt-get update \
 
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements /requirements
-RUN pip install --upgrade --no-cache-dir pip && pip install -r /requirements/local.txt
+
+RUN pip install --upgrade --no-cache-dir pip && pip install --no-cache-dir -r /requirements/local.txt
+
+RUN apt-get remove -y perl \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
 COPY ./compose/production.urfu/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
