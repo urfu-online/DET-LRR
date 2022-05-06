@@ -99,7 +99,7 @@ class PersonForm(form.ModelForm):
               </div>
             """),
             Field('date_birthday', placeholder="", css_class=settings.DEFAULT_FORMFIELD_CLASSES),
-            Field('location', placeholder="", css_class="mt-4 shadow-sm bg-white border border-secondary address pac-target-input"),
+            # Field('location', placeholder="", css_class="mt-4 shadow-sm bg-white border border-secondary address pac-target-input"),
 
         )
 

@@ -7,7 +7,7 @@ COPY . /app
 RUN npm run build
 
 # Python build stage
-FROM python:3.9-slim-buster as base
+FROM python:3.10-slim-bullseye as base
 
 ENV TZ 'Asia/Yekaterinburg'
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,8 +31,8 @@ COPY ./requirements /requirements
 RUN apt-get update \
     && apt-get install -y --no-install-recommends locales locales-all localepurge\
     && dpkg-reconfigure -f noninteractive locales && localepurge \
-    && apt-get update && apt-get install -y --no-install-recommends build-essential pkg-config gettext git curl graphviz libgraphviz-dev libpq-dev poppler-utils libmagic-dev poppler-utils libmagic-dev  \
-    zlib1g-dev libtiff-dev libfreetype6 libfreetype6-dev libwebp-dev libopenjp2-7-dev libopenjp2-7-dev \
+    && apt-get update && apt-get install -y --no-install-recommends build-essential pkg-config gettext git curl graphviz libgraphviz-dev libpq-dev poppler-utils poppler-utils libmagic-dev  \
+    zlib1g-dev libtiff-dev libfreetype6 libfreetype6-dev libwebp-dev libopenjp2-7-dev \
     && pip install --upgrade --no-cache-dir pip \
     && pip install --no-cache-dir -r /requirements/production.txt \
     && rm -rf /requirements \

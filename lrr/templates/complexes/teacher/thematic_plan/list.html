@@ -67,7 +67,7 @@
     </div>
   {% endif %}
 
-  <div class="modal fade" id="cellEditModal" tabindex="-1" role="dialog" aria-labelledby="cellEditModalLabel" aria-hidden="true">
+  <div class="modal" id="cellEditModal" tabindex="-1" role="dialog" aria-labelledby="cellEditModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -97,10 +97,10 @@
   </div>
 
   <style>
-    div[gs-x="0"] > .grid-stack-item-content {
-      background-color: whitesmoke;
-      border: none;
-    }
+    {#div[gs-x="0"] > .grid-stack-item-content {#}
+    {#  background-color: whitesmoke;#}
+    {#  border: none;#}
+    {#}#}
 
     .trash {
       height: 90px;
@@ -145,6 +145,7 @@
       font-size: 85%;
     }
   </style>
+
   <script type="text/javascript">
     let editButton = '<a type="button" class="editButton" data-toggle="modal" data-target="#cellEditModal">Редактировать</a>'
     let items = [
@@ -164,7 +165,7 @@
       removable: '.trash',
       removeTimeout: 100,
       resizable: {
-        handles: 'n,s'
+        handles: 'n,s,e,w'
       }
     });
 
@@ -184,12 +185,13 @@
 
     $('#cellEditModal').on('show.bs.modal', function (event) {
       let button = $(event.relatedTarget) // Button that triggered the modal
-      let recipient = button.parent.data('cell') // Extract info from data-* attributes
+      // let recipient = button.parent.data('cell') // Extract info from data-* attributes
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      var modal = $(this)
-      modal.find('.modal-title').text('New message to ' + recipient)
-      modal.find('.modal-body input').val(recipient)
+      var modal = $(this);
+      console.log(modal);
+      // modal.find('.modal-title').text('New message to ' + recipient)
+      // modal.find('.modal-body input').val(recipient)
     })
 
 

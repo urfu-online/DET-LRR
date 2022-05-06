@@ -1,11 +1,13 @@
 import logging
+
 import sentry_sdk
 from sentry_sdk import Hub
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.excepthook import ExcepthookIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
 
+from lrr import __version__ as VERSION
 from .base import *  # noqa
 from .base import env
 
@@ -150,6 +152,9 @@ sentry_sdk.init(
     integrations=[sentry_logging, DjangoIntegration(), CeleryIntegration(), ExcepthookIntegration(always_run=True)],
     traces_sample_rate=1.0,
     send_default_pii=True,
+    release=f"LRR@{VERSION}",
+    attach_stacktrace=True,
+    with_locals=True,
     environment="production",
 
 )
