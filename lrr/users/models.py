@@ -61,6 +61,10 @@ class Person(models.Model):
     def __str__(self):
         return f"{self.last_name} {self.first_name} {self.middle_name}"
 
+    @property
+    def short_name(self):
+        return f"{self.last_name} {self.first_name[0]}. {self.middle_name[0]}."
+
     def get_absolute_url(self):
         return reverse("repository_Person_detail", args=(self.pk,))
 

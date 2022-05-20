@@ -1,0 +1,33 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {},
+  "plugins": [],
+  "rules": {
+    "node/no-unpublished-require": [
+      "error",
+      {
+        "allowModules": [],
+        "convertPath": null,
+        "tryExtensions": [
+          ".js",
+          ".json",
+          ".node"
+        ]
+      }
+    ],
+    "@typescript-eslint/strict-boolean-expressions": [
+      2,
+      {
+        "allowString": false,
+        "allowNumber": false
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "src/**/*.test.ts",
+    "src/frontend/generated/*"
+  ]
+}

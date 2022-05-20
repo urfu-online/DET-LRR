@@ -17,7 +17,7 @@ const plumber = require('gulp-plumber')
 const postcss = require('gulp-postcss')
 const reload = browserSync.reload
 const rename = require('gulp-rename')
-const sass = require('gulp-sass')
+const sass = require('gulp-sass')(require('sass'))
 const spawn = require('child_process').spawn
 const uglify = require('gulp-uglify-es').default
 
@@ -43,7 +43,7 @@ function pathsConfig(appName) {
     }
 }
 
-var paths = pathsConfig()
+let paths = pathsConfig()
 
 ////////////////////////////////
 // Tasks
@@ -51,12 +51,12 @@ var paths = pathsConfig()
 
 // Styles autoprefixing and minification
 function styles() {
-    var processCss = [
+    let processCss = [
         autoprefixer(), // adds vendor prefixes
         pixrem(),       // add fallbacks for rem units
     ]
 
-        var minifyCss = [
+        let minifyCss = [
         cssnano({
             preset: ['default',
                 {
@@ -84,12 +84,12 @@ function styles() {
 }
 
 function admin_extra_styles() {
-    var processCss = [
+    let processCss = [
         autoprefixer(), // adds vendor prefixes
         pixrem(),       // add fallbacks for rem units
     ]
 
-    var minifyCss = [
+    let minifyCss = [
         cssnano({
             preset: ['default',
                 {
@@ -140,9 +140,10 @@ function imgCompression() {
 
 // Run django server
 function runServer(cb) {
-    var cmd = spawn('python', ['manage.py', 'runserver'], {stdio: 'inherit'})
-    cmd.on('close', function (code) {
-        console.log('runServer exited with code ' + code)
+    let cmd = spawn('python', ['manage.py', 'runserver'], {stdio: 'inherit'})
+
+    cmd.on('close', (code) => {
+        console.log(`runServer exited with code ${  code}`)
         cb(code)
     })
 }
@@ -190,4 +191,4 @@ const dev = parallel(
 
 exports.default = series(generateAssets, dev)
 exports["generate-assets"] = generateAssets
-exports["dev"] = dev
+exports.dev = dev

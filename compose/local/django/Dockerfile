@@ -10,13 +10,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
   # dependencies for building Python packages
-  && apt-get install -y build-essential apt-utils \
+  && apt-get install -y --no-install-recommends build-essential apt-utils \
   # psycopg2 dependencies
-  && apt-get install -y libpq-dev \
+  && apt-get install -y --no-install-recommends libpq-dev \
   # Translations dependencies
-  && apt-get install -y gettext \
-  && apt-get install -y graphviz libgraphviz-dev pkg-config git \
-  && apt-get install -y zlib1g-dev libtiff-dev libfreetype6 libfreetype6-dev libwebp-dev libopenjp2-7-dev libopenjp2-7-dev poppler-utils libmagic-dev  \
+  && apt-get install -y --no-install-recommends  gettext \
+  && apt-get install -y --no-install-recommends graphviz libgraphviz-dev pkg-config git \
+  && apt-get install -y --no-install-recommends zlib1g-dev libtiff-dev libfreetype6 libfreetype6-dev libwebp-dev libopenjp2-7-dev libopenjp2-7-dev poppler-utils libmagic-dev  \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*

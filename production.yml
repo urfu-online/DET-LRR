@@ -8,7 +8,8 @@ services:
     build:
       context: .
       dockerfile: compose/production.urfu/django/Dockerfile
-    image: lrr_django
+    image: ${COMPOSE_PROJECT_NAME}_django_${ENVIRONMENT}
+    container_name: ${COMPOSE_PROJECT_NAME}_django_${ENVIRONMENT}
     depends_on:
       - postgres
       - redis
@@ -29,39 +30,45 @@ services:
     build:
       context: .
       dockerfile: compose/production.urfu/postgres/Dockerfile
-    image: lrr_postgres
+    image: ${COMPOSE_PROJECT_NAME}_postgres_${ENVIRONMENT}
+    container_name: ${COMPOSE_PROJECT_NAME}_postgres_${ENVIRONMENT}
     networks:
       - lrr
     volumes:
       - ${WEB_APP_PATH}/pgdata:/var/lib/postgresql/data
       - ${WEB_APP_PATH}/backups:/backups
+      - ./compose/production.urfu/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     env_file:
       - ./.envs/.production/.postgres
 
 
   redis:
     image: redis:5.0
+    container_name: ${COMPOSE_PROJECT_NAME}_redis_${ENVIRONMENT}
     networks:
       - lrr
 
   celeryworker:
     <<: *django
 
-    image: lrr_celeryworker
+    image: ${COMPOSE_PROJECT_NAME}_celeryworker_${ENVIRONMENT}
+    container_name: ${COMPOSE_PROJECT_NAME}_celeryworker_${ENVIRONMENT}
     networks:
       - lrr
     command: /start-celeryworker
 
   celerybeat:
     <<: *django
-    image: lrr_celerybeat
+    image: ${COMPOSE_PROJECT_NAME}_celerybeat_${ENVIRONMENT}
+    container_name: ${COMPOSE_PROJECT_NAME}_celerybeat_${ENVIRONMENT}
     networks:
       - lrr
     command: /start-celerybeat
 
   flower:
     <<: *django
-    image: lrr_flower
+    image: ${COMPOSE_PROJECT_NAME}_flower_${ENVIRONMENT}
+    container_name: ${COMPOSE_PROJECT_NAME}_flower_${ENVIRONMENT}
     networks:
       - lrr
     command: /start-flower

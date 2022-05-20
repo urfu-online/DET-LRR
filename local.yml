@@ -8,8 +8,8 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: lrr_local_django
-    container_name: lrr_django
+    image: ${COMPOSE_PROJECT_NAME}_django_${ENVIRONMENT}
+    container_name: ${COMPOSE_PROJECT_NAME}_django_${ENVIRONMENT}
     depends_on:
       - postgres
       - mailhog
@@ -28,8 +28,8 @@ services:
     build:
       context: .
       dockerfile: compose/production.urfu/postgres/Dockerfile
-    image: lrr_production_postgres
-    container_name: lrr_postgres
+    image: ${COMPOSE_PROJECT_NAME}_postgres
+    container_name: ${COMPOSE_PROJECT_NAME}_postgres
     volumes:
       - ${WEB_APP_PATH}/pgdata:/var/lib/postgresql/data
       - ${WEB_APP_PATH}/backups:/backups
@@ -52,9 +52,9 @@ services:
 
   redis:
     image: redis:5.0
+    container_name: ${COMPOSE_PROJECT_NAME}_redis_${ENVIRONMENT}
     networks:
       - lrr
-    container_name: lrr_redis
 
 #  frontend:
 #    build: ./frontend
@@ -81,36 +81,38 @@ services:
 #      - django
 #    command: npm start
 
+
   celeryworker:
     <<: *django
-    image: lrr_local_celeryworker
-    container_name: lrr_celeryworker
+    image: ${COMPOSE_PROJECT_NAME}_celeryworker_${ENVIRONMENT}
+    container_name: ${COMPOSE_PROJECT_NAME}_celeryworker_${ENVIRONMENT}
     depends_on:
       - redis
       - postgres
-      - mailhog
-    ports: []
     networks:
       - lrr
+    ports: []
     command: /start-celeryworker
 
   celerybeat:
     <<: *django
-    image: lrr_local_celerybeat
-    container_name: lrr_celerybeat
+    image: ${COMPOSE_PROJECT_NAME}_celerybeat_${ENVIRONMENT}
+    container_name: ${COMPOSE_PROJECT_NAME}_celerybeat_${ENVIRONMENT}
     depends_on:
       - redis
       - postgres
-      - mailhog
-    ports: []
     networks:
       - lrr
+    ports: []
     command: /start-celerybeat
 
 #  flower:
 #    <<: *django
-#    image: lrr_local_flower
-#    container_name: lrr_flower
-#    ports:
-#      - "5555:5555"
+#    image: ${COMPOSE_PROJECT_NAME}_flower_${ENVIRONMENT}
+#    container_name: ${COMPOSE_PROJECT_NAME}_flower_${ENVIRONMENT}
+#    depends_on:
+#      - redis
+#      - postgres
+#    networks:
+#      - lrr
 #    command: /start-flower

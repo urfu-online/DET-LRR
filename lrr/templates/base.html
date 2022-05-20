@@ -10,8 +10,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <script src='https://sentry.urfu.online/js-sdk-loader/40b9200bd9384638b40f68a9637cbc01.min.js' crossorigin="anonymous"></script>
-
-  <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/vendors.min.js' %}"></script>
+{#  <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>#}
   {#  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>#}
 
   <script src="{% static 'fontawesome_free/js/fontawesome.min.js' %}"></script>
@@ -28,8 +28,8 @@
 
   {% endblock %}
 
-  <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery-ui-custom/jquery-ui.min.js' %}"></script>
+
   <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
   {% analytical_head_bottom %}
@@ -70,7 +70,6 @@
 {#        <h4 class="ui inverted header">Мы в социальных сетях:</h4>#}
 {#        <div class="ui inverted link list">#}
 {#          <a href="https://vk.com/openedu" class="item">Вконтакте</a>#}
-{#          <a href="https://www.instagram.com/urfu.ru/?hl=ru" class="item">Instagram</a>#}
 {#        </div>#}
 {#      </div>#}
 {#    </div>#}

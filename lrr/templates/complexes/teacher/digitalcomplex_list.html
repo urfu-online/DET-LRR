@@ -60,13 +60,13 @@
   <div class="row p-2">
     {% for object in object_list %}
       <div class="col-12 col-lg-6 col-xl-4 p-2">
-        <div class="card border-secondary h-100 shadow-2">
+        <div class="card border-secondary h-100 shadow-2 DigitalComplex-card">
           <div class="card-header m-0">
             <p class="float-right m-0"><i class="fas fa-university"></i> {{ object.copyright_holder }}</p>
             <p class="">ЭУМК</p>
           </div>
           <div class="card-body">
-            <h5 class="card-title lead">{{ object.title }}</h5>
+            <h5 class="card-title lead DigitalComplex-card__title">{{ object.cipher }}</h5>
           </div>
           <div class="card-footer">
             <a href="{{ object.get_absolute_url }}" class="btn btn-sm btn-outline-primary mb-1"><i

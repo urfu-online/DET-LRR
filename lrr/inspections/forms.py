@@ -96,11 +96,11 @@ class ExpertiseUpdateForm(forms.ModelForm):
     class Meta:
         model = inspections_models.Expertise
         fields = [
-            "digital_resource",
-            "subjects",
-            "directions",
-            "digital_complexes",
-            "expert",
+            # "digital_resource",
+            # "subjects",
+            # "directions",
+            # "digital_complexes",
+            # "expert",
             "file",
             "remarks",
             "date_end"
@@ -118,36 +118,36 @@ class ExpertiseUpdateForm(forms.ModelForm):
 
                 }
             ),
-            'subjects': forms.SelectMultiple(
-                attrs={
-                    'class': 'form-control',
-
-                },
-            ),
-            'directions': forms.SelectMultiple(
-                attrs={
-                    'class': 'form-control',
-
-                }
-            ),
-            'digital_complexes': forms.SelectMultiple(
-                attrs={
-                    'class': 'form-control',
-
-                }
-            ),
-            'expert': forms.SelectMultiple(
-                attrs={
-                    'class': 'form-control',
-
-                }
-            ),
+            # 'subjects': forms.SelectMultiple(
+            #     attrs={
+            #         'class': 'form-control',
+            #
+            #     },
+            # ),
+            # 'directions': forms.SelectMultiple(
+            #     attrs={
+            #         'class': 'form-control',
+            #
+            #     }
+            # ),
+            # 'digital_complexes': forms.SelectMultiple(
+            #     attrs={
+            #         'class': 'form-control',
+            #
+            #     }
+            # ),
+            # 'expert': forms.SelectMultiple(
+            #     attrs={
+            #         'class': 'form-control',
+            #
+            #     }
+            # ),
             'date_end': forms.DateTimeInput(
                 attrs={
                     'class': 'datetimepicker form-control',
                     'required': 'true'
                 },
-                format='%d/%m/%Y %H:%M'
+                format='%d/%m/%Y+%H:%M'
             ),
             'remarks': forms.Textarea(
                 attrs={
@@ -155,12 +155,12 @@ class ExpertiseUpdateForm(forms.ModelForm):
 
                 }
             ),
-            'type': forms.Select(
-                attrs={
-                    'class': 'form-control',
-
-                }
-            )
+            # 'type': forms.Select(
+            #     attrs={
+            #         'class': 'form-control',
+            #
+            #     }
+            # )
         }
         exclude = ['status', 'date']
 

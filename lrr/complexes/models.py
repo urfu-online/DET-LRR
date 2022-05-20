@@ -60,12 +60,32 @@ class DigitalComplex(BaseModel):
         verbose_name = "цифровой Комплекс (ЭУМК)"
         verbose_name_plural = "цифровые Комплексы (ЭУМК)"
 
+    def get_format_cypher(self):
+        if self.format == self.FORMAT_TYPES[0][0]:
+            return None
+        else:
+            return self.get_format_display()
+
+    def get_form_control_cypher(self):
+        if self.form_control == self.FORM_TYPES[0][0]:
+            return None
+        else:
+            return self.get_form_control_display()
+
     @property
     def cipher(self):
-        # try:
-        return f'ЭУМК "{self.subjects.all().first()} - {self.owner} [{self.get_format_display()}] {self.get_form_control_display()}"'
-        # except:
-        #     return ""
+        format_cypher = self.get_format_cypher()
+        form_control_cypher = self.get_form_control_cypher()
+        if format_cypher and form_control_cypher:
+            extra = f' - {format_cypher} / {form_control_cypher}'
+        elif format_cypher and not form_control_cypher:
+            extra = f' - {format_cypher}'
+        elif not format_cypher and form_control_cypher:
+            extra = f' - {form_control_cypher}'
+        else:
+            extra = ''
+
+        return f'{self.subjects.all().first()} [{self.owner.short_name}] {extra}'
 
     def __str__(self):
         return self.cipher
