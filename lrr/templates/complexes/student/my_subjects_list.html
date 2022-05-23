@@ -12,7 +12,7 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="${url_site}/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.subject}</a></div>`)))
+        $(event.target).parent().append(data.results.map(el => $(`<div><a href="${url_site}/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.digital_complex_cypher}</a></div>`)))
       });
     }
 

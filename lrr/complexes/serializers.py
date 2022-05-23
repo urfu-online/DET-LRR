@@ -50,7 +50,7 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
     academic_group = serializers.CharField(source='academic_group.number')
     digital_complex_pk = serializers.CharField(source='digital_complex.pk')
     digital_complex_title = serializers.CharField(source='digital_complex.title')
-    digital_complex_cypher = serializers.ReadOnlyField(source='digital_complex.cypher')
+    digital_complex_cypher = serializers.SerializerMethodField()
     digital_complex_format = serializers.CharField(source='digital_complex.format')
     digital_complex_keywords = serializers.CharField(source='digital_complex.keywords')
     digital_complex_form_control = serializers.CharField(source='digital_complex.form_control')
@@ -70,8 +70,12 @@ class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
             "eduprogram",
         ]
 
+    def get_digital_complex_cypher(self, obj):
+        return obj.digital_complex.__str__()
+
 
 class DigitalComplexSerializer(serializers.ModelSerializer):
+    cypher = serializers.SerializerMethodField()
     subjects = repo_serializers.SubjectSerializer(many=True, read_only=True)
     competences = repo_serializers.CompetenceSerializer(many=True, read_only=True)
     results_edu = repo_serializers.ResultEduSerializer(many=True, read_only=True)
@@ -82,8 +86,9 @@ class DigitalComplexSerializer(serializers.ModelSerializer):
     class Meta:
         model = complexes_models.DigitalComplex
         fields = [
+            "cypher",
             "title",
-            "keywords",
+            # "keywords",
             "description",
             "language",
             "format",
@@ -92,11 +97,14 @@ class DigitalComplexSerializer(serializers.ModelSerializer):
             "competences",
             "results_edu",
             "digital_resources",
-            "complex_space_cell",
+            # "complex_space_cell",
             "assignment_group",
             "owner",
             "form_control",
         ]
+
+    def get_cypher(self, obj):
+        return obj.__str__()
 
 
 class ComplexParentComponentSerializer(serializers.ModelSerializer):
