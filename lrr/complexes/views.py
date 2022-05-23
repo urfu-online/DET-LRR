@@ -687,9 +687,8 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
         user = self.request.user
         academic_group = Student.get_academic_group_for_user(user)
         eduprogram = AcademicGroup.get_eduprogram_for_number(academic_group)
-        subjects = complex_model.AssignmentAcademicGroup.objects.filter(academic_group=academic_group).values_list(
-            'group_subject', flat=True).distinct()
-        context['subjects'] = repository_models.Subject.objects.filter(pk__in=subjects)
+        subjects = complex_model.AssignmentAcademicGroup.objects.filter(academic_group=academic_group)
+        context['subjects'] = subjects
         context['student'] = Student.get_student(user)
         context['academic_group'] = academic_group
         context['direction'] = eduprogram if eduprogram else None
