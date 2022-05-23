@@ -4,7 +4,7 @@
 {% block content %}
   <script>
     url_site = "https://lrr.urfu.online"
-    url_global = url_site + "/api/v0/my_sbuject/"
+    url_global = url_site + "/api/v0/my_subject/"
 
 
     function ApiEUMK(event, sub) {
@@ -45,69 +45,69 @@
   <p>Студент: {{ student }}</p>
   <p>Образовательная программа/Направление подготовки: {{ direction }}</p>
   <p>Группа: {{ academic_group }}</p>
-  {#  <div id="filters" class="mb-3" aria-labelledby="filters" data-parent="">#}
-  {#    <form action="" method="get">#}
-  {#      <div class="form-group col-12 col-xl-2 col-md-6">#}
-  {#        <label for="id_semestr">Семестр:</label>#}
-  {#        <select name="semestr" class="custom-select" id="id_semestr">#}
-  {#          <option value="" selected="">---------</option>#}
-  {#          <option value="FIRST">Первый семестр</option>#}
-  {#          <option value="SECOND">Второй семестр</option>#}
-  {#        </select>#}
-  {#      </div>#}
-  {#      <div class="form-group col-12 col-xl-2 col-md-6">#}
-  {#        <input class="btn btn-secondary" type="submit">#}
-  {#      </div>#}
-  {#    </form>#}
-  {#  </div>#}
+    <div id="filters" class="mb-3" aria-labelledby="filters" data-parent="">
+      <form action="" method="get">
+        <div class="form-group col-12 col-xl-2 col-md-6">
+          <label for="id_semestr">Семестр:</label>
+          <select name="semestr" class="custom-select" id="id_semestr">
+            <option value="" selected="">---------</option>
+            <option value="FIRST">Первый семестр</option>
+            <option value="SECOND">Второй семестр</option>
+          </select>
+        </div>
+        <div class="form-group col-12 col-xl-2 col-md-6">
+          <input class="btn btn-secondary" type="submit">
+        </div>
+      </form>
+    </div>
 
-  {#  <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"#}
-  {#          aria-controls="filters">#}
-  {#    <i class="fas fa-search fa-lg"></i> Фильтры и поиск#}
-  {#  </button>#}
-  {#  <div class="row actions" id="accordion">#}
-  {##}
-  {#    <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">#}
-  {##}
-  {#      <form action="" method="get">#}
-  {#        <div class="form-row p-2 align-items-end">#}
-  {#          <div class="form-group col-12 col-xl-2 col-md-6">#}
-  {#            <label for="id_person__last_name__contains">Фамилия эксперта</label>#}
-  {#              <input type="text" name="person__last_name__contains" class="form-control" value=""#}
-  {#                     id="id_person__last_name__contains">#}
-  {#          </div>#}
-  {#          <div class="form-group col-12 col-xl-2 col-md-6">#}
-  {#            <label for="id_person__first_name__contains">Имя эксперта</label>#}
-  {#            <input type="text" name="person__first_name__contains" class="form-control" value=""#}
-  {#                   id="id_person__first_name__contains">#}
-  {#          </div>#}
-  {#          <div class="form-group col-12 col-xl-2 col-md-6">#}
-  {#            <label for="id_person__middle_name__contains">Отчество эксперта</label>#}
-  {#            <input type="text" name="person__middle_name__contains" class="form-control" value=""#}
-  {#                   id="id_person__middle_name__contains">#}
-  {#          </div>#}
-  {#          <div class="form-group col-12 col-xl-2 col-md-6">#}
-  {#            <label for="id_format__contains">Подразделение / Отрасль: </label>#}
-  {#            <input type="text" name="format__contains" class="form-control" value="" id="id_format__contains">#}
-  {#          </div>#}
-  {##}
-  {#          <div class="form-group col-12 col-xl-2 col-md-6">#}
-  {#            <label for="id_type">Вид экспертизы:</label> <select name="type" class="custom-select"#}
-  {#                                                                 id="id_type">#}
-  {#            <option value="" selected="">---------</option>#}
-  {#            <option value="METHODICAL">Методическая</option>#}
-  {#            <option value="CONTENT">Содержательная</option>#}
-  {#            <option value="TECH">Техническая</option>#}
-  {#          </select>#}
-  {#          </div>#}
-  {#          <div class="form-group col-12 col-xl-2 col-md-6">#}
-  {#            <input class="btn btn-primary btn-block pt-3" type="submit">#}
-  {#          </div>#}
-  {#        </div>#}
-  {##}
-  {#      </form>#}
-  {#    </div>#}
-  {#  </div>#}
+    <button class="btn btn-primary mt-3 " data-toggle="collapse" data-target="#filters" aria-expanded="false"
+            aria-controls="filters">
+      <i class="fas fa-search fa-lg"></i> Фильтры и поиск
+    </button>
+    <div class="row actions" id="accordion">
+
+      <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
+
+        <form action="" method="get">
+          <div class="form-row p-2 align-items-end">
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <label for="id_person__last_name__contains">Фамилия эксперта</label>
+                <input type="text" name="person__last_name__contains" class="form-control" value=""
+                       id="id_person__last_name__contains">
+            </div>
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <label for="id_person__first_name__contains">Имя эксперта</label>
+              <input type="text" name="person__first_name__contains" class="form-control" value=""
+                     id="id_person__first_name__contains">
+            </div>
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <label for="id_person__middle_name__contains">Отчество эксперта</label>
+              <input type="text" name="person__middle_name__contains" class="form-control" value=""
+                     id="id_person__middle_name__contains">
+            </div>
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <label for="id_format__contains">Подразделение / Отрасль: </label>
+              <input type="text" name="format__contains" class="form-control" value="" id="id_format__contains">
+            </div>
+
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <label for="id_type">Вид экспертизы:</label> <select name="type" class="custom-select"
+                                                                   id="id_type">
+              <option value="" selected="">---------</option>
+              <option value="METHODICAL">Методическая</option>
+              <option value="CONTENT">Содержательная</option>
+              <option value="TECH">Техническая</option>
+            </select>
+            </div>
+            <div class="form-group col-12 col-xl-2 col-md-6">
+              <input class="btn btn-primary btn-block pt-3" type="submit">
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
 
 
   {% if request.user.is_authenticated %}
@@ -149,14 +149,14 @@
                       </button>
                     </div>
 
-                    {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}
-                    {#                        {% for object in object_list %}#}
-                    {#                          {% if object.subject == item.subject %}#}
-                    {#                            {{ item }}#}
-                    {##}
-                    {#                          {% endif %}#}
-                    {#                        {% endfor %}#}
-                    {#                      {% endfor %}#}
+                                          {% for item in sub.assignmentacademicgroup_set.all %}
+                                            {% for object in object_list %}
+                                              {% if object.subject == item.subject %}
+                                                {{ item }}
+
+                                              {% endif %}
+                                            {% endfor %}
+                                          {% endfor %}
                   </td>
                 </tr>
               {% empty %}
