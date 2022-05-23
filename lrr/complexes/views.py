@@ -403,7 +403,7 @@ class ResourceBookmarkComponentCreateView(GroupRequiredMixin, generic.CreateView
             pass
         else:
             dig_resource_queryset = repository_models.DigitalResource.objects.all()
-            context['alarm'] = 'Предупреждение! Избранные ЭОР отсутсвуют. В списке сейчас отображаются все доступные ЭОР'
+            context['alarm'] = 'Предупреждение! Избранные ЭОР отсутствуют. В списке сейчас отображаются все доступные ЭОР'
         context['form'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
 

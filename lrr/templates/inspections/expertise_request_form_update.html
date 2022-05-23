@@ -62,7 +62,7 @@
                      href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}"><i
                     class="fas fa-link"></i> {{ digital_complex }}</a>
                 {% empty %}
-                  <span class="text-muted">отсутсвуют</span>
+                  <span class="text-muted">отсутствуют</span>
                 {% endfor %}
               </dd>
             </dl>
@@ -101,7 +101,7 @@
             {% endfor %}
           </table>
         {% else %}
-          <p class="text-muted">отсутсвуют</p>
+          <p class="text-muted">отсутствуют</p>
         {% endif %}
       </div>
     </div>
