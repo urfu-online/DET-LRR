@@ -131,7 +131,10 @@ class Student(models.Model):
             obj = cls.objects.get(person__user=user)
         except cls.DoesNotExist:
             obj = None
-        return obj.academic_group
+        try:
+            return obj.academic_group
+        except:
+            return None
 
     @classmethod
     def get_student(cls, user):
