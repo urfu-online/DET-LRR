@@ -1,6 +1,7 @@
 from django import forms
 from django_select2 import forms as s2forms
 from polymorphic.formsets import polymorphic_modelformset_factory, PolymorphicFormSetChild
+from lrr.repository.models import DigitalResource
 
 from . import grid_models
 from . import models as complex_models
@@ -198,11 +199,12 @@ class ResourceComponentWidget(s2forms.Select2Widget):
 
 
 class ResourceComponentForm(forms.ModelForm):
-    # def __init__(self, dig_complex, *args, **kwargs):
-    #     super(ResourceComponentForm, self).__init__(dig_complex, *args, **kwargs)  # populates the post
-    #     test = complex_models.DigitalComplex.objects.get(pk=dig_complex.pk)
-    #     self.fields['digital_resource'].queryset = repository_models.DigitalResource.objects.filter(
-    #         subjects_tags=test.subjects)g
+    # def __init__(self, *args, **kwargs):
+    #     # self.user = user
+    #     super(ResourceComponentForm, self).__init__(*args, **kwargs)  # populates the post
+    #     self.fields['digital_resource'].queryset = DigitalResource.objects.filter(
+    #         owner=self.user)
+    # TODO: limit choices
 
     class Meta:
         model = complex_models.ResourceComponent

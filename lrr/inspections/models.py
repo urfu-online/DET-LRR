@@ -113,6 +113,7 @@ class Expertise(repository_model.BaseModel):
     remarks = models.TextField("Замечания и рекомендации комиссии", blank=True)
     status = models.CharField("Состояние экспертизы", max_length=30, choices=STATUS_CHOICES,
                               default=NOT_ASSIGNED_STATUS)
+    status_text = models.TextField("Статус", blank=True, null=True)
     type = models.CharField("Тип экспертизы", max_length=30, choices=TYPE_EXPERTISE, blank=True, null=True)
 
     # TODO: возможно нужны

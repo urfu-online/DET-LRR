@@ -67,7 +67,8 @@
             {#            </div>#}
             <div class="form-group">
               <label>{{ form.keywords.label }}</label>
-              {{ form.keywords }}
+              <input type="text" name="keywords" data-role="tagsinput" class="form-control" id="id_keywords" value="{{ object.keywords.all|join:", " }}">
+              {#              {{ form.keywords }}#}
             </div>
             <div class="form-group">
               <label>{{ form.language.label }}</label>

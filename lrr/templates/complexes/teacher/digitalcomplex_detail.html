@@ -36,13 +36,19 @@
           <h6 class="card-subtitle mb-2 text-muted">Дисциплины</h6>
           {% for obj in object.subjects.all %}
             <p>{{ obj }}</p>
-            <hr>
+
+          {% empty %}
+            <span class="text-muted">-</span>
           {% endfor %}
+          <hr>
           <h6 class="card-subtitle mb-2 text-muted">Направления подготовки/Образовательная программа:</h6>
           {% for obj in object.directions.all %}
             <p>{{ obj }}</p>
-            <hr>
+
+          {% empty %}
+            <span class="text-muted">-</span>
           {% endfor %}
+          <hr>
           {% if object.format %}
             <h6 class="card-subtitle mb-2 text-muted">Формат использования:</h6>
             <p>{{ object.get_format_display }}</p>
@@ -61,21 +67,31 @@
           <h6 class="card-subtitle mb-2 text-muted">Компетенции:</h6>
           {% for obj in object.competences.all %}
             <p>{{ obj }}</p>
-            <hr>
+          {% empty %}
+            <span class="text-muted">-</span>
           {% endfor %}
+          <hr>
           <h6 class="card-subtitle mb-2 text-muted">Результаты обучения:</h6>
           <h5 class="card-title"></h5>
           {% if object.results_edu.all %}
-            <ul class="list-unstyled">
+            <ul class="list-unstyl
               {% for object in object.results_edu.all %}
                 {% include "repository/result_edu.html"  with object=object %}
               {% endfor %}
             </ul>
+          {% else %}
+            <span class="text-muted">-</span>
           {% endif %}
           <hr>
           {% if object.keywords %}
             <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
-            <p>{{ object.keywords }}</p>
+            <p>
+              {% for keyword in object.keywords.all %}
+                <span class="badge badge-light">{{ keyword }}</span>
+              {% empty %}
+                <span class="text-muted">-</span>
+              {% endfor %}
+            </p>
           {% endif %}
         </div>
       </div>

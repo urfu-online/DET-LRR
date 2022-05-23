@@ -101,6 +101,7 @@ class ExpertiseUpdateForm(forms.ModelForm):
             # "directions",
             # "digital_complexes",
             # "expert",
+            "status_text",
             "file",
             "remarks",
             "date_end"

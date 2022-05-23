@@ -38,10 +38,12 @@ class ExpertiseAdmin(admin.ModelAdmin):
         "directions",
         "digital_complexes",
         "expert",
+        "status_text",
+        "status",
         "date_end",
         "file",
         "remarks",
-        "status",
+
         "owner",
     ]
     list_display = [
