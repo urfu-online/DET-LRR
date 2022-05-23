@@ -28,7 +28,7 @@ TIME_ZONE = "Asia/Yekaterinburg"
 LANGUAGE_CODE = "ru"
 SITE_ID = 1
 USE_I18N = True
-USE_L10N = True
+USE_L10N = False
 USE_TZ = True
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
@@ -327,7 +327,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-DATETIME_INPUT_FORMATS += ('%d/%m/%Y %H:%M',)
+DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M']
+
 
 EXCEL_COMPATIBLE_CSV = True
 CHOICES_SEPARATOR = ","

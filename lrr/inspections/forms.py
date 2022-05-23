@@ -144,11 +144,14 @@ class ExpertiseUpdateForm(forms.ModelForm):
             #     }
             # ),
             'date_end': forms.DateTimeInput(
+
+                format="%d/%m/%Y %H:%M",
                 attrs={
                     'class': 'datetimepicker form-control',
-                    'required': 'true'
-                },
-                format='%d/%m/%Y+%H:%M'
+                    'required': 'true',
+                    'placeholder': "DD/MM/YYYY HH:MM"
+
+                }
             ),
             'remarks': forms.Textarea(
                 attrs={
