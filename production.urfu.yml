@@ -32,6 +32,8 @@ services:
     image: lrr_postgres
     networks:
       - lrr
+    ports:
+      - "0.0.0.0:5432:5432"
     volumes:
       - ${WEB_APP_PATH}/pgdata:/var/lib/postgresql/data
       - ${WEB_APP_PATH}/backups:/backups
