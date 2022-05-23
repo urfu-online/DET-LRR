@@ -62,8 +62,9 @@
                     <tbody>
                     <tr>
                       {#                  <td>{{ item.quality_category }} {{ item.interactive_category }} {{ item.subjects }} {{ item.direction }}</td>#}
-                      <td>{{ item.get_status_display }}</td>
-                      <td>{{ item.date }}</td>
+{#                      <td>{{ item.get_status_display }}</td>#}
+                      <td>{{ item.status_text }}</td>
+                      <td>{{ item.date_end }}</td>
                     </tr>
                     </tbody>
                   {% endfor %}
