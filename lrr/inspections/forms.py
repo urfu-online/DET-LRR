@@ -159,6 +159,12 @@ class ExpertiseUpdateForm(forms.ModelForm):
 
                 }
             ),
+            'status_text': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+
+                }
+            ),
             # 'type': forms.Select(
             #     attrs={
             #         'class': 'form-control',
