@@ -45,22 +45,23 @@ class AssignmentAcademicResourceListGroupSerializer(serializers.ModelSerializer)
         ]
 
 
-
 class AssignmentAcademicComplexListGroupSerializer(serializers.ModelSerializer):
     eduprogram = serializers.CharField(source='academic_group.eduprogram')
     academic_group = serializers.CharField(source='academic_group.number')
     digital_complex_pk = serializers.CharField(source='digital_complex.pk')
     digital_complex_title = serializers.CharField(source='digital_complex.title')
-    digital_complex_cypher = serializers.Field(source='digital_complex.cypher')
+    digital_complex_cypher = serializers.ReadOnlyField(source='digital_complex.cypher')
     digital_complex_format = serializers.CharField(source='digital_complex.format')
     digital_complex_keywords = serializers.CharField(source='digital_complex.keywords')
     digital_complex_form_control = serializers.CharField(source='digital_complex.form_control')
 
     class Meta:
         model = complexes_models.AssignmentAcademicGroup
+        read_only_fields = ["digital_complex_cypher"]
         fields = [
             "digital_complex_pk",
-            "igital_complex_cypher",
+            "digital_complex_cypher",
+            "digital_complex_title",
             "digital_complex_format",
             "digital_complex_keywords",
             "digital_complex_form_control",
