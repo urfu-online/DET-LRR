@@ -57,7 +57,7 @@
                   <th>Дата</th>
                 </tr>
                 </thead>
-                {% if request.user|has_owner_resource:object %}
+{#                {% if request.user|has_owner_resource:object %}#}
                   {% for item in expertise %}
                     <tbody>
                     <tr>
@@ -68,7 +68,7 @@
                     </tr>
                     </tbody>
                   {% endfor %}
-                {% endif %}
+{#                {% endif %}#}
                 {% for i in temporary_status %}
                   <tbody>
                   <tr>
