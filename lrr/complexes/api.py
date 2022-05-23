@@ -32,7 +32,7 @@ class AssignmentAcademicGroupComplexListViewSet(GroupRequiredMixin, viewsets.Mod
     serializer_class = serializers.AssignmentAcademicComplexListGroupSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['academic_group__direction', 'subject__title', 'semestr', 'learn_date']
+    filterset_fields = ['group_subject__subject__title', 'learn_date']
     group_required = ['student', 'admins']
 
     def get_queryset(self):
