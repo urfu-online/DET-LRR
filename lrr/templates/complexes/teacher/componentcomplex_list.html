@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags bootstrap_icons %}
+{% load crispy_forms_tags bootstrap_icons user_tags %}
 {% load static %}
 {% block content %}
 
@@ -75,9 +75,15 @@
                       class="pen icon"></i></a>
                   {% endif %}
                 </td>
-                <td><a class="btn btn-outline-primary "
-                       href="{% url 'complexes:complexes_ComplexParentComponent_delete' pk=component.pk %}"><i
-                  class="fas fa-trash-alt"></i></a></td>
+                <td>
+                  {#                  {% if request.user|has_owner_complex:object or request.user.is_superuser %}#}
+{#                  TODO: Check permissions#}
+                  <a class="btn btn-outline-primary" href="{% url 'complexes:complexes_ResourceComponent_update' pk=component.pk %}">{% md_icon "pencil-outline" %} Редактировать</a>
+                  {#    {% endif %}#}
+
+                  <a class="btn btn-outline-primary "
+                     href="{% url 'complexes:complexes_ComplexParentComponent_delete' pk=component.pk %}"><i
+                    class="fas fa-trash-alt"></i></a></td>
               </tr>
             {% endfor %}
             </tbody>
