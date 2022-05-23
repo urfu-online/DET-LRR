@@ -125,26 +125,26 @@
               <tbody>
               {% for sub in subjects.all %}
                 <tr>
-                  <td>{{ sub }}</td>
+                  <td>{{ sub.group_subject.subject }}</td>
                   <td>
                     <div>
                       <h4>Электронное обеспечение дисциплины определенное
                         преподавателем.</h4>
                       <button class="btn btn-outline-primary btn-sm" type="button"
-                              onclick="ApiEUMK(event, `{{ sub }}`)">
+                              onclick="ApiEUMK(event, `{{ sub.group_subject.subject }}`)">
                         Развернуть
                       </button>
                     </div>
                     <div>
                       <h4>Рекомендованные ЭОР</h4>
                       <button class="btn btn-outline-primary btn-sm" type="button"
-                              onclick="ApiRecomendedEOR(event,`{{ sub }}`)">
+                              onclick="ApiRecomendedEOR(event,`{{ sub.group_subject.subject }}`)">
                         Развернуть
                       </button>
                     </div>
                     <div>
                       <h4>ЭОР в каталоге</h4>
-                      <button class="btn btn-outline-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub }}`)">
+                      <button class="btn btn-outline-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub.group_subject.subject }}`)">
                         Развернуть
                       </button>
                     </div>
