@@ -50,7 +50,7 @@ sys.modules['fontawesome_free'] = __import__('fontawesome-free')
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
-    'adminactions',
+    #'adminactions',
     'admin_export_action',
     'data_wizard',
     'data_wizard.sources',
