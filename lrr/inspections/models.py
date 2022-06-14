@@ -286,8 +286,8 @@ class ExpertiseRequest(repository_model.BaseModel):
                                       null=True)
 
     class Meta:
-        verbose_name = "эаявка"
-        verbose_name_plural = "эаявка"
+        verbose_name = "заявка"
+        verbose_name_plural = "заявка"
 
     def __str__(self):
         return f"{self.expertise} {self.status} {self.survey}"
