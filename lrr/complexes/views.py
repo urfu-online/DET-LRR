@@ -364,12 +364,10 @@ class ResourceComponentCreateView(GroupRequiredMixin, generic.CreateView):
         context = super(ResourceComponentCreateView, self).get_context_data(**kwargs)
         context['dig_complex'] = self.digital_complex
         dig_resource_queryset = repository_models.DigitalResource.objects.filter(
-            Q(subjects_tags__tag__in=self.digital_complex.subjects.all()) | Q(
-                edu_programs_tags__tag__direction__in=self.digital_complex.directions.all()))
-        if dig_resource_queryset:
-            pass
-        else:
-            dig_resource_queryset = repository_models.DigitalResource.objects.all()
+            (Q(subjects_tags__tag__in=self.digital_complex.subjects.all()) | Q(
+                edu_programs_tags__tag__direction__in=self.digital_complex.directions.all())) | Q(owner=self.request.user.get_person())
+        )
+
         context['form'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
 
@@ -389,19 +387,18 @@ class ResourceBookmarkComponentCreateView(GroupRequiredMixin, generic.CreateView
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        logger.warning(f"{form}")
         form.instance.digital_complex = self.digital_complex
         form.save()
+
         form_valid = super(ResourceBookmarkComponentCreateView, self).form_valid(form)
         return form_valid
 
     def get_context_data(self, **kwargs):
-        user = self.request.user
         context = super(ResourceBookmarkComponentCreateView, self).get_context_data(**kwargs)
         context['dig_complex'] = self.digital_complex
-        dig_resource_queryset = repository_models.BookmarkDigitalResource.objects.filter(user=user)
-        if dig_resource_queryset:
-            pass
-        else:
+        dig_resource_queryset = repository_models.DigitalResource.objects.filter(pk__in=list(map(lambda x: str(x), repository_models.BookmarkDigitalResource.objects.filter(user=self.request.user).values_list('obj', flat=True))))
+        if not dig_resource_queryset:
             dig_resource_queryset = repository_models.DigitalResource.objects.all()
             context['alarm'] = 'Предупреждение! Избранные ЭОР отсутствуют. В списке сейчас отображаются все доступные ЭОР'
         context['form'].fields['digital_resource'].queryset = dig_resource_queryset
