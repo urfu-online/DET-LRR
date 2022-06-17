@@ -231,13 +231,13 @@ class ResourceComponentUpdateView(GroupRequiredMixin, generic.UpdateView):
         context = super(ResourceComponentUpdateView, self).get_context_data(**kwargs)
         context['dig_complex'] = self.object.digital_complex
         dig_resource_queryset = repository_models.DigitalResource.objects.filter(
-            Q(subjects_tags__tag__in=self.object.digital_complex.subjects.all()) | Q(
-                edu_programs_tags__tag__direction__in=self.object.digital_complex.directions.all()))
-        if dig_resource_queryset:
-            pass
-        else:
+            (Q(subjects_tags__tag__in=self.object.digital_complex.subjects.all()) | Q(
+                edu_programs_tags__tag__direction__in=self.object.digital_complex.directions.all())) | Q(owner=self.request.user.get_person())
+        )
+        if not dig_resource_queryset:
             dig_resource_queryset = repository_models.DigitalResource.objects.all()
-        # context['form'].fields['resourcecomponent'].fields['digital_resource'].queryset = dig_resource_queryset
+
+        context['form'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
 
     def get_success_url(self):
@@ -367,7 +367,6 @@ class ResourceComponentCreateView(GroupRequiredMixin, generic.CreateView):
             (Q(subjects_tags__tag__in=self.digital_complex.subjects.all()) | Q(
                 edu_programs_tags__tag__direction__in=self.digital_complex.directions.all())) | Q(owner=self.request.user.get_person())
         )
-
         context['form'].fields['digital_resource'].queryset = dig_resource_queryset
         return context
 
