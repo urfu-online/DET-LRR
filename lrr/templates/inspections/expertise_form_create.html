@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags  bootstrap_icons %}
+{% load crispy_forms_tags bootstrap_icons %}
 {% load static %}
 {% block content %}
 
@@ -7,8 +7,7 @@
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'repository:repository_DigitalResource_detail' pk=dig_res.pk %}">Паспорт
-        ЭОР: {{ dig_res }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'repository:repository_DigitalResource_detail' pk=dig_res.pk %}">Паспорт ЭОР: {{ dig_res }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу ресурса</li>
     </ol>
   </nav>
@@ -29,18 +28,18 @@
             <div class="form-group">
               <label>{{ form.subjects.label }}</label>
               {{ form.subjects }}
-              <p class="text-muted">Начните вводить название дисциплины.</p>
+              <p class="text-muted">Начните вводить название дисциплины</p>
             </div>
             <div class="form-group">
               {{ form.directions.help_texts }}
               <label>{{ form.directions.label }}</label>
               {{ form.directions }}
-              <p class="text-muted">Начните вводить название направления или код направления.</p>
+              <p class="text-muted">Начните вводить название направления или код направления</p>
             </div>
             <div class="form-group">
               <label>{{ form.digital_complexes.label }}</label>
               {{ form.digital_complexes }}
-              <p class="text-muted">Начните вводить ключевые слова или формат использования.</p>
+              <p class="text-muted">Начните вводить ключевые слова или формат использования</p>
             </div>
             <input type="submit" value="Подать заявку" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
