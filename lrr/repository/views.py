@@ -13,6 +13,7 @@ from lrr.users.models import Person
 from . import forms
 from . import models
 from .filters import FilteredListView, DigitalResourceFilter, DigitalResourceBookmarkFilter
+from django.db.models import Count
 
 logger = logging.getLogger(__name__)
 
@@ -324,19 +325,27 @@ class EduProgramTagUpdateView(generic.UpdateView):
 
 def statistics(request):
     context = dict()
-    dp_count = str(models.DigitalResource.objects.count())
+    dp_count = models.DigitalResource.objects.count()
     context["dp_count"] = dp_count
 
-    by_platform = dict()
-    eduprograms = dict()
-    for p in models.Platform.objects.all():
-        by_platform[p.title] = models.DigitalResource.objects.filter(platform=p).count()
+    # by_platform = dict()
+    # eduprograms = dict()
+    # for p in models.Platform.objects.all():
+    #     by_platform[p.title] = models.DigitalResource.objects.filter(platform=p).count()
 
-    for ep in models.EduProgram.objects.all():
-        eduprograms[ep.title] = ep.get_count_resources()
+    # for ep in models.EduProgram.objects.all():
+    #     eduprograms[ep.title] = ep.get_count_resources()
+    platforms_data = list()
+    for platform in models.Platform.objects.annotate(num_resources=Count('digitalresource')).order_by('-num_resources'):
+        platforms_data.append({'name': platform.title, 'value': platform.num_resources})
 
-    context["by_platform"] = by_platform
-    context["eduprograms"] = eduprograms
+    programs_data = list()
+
+    for program in models.EduProgramTag.objects.annotate(num_resources=Count('digitalresource')).filter(num_resources__gt=0).order_by('-num_resources')[:20]:
+        programs_data.append({'name': program.tag.title, 'value': program.num_resources})
+
+    context["platforms_data"] = platforms_data
+    context["programs_data"] = programs_data
     # context["stats_by_type"] = models.DigitalResource.get_stats_by_type()
 
     return render(request, "repository/report.html", context=context)

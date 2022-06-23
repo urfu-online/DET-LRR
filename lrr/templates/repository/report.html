@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load user_tags bootstrap_icons %}
+
+{% block extra_js %}
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+{% endblock %}
+
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3 pb-0">
@@ -8,6 +13,10 @@
     </ol>
   </nav>
   <header><h1 class="display-3">Статистика</h1></header>
+
+  {{ platforms_data|json_script:"platforms_data" }}
+  {{ programs_data|json_script:"programs_data" }}
+
   <div class="row p-2">
     <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
       <div class="card h-100 border-secondary shadow-2 p-3 text-center">
@@ -19,40 +28,103 @@
     </div>
   </div>
 
-  <div class="row p-2">
-    {% for platform, count in by_platform.items %}
+  <h2 class="lead">Распределение ЭОР по платформам</h2>
+  <div id="platforms_chart" class="w-100" style="height:600px;"></div>
+  <h2 class="lead">Распределение ЭОР по образовательным программам (топ 20)</h2>
+  <div id="programs_chart" class="w-100" style="height:600px;"></div>
+  <script type="text/javascript">
+    var chartDom = document.getElementById('platforms_chart');
+    var platformsChart = echarts.init(chartDom);
+    var platforms_data = JSON.parse(document.getElementById('platforms_data').textContent);
+    var option;
 
-      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
-        <div class="card h-100 border-secondary shadow-2 text-center">
-          <div class="card-body">
-            <h5 class="display-1">{{ count }}</h5>
-            <h5 class="">Цифровых образовательных ресурсов <br/> {{ platform }}</h5>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
+    option = {
+      aria: {
+        enabled: true,
+        decal: {
+          show: true
+        }
+      },
+      tooltip: {},
+      legend: {
+        orient: 'vertical',
+        left: 'left'
+      },
+      series: [
+        {
+          name: 'ЭОР',
+          type: 'pie',
+          selectedMode: 'single',
+          selectedOffset: 30,
+          clockwise: false,
+          label: {
+            show: false,
+            fontSize: 14,
+          },
+          labelLine: {
+            lineStyle: {
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowBlur: 10
+            }
+          },
+          data: platforms_data,
+          animationType: 'scale',
+          animationEasing: 'elasticOut',
+          animationDelay: function (idx) {
+            return Math.random() * 200;
+          }
+        }
+      ]
+    };
+    option && platformsChart.setOption(option);
+  </script>
 
+  <script type="text/javascript">
+    var programsChart = echarts.init(document.getElementById('programs_chart'));
+    var programs_data = JSON.parse(document.getElementById('programs_data').textContent);
+    var option;
 
+    option = {
+      aria: {
+        enabled: true,
+        decal: {
+          show: true
+        }
+      },
+      tooltip: {},
+      legend: {
+        orient: 'vertical',
+        left: 'left'
+      },
+      series: [
+        {
+          name: 'Образовательные программы',
+          type: 'pie',
+          selectedMode: 'single',
+          selectedOffset: 30,
+          clockwise: false,
+          label: {
+            show: false,
+            fontSize: 14,
+          },
+          labelLine: {
+            lineStyle: {
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowBlur: 10
+            }
+          },
+          data: programs_data,
+          animationType: 'scale',
+          animationEasing: 'elasticOut',
+          animationDelay: function (idx) {
+            return Math.random() * 200;
+          }
+        },
 
-  <div class="col-12">
-    <table class="table table-striped table-bordered">
-
-      <thead>
-      <th>Образовательная программа</th>
-      <th>Цифровых образовательных ресурсов</th>
-      </thead>
-      <tbody>
-      {% for ep, count in eduprograms.items %}
-        <tr>
-          <td>{{ ep }}</td>
-          <td>{{ count }}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
+      ]
+    };
+    option && programsChart.setOption(option);
+  </script>
 
 {% endblock %}
 
