@@ -34,16 +34,15 @@
             <thead>
             <h5>Компоненты</h5>
             <tr>
+              <th>#</th>
               <th>Ресурс/Среда/Занятие/Источник</th>
               <th>Как используется при изучении дисциплины</th>
-              {#              <th>Порядок отображения</th>#}
-              <th></th>
-              <th></th>
             </tr>
             </thead>
             <tbody>
-            {% for component in component_complex %}
+            {% for component in object_list %}
               <tr>
+                <td>{{ component.order }}</td>
                 <td>
                   {% if component.polymorphic_ctype|cut:" " == "complexes|КомпонентЭОР" %}
                     <b>Электронный учебный курс</b> <br> {{ component }}
@@ -74,10 +73,9 @@
                        href="{% url 'complexes:complexes_TraditionalSessionComponent_update' pk=component.pk %}"><i
                       class="pen icon"></i></a>
                   {% endif %}
-                </td>
-                <td>
+
                   {#                  {% if request.user|has_owner_complex:object or request.user.is_superuser %}#}
-{#                  TODO: Check permissions#}
+                  {#                  TODO: Check permissions#}
                   <a class="btn btn-outline-primary" href="{% url 'complexes:complexes_ResourceComponent_update' pk=component.pk %}">{% md_icon "pencil-outline" %} Редактировать</a>
                   {#    {% endif %}#}
 
@@ -88,6 +86,8 @@
             {% endfor %}
             </tbody>
           </table>
+
+          {% include "includes/paginator.html" %}
 
           <div class="card d-flex flex-row my-3 float-right">
             <a class="btn btn-outline-primary mx-1"

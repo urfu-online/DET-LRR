@@ -311,36 +311,28 @@ class LiterarySourcesComponentUpdateView(GroupRequiredMixin, generic.UpdateView)
         return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
 
 
-class ComplexParentComponentListView(GroupRequiredMixin, FilteredListView):
+class ComplexParentComponentListView(GroupRequiredMixin, generic.ListView):
     model = complex_model.ComplexParentComponent
     form_class = forms.ComplexParentComponentForm
     group_required = ["teacher", "admins"]
     template_name = 'complexes/teacher/componentcomplex_list.html'
     allow_empty = True
     paginate_by = 12
-    filterset_class = DigitalComplexFilter
+    ordering = ['order']
 
     def dispatch(self, request, *args, **kwargs):
         self.digital_complex = get_object_or_404(complex_model.DigitalComplex, pk=kwargs["pk"])
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
-        component_complex = complex_model.ComplexParentComponent.objects.instance_of(complex_model.ResourceComponent,
-                                                                                     complex_model.PlatformComponent,
-                                                                                     complex_model.LiterarySourcesComponent,
-                                                                                     complex_model.TraditionalSessionComponent)
-        queryset = component_complex.filter(digital_complex=self.digital_complex).order_by('order')
-        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        qs = self.filterset.qs.distinct()
-        if qs.count() == 0:
-            self.paginate_by = None
-        return qs
+        return complex_model.ComplexParentComponent.objects.instance_of(complex_model.ResourceComponent,
+                                                                        complex_model.PlatformComponent,
+                                                                        complex_model.LiterarySourcesComponent,
+                                                                        complex_model.TraditionalSessionComponent).filter(digital_complex=self.digital_complex)
 
     def get_context_data(self, **kwargs):
         context = super(ComplexParentComponentListView, self).get_context_data(**kwargs)
         context['dig_complex'] = self.digital_complex
-        context['component_complex'] = complex_model.ComplexParentComponent.objects.filter(
-            digital_complex=self.digital_complex)
         return context
 
 
@@ -371,8 +363,7 @@ class ResourceComponentCreateView(GroupRequiredMixin, generic.CreateView):
         return context
 
     def get_success_url(self):
-        dig_complex_id = self.object.digital_complex.pk
-        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(dig_complex_id,))
+        return reverse_lazy("complexes:complexes_ComplexParentComponent_list", args=(self.object.digital_complex.pk,))
 
 
 class ResourceBookmarkComponentCreateView(GroupRequiredMixin, generic.CreateView):
