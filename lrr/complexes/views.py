@@ -137,7 +137,7 @@ class DigitalComplexDetailView(GroupRequiredMixin, generic.DetailView):
                                                                                      complex_model.LiterarySourcesComponent,
                                                                                      complex_model.TraditionalSessionComponent)
         dig_complex = complex_model.DigitalComplex.objects.get(pk=self.request.resolver_match.kwargs['pk'])
-        context['component_complex'] = component_complex.filter(digital_complex=dig_complex)
+        context['component_complex'] = component_complex.filter(digital_complex=dig_complex).order_by('order')
         for component in component_complex:
             logger.warning(component.polymorphic_ctype)
         context['resource_components'] = complex_model.ResourceComponent.objects.filter(digital_complex=self.object)
