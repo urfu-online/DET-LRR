@@ -213,7 +213,7 @@ class ResourceComponentForm(forms.ModelForm):
             "digital_resource": forms.Select(
                 attrs={
                     'class': 'form-control',
-
+                },
             ),
             "description": forms.Textarea(
                 attrs={
