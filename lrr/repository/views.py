@@ -325,17 +325,9 @@ class EduProgramTagUpdateView(generic.UpdateView):
 
 def statistics(request):
     context = dict()
-    dp_count = models.DigitalResource.objects.count()
-    context["dp_count"] = dp_count
 
-    # by_platform = dict()
-    # eduprograms = dict()
-    # for p in models.Platform.objects.all():
-    #     by_platform[p.title] = models.DigitalResource.objects.filter(platform=p).count()
-
-    # for ep in models.EduProgram.objects.all():
-    #     eduprograms[ep.title] = ep.get_count_resources()
     platforms_data = list()
+
     for platform in models.Platform.objects.annotate(num_resources=Count('digitalresource')).order_by('-num_resources'):
         platforms_data.append({'name': platform.title, 'value': platform.num_resources})
 
@@ -344,6 +336,7 @@ def statistics(request):
     for program in models.EduProgramTag.objects.annotate(num_resources=Count('digitalresource')).filter(num_resources__gt=0).order_by('-num_resources')[:20]:
         programs_data.append({'name': program.tag.title, 'value': program.num_resources})
 
+    context["dp_count"] = models.DigitalResource.objects.count()
     context["platforms_data"] = platforms_data
     context["programs_data"] = programs_data
     # context["stats_by_type"] = models.DigitalResource.get_stats_by_type()
