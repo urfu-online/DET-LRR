@@ -213,14 +213,14 @@ class ResourceComponentForm(forms.ModelForm):
             "digital_resource": forms.Select(
                 attrs={
                     'class': 'form-control',
-                },
+
             ),
             "description": forms.Textarea(
                 attrs={
                     'class': 'form-control',
                 },
             ),
-            "order": forms.TextInput(
+            "order": forms.NumberInput(
                 attrs={
                     'class': 'form-control',
                 },
@@ -255,7 +255,7 @@ class PlatformComponentForm(forms.ModelForm):
                     'class': 'form-control',
                 },
             ),
-            "order": forms.TextInput(
+            "order": forms.NumberInput(
                 attrs={
                     'class': 'form-control',
                 },
@@ -288,7 +288,7 @@ class TraditionalSessionComponentForm(forms.ModelForm):
                     'class': 'form-control',
                 },
             ),
-            "order": forms.TextInput(
+            "order": forms.NumberInput(
                 attrs={
                     'class': 'form-control',
                 },
@@ -316,7 +316,7 @@ class LiterarySourcesComponentForm(forms.ModelForm):
                     'class': 'form-control',
                 },
             ),
-            "order": forms.TextInput(
+            "order": forms.NumberInput(
                 attrs={
                     'class': 'form-control',
                 },
