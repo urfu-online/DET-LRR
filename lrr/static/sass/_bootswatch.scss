@@ -10,7 +10,6 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;6
 // Navbar ======================================================================
 
 
-
 .navbar {
   text-transform: uppercase;
   font-weight: 600;
@@ -174,6 +173,6 @@ th {
   }
 }
 
-.DigitalComplex-card__title {
-  text-transform: none;
+.no-upper, .DigitalComplex-card__title {
+  text-transform: none !important;
 }
