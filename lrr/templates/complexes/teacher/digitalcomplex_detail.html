@@ -14,7 +14,7 @@
       {% endif %}
     </ol>
   </nav>
-  
+
   <header class="pb-4 px-2">
     {% if request.user|has_owner_complex:object or request.user.is_superuser %}
       <a class="btn btn-primary float-right" href="{{ object.get_update_url }}">{% md_icon "pencil-outline" %} Редактировать</a>
@@ -33,7 +33,7 @@
     <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
       <div class="card h-100 border-secondary shadow-2">
         <div class="card-body">
-          <h6 class="card-subtitle mb-2 text-muted">Дисциплины</h6>
+          <h5 class="card-subtitle mb-2 text-muted">Дисциплины</h5>
           {% for obj in object.subjects.all %}
             <p>{{ obj }}</p>
 
@@ -41,7 +41,7 @@
             {% include "includes/empty_alert.html" with msg="Дисциплины отсутствуют" %}
           {% endfor %}
           <hr>
-          <h6 class="card-subtitle mb-2 text-muted">Направления подготовки/Образовательная программа:</h6>
+          <h5 class="card-subtitle mb-2 text-muted">Направления подготовки/Образовательная программа:</h5>
           {% for obj in object.directions.all %}
             <p>{{ obj }}</p>
 
@@ -49,38 +49,40 @@
             {% include "includes/empty_alert.html" with msg="Направления подготовки отсутствуют" %}
           {% endfor %}
           <hr>
+
           {% if object.format %}
-            <h6 class="card-subtitle mb-2 text-muted">Формат использования:</h6>
+            <h5 class="card-subtitle mb-2 text-muted">Формат использования:</h5>
             <p>{{ object.get_format_display }}</p>
-            <hr>
           {% endif %}
+          <hr>
           {% if object.form_control %}
-            <h6 class="card-subtitle mb-2 text-muted">Форма контроля:</h6>
+            <h5 class="card-subtitle mb-2 text-muted">Форма контроля:</h5>
             <p>{{ object.get_form_control_display }}</p>
           {% else %}
             {% include "includes/empty_alert.html" with msg="Форма контроля отсутствует" %}
-            <hr>
           {% endif %}
+          <hr>
+
           {% if object.description %}
-            <h6 class="card-subtitle mb-2 text-muted">Описание:</h6>
+            <h5 class="card-subtitle mb-2 text-muted">Описание:</h5>
             <p>{{ object.description }}</p>
           {% else %}
             {% include "includes/empty_alert.html" with msg="Описание отсутствует" %}
-            <hr>
           {% endif %}
-          <h6 class="card-subtitle mb-2 text-muted">Компетенции:</h6>
+          <hr>
+          <h5 class="card-subtitle mb-2 text-muted">Компетенции:</h5>
           {% for obj in object.competences.all %}
             <p>{{ obj }}</p>
           {% empty %}
             {% include "includes/empty_alert.html" with msg="Компетенции отсутствуют" %}
           {% endfor %}
           <hr>
-          <h6 class="card-subtitle mb-2 text-muted">Результаты обучения:</h6>
+          <h5 class="card-subtitle mb-2 text-muted">Результаты обучения:</h5>
           <h5 class="card-title"></h5>
           {% if object.results_edu.all %}
             <ul class="list-unstyled">
               {% for object in object.results_edu.all %}
-                {% include "repository/result_edu.html"  with object=object %}
+                {% include "repository/result_edu.html" with object=object %}
               {% endfor %}
             </ul>
           {% else %}
@@ -88,10 +90,10 @@
           {% endif %}
           <hr>
           {% if object.keywords %}
-            <h6 class="card-subtitle mb-2 text-muted">Ключевые слова:</h6>
+            <h5 class="card-subtitle mb-2 text-muted">Ключевые слова:</h5>
             <p>
               {% for keyword in object.keywords.all %}
-                <span class="badge badge-light">{{ keyword }}</span>
+                <a aria-disabled="true" class="btn btn-outline-primary btn-sm disabled">{{ keyword }}</a>
               {% empty %}
                 {% include "includes/empty_alert.html" with msg="Ключевые слова отсутствуют" %}
               {% endfor %}

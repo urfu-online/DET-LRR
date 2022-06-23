@@ -20,16 +20,17 @@
   <link rel="icon" href="{% url 'favicon' %}">
 
   {% block css %}
-
-    {#    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css"/>#}
     <link rel="stylesheet" href="{% static 'bootstrap_icons/css/bootstrap_icons.css' %}">
-
   {% endblock %}
 
   <script type="text/javascript" src="{% static 'js/jquery-ui-custom/jquery-ui.min.js' %}"></script>
 
   <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
+
+  {% block extra_js %}
+  {% endblock %}
+
   {% analytical_head_bottom %}
 </head>
 
