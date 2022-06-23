@@ -10,7 +10,7 @@
         href="{% url 'complexes:complexes_AssignmentAcademicGroup_list' digital_complex_pk=object.digital_complex.pk %}">Список
         назначенных
         академических групп для {{ object.digital_complex }}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Редактирование назначение академической группы</li>
+      <li class="breadcrumb-item active" aria-current="page">Редактирование назначения академической группы</li>
     </ol>
   </nav>
   <header><h1 class="display-3">Редактирование назначение академической группы ЭУМК</h1>
@@ -28,10 +28,9 @@
     <div class="col-12 p-2">
       <form class="" method="post">
         {% csrf_token %}
-        {{ form.errors }}
         {{ form.non_field_errors }}
         {{ form.media.css }}
-        {{ form }}
+        {{ form|crispy }}
         <br/>
         {#        <div class="card h-100 shadow-3">#}
         {#          <div class="card-body">#}
@@ -71,7 +70,6 @@
     </div>
   </div>
   {{ form.media.js }}
-  </div>
   <script>
     window.onload = function () {
       $('#id_academic_group').addClass("form-control")

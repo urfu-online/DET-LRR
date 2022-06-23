@@ -13,7 +13,7 @@
         href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">ЭУМК
         "{{ dig_complex.subjects_set.all.0 }} - {{ dig_complex.owner }} [{{ dig_complex.format }}] </a>
       </li>
-      <li class="breadcrumb-item active" aria-current="page">Добавление компонента Литературный источник</li>
+      <li class="breadcrumb-item active" aria-current="page">Добавить Литературный источник</li>
     </ol>
   </nav>
 
@@ -23,10 +23,9 @@
         <div class="card-body">
           <form method="post">
             {% csrf_token %}
-            {{ form.errors }}
             {{ form.non_field_errors }}
             {{ form.media.css }}
-            {{ form }}
+            {{ form|crispy }}
             <input type="submit" value="Сохранить" class="btn btn-primary">
             <a class="btn btn-primary" href="{{ request.META.HTTP_REFERER }}">Отмена</a>
           </form>
@@ -34,7 +33,5 @@
         </div>
       </div>
     </div>
-  </div>
-  </form>
   </div>
 {% endblock %}

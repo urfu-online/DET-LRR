@@ -14,17 +14,39 @@
       <li class="breadcrumb-item active" aria-current="page">Редактирование компонентов ЭУМК</li>
     </ol>
   </nav>
-  <header><h1 class="display-3">Редактирование компонентов ЭУМК</h1>
-    <h4>
-      По дисциплине(ам)
-      {% for subject in dig_complex.subjects.all %}
-        {{ subject }}
-      {% endfor %}
-      образовательной программы
-      {% for direction in dig_complex.directions.all %}
-        {{ direction }}
-      {% endfor %}
-    </h4>
+
+  <header>
+    <h1 class="display-3">Редактирование компонентов ЭУМК <br>
+      <span class="no-upper">
+      <span class="lead">
+
+        {% if dig_complex.subjects.all|length_is:"1" %}
+          по дисциплине <strong>{{ dig_complex.subjects.all|first }}</strong>
+        {% else %}
+          по дисциплинам:
+          <ul>
+        {% for subject in dig_complex.subjects.all %}
+          <li>{{ subject }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+      </span>
+
+      <span class="lead">
+    {% if dig_complex.directions.all|length_is:"1" %}
+      по направлению <strong>{{ dig_complex.directions.all|first }}</strong>
+    {% else %}
+      по направлениям:
+      <ul>
+        {% for direction in dig_complex.directions.all %}
+          <li>{{ direction }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+        {#        образовательной программы#}
+        </span>
+      </span>
+    </h1>
   </header>
   <div class="row p-2">
     <div class="col-12 p-2">
@@ -32,7 +54,6 @@
         <div class="card-body">
           <table class="table table-striped table-bordered">
             <thead>
-            <h5>Компоненты</h5>
             <tr>
               <th>#</th>
               <th>Ресурс/Среда/Занятие/Источник</th>
@@ -42,46 +63,39 @@
             <tbody>
             {% for component in object_list %}
               <tr>
-                <td>{{ component.order }}</td>
                 <td>
-                  {% if component.polymorphic_ctype|cut:" " == "complexes|КомпонентЭОР" %}
-                    <b>Электронный учебный курс</b> <br> {{ component }}
-                  {% elif component.polymorphic_ctype|cut:" " == "complexes|Средаобучения" %}
-                    <b>Среда обучения</b> <br> {{ component }}
-                  {% elif component.polymorphic_ctype|cut:" " == "complexes|Литературныйисточник" %}
-                    <b>Литературный источник ЭБС</b> <br> {{ component }}
+                  {% if component.order %}
+                    {{ component.order }}
                   {% else %}
+                    {% include "includes/empty_icon.html" %}
+                  {% endif %}
+                </td>
+                <td>
+                  {% if "компонентЭОР" in component.polymorphic_ctype|cut:" " %}
+                    <b>Электронный учебный курс</b> <br> {{ component }}
+                  {% elif "средаобучения" in component.polymorphic_ctype|cut:" " %}
+                    <b>Среда обучения</b> <br> {{ component }}
+                  {% elif "литературныйисточник" in component.polymorphic_ctype|cut:" " %}
+                    <b>Литературный источник ЭБС</b> <br> {{ component }}
+                  {% elif "синхронноезанятие" in component.polymorphic_ctype|cut:" " %}
                     <b>Синхронное занятие</b> <br> {{ component }}
+                  {% else %}
+                    <span class="font-weight-bold text-danger">Нетзвестный тип <br> {{ component }}</span>
                   {% endif %}
                 </td>
                 <td>{{ component.description }}</td>
                 <td>
-                  {% if component.polymorphic_ctype|cut:" " == "complexes|КомпонентЭОР" %}
-                    <a class="btn btn-outline-primary mx-1"
-                       href="{% url 'complexes:complexes_ResourceComponent_update' pk=component.pk %}"><i
-                      class="pen icon"></i></a>
-                  {% elif component.polymorphic_ctype|cut:" " == "complexes|Средаобучения" %}
-                    <a class="btn btn-outline-primary mx-1"
-                       href="{% url 'complexes:complexes_PlatformComponent_update' pk=component.pk %}"><i
-                      class="pen icon"></i></a>
-                  {% elif component.polymorphic_ctype|cut:" " == "complexes|Литературныйисточник" %}
-                    <a class="btn btn-outline-primary mx-1"
-                       href="{% url 'complexes:complexes_LiterarySourcesComponent_update' pk=component.pk %}"><i
-                      class="pen icon"></i></a>
-                  {% elif component.polymorphic_ctype|cut:" " == "complexes|Синхронноезанятие" %}
-                    <a class="btn btn-outline-primary mx-1"
-                       href="{% url 'complexes:complexes_TraditionalSessionComponent_update' pk=component.pk %}"><i
-                      class="pen icon"></i></a>
+                  {% if "компонентЭОР" in component.polymorphic_ctype|cut:" " %} <a class="btn btn-outline-primary mx-1" href="{% url 'complexes:complexes_ResourceComponent_update' pk=component.pk %}">{% md_icon "pencil-outline" %} Редактировать</a>
+                  {% elif "средаобучения" in component.polymorphic_ctype|cut:" " %} <a class="btn btn-outline-primary mx-1" href="{% url 'complexes:complexes_PlatformComponent_update' pk=component.pk %}">{% md_icon "pencil-outline" %} Редактировать</a>
+                  {% elif "литературныйисточник" in component.polymorphic_ctype|cut:" " %} <a class="btn btn-outline-primary mx-1" href="{% url 'complexes:complexes_LiterarySourcesComponent_update' pk=component.pk %}">{% md_icon "pencil-outline" %} Редактировать</a>
+                  {% elif "синхронноезанятие" in component.polymorphic_ctype|cut:" " %} <a class="btn btn-outline-primary mx-1" href="{% url 'complexes:complexes_TraditionalSessionComponent_update' pk=component.pk %}">{% md_icon "pencil-outline" %} Редактировать</a>
+
+                  {% else %}
+                    <a class="btn btn-outline-danger disabled mx-1" href="#">Неизвестный тип компонента</a>
                   {% endif %}
 
-                  {#                  {% if request.user|has_owner_complex:object or request.user.is_superuser %}#}
-                  {#                  TODO: Check permissions#}
-                  <a class="btn btn-outline-primary" href="{% url 'complexes:complexes_ResourceComponent_update' pk=component.pk %}">{% md_icon "pencil-outline" %} Редактировать</a>
-                  {#    {% endif %}#}
-
                   <a class="btn btn-outline-primary "
-                     href="{% url 'complexes:complexes_ComplexParentComponent_delete' pk=component.pk %}"><i
-                    class="fas fa-trash-alt"></i></a></td>
+                     href="{% url 'complexes:complexes_ComplexParentComponent_delete' pk=component.pk %}">{% md_icon "trash-can-outline" %}</a></td>
               </tr>
             {% endfor %}
             </tbody>
@@ -91,24 +105,18 @@
 
           <div class="card d-flex flex-row my-3 float-right">
             <a class="btn btn-outline-primary mx-1"
-               href="{% url 'complexes:complexes_ResourceComponent_create' pk=dig_complex.pk %}"><i
-              class="fas fa-plus"></i> ЭОР</a>
+               href="{% url 'complexes:complexes_ResourceComponent_create' pk=dig_complex.pk %}">{% md_icon "plus" %} ЭОР</a>
             <a class="btn btn-outline-primary mx-1"
-               href="{% url 'complexes:complexes_ResourceBookmarkComponent_create' pk=dig_complex.pk %}"><i
-              class="fas fa-plus"></i> Избранные ЭОР</a>
+               href="{% url 'complexes:complexes_ResourceBookmarkComponent_create' pk=dig_complex.pk %}">{% md_icon "plus" %} Избранные ЭОР</a>
             <a class="btn btn-outline-primary mx-1"
-               href="{% url 'complexes:complexes_PlatformComponent_create' pk=dig_complex.pk %}"><i
-              class="fas fa-plus"></i> Среда обучения</a>
+               href="{% url 'complexes:complexes_PlatformComponent_create' pk=dig_complex.pk %}">{% md_icon "plus" %} Среда обучения</a>
             <a class="btn btn-outline-primary mx-1"
-               href="{% url 'complexes:complexes_TraditionalSessionComponent_create' pk=dig_complex.pk %}"><i
-              class="fas fa-plus"></i> Синхронные занятия</a>
+               href="{% url 'complexes:complexes_TraditionalSessionComponent_create' pk=dig_complex.pk %}">{% md_icon "plus" %} Синхронные занятия</a>
             <a class="btn btn-outline-primary mx-1"
-               href="{% url 'complexes:complexes_LiterarySourcesComponent_create' pk=dig_complex.pk %}"><i
-              class="fas fa-plus"></i> Литературные источники</a>
+               href="{% url 'complexes:complexes_LiterarySourcesComponent_create' pk=dig_complex.pk %}">{% md_icon "plus" %} Литературные источники</a>
           </div>
           <div class="card-footer">
-            <a class="btn btn-primary" href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">Вернуться
-              назад</a>
+            <a class="btn btn-primary" href="{% url 'complexes:complexes_DigitalComplex_detail' pk=dig_complex.pk %}">Вернуться назад</a>
           </div>
         </div>
       </div>
