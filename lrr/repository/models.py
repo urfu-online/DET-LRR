@@ -365,7 +365,7 @@ class Source(BaseModel):
     def get_link_name(self):
         if self.link_name:
             return self.link_name
-        return settings.DEFAULT_SOURCE_NAME
+        return None
 
     def get_format(self):
         if self.URL:
