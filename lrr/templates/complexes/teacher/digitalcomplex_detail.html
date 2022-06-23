@@ -6,9 +6,7 @@
     <ol class="breadcrumb px-3 pb-0">
       <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
       {% if request.user|has_group:"student" %}
-        <li class="breadcrumb-item"><a
-          href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user %}">Мои
-          дисциплины</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user %}">Мои дисциплины</a></li>
         <li class="breadcrumb-item active" aria-current="page">Электронное обеспечение дисциплины</li>
       {% else %}
         <li class="breadcrumb-item"><a href="{% url 'complexes:complexes_DigitalComplex_list' %}">Каталог ЭУМК</a></li>
@@ -16,6 +14,7 @@
       {% endif %}
     </ol>
   </nav>
+  
   <header class="pb-4 px-2">
     {% if request.user|has_owner_complex:object or request.user.is_superuser %}
       <a class="btn btn-primary float-right" href="{{ object.get_update_url }}">{% md_icon "pencil-outline" %} Редактировать</a>
