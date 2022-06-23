@@ -11010,8 +11010,8 @@ th {
   color: inherit;
 }
 
-.DigitalComplex-card__title {
-  text-transform: none;
+.no-upper, .DigitalComplex-card__title {
+  text-transform: none !important;
 }
 
 body {
