@@ -79,6 +79,7 @@ class DigitalComplexAdmin(ImportExportModelAdmin):
         'form_control',
     ]
     list_display = [
+        'pk',
         'title',
         'description',
         'view_keywords',
