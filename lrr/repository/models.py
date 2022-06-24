@@ -524,7 +524,7 @@ class BookmarkDigitalResource(BookmarkBase):
     obj = auto_prefetch.ForeignKey('repository.DigitalResource', verbose_name="Паспорт ЭОР", on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.obj.title)
+        return self.obj.title
 
 
 old_default = json.JSONEncoder.default

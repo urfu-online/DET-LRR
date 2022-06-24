@@ -3,8 +3,8 @@
 {% load user_tags %}
 {% block content %}
   <script>
-    url_site = "https://lrr.urfu.online"
-    url_global = url_site + "/api/v0/my_subject/"
+    url_site = "{{ settings.SITE_URL }}";
+    url_global = url_site + "/api/v0/my_subject/";
 
 
     function ApiEUMK(event, sub) {
@@ -12,7 +12,10 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="${url_site}/complexes/DigitalComplex/detail/${el.digital_complex_pk}/">${el.digital_complex_cypher}</a></div>`)))
+        $(event.target).parent().find('.container').append(data.results.map(el => $(`<a class="list-group-item" href="${url_site}/complexes/DigitalComplex/detail/${el.digital_complex_pk}/"><div class="d-flex w-100 justify-content-between">${el.digital_complex_cypher}</div></a>`)))
+        if (data.results.length > 0) {
+          $(event.target).hide();
+        }
       });
     }
 
@@ -21,7 +24,10 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="${url_site}/repository/DigitalResource/detail/${el.pk}/">${el.title}</a></div>`)))
+        $(event.target).parent().find('.container').append(data.results.map(el => $(`<a class="list-group-item" href="${url_site}/repository/DigitalResource/detail/${el.pk}/"><div class="d-flex w-100 justify-content-between">${el.title}</div></a>`)))
+        if (data.results.length > 0) {
+          $(event.target).hide();
+        }
       });
     }
 
@@ -30,7 +36,10 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().append(data.results.map(el => $(`<div><a href="${url_site}/repository/DigitalResource/detail/${el.pk}/">${el.title}</a></div>`)))
+        $(event.target).parent().find('.container').append(data.results.map(el => $(`<a class="list-group-item" href="${url_site}/repository/DigitalResource/detail/${el.pk}/"><div class="d-flex w-100 justify-content-between">${el.title}</div></a>`)))
+        if (data.results.length > 0) {
+          $(event.target).hide();
+        }
       });
     }
   </script>
@@ -112,66 +121,64 @@
 
   {% if request.user.is_authenticated %}
     <div class="row p-2">
-      <div class="col-12 col-md-6 col-lg-7 col-xl-8 p-2">
-        <div class="card card-bordered h-100 shadow-2">
-          <div class="card-body">
+      <div class="col-12 p-2">
 
-            <table class="table table-bordered table-bordered">
-              <thead>
-              <th>Дисциплины изучаемые студентом в текущем семестре</th>
-              <th>Обеспечение дисциплин электронными образовательными ресурсами</th>
-              </tr>
-              </thead>
-              <tbody>
-              {% for sub in subjects.all %}
-                <tr>
-                  <td>{{ sub.group_subject.subject }}</td>
-                  <td>
-                    <div>
-                      <h4>Электронное обеспечение дисциплины определенное
-                        преподавателем.</h4>
-                      <button class="btn btn-outline-primary btn-sm" type="button"
-                              onclick="ApiEUMK(event, `{{ sub.group_subject.subject }}`)">
-                        Развернуть
-                      </button>
-                    </div>
-                    <div>
-                      <h4>Рекомендованные ЭОР</h4>
-                      <button class="btn btn-outline-primary btn-sm" type="button"
-                              onclick="ApiRecomendedEOR(event,`{{ sub.group_subject.subject }}`)">
-                        Развернуть
-                      </button>
-                    </div>
-                    <div>
-                      <h4>ЭОР в каталоге</h4>
-                      <button class="btn btn-outline-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub.group_subject.subject }}`)">
-                        Развернуть
-                      </button>
-                    </div>
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>Дисциплины изучаемые студентом в текущем семестре</th>
+            <th>Обеспечение дисциплин электронными образовательными ресурсами</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for sub in subjects.all %}
+            <tr>
+              <td>{{ sub.group_subject.subject }}</td>
+              <td>
+                <div>
+                  <h4>Электронное обеспечение дисциплины определенное
+                    преподавателем.</h4>
+                  <button class="btn btn-outline-primary btn-sm" type="button"
+                          onclick="ApiEUMK(event, `{{ sub.group_subject.subject }}`)">
+                    Развернуть
+                  </button>
+                  <div class="container my-2 list-group"></div>
+                </div>
+                <div>
+                  <h4>Рекомендованные ЭОР</h4>
+                  <button class="btn btn-outline-primary btn-sm" type="button"
+                          onclick="ApiRecomendedEOR(event,`{{ sub.group_subject.subject }}`)">
+                    Развернуть
+                  </button>
+                  <div class="container my-2 list-group"></div>
+                </div>
+                <div>
+                  <h4>ЭОР в каталоге</h4>
+                  <button class="btn btn-outline-primary btn-sm" type="button" onclick="ApiEOR(event,`{{ sub.group_subject.subject }}`)">
+                    Развернуть
+                  </button>
+                  <div class="container my-2 list-group"></div>
+                </div>
 
-                    {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}
-                    {#                        {% for object in object_list %}#}
-                    {#                          {% if object.subject == item.subject %}#}
-                    {#                            {{ item }}#}
-                    {##}
-                    {#                          {% endif %}#}
-                    {#                        {% endfor %}#}
-                    {#                      {% endfor %}#}
-                  </td>
-                </tr>
-              {% empty %}
-                Назначенные дисциплины в текущем семетре отсутствуют.
-              {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                {#                      {% for item in sub.assignmentacademicgroup_set.all %}#}
+                {#                        {% for object in object_list %}#}
+                {#                          {% if object.subject == item.subject %}#}
+                {#                            {{ item }}#}
+                {##}
+                {#                          {% endif %}#}
+                {#                        {% endfor %}#}
+                {#                      {% endfor %}#}
+              </td>
+            </tr>
+          {% empty %}
+            Назначенные дисциплины в текущем семетре отсутствуют.
+          {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   {% endif %}
 
   {% include "includes/paginator.html" %}
-
-  </div>
 
 {% endblock %}

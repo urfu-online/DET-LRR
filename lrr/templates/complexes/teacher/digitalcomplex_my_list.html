@@ -107,7 +107,7 @@
         </div>
       </div>
     {% empty %}
-      <p>У вас нет комплексов</p>
+      {% include "includes/empty_alert.html" with msg="У вас нет комплексов" %}
     {% endfor %}
   </div>
   {% include "includes/paginator.html" %}

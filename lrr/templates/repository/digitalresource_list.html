@@ -18,9 +18,6 @@
       <form method="get">
         <div class="well">
           <div class="row">
-
-
-            {#            {{ filterset.form|crispy }}#}
             {% for filter in filterset.form %}
               <div class="form-group col-12 col-xl-2 col-md-6">
                 {{ filter.label_tag }}
@@ -76,8 +73,6 @@
 
   {% include "includes/paginator.html" %}
 
-
-  </div>
   {% csrf_token %}
   <script>
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;

@@ -373,10 +373,11 @@ class DigitalResourceBookmarkListView(FilteredListView):
     form_class = forms.DigitalResourceForm
     filterset_class = DigitalResourceBookmarkFilter
     template_name = "repository/bookmarkdigitalresource_list.html"
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-    #     qs = self.filterset  # .qs.distinct()
-    #     if not qs.exists():
-    #         self.paginate_by = None
-    #     return qs
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        qs = self.filterset.qs.distinct()
+        if not qs.exists():
+            self.paginate_by = None
+        return qs

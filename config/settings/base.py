@@ -27,6 +27,7 @@ DEBUG = env.bool("w", False)
 TIME_ZONE = "Asia/Yekaterinburg"
 LANGUAGE_CODE = "ru"
 SITE_ID = 1
+SITE_URL = 'http://localhost:8000'
 USE_I18N = True
 USE_L10N = False
 USE_TZ = True
@@ -50,7 +51,7 @@ sys.modules['fontawesome_free'] = __import__('fontawesome-free')
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
-    #'adminactions',
+    # 'adminactions',
     'admin_export_action',
     'data_wizard',
     'data_wizard.sources',
@@ -86,7 +87,6 @@ THIRD_PARTY_APPS = [
     'easy_select2',
     'django_better_admin_arrayfield',
     'adminsortable2',
-    'lineup.apps.LineupConfig',
     'versatileimagefield',
     'rest_polymorphic',
     'pandas',
@@ -328,7 +328,6 @@ REST_FRAMEWORK = {
 }
 
 DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M']
-
 
 EXCEL_COMPATIBLE_CSV = True
 CHOICES_SEPARATOR = ","
