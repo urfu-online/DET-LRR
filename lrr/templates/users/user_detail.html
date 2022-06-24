@@ -10,52 +10,51 @@
       <li class="breadcrumb-item active" aria-current="page">Профиль</li>
     </ol>
   </nav>
+  
+  <header><h1 class="display-3">Профиль</h1></header>
 
-  <div class="container mt-5">
-    <h3>Профиль</h3>
-
+  <div class="row">
     <div class="row">
-      <div class="row">
-        <div class="col-8">
-          <div class="row">
-            <div class="col-sm-4 p-2">Имя пользователя:</div>
-            <div class="col p-2"><p>{{ object.username }}</p></div>
-            <div class="w-100"></div>
-            <div class="col-sm-4 p-2">ФИО:</div>
-            <div class="col p-2"><p>{{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p></div>
-            <div class="w-100"></div>
-            <div class="col-sm-4 p-2">Страна:</div>
-            <div class="col p-2"><p>{% if person.country %}{{ person.country }}{% else %}<em>Не задана</em>{% endif %}</p></div>
-            <div class="w-100"></div>
-            <div class="col-sm-4 p-2">Город:</div>
-            <div class="col p-2"><p>{% if person.city %}{{ person.city }}{% else %}<em>Не задан</em>{% endif %}</p></div>
-            <div class="w-100"></div>
-            <div class="col-sm-4 p-2">Адрес проживания:</div>
-            <div class="col p-2"><p>{% if person.location %}{{ person.location }}{% else %}<em>Не задан</em>{% endif %}</p></div>
-            <div class="w-100"></div>
-            <div class="col-sm-4 p-2">Дата рождения:</div>
-            <div class="col p-2"><p>{% if person.date_birthday %}{{ person.date_birthday }}{% else %}<em>Не задан</em>{% endif %}</p></div>
-          </div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-sm-4 p-2">Имя пользователя:</div>
+          <div class="col p-2"><p>{{ object.username }}</p></div>
+          <div class="w-100"></div>
+          <div class="col-sm-4 p-2">ФИО:</div>
+          <div class="col p-2"><p>{{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p></div>
+          <div class="w-100"></div>
+          <div class="col-sm-4 p-2">Страна:</div>
+          <div class="col p-2"><p>{% if person.country %}{{ person.country }}{% else %}<em>Не задана</em>{% endif %}</p></div>
+          <div class="w-100"></div>
+          <div class="col-sm-4 p-2">Город:</div>
+          <div class="col p-2"><p>{% if person.city %}{{ person.city }}{% else %}<em>Не задан</em>{% endif %}</p></div>
+          <div class="w-100"></div>
+          <div class="col-sm-4 p-2">Адрес проживания:</div>
+          <div class="col p-2"><p>{% if person.location %}{{ person.location }}{% else %}<em>Не задан</em>{% endif %}</p></div>
+          <div class="w-100"></div>
+          <div class="col-sm-4 p-2">Дата рождения:</div>
+          <div class="col p-2"><p>{% if person.date_birthday %}{{ person.date_birthday }}{% else %}<em>Не задан</em>{% endif %}</p></div>
         </div>
-        <div class="col">
-          {% if person.avatar %}
-            <img src='/media/{{ person.avatar }}' class="ui large bordered rounded image">
-          {% else %}
-            <p>Нет аватара</p>
-          {% endif %}
-        </div>
+      </div>
+      <div class="col">
+        {% if person.avatar %}
+          <img src='/media/{{ person.avatar }}' class="ui large bordered rounded image">
+        {% else %}
+          <p>Нет аватара</p>
+        {% endif %}
       </div>
     </div>
-
-    {% if object == request.user %}
-      <div class="row">
-        <div class="left aligned column">
-          <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Редактировать</a>
-          <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">Сменить E-Mail</a>
-        </div>
-      </div>
-    {% endif %}
-
   </div>
+
+  {% if object == request.user %}
+    <div class="row">
+      <div class="left aligned column">
+        <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Редактировать</a>
+        <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">Сменить E-Mail</a>
+      </div>
+    </div>
+  {% endif %}
+
+
 {% endblock content %}
 
