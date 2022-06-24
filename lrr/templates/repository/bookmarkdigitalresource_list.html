@@ -23,7 +23,6 @@
                 {% render_field filter class="form-control" %}
               </div>
             {% endfor %}
-            {#            {% crispy filterset.form %}#}
           </div>
           <button type="submit" class="btn btn-primary">
             <span class="glyphicon glyphicon-search"></span> Найти
@@ -35,7 +34,6 @@
   </div>
 
   <div class="row p-2">
-    {#    {% for object in user.get_bookmarks %}#}
     {% for object in object_list %}
       <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
         <div class="card border-secondary h-100 shadow-2">

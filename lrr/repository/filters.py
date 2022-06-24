@@ -8,7 +8,6 @@ from django_filters.views import FilterView
 from easy_select2 import Select2Multiple, Select2
 from django_select2.forms import Select2Widget
 from . import models
-from .models import DigitalResource
 import logging
 
 logger = logging.getLogger(__name__)
@@ -64,7 +63,7 @@ class FilteredListView(ListView, FilterView):
 
 class DigitalResourceFilterForm(forms.ModelForm):
     class Meta:
-        model = DigitalResource
+        model = models.DigitalResource
         fields = ['title', 'type', 'copyright_holder', 'platform', 'language', 'subjects_tags', 'edu_programs_tags']
 
         # widgets = {
