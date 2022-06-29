@@ -107,5 +107,5 @@
     </div>
     {{ form.media.js }}
   </div>
-  <td><a class="btn btn-outline-primary text-nowrap mt-3" href="{% url "inspections:inspections_ExpertiseMyClose_list" uuid=object.pk %}"><i class="fas fa-info-circle fa-lg"></i> Завершить экспертизу</a></td>
+  <td><a class="btn btn-outline-primary text-nowrap mt-3" href="{% url "inspections:expertise_completion" uuid=object.pk %}"><i class="fas fa-info-circle fa-lg"></i> Завершить экспертизу</a></td>
 {% endblock %}
