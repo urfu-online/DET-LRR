@@ -143,7 +143,11 @@
               <td>{{ component.order }}</td>
               <td>
                 {% if "компонентЭОР" in component.polymorphic_ctype|cut:" " %}
-                  <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>
+                  {% if request.user|has_group:"student" %}
+                    <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource.get_url }}</a>
+                  {% else %}
+                    <a href="{% url 'repository:repository_DigitalResource_detail' pk=component.digital_resource.pk %}">{{ component.digital_resource }}</a>
+                  {% endif %}
                 {% elif "средаобучения" in component.polymorphic_ctype|cut:" " %}
                   <a href="{{ component.url }}">{{ component }}</a>
                 {% elif "литературныйисточник" in component.polymorphic_ctype|cut:" " %}
