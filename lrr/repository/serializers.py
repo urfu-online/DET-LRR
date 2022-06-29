@@ -132,6 +132,7 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
     subjects_tags = SubjectTagSerializer(many=True, read_only=False)
     edu_programs_tags = EduProgramTagSerializer(many=True, read_only=False)
     result_edu = ResultEduSerializer(many=True, read_only=False)
+    link = serializers.CharField(source='get_url', read_only=True)
 
     class Meta:
         model = models.DigitalResource
@@ -148,6 +149,7 @@ class DigitalResourceSerializer(serializers.ModelSerializer):
             "authors",
             "subjects_tags",
             "edu_programs_tags",
+            "link",
             # "owner",
             "result_edu",
 
