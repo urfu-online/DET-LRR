@@ -194,7 +194,7 @@ class DigitalResourceURLView(generic.DetailView):
     model = models.DigitalResource
 
     def get(self, request, pk, *args, **kwargs):
-        return redirect(self.object.get_url())
+        return redirect(models.DigitalResource.objects.get(pk=pk).get_url())
 
 
 class DigitalResourceUpdateView(GroupRequiredMixin, generic.UpdateView):
