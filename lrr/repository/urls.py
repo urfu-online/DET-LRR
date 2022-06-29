@@ -27,6 +27,8 @@ urlpatterns = (
          name="repository_DigitalResource_create"),
     path("DigitalResource/detail/<uuid:pk>/", views.DigitalResourceDetailView.as_view(),
          name="repository_DigitalResource_detail"),
+path("DigitalResource/url/<uuid:pk>/", views.DigitalResourceURLView.as_view(),
+         name="repository_DigitalResource_url"),
     path("DigitalResource/update/<uuid:pk>/", views.DigitalResourceUpdateView.as_view(),
          name="repository_DigitalResource_update"),
     path("Competence/", views.CompetenceListView.as_view(), name="repository_Competence_list"),

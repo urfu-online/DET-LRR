@@ -14,6 +14,7 @@ from . import forms
 from . import models
 from .filters import FilteredListView, DigitalResourceFilter, DigitalResourceBookmarkFilter
 from django.db.models import Count
+from django.shortcuts import redirect
 
 logger = logging.getLogger(__name__)
 
@@ -187,6 +188,13 @@ class DigitalResourceDetailView(GroupRequiredMixin, generic.DetailView):
         context['source'] = models.Source.objects.filter(digital_resource=self.object)
         # TODO: доделать нормальное отображение source
         return context
+
+
+class DigitalResourceURLView(generic.DetailView):
+    model = models.DigitalResource
+
+    def get(self):
+        return redirect(self.object.get_url())
 
 
 class DigitalResourceUpdateView(GroupRequiredMixin, generic.UpdateView):
