@@ -24,7 +24,7 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().find('.container').append(data.results.map(el => $(`<a class="list-group-item" href="${url_site}/repository/DigitalResource/url/${el.pk}/"><div class="d-flex w-100 justify-content-between">${el.title}</div></a> <a href="${url_site}/repository/DigitalResource/detail/${el.pk}/"> Подробнее</a>`)))
+        $(event.target).parent().find('.container').append(data.results.map(el => $(`<div class="list-group-item d-flex w-100 justify-content-between"><a class="d-inline-flex" href="${url_site}/repository/DigitalResource/url/${el.pk}/">${el.title}<a href="${url_site}/repository/DigitalResource/detail/${el.pk}/"> <em>Подробнее</em></a></a></div>`)))
         if (data.results.length > 0) {
           $(event.target).hide();
         }
@@ -36,7 +36,7 @@
       event.target.onclick = ''
       event.target.disabled = true
       $.get(url, function (data) {
-        $(event.target).parent().find('.container').append(data.results.map(el => $(`<a class="list-group-item" href="${url_site}/repository/DigitalResource/url/${el.pk}/"><div class="d-flex w-100 justify-content-between">${el.title}</div></a> <a href="${url_site}/repository/DigitalResource/detail/${el.pk}/"> Подробнее</a>`)))
+        $(event.target).parent().find('.container').append(data.results.map(el => $(`<div class="list-group-item d-flex w-100 justify-content-between"><a class="d-inline-flex" href="${url_site}/repository/DigitalResource/url/${el.pk}/">${el.title}<a href="${url_site}/repository/DigitalResource/detail/${el.pk}/"> <em>Подробнее</em></a></a></div>`)))
         if (data.results.length > 0) {
           $(event.target).hide();
         }
