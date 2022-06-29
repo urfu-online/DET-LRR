@@ -193,7 +193,7 @@ class DigitalResourceDetailView(GroupRequiredMixin, generic.DetailView):
 class DigitalResourceURLView(generic.DetailView):
     model = models.DigitalResource
 
-    def get(self):
+    def get(self, pk, *args, **kwargs):
         return redirect(self.object.get_url())
 
 
