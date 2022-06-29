@@ -38,7 +38,8 @@ class AssignmentAcademicGroupComplexListViewSet(GroupRequiredMixin, viewsets.Mod
     def get_queryset(self):
         user = self.request.user
         academic_group = Student.get_academic_group_for_user(user)
-        queryset = models.AssignmentAcademicGroup.objects.filter(academic_group=academic_group)
+        subject = self.request.GET.get('subject__title')
+        queryset = models.AssignmentAcademicGroup.objects.filter(academic_group=academic_group, group_subject__subject__title=subject)
         return queryset
 
 

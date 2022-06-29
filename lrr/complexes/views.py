@@ -654,7 +654,7 @@ class AssignmentAcademicGroupMyListView(GroupRequiredMixin, FilteredListView):
     model = complex_model.AssignmentAcademicGroup
     allow_empty = True
     paginate_by = 12
-    group_required = ["student"]
+    group_required = ["student", "admins"]
     filterset_class = AssignmentAcademicGroupMyFilter
     template_name = 'complexes/student/my_subjects_list.html'
     subjects = []
