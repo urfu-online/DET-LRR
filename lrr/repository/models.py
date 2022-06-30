@@ -403,7 +403,7 @@ class CompetenceGroup(models.Model):
 class Competence(BaseModel):
     TYPES = ("ОК", "ОПК", "ПК", "ПСК", "УК", "ДОК", "ДОПК", "ДПК")
 
-    title = models.CharField("Наименование", max_length=150)
+    title = models.TextField("Наименование")
     code = models.CharField("Код", max_length=8)
     okso = models.CharField("Код", max_length=8, null=True)
 
