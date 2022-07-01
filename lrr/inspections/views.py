@@ -64,11 +64,11 @@ class DigitalResourceFilter(django_filters.FilterSet):
 
 
 def find_by_title_with_answer(lst, title):
-    logger.info(f"{title} -- {lst}")
-    for l in lst:
-        if title == l.get("title", None):
-            return l if l.get("answer", None) else None
-        return
+    logger.info("%s -- %s", title, lst)
+    for el in lst:
+        if title == el.get("title", None):
+            return el if el.get("answer", None) else None
+    return None
 
 
 class ExpertiseCompletionView(View):
@@ -76,8 +76,6 @@ class ExpertiseCompletionView(View):
     allow_heap = True
 
     def get(self, request, *args, **kwargs):
-        # import speedscope, time
-
         try:
             expertise_request = inspections_models.ExpertiseRequest.objects.select_related("expertise").get(
                 pk=kwargs["uuid"])
@@ -103,7 +101,7 @@ class ExpertiseCompletionView(View):
 
             answers = methodical_answers | contental_answers | technical_answers
 
-        achievments = list()
+        achievments = []
         indicators = inspections_models.Indicator.objects.all()
 
         for indicator in indicators:
@@ -118,14 +116,14 @@ class ExpertiseCompletionView(View):
                     "value": indicator.get_value(answer)
                 }
             })
-        expertise_statuses = list()
+        expertise_statuses = []
 
         # def ss():
         for s in statuses:
             status = {
                 "title": s.title,
                 "group": s.get_group_display(),
-                "answers": list()
+                "answers": []
             }
             requirements = s.requirements.filter(available=True)
             for r in requirements:
@@ -137,15 +135,10 @@ class ExpertiseCompletionView(View):
 
             expertise_statuses.append(status)
 
-        # with speedscope.track(f'speedscopes/speedscope-{time.time()}.json'):
-        #     ss()
-
         context = {
             "expertise_statuses": expertise_statuses,
         }
         return render(request, "test.html", context)
-
-        # return redirect(self.url)
 
     def get_context_data(self, **kwargs):
         context = super(ExpertiseCompletionView, self).get_context_data(**kwargs)

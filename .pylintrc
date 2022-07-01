@@ -1,5 +1,7 @@
 [MASTER]
-load-plugins=pylint_django, pylint_celery 
+load-plugins=pylint_django, pylint_celery
+django-settings-module=lrr.config.settings.local
+py-version=3.10
 
 [FORMAT]
 max-line-length=120
