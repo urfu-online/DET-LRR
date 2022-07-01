@@ -306,7 +306,8 @@ class ExpertiseRequest(repository_model.BaseModel):
     def get_active_my_checklist(cls):
         objs = cls.objects.exclude(
             # (Q(status='IN_PROCESS') | Q(status='START')) &
-            Q(status=cls.START) | Q(status=cls.END) | Q(expertise__status=Expertise.ASSIGNED_STATUS) | Q(expertise__status=Expertise.NOT_ASSIGNED_STATUS)
+            # Q(status=cls.START) | Q(status=cls.END) |
+            Q(expertise__status=Expertise.ASSIGNED_STATUS) | Q(expertise__status=Expertise.NOT_ASSIGNED_STATUS)
         )
         return objs
 
