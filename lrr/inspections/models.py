@@ -137,18 +137,12 @@ class Expertise(repository_model.BaseModel):
 
     @classmethod
     def get_expertise_assigned_status(cls):
-        try:
-            objs = cls.objects.filter(Q(status='ASSIGNED_STATUS') | Q(status='NOT_ASSIGNED_STATUS'), )
-        except:
-            objs = cls.objects.all()
+        objs = cls.objects.filter(Q(status='ASSIGNED_STATUS') | Q(status='NOT_ASSIGNED_STATUS'), )
         return objs
 
     @classmethod
     def get_expertise_not_assigned_status(cls):
-        try:
-            objs = cls.objects.exclude(Q(status='ASSIGNED_STATUS') | Q(status='NOT_ASSIGNED_STATUS'), )
-        except:
-            objs = cls.objects.all()
+        objs = cls.objects.exclude(Q(status='ASSIGNED_STATUS') | Q(status='NOT_ASSIGNED_STATUS'), )
         return objs
 
     @classmethod
@@ -268,7 +262,7 @@ class ExpertiseRequest(repository_model.BaseModel):
     END = 'END'
 
     STATUS_CHOICES = [
-        (START, 'В процессе'),
+        (START, 'Начата'),
         (IN_PROCESS, 'В процессе'),
         (END, 'Завершена')
 
@@ -316,10 +310,10 @@ class ExpertiseRequest(repository_model.BaseModel):
 
     @classmethod
     def get_active_my_checklist(cls):
-        try:
-            objs = cls.objects.exclude(Q(status='IN_PROCESS') & Q(status='START'))
-        except:
-            objs = cls.objects.all()
+        objs = cls.objects.exclude(
+            # (Q(status='IN_PROCESS') | Q(status='START')) &
+            Q(status=cls.START) | Q(status=cls.END) | Q(expertise__status=Expertise.ASSIGNED_STATUS) | Q(expertise__status=Expertise.NOT_ASSIGNED_STATUS)
+        )
         return objs
 
     @classmethod
