@@ -129,10 +129,7 @@ class Expertise(repository_model.BaseModel):
 
     @classmethod
     def get_expertise_assigned_status_assigned(cls, subjects_tags):
-        try:
-            objs = cls.objects.filter(status='ASSIGNED_STATUS', digital_resource__subjects_tags=subjects_tags)
-        except:
-            objs = cls.objects.all()
+        objs = cls.objects.filter(status='ASSIGNED_STATUS', digital_resource__subjects_tags=subjects_tags)
         return objs
 
     @classmethod
@@ -155,10 +152,7 @@ class Expertise(repository_model.BaseModel):
 
     @classmethod
     def get_expertise_mthd(cls, digital_resource):
-        try:
-            cls.objects.filter(digital_resource=digital_resource)
-        except:
-            return cls.objects.none()
+        return cls.objects.filter(digital_resource=digital_resource)
 
     class Meta:
         verbose_name = "экспертиза"
