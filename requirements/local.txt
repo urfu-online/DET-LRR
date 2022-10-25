@@ -3,7 +3,7 @@
 Werkzeug # https://github.com/pallets/werkzeug
 ipdb==0.13.9  # https://github.com/gotcha/ipdb
 # Sphinx==3.4.0  # https://github.com/sphinx-doc/sphinx
-psycopg2==2.9.3 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
+psycopg2==2.9.5 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
 # git+https://github.com/psycopg/psycopg2.git@2_9_3-Python_3.10#egg=psycopg2==2.9.3
 watchgod  # https://github.com/samuelcolvin/watchgod
 

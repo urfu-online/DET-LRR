@@ -1,6 +1,6 @@
-pytz==2022.1  # https://github.com/stub42/pytz
+pytz==2022.5  # https://github.com/stub42/pytz
 python-slugify  # https://github.com/un33k/python-slugify
-Pillow==9.1.1  # https://github.com/python-pillow/Pillow
+Pillow  # https://github.com/python-pillow/Pillow
 argon2-cffi==21.1.0  # https://github.com/hynek/argon2_cffi
 whitenoise==5.3.0  # https://github.com/evansd/whitenoise
 redis  # https://github.com/andymccurdy/redis-py
@@ -8,11 +8,11 @@ hiredis==2.0.0  # https://github.com/redis/hiredis-py
 celery==5.2.7  # pyup: < 5.0  # https://github.com/celery/celery
 django-celery-beat==2.3.0  # https://github.com/celery/django-celery-beat
 flower==1.0.0 # https://github.com/mher/flower
-uvicorn[standard]==0.17.6  # https://github.com/encode/uvicorn
+uvicorn[standard]==0.19.0  # https://github.com/encode/uvicorn
 pip-review
 # Django
 # ------------------------------------------------------------------------------
-django==3.2.13  # pyup: < 4.0  # https://www.djangoproject.com/
+django==3.2.16  # pyup: < 4.0  # https://www.djangoproject.com/
 django-filter==21.1
 django-environ==0.8.1  # https://github.com/joke2k/django-environ
 django-model-utils==4.2.0  # https://github.com/jazzband/django-model-utils
@@ -32,9 +32,6 @@ django-select2
 django-rest-polymorphic # https://github.com/apirobot/django-rest-polymorphic https://django-polymorphic.readthedocs.io/en/stable/third-party.html#example
 
 pandas
-# pysankey
-# matplotlib
-# seaborn
 fontawesome-free==5.15.4
 django-sortedm2m==3.1.1
 django-postgres-metrics==0.13.1  # https://github.com/django-postgres-metrics/django-postgres-metrics

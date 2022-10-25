@@ -1,14 +1,15 @@
+import logging
+
 import django_filters
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Column, Div, Row
 from django import forms
 from django.core.paginator import Paginator
 from django.views.generic import ListView
 from django_filters.views import FilterView
-from easy_select2 import Select2Multiple, Select2
 from django_select2.forms import Select2Widget
+from easy_select2 import Select2Multiple, Select2
+
 from . import models
-import logging
 
 logger = logging.getLogger(__name__)
 
