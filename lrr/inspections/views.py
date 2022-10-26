@@ -578,7 +578,7 @@ class ExpertiseTypeDetail(View):
         return redirect("inspections:expertise_completion", uuid=expertise_opinion.pk)
 
 
-class ExpertiseTypeCompletedCompleted(TemplateView):
+class ExpertiseTypeCompleted(TemplateView):
     template_name = "inspections/completed.html"
 
     def get_context_data(self, **kwargs):

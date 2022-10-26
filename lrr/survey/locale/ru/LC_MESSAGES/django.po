@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-14 04:48+0500\n"
+"POT-Creation-Date: 2022-10-26 17:05+0500\n"
 "PO-Revision-Date: 2019-03-10 22:53+0230\n"
 "Last-Translator: b'  <vladm.ru@gmail.com>'\n"
 "Language-Team: \n"
@@ -152,11 +152,11 @@ msgstr "Вопрос"
 msgid "Response"
 msgstr "Ответ"
 
-#: lrr/survey/models/answer.py:26 lrr/survey/models/response.py:26
+#: lrr/survey/models/answer.py:26 lrr/survey/models/response.py:27
 msgid "Creation date"
 msgstr "Дата создания"
 
-#: lrr/survey/models/answer.py:27 lrr/survey/models/response.py:27
+#: lrr/survey/models/answer.py:27 lrr/survey/models/response.py:28
 msgid "Update date"
 msgstr "Дата обновления"
 
@@ -167,11 +167,6 @@ msgstr "Содержание"
 #: lrr/survey/models/category.py:12 lrr/survey/models/survey.py:28
 msgid "Name"
 msgstr "Название"
-
-#: lrr/survey/models/category.py:13 lrr/survey/models/question.py:75
-#: lrr/survey/models/response.py:28
-msgid "Survey"
-msgstr "Тест"
 
 #: lrr/survey/models/category.py:15
 msgid "Display order"
@@ -238,10 +233,6 @@ msgstr ""
 msgid "date"
 msgstr ""
 
-#: lrr/survey/models/question.py:69
-msgid "Text"
-msgstr "Текст"
-
 #: lrr/survey/models/question.py:70
 msgid "Order"
 msgstr "Порядок"
@@ -262,29 +253,13 @@ msgstr "Тип"
 msgid "Choices"
 msgstr "Варианты"
 
-#: lrr/survey/models/question.py:83
-msgid "question"
-msgstr "вопрос"
-
-#: lrr/survey/models/question.py:84
-msgid "questions"
-msgstr "вопросы"
-
-#: lrr/survey/models/response.py:32
+#: lrr/survey/models/response.py:33
 msgid "User"
 msgstr "Пользователь"
 
-#: lrr/survey/models/response.py:33
+#: lrr/survey/models/response.py:34
 msgid "Interview unique identifier"
 msgstr "Уникальный идентификатор интервью"
-
-#: lrr/survey/models/response.py:36
-msgid "Set of answers to surveys"
-msgstr "Набор ответов на опросы"
-
-#: lrr/survey/models/response.py:37
-msgid "Sets of answers to surveys"
-msgstr "Наборы ответов на опросы"
 
 #: lrr/survey/models/survey.py:23
 msgid "By question"
@@ -329,13 +304,29 @@ msgstr "Дата публикации"
 msgid "Expiration date"
 msgstr "дата удаления"
 
-#: lrr/survey/models/survey.py:41
-msgid "survey"
-msgstr "опрос"
+#~ msgid "Survey"
+#~ msgstr "Тест"
 
-#: lrr/survey/models/survey.py:42
-msgid "surveys"
-msgstr "опросы"
+#~ msgid "Text"
+#~ msgstr "Текст"
+
+#~ msgid "question"
+#~ msgstr "вопрос"
+
+#~ msgid "questions"
+#~ msgstr "вопросы"
+
+#~ msgid "Set of answers to surveys"
+#~ msgstr "Набор ответов на опросы"
+
+#~ msgid "Sets of answers to surveys"
+#~ msgstr "Наборы ответов на опросы"
+
+#~ msgid "survey"
+#~ msgstr "опрос"
+
+#~ msgid "surveys"
+#~ msgstr "опросы"
 
 #~ msgid "en"
 #~ msgstr "ru"
