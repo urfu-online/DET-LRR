@@ -5,7 +5,7 @@
   {% analytical_head_top %}
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>{% block title %}LRR{% endblock title %}</title>
+  <title>{% block title %}Электронные образовательные ресурсы{% endblock title %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -42,13 +42,12 @@
     {% for message in messages %}
       <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-          aria-hidden="true">{% md_icon 'close' %}</button>
+          aria-hidden="true">{% md_icon 'close' %}</span></button>
       </div>
     {% endfor %}
   {% endif %}
 
   {% block content %}
-    <p>Use this document as a way to quick start any new project.</p>
   {% endblock content %}
 </main>
 

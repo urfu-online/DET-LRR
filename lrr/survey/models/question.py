@@ -66,13 +66,13 @@ class Question(auto_prefetch.Model):
         (DATE, _("date")),
     )
 
-    text = models.TextField(_("Text"))
+    text = models.TextField("Наименование показателя")
     order = models.IntegerField(_("Order"))
     required = models.BooleanField(_("Required"))
     category = auto_prefetch.ForeignKey(
         Category, on_delete=models.SET_NULL, verbose_name=_("Category"), blank=True, null=True, related_name="questions"
     )
-    survey = auto_prefetch.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name=_("Survey"), related_name="questions")
+    survey = auto_prefetch.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name="Вид экспертизы", related_name="questions")
     type = models.CharField(_("Type"), max_length=200, choices=QUESTION_TYPES, default=TEXT)
     per_discipline = models.BooleanField("Для каждой дисциплины", default=False)
     discipline = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", blank=True, null=True, on_delete=models.SET_NULL)
@@ -80,8 +80,8 @@ class Question(auto_prefetch.Model):
     parent = models.ForeignKey('self', related_name='referrals', null=True, default=None, on_delete=models.SET_NULL)
 
     class Meta:
-        verbose_name = _("question")
-        verbose_name_plural = _("questions")
+        verbose_name = "показатель"
+        verbose_name_plural = "показатели"
         ordering = ("survey", "order")
 
     def save(self, *args, **kwargs):
@@ -384,7 +384,7 @@ class Question(auto_prefetch.Model):
         return choices_tuple
 
     def __str__(self):
-        msg = "Question '{}' ".format(self.text)
+        msg = "Показатель '{}' ".format(self.text)
         if self.required:
             msg += "(*) "
         msg += "{}".format(self.get_clean_choices())

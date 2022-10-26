@@ -14,11 +14,13 @@
 .input-group .select2-container--default {
   flex-grow: 1;
 }
+
 // for prepended input
 .input-group-prepend ~ .select2-container--default .select2-selection {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
 // for appended input
 .input-group > .select2-container--default:not(:last-child) .select2-selection {
   border-top-right-radius: 0;
@@ -26,7 +28,6 @@
 }
 
 .select2-container--default {
-
   // input box
   .select2-selection {
     background-color: $input-bg;
@@ -34,6 +35,7 @@
     @include border-radius($input-border-radius);
     @include box-shadow($input-box-shadow);
     @include transition($input-transition);
+
     width: 100%;
   }
 
@@ -61,6 +63,7 @@
       border-color: $input-border-color;
       box-shadow: none;
     }
+
     .select2-search__field {
       background-color: transparent;
     }
@@ -71,6 +74,7 @@
   form.was-validated select:invalid ~ & .select2-selection {
     border-color: $danger;
   }
+
   select.is-valid ~ & .select2-selection,
   form.was-validated select:valid ~ & .select2-selection {
     border-color: $success;
@@ -143,7 +147,6 @@
     padding-left: 0.15em;
     margin: 0.7em 0 0;
     border-radius: 100%;
-
     background-color: $bg;
     color: $danger;
     float: right;

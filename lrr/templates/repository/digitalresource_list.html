@@ -58,9 +58,9 @@
               <a href="{{ object.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i>
                 Подробнее</a>
               {% if request.user.is_authenticated %}
-                <div style="display: contents" data-id="{{ object.id }}" data-type="resource" data-action="bookmark"
+                <div style="display: contents;" data-id="{{ object.id }}" data-type="resource" data-action="bookmark"
                      title="Избранное">
-                <span style="cursor: pointer" aria-hidden="true"
+                <span style="cursor: pointer;" aria-hidden="true"
                       class="{% if object.bookmarkdigitalresource_set.all|user_in:user %}fa fa-star fa-lg{% else %}far fa-star fa-lg{% endif %}"></span>
                 </div>
               {% endif %}
@@ -79,10 +79,10 @@
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     function to_bookmarks() {
-      var current = $(this);
-      var type = current.data('type');
-      var pk = current.data('id');
-      var action = current.data('action');
+      let current = $(this);
+      let type = current.data('type');
+      let pk = current.data('id');
+      let action = current.data('action');
 
       $.ajax({
         url: "/repository/" + type + "/" + pk + "/" + action + "/",

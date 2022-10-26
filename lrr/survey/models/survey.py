@@ -38,8 +38,8 @@ class Survey(auto_prefetch.Model):
     expire_date = models.DateField(_("Expiration date"), blank=True, null=False, default=in_duration_day)
 
     class Meta:
-        verbose_name = _("survey")
-        verbose_name_plural = _("surveys")
+        verbose_name = "вид экспертизы"
+        verbose_name_plural = "виды экспертизы"
 
     def __str__(self):
         return str(self.name)
@@ -67,8 +67,8 @@ class Survey(auto_prefetch.Model):
     def is_all_in_one_page(self):
         return self.display_method == self.ALL_IN_ONE_PAGE
 
-    def get_expertise_requests(self, expert, survey, expertise):
-        return self.expertiserequest_set.filter(Q(expert=expert) & Q(survey=survey) & Q(expertise=expertise))
+    def get_expertise_opinions(self, expert, survey, expertise):
+        return self.expertiseopinion_set.filter(Q(expert=expert) & Q(survey=survey) & Q(expertise=expertise))
 
     def is_methodic(self):
         survey_name = self.name.lower()

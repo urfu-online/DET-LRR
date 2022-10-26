@@ -10,7 +10,7 @@ from .survey import Survey
 
 class Category(auto_prefetch.Model):
     name = models.CharField(_("Name"), max_length=400)
-    survey = auto_prefetch.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name=_("Survey"), related_name="categories",
+    survey = auto_prefetch.ForeignKey(Survey, on_delete=models.CASCADE, verbose_name="Вид экспертизы", related_name="categories",
                                       null=True, blank=True)
     order = models.IntegerField(_("Display order"), blank=True, null=True)
     description = models.CharField(_("Description"), max_length=2000, blank=True, null=True)

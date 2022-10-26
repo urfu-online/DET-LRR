@@ -1,4 +1,4 @@
-FROM node:14-slim as client-builder
+FROM node:16-bullseye-slim as client-builder
 
 WORKDIR /app
 COPY ./package.json /app

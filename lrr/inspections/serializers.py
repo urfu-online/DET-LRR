@@ -9,11 +9,11 @@ from lrr.repository import serializers as repo_serializers
 logger = logging.getLogger(__name__)
 
 
-class ExpertiseSerializer(serializers.ModelSerializer):
+class RequestSerializer(serializers.ModelSerializer):
     subjects = repo_serializers.SubjectSerializer(many=True, read_only=True)
 
     class Meta:
-        model = inspections_models.Expertise
+        model = inspections_models.Request
         fields = [
             "digital_resource",
             "date",
@@ -28,7 +28,7 @@ class ExpertiseSerializer(serializers.ModelSerializer):
         ]
 
 
-class ExpertiseSubjectListSerializer(serializers.ModelSerializer):
+class RequestSubjectListSerializer(serializers.ModelSerializer):
     # subjects = repo_serializers.SubjectSerializer(many=True, read_only=True)
     pk = serializers.CharField(source='digital_resource.pk')
     title = serializers.CharField(source='digital_resource.title')
@@ -37,7 +37,7 @@ class ExpertiseSubjectListSerializer(serializers.ModelSerializer):
     copyright_holder = serializers.CharField(source='digital_resource.copyright_holder')
 
     class Meta:
-        model = inspections_models.Expertise
+        model = inspections_models.Request
         fields = [
             "pk",
             "title",
@@ -49,7 +49,7 @@ class ExpertiseSubjectListSerializer(serializers.ModelSerializer):
 
 class CheckListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = inspections_models.ExpertiseRequest
+        model = inspections_models.ExpertiseOpinion
         fields = [
             "expertise",
             "type",

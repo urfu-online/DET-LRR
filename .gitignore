@@ -331,7 +331,7 @@ lrr/media/
 .env
 .envs/*
 !.envs/.local/
-/.idea/
+.idea/
 /parsed/.idea/
 lrr/frontend/node_modules
 !/lrr/static/gridstack/dist/

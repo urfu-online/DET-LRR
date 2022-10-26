@@ -17,8 +17,8 @@ class SurveyDetail(View):
     def get(self, request, *args, **kwargs):
         survey = kwargs.get("survey")
         step = kwargs.get("step", 0)
-        expertise_request = kwargs.get("expertise_request")
-        expertise_request_pk = kwargs.get("expertise_request_pk")
+        expertise_opinion = kwargs.get("expertise_opinion")
+        expertise_opinion_pk = kwargs.get("expertise_opinion_pk")
         # expert = Expert.get_expert(user=request.user)
         if survey.template is not None and len(survey.template) > 4:
             template_name = survey.template
@@ -30,7 +30,7 @@ class SurveyDetail(View):
         if survey.need_logged_user and not request.user.is_authenticated:
             return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
 
-        form = ResponseForm(survey=survey, user=request.user, step=step, expertise_request=expertise_request)
+        form = ResponseForm(survey=survey, user=request.user, step=step, expertise_opinion=expertise_opinion)
         categories = form.current_categories()
 
         asset_context = {
@@ -43,8 +43,8 @@ class SurveyDetail(View):
             "categories": categories,
             "step": step,
             "asset_context": asset_context,
-            "expertise_request": expertise_request,
-            "expertise_request_pk": expertise_request_pk,
+            "expertise_opinion": expertise_opinion,
+            "expertise_opinion_pk": expertise_opinion_pk,
         }
 
         return render(request, template_name, context)
@@ -52,13 +52,13 @@ class SurveyDetail(View):
     @survey_available
     def post(self, request, *args, **kwargs):
         survey = kwargs.get("survey")
-        expertise_request = kwargs.get("expertise_request")
-        expertise_request_pk = kwargs.get("expertise_request_pk")
+        expertise_opinion = kwargs.get("expertise_opinion")
+        expertise_opinion_pk = kwargs.get("expertise_opinion_pk")
         if survey.need_logged_user and not request.user.is_authenticated:
             return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
 
         form = ResponseForm(request.POST, survey=survey, user=request.user, step=kwargs.get("step", 0),
-                            expertise_request=expertise_request)
+                            expertise_opinion=expertise_opinion)
         categories = form.current_categories()
 
         # if not survey.editable_answers and form.response is not None:
@@ -68,14 +68,14 @@ class SurveyDetail(View):
             "response_form": form,
             "survey": survey,
             "categories": categories,
-            "expertise_request": expertise_request,
-            "expertise_request_pk": expertise_request_pk
+            "expertise_opinion": expertise_opinion,
+            "expertise_opinion_pk": expertise_opinion_pk
         }
         if form.is_valid():
-            expertise_request.date = timezone.now()
-            expertise_request.status = 'END'
-            expertise_request.save()
-            return self.treat_valid_form(form, kwargs, request, survey, expertise_request)
+            expertise_opinion.date = timezone.now()
+            expertise_opinion.status = 'END'
+            expertise_opinion.save()
+            return self.treat_valid_form(form, kwargs, request, survey, expertise_opinion)
         return self.handle_invalid_form(context, form, request, survey)
 
     @staticmethod
@@ -90,10 +90,10 @@ class SurveyDetail(View):
                 template_name = "survey/survey.html"
         return render(request, template_name, context)
 
-    def checking_answers(self, kwargs, request, survey, expertise_request):
+    def checking_answers(self, kwargs, request, survey, expertise_opinion):
         pass  # TODO: статус экспертизы
 
-    def treat_valid_form(self, form, kwargs, request, survey, expertise_request):
+    def treat_valid_form(self, form, kwargs, request, survey, expertise_opinion):
         session_key = "survey_%s" % (kwargs["id"],)
         if session_key not in request.session:
             request.session[session_key] = {}
@@ -108,7 +108,7 @@ class SurveyDetail(View):
             # when it's the last step
             if not form.has_next_step():
                 save_form = ResponseForm(request.session[session_key], survey=survey, user=request.user,
-                                         expertise_request=expertise_request)
+                                         expertise_opinion=expertise_opinion)
                 if save_form.is_valid():
                     response = save_form.save()
                 else:
@@ -124,4 +124,4 @@ class SurveyDetail(View):
             if "next" in request.session:
                 del request.session["next"]
             return redirect(next_)
-        return redirect("inspections:expertise_completion", uuid=expertise_request.pk)
+        return redirect("inspections:expertise_completion", uuid=expertise_opinion.pk)

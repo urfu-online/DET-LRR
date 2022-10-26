@@ -35,11 +35,11 @@ services:
       - ${WEB_APP_PATH}/backups:/backups
       - ./compose/production.urfu/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     networks:
-        - lrr
+      - lrr
     env_file:
       - ./.envs/.local/.postgres
-#    ports:
-#      - "5432:5432"
+  #    ports:
+  #      - "5432:5432"
 
 
   mailhog:
@@ -51,35 +51,35 @@ services:
       - "8025:8025"
 
   redis:
-    image: redis:5.0
+    image: redis:alpine
     container_name: ${COMPOSE_PROJECT_NAME}_redis_${ENVIRONMENT}
     networks:
       - lrr
 
-#  frontend:
-#    build: ./frontend
-#    command: [ "npm", "start" ]
-#    volumes:
-#      - ./frontend:/app/frontend
-#      - node-modules:/app/frontend/node_modules
-#    ports:
-#      - "3000:3000"
+  #  frontend:
+  #    build: ./frontend
+  #    command: [ "npm", "start" ]
+  #    volumes:
+  #      - ./frontend:/app/frontend
+  #      - node-modules:/app/frontend/node_modules
+  #    ports:
+  #      - "3000:3000"
 
-#  frontend:
-#    build: ./lrr/frontend
-#    image: lrr_local_frontend
-#    container_name: lrr_frontend
-#    volumes:
-#      - ./lrr/frontend:/app
-#      # One-way volume to use node_modules from inside image
-#      - ./lrr/frontend/app/node_modules
-#    ports:
-#      - "3000:3000"
-#    environment:
-#      - NODE_ENV=development
-#    depends_on:
-#      - django
-#    command: npm start
+  #  frontend:
+  #    build: ./lrr/frontend
+  #    image: lrr_local_frontend
+  #    container_name: lrr_frontend
+  #    volumes:
+  #      - ./lrr/frontend:/app
+  #      # One-way volume to use node_modules from inside image
+  #      - ./lrr/frontend/app/node_modules
+  #    ports:
+  #      - "3000:3000"
+  #    environment:
+  #      - NODE_ENV=development
+  #    depends_on:
+  #      - django
+  #    command: npm start
 
 
   celeryworker:
@@ -91,7 +91,7 @@ services:
       - postgres
     networks:
       - lrr
-    ports: []
+    ports: [ ]
     command: /start-celeryworker
 
   celerybeat:
@@ -103,7 +103,7 @@ services:
       - postgres
     networks:
       - lrr
-    ports: []
+    ports: [ ]
     command: /start-celerybeat
 
 #  flower:

@@ -9,17 +9,8 @@
 {% block extrastyle %}
   {% get_admin_interface_theme as theme %}
   {% get_admin_interface_version as version %}
-  <style type="text/css">
-    /*
-    django-admin-interface
+  <style>
 
-
-
-    {{ version }}
-
-
-                        https://github.com/fabiocaccamo/django-admin-interface
-                        */
     {% include "admin_interface/css/admin-interface.css" %}
     {% include "admin_interface/css/admin-interface-fix.css" %}
     {% include "admin_interface/css/list-filter-dropdown.css" %}

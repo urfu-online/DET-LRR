@@ -15,7 +15,6 @@ $enable-print-styles: true !default;
 $enable-responsive-font-sizes: true !default;
 $enable-validation-icons: true !default;
 $enable-deprecation-messages: true !default;
-
 $white: #fff;
 $gray-100: #f8f9fa;
 $gray-200: #f7f7f9;
@@ -27,7 +26,6 @@ $gray-700: #55595c;
 $gray-800: #343a40;
 $gray-900: #1a1a1a;
 $black: #000;
-
 $blue: #007bff;
 $indigo: #6610f2;
 $purple: #6f42c1;
@@ -38,7 +36,6 @@ $yellow: #f0ad4e;
 $green: #4bbf73;
 $teal: #20c997;
 $cyan: #1f9bcf;
-
 $primary: #30364A;
 $secondary: $white;
 $success: $green;
@@ -47,7 +44,6 @@ $warning: $yellow;
 $danger: $red;
 $light: $white;
 $dark: $gray-800;
-
 $yiq-contrasted-threshold: 185;
 
 // Options
@@ -59,39 +55,33 @@ $enable-border-btn: false;
 
 $body-color: $gray-700;
 
-//Components
+// Components
 
 $border-radius: 2px;
 $border-radius-lg: 4px;
 $border-radius-sm: 2px;
+
 // Fonts
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
-.IBMPlexSans {
-  font-family: "IBM Plex Sans";
-  font-weight: 400;
-}
+@import 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap';
+
 
 $font-family-base: "IBM Plex Sans";
-
-
 $font-size-base: 1rem; // Assumes the browser default, typically `16px`
 $font-size-lg: $font-size-base * 1.25;
 $font-size-sm: $font-size-base * .875;
-
 $h1-font-size: 2rem;
 $h2-font-size: 1.75rem;
 $h3-font-size: 1.5rem;
 $h4-font-size: 1.25rem;
 $h5-font-size: 1rem;
 $h6-font-size: 0.75rem;
-
 $headings-font-weight: 600;
 $headings-color: $gray-900;
 
 // Tables
 
-$table-border-color: rgba(0, 0, 0, 0.05);
+$table-border-color: rgb(0 0 0 / 5%);
 
 // Buttons + Forms
 
@@ -100,22 +90,17 @@ $input-btn-border-width: 1px;
 // Buttons
 
 $btn-line-height: 1.5rem;
-
 $input-btn-padding-y: 0.75rem;
 $input-btn-padding-x: 1.5rem;
-
 $input-btn-padding-y-sm: .5rem;
 $input-btn-padding-x-sm: 1rem;
-
 $input-btn-padding-y-lg: 2rem;
 $input-btn-padding-x-lg: 2rem;
-
 $btn-font-weight: 600;
 
 // Forms
 
 $input-line-height: 1.5;
-
 $input-bg: $gray-200;
 $input-disabled-bg: $gray-300;
 $input-group-addon-bg: $gray-300;
@@ -123,9 +108,7 @@ $input-group-addon-bg: $gray-300;
 // Navbar
 
 $navbar-padding-y: 1.5rem;
-
 $navbar-dark-hover-color: $white;
-
 $navbar-light-color: rgba($black, .3);
 $navbar-light-hover-color: $gray-900;
 $navbar-light-active-color: $gray-900;
@@ -133,26 +116,21 @@ $navbar-light-active-color: $gray-900;
 // Pagination
 
 $pagination-border-color: transparent;
-
 $pagination-hover-border-color: $pagination-border-color;
-
 $pagination-disabled-border-color: $pagination-border-color;
 
 // Breadcrumbs
 
 $breadcrumb-bg: transparent;
-
-
 $link-hover-color: #DC1A54;
 $dropdown-link-hover-color: lighten(#DC1A54, 5%);
 $dropdown-link-hover-bg: lighten(#DC1A54, 90%);
-
 $pagination-hover-color: #DC1A54;
 $pagination-hover-bg: $gray-200;
 
 
 // Grid columns
-//
+
 // Set the number of columns and specify the width of the gutters.
 
 $grid-columns: 12 !default;
@@ -160,7 +138,7 @@ $grid-gutter-width: 1.5rem !default;
 
 
 // Spacing
-//
+
 // Control the default styling of most Bootstrap elements by modifying these
 // variables. Mostly focused on spacing.
 // You can add more entries to the $spacers map, should you need more variation.
@@ -193,18 +171,15 @@ $sizes: map-merge(
     ),
     $sizes
 );
-
 $headings-margin-bottom: $spacer !default;
 $headings-font-family: null !default;
 $headings-font-weight: 500 !default;
 $headings-line-height: 1.2 !default;
 $headings-color: null !default;
-
 $display1-size: 5rem !default;
 $display2-size: 4.5rem !default;
 $display3-size: 2.5rem !default;
 $display4-size: 2rem !default;
-
 $display1-weight: 300 !default;
 $display2-weight: 300 !default;
 $display3-weight: 300 !default;

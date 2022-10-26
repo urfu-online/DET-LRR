@@ -47,7 +47,7 @@ class ResponseAdmin(admin.ModelAdmin):
     date_hierarchy = "created"
     inlines = [AnswerBaseInline]
     # specifies the order as well as which fields to act on
-    readonly_fields = ("survey", "created", "updated", "interview_uuid", "user", "expertise_request")
+    readonly_fields = ("survey", "created", "updated", "interview_uuid", "user", "expertise_opinion")
 
 
 class CategoryAdmin(admin.ModelAdmin):

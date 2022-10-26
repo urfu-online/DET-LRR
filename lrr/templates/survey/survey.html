@@ -41,10 +41,10 @@
         <div class="card-header">{{ survey.name }}</div>
 
         <div class="card-body">
-          <h5 class="card-title">{{ expertise_request.expertise.digital_resource }}</h5>
+          <h5 class="card-title">{{ expertise_opinion.expertise.digital_resource }}</h5>
 
-          <a class="btn btn-outline-primary" href="{% url "repository:repository_DigitalResource_detail" pk=expertise_request.expertise.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
-          <a class="btn btn-primary" href="{% url "inspections:inspections_ExpertiseRequest_detail" pk=expertise_request.pk %}">Данные заявки</a>
+          <a class="btn btn-outline-primary" href="{% url "repository:repository_DigitalResource_detail" pk=expertise_opinion.expertise.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
+          <a class="btn btn-primary" href="{% url "inspections:inspections_ExpertiseOpinion_detail" pk=expertise_opinion.pk %}">Данные экспертного заключения</a>
         </div>
       </div>
 
@@ -57,7 +57,7 @@
         {% else %}
         {% endif %}
 
-        <form action="{% url 'survey:survey-detail' id=survey.id expertise_request_pk=expertise_request_pk %}" method="post" class="expertise expertise-form">
+        <form action="{% url 'survey:survey-detail' id=survey.id expertise_opinion_pk=expertise_opinion_pk %}" method="post" class="expertise expertise-form">
           {% csrf_token %}
           <div class="accordion">
             {% for category in categories %}
@@ -90,7 +90,7 @@
             {% endfor %}
 
             <br>
-            <input class="btn btn-primary" style="float: right" type="submit" name="save" value="{% trans "Сохранить" %}">
+            <input class="btn btn-primary" style="float: right;" type="submit" name="save" value="{% trans "Сохранить" %}">
           </div>
 
         </form>

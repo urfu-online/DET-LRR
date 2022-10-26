@@ -40,7 +40,7 @@ router.register("my_subject", complexes_api.ResourceAssignedStatusTag)
 
 # INSPECTIONS
 
-router.register("expertise", inspection_api.ExpertiseViewSet)
+router.register("request", inspection_api.RequestViewSet)
 router.register("checklist", inspection_api.CheckListViewSet)
 
 app_name = "api"

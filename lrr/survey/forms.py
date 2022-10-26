@@ -44,7 +44,7 @@ class ResponseForm(models.ModelForm):
         """ Expects a survey object to be passed in initially """
         self.survey = kwargs.pop("survey")
         self.user = kwargs.pop("user")
-        self.expertise_request = kwargs.pop("expertise_request")
+        self.expertise_opinion = kwargs.pop("expertise_opinion")
         try:
             self.step = int(kwargs.pop("step"))
         except KeyError:
@@ -91,7 +91,7 @@ class ResponseForm(models.ModelForm):
         #         self.add_question(question, data)
         # else:
 
-        disciplines = self.expertise_request.expertise.subjects.all()
+        disciplines = self.expertise_opinion.expertise.subjects.all()
         per_discipline_questions_count = self.survey.questions.filter(per_discipline=True).count()
 
         for i, question in enumerate(self.survey.questions.all()):
@@ -137,8 +137,8 @@ class ResponseForm(models.ModelForm):
             self.response = None
         else:
             try:
-                self.response = Response.objects.prefetch_related("user", "survey", "expertise_request").filter(
-                    user=self.user, survey=self.survey, expertise_request=self.expertise_request
+                self.response = Response.objects.prefetch_related("user", "survey", "expertise_opinion").filter(
+                    user=self.user, survey=self.survey, expertise_opinion=self.expertise_opinion
                 ).latest()
             except Response.DoesNotExist:
                 LOGGER.debug("No saved response for '%s' for user %s", self.survey, self.user)
@@ -307,7 +307,7 @@ class ResponseForm(models.ModelForm):
         # TODO check answer and set status.
         response = super(ResponseForm, self).save(commit=False)
         response.survey = self.survey
-        response.expertise_request = self.expertise_request
+        response.expertise_opinion = self.expertise_opinion
         response.interview_uuid = self.uuid
         if self.user.is_authenticated:
             response.user = self.user

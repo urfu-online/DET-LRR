@@ -75,7 +75,7 @@
           <td>{{ object.expertise.owner }}</td>
           <td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td>
           <td>{{ object.survey }}</td>
-          <td><a class="btn btn-outline-primary text-nowrap" href="{% url 'survey:survey-detail' id=object.survey.pk expertise_request_pk=object.pk %}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
+          <td><a class="btn btn-outline-primary text-nowrap" href="{% url 'survey:survey-detail' id=object.survey.pk expertise_opinion_pk=object.pk %}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
         </tr>
       {% endfor %}
       </tbody>

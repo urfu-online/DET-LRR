@@ -93,10 +93,12 @@
             </thead>
             {% for item in checklists %}
               <tbody>
-              <td>{{ item.survey }}</td>
-              <td>{% if item.date %}{{ item.date }}{% else %}Экспертиза не проведена{% endif %}</td>
-              <td>{{ item.expert }}</td>
-              <td>{{ item.get_status_display }}</td>
+              <tr>
+                <td>{{ item.survey }}</td>
+                <td>{% if item.date %}{{ item.date }}{% else %}Экспертиза не проведена{% endif %}</td>
+                <td>{{ item.expert }}</td>
+                <td>{{ item.get_status_display }}</td>
+              </tr>
               </tbody>
             {% endfor %}
           </table>

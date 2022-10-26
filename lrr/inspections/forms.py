@@ -22,9 +22,9 @@ class DigitalComplexesWidget(s2forms.ModelSelect2MultipleWidget):
     max_results = 50
 
 
-class ExpertiseCreateForm(forms.ModelForm):
+class RequestCreateForm(forms.ModelForm):
     class Meta:
-        model = inspections_models.Expertise
+        model = inspections_models.Request
         fields = [
             "type",
             "subjects",
@@ -92,9 +92,9 @@ class ExpertiseCreateForm(forms.ModelForm):
         exclude = ['status', 'date', "digital_resource", ]
 
 
-class ExpertiseUpdateForm(forms.ModelForm):
+class RequestUpdateForm(forms.ModelForm):
     class Meta:
-        model = inspections_models.Expertise
+        model = inspections_models.Request
         fields = [
             # "digital_resource",
             # "subjects",
@@ -192,16 +192,16 @@ class ExpertWidget(s2forms.Select2Widget):
     max_results = 50
 
 
-class ExpertiseRequestCreateForm(forms.ModelForm):
+class ExpertiseOpinionCreateForm(forms.ModelForm):
     class Meta:
-        model = inspections_models.ExpertiseRequest
+        model = inspections_models.ExpertiseOpinion
         fields = [
-            "survey",
+            "expertise_type",
             "expert",
         ]
-        exclude = ["expertise", "date", "protocol", "status", "type"],
+        exclude = ["request", "date", "protocol", "status"],
         widgets = {
-            'survey': forms.Select(
+            'expertise_type': forms.Select(
                 attrs={
                     'class': 'form-control',
 
@@ -216,20 +216,19 @@ class ExpertiseRequestCreateForm(forms.ModelForm):
         }
 
 
-class ExpertiseRequestUpdateForm(forms.ModelForm):
+class ExpertiseOpinionUpdateForm(forms.ModelForm):
     class Meta:
-        model = inspections_models.ExpertiseRequest
+        model = inspections_models.ExpertiseOpinion
         fields = [
-            "type",
             "expert",
             "date",
             "protocol",
             "status",
-            "expertise",
-            "survey"
+            "request",
+            "expertise_type"
         ]
         widgets = {
-            'survey': forms.Select(
+            'expertise_type': forms.Select(
                 attrs={
                     'class': 'form-select',
 

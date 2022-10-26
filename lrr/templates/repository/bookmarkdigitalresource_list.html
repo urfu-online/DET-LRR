@@ -54,9 +54,9 @@
             {% endif %}
             <a href="{{ object.obj.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i>
               Подробнее</a>
-            <div style="display: contents" data-id="{{ object.obj.id }}" data-type="resource" data-action="bookmark"
+            <div style="display: contents;" data-id="{{ object.obj.id }}" data-type="resource" data-action="bookmark"
                  title="Избранное">
-                <span style="cursor: pointer" aria-hidden="true"
+                <span style="cursor: pointer;" aria-hidden="true"
                       class="{% if object.obj|favorited_by:user %}fa fa-star fa-lg{% else %}far fa-star fa-lg{% endif %}"></span>
             </div>
           </div>

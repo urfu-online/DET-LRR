@@ -80,9 +80,9 @@
         <div class="form-group">
           <label>Экспертные заключения</label>
           <a class="btn btn-secondary"
-             href="{% url 'inspections:inspections_ExpertiseRequest_create' digital_resource_pk=object.digital_resource.pk expertise_pk=object.pk %}">Назначить
+             href="{% url 'inspections:inspections_ExpertiseOpinion_create' digital_resource_pk=object.digital_resource.pk expertise_pk=object.pk %}">Назначить
             эксперта</a>
-          {% if expertise_request.all is not None %}
+          {% if expertise_opinion.all is not None %}
             <table class="table table-striped table-bordered">
               <thead>
               <h5>Экспертизы: </h5>
@@ -94,14 +94,14 @@
               </tr>
               </thead>
               <tbody>
-              {% for item in expertise_request.all %}
+              {% for item in expertise_opinion.all %}
                 {% if item.survey %}
                   <tr>
                   <td>{{ item.survey }}</td>
                   <td>{{ item.expert }}</td>
                   <td>{{ item.get_status_display }}</td>
                   <td><a class=""
-                         href="{% url 'inspections:inspections_ExpertiseRequestClose_detail' pk=item.pk %}"><i
+                         href="{% url 'inspections:inspections_ExpertiseOpinionClose_detail' pk=item.pk %}"><i
                     class="fas fa-info-circle fa-lg"></i> Подробнее</a>
                   </td>
                 {% endif %}
@@ -114,7 +114,7 @@
         </div>
         <div class="form-group">
           <h5>Статусы:</h5>
-          <div class="ui segment" style="background: #f7f7f9">
+          <div class="ui segment" style="background: #f7f7f9;">
             {% if temporary_status.all is not None %}
               {% for item in temporary_status.all %}
                 <div class="ui segment">

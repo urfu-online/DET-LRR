@@ -15,7 +15,7 @@ body {
       .navbar-nav {
         .nav-item {
           .dropdown-toggle {
-            &:after {
+            &::after {
               border-top: $caret-width solid transparent;
               border-left: $caret-width solid;
               border-bottom: $caret-width solid transparent;

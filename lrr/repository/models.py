@@ -281,8 +281,8 @@ class DigitalResource(BaseModel):
         else:
             return ""
 
-    def get_create_expertise_url(self):
-        return reverse("inspections:inspections_Expertise_create", args=(self.pk,))
+    def get_create_request_url(self):
+        return reverse("inspections:inspections_Request_create", args=(self.pk,))
 
     def get_source(self):
         try:
