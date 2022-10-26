@@ -335,3 +335,4 @@ lrr/media/
 /parsed/.idea/
 lrr/frontend/node_modules
 !/lrr/static/gridstack/dist/
+lrr/survey
