@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load i18n bootstrap_icons %}
+{% load static %}
+{% load survey_extras %}
+
+{% block title %} {{ survey.name }} {% endblock title %}
+
+{% block js %}
+  {{ response_form.media }}
+  {% if asset_context.flatpickr %}
+    <script type="text/javascript" src="{% static 'js/flatpickr.min.js' %}"></script>
+  {% endif %}
+{% endblock %}
+
+{% block css %}
+  {% if asset_context.flatpickr %}
+    {{ block.super }}
+    <link href="{% static 'css/flatpickr.min.css' %}" rel="stylesheet" type="text/css"/>
+  {% endif %}
+{% endblock %}
+
+
+
+{% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-3 pb-0">
+      <li class="breadcrumb-item"><a href="/">{% md_icon "bank-outline" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Активные заявки</li>
+    </ol>
+  </nav>
+
+
+
+  <div class="row">
+
+
+    <div class="col-12 w-75">
+      <h1> {{ survey.name }} </h1>
+
+      <div class="card border-secondary shadow-2 my-3">
+        <div class="card-header">{{ survey.name }}</div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ expertise_opinion.expertise.digital_resource }}</h5>
+
+          <a class="btn btn-outline-primary" href="{% url "repository:repository_DigitalResource_detail" pk=expertise_opinion.expertise.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
+          <a class="btn btn-primary" href="{% url "inspections:inspections_ExpertiseOpinion_detail" pk=expertise_opinion.pk %}">Данные экспертного заключения</a>
+        </div>
+      </div>
+
+
+      <div class="mx-auto">
+
+
+        {% if survey.description %}
+          <div class="survey-description"> {{ survey.description|safe }} </div>
+        {% else %}
+        {% endif %}
+
+        <form action="{% url 'survey:survey-detail' id=survey.id expertise_opinion_pk=expertise_opinion_pk %}" method="post" class="expertise expertise-form">
+          {% csrf_token %}
+          <div class="accordion">
+            {% for category in categories %}
+              {% if category.description is not None %}
+                <p> {{ category.description }} </p>
+              {% else %}
+              {% endif %}
+
+              <div class="card bg-light">
+                <div class="card-header">
+                  <h5 class="mb-0">
+                    <button class="btn btn-outline-info btn-block" type="button" data-toggle="collapse" data-target="#collapse{{ category.slugify }}" aria-expanded="true" aria-controls="collapse{{ category.slugify }}">
+                      {{ category }}
+                    </button>
+                  </h5>
+                </div>
+
+                <div id="collapse{{ category.slugify }}"
+                     class="card-collapse collapse {% if not survey.editable_answers and response_form.response is not None %}in{% endif %}
+				        {{ response_form|collapse_form:category }}">
+                  <div class="card-body">
+                    {% include "survey/question.html" %}
+                  </div>
+                </div>
+              </div>
+
+            {% empty %}
+              <h3> {% trans "Questions" %} </h3>
+              {% include "survey/question.html" %}
+            {% endfor %}
+
+            <br>
+            <input class="btn btn-primary" style="float: right;" type="submit" name="save" value="{% trans "Сохранить" %}">
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

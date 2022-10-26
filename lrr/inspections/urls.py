@@ -32,4 +32,11 @@ urlpatterns = (
          name="inspections_ExpertiseOpinion_update"),
     path("Answer/<uuid:request_pk>/", views.ExpertiseOpinionView.as_view(),
          name="inspections_answer"),
+    # path("survey/<id:id>/<uuid:uuid_pk>/", SurveyDetail.as_view(), name="survey-detail"),
+    path("(<uuid:id>/<uuid:expertise_opinion_pk>/", views.ExpertiseTypeDetail.as_view(), name="expertise-type-detail"),
+    # url(r"^csv/(?P<primary_key>\d+)/", serve_result_csv, name="survey-result"),
+    path("<uuid:id>/completed/", views.ExpertiseTypeCompleted.as_view(), name="expertise-type-completed"),
+    path("<uuid:id>-<int:step>/", views.ExpertiseTypeDetail.as_view(), name="expertise-type-detail-step"),
+    path("confirm/<uuid:id>/", views.ConfirmView.as_view(), name="expertise-type-confirmation"),
+
 )

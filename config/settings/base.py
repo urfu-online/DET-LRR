@@ -114,7 +114,7 @@ LOCAL_APPS = [
     'lrr.repository.apps.RepositoryConfig',
     'lrr.complexes.apps.ComplexesConfig',
     'lrr.inspections.apps.InspectionsConfig',
-    'lrr.survey.apps.DjangoSurveyAndReportConfig',
+    # 'lrr.survey.apps.DjangoSurveyAndReportConfig',
     'lrr.templatetags.user_tags',
     'lrr.templatetags.survey_extras',
 ]

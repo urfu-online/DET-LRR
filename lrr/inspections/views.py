@@ -2,11 +2,13 @@ import logging
 from copy import copy
 
 import django_filters
+from django.conf import settings
 from django.core.exceptions import EmptyResultSet
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
+from django.views.generic import TemplateView
 from django.views.generic import View
 
 from lrr.inspections import forms
@@ -14,6 +16,8 @@ from lrr.inspections import models as inspections_models
 from lrr.repository.filters import FilteredListView
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person, Expert
+from .decorators import expertise_available
+from .forms import ExpertiseOpinionForm
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -457,3 +461,138 @@ class ExpertiseOpinionUpdateExpertView(GroupRequiredMixin, generic.UpdateView):
 class ExpertiseOpinionView(generic.View):
     template_name = 'inspections/expert/checklist_form_update.html'
     success_url = '/ExpertiseMy/'
+
+
+class ExpertiseTypeDetail(View):
+    @expertise_available
+    def get(self, request, *args, **kwargs):
+        expertise_type = kwargs.get("expertise_type")
+        step = kwargs.get("step", 0)
+        expertise_opinion = kwargs.get("expertise_opinion")
+        expertise_opinion_pk = kwargs.get("expertise_opinion_pk")
+        # expert = Expert.get_expert(user=request.user)
+        if expertise_type.template is not None and len(expertise_type.template) > 4:
+            template_name = expertise_type.template
+        else:
+            if expertise_type.is_all_in_one_page():
+                template_name = "inspections/one_page_survey.html"
+            else:
+                template_name = "inspections/survey.html"
+        if not request.user.is_authenticated:
+            return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
+
+        form = ExpertiseOpinionForm(expertise_type=expertise_type, expert=Expert.get_expert(request.user), step=step, expertise_opinion=expertise_opinion)
+        categories = form.current_categories()
+
+        asset_context = {
+            # If any of the widgets of the current form has a "date" class, flatpickr will be loaded into the template
+            "flatpickr": any([field.widget.attrs.get("class") == "date" for _, field in form.fields.items()])
+        }
+        context = {
+            "response_form": form,
+            "expertise_type": expertise_type,
+            "categories": categories,
+            "step": step,
+            "asset_context": asset_context,
+            "expertise_opinion": expertise_opinion,
+            "expertise_opinion_pk": expertise_opinion_pk,
+        }
+
+        return render(request, template_name, context)
+
+    @expertise_available
+    def post(self, request, *args, **kwargs):
+        expertise_type = kwargs.get("expertise_type")
+        expertise_opinion = kwargs.get("expertise_opinion")
+        expertise_opinion_pk = kwargs.get("expertise_opinion_pk")
+        if not request.user.is_authenticated:
+            return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
+
+        form = ExpertiseOpinionForm(request.POST, expertise_type=expertise_type, expert=Expert.get_expert(request.user), step=kwargs.get("step", 0),
+                                    expertise_opinion=expertise_opinion)
+        categories = form.current_categories()
+
+        # if not survey.editable_answers and form.response is not None:
+        #     LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
+        #     return redirect(reverse("survey:survey-list"))
+        context = {
+            "response_form": form,
+            "expertise_type": expertise_type,
+            "categories": categories,
+            "expertise_opinion": expertise_opinion,
+            "expertise_opinion_pk": expertise_opinion_pk
+        }
+        if form.is_valid():
+            expertise_opinion.date = timezone.now()
+            expertise_opinion.status = 'END'
+            expertise_opinion.save()
+            return self.treat_valid_form(form, kwargs, request, expertise_type, expertise_opinion)
+        return self.handle_invalid_form(context, form, request, expertise_type)
+
+    @staticmethod
+    def handle_invalid_form(context, form, request, expertise_type):
+        logger.info(f"Non valid form:{form}")
+        if expertise_type.template is not None and len(expertise_type.template) > 4:
+            template_name = expertise_type.template
+        else:
+            if expertise_type.is_all_in_one_page():
+                template_name = "inspections/one_page_survey.html"
+            else:
+                template_name = "inspections/survey.html"
+        return render(request, template_name, context)
+
+    def checking_answers(self, kwargs, request, expertise_type, expertise_opinion):
+        pass  # TODO: статус экспертизы
+
+    def treat_valid_form(self, form, kwargs, request, expertise_type, expertise_opinion):
+        session_key = "expertise_type_%s" % (kwargs["id"],)
+        if session_key not in request.session:
+            request.session[session_key] = {}
+        for key, value in list(form.cleaned_data.items()):
+            request.session[session_key][key] = value
+            request.session.modified = True
+        next_url = form.next_step_url()
+        response = None
+        if expertise_type.is_all_in_one_page():
+            response = form.save()
+        else:
+            # when it's the last step
+            if not form.has_next_step():
+                save_form = ExpertiseOpinionForm(request.session[session_key], expertise_type=expertise_type, user=request.user,
+                                                 expertise_opinion=expertise_opinion)
+                if save_form.is_valid():
+                    response = save_form.save()
+                else:
+                    logger.warning("A step of the multipage form failed but should have been discovered before.")
+        # if there is a next step
+        if next_url is not None:
+            return redirect(next_url)
+        del request.session[session_key]
+        if response is None:
+            return redirect(reverse("inspections:expertise_completion"))
+        next_ = request.session.get("next", None)
+        if next_ is not None:
+            if "next" in request.session:
+                del request.session["next"]
+            return redirect(next_)
+        return redirect("inspections:expertise_completion", uuid=expertise_opinion.pk)
+
+
+class ExpertiseTypeCompletedCompleted(TemplateView):
+    template_name = "inspections/completed.html"
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        expertise_type = get_object_or_404(inspections_models.ExpertiseType, id=kwargs["id"])
+        context["expertise_type"] = expertise_type
+        return context
+
+
+class ConfirmView(TemplateView):
+    template_name = "inspections/confirm.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ConfirmView, self).get_context_data(**kwargs)
+        context["id"] = str(kwargs["id"])
+        context["response"] = inspections_models.ExpertiseOpinion.objects.get(id=context["uuid"])
+        return context
