@@ -8,10 +8,11 @@ from django.urls import reverse
 from django_select2 import forms as s2forms
 
 from lrr.inspections import models as inspections_models
-from .models import Indicator, Request, ExpertiseType, Category, OpinionIndicator
-from .widgets import ImageSelectWidget
-from .signals import survey_completed
+from lrr.users.models import Expert
 from lrr.utils import slugify
+from .models import Indicator, Request, Category, OpinionIndicator, ExpertiseOpinion
+from .signals import survey_completed
+from .widgets import ImageSelectWidget
 
 logger = logging.getLogger(__name__)
 
@@ -254,7 +255,7 @@ class IndicatorWidget(s2forms.Select2Widget):
     max_results = 5
 
 
-class RequestForm(forms.ModelForm):
+class ExpertiseOpinionForm(forms.ModelForm):
     FIELDS = {
         Indicator.TEXT: forms.CharField,
         Indicator.SHORT_TEXT: forms.CharField,
@@ -274,7 +275,7 @@ class RequestForm(forms.ModelForm):
     }
 
     class Meta:
-        model = Request
+        model = ExpertiseOpinion
         fields = ()
 
     def __init__(self, *args, **kwargs):
@@ -286,7 +287,7 @@ class RequestForm(forms.ModelForm):
             self.step = int(kwargs.pop("step"))
         except KeyError:
             self.step = None
-        super(RequestForm, self).__init__(*args, **kwargs)
+        super(ExpertiseOpinionForm, self).__init__(*args, **kwargs)
         self.uuid = uuid.uuid4().hex
 
         self.categories = self.expertise_type.non_empty_categories()
@@ -328,7 +329,7 @@ class RequestForm(forms.ModelForm):
         #         self.add_indicator(indicator, data)
         # else:
 
-        disciplines = self.expertise_opinion.expertise.subjects.all()
+        disciplines = self.expertise_opinion.request.subjects.all()
         per_discipline_indicator_count = self.expertise_type.indicators.filter(per_discipline=True).count()
 
         for i, indicator in enumerate(self.expertise_type.indicators.all()):
@@ -349,16 +350,16 @@ class RequestForm(forms.ModelForm):
                 self.add_indicator(indicator, data)
 
     def current_categories(self):
-        if self.expertise_type.display_method == ExpertiseType.BY_CATEGORY:
-            if self.step is not None and self.step < len(self.categories):
-                return [self.categories[self.step]]
-            return [Category(name="Без категории", description="")]
-        else:
-            extras = []
-            if self.qs_with_no_cat:
-                extras = [Category(name="Без категории", description="")]
+        # if self.expertise_type.display_method == ExpertiseType.BY_CATEGORY:
+        if self.step is not None and self.step < len(self.categories):
+            return [self.categories[self.step]]
+        return [Category(title="Без категории", description="")]
+        # else:
+        #     extras = []
+        #     if self.qs_with_no_cat:
+        #         extras = [Category(title="Без категории", description="")]
 
-            return self.categories + extras
+        # return self.categories + extras
 
     def _get_preexisting_response(self):
         """Recover a pre-existing response in database.
@@ -374,19 +375,20 @@ class RequestForm(forms.ModelForm):
         if not self.user.is_authenticated:
             self.response = None
         else:
-            try:  # TODO: get expert from user
-                self.response = Request.objects.prefetch_related("expert", "expertise_type", "expertise_opinion").filter(
-                    expert=self.user, expertise_type=self.expertise_type, expertise_opinion=self.expertise_opinion
+            expert = Expert.get_expert(self.user)
+            try:
+                self.response = ExpertiseOpinion.objects.prefetch_related("expert", "expertise_type", "request").filter(
+                    expert=expert, expertise_type=self.expertise_type, request=self.request
                 ).latest()
             except Request.DoesNotExist:
-                logger.debug("No saved response for '%s' for user %s", self.expertise_type, self.user)
+                logger.debug(f"No saved response for {self.expertise_type} for expert {expert}")
                 self.response = None
         return self.response
 
     def _get_preexisting_opinion_indicators(self):
         """Recover pre-existing opinion_indicators in database.
 
-        The user must be logged. A Response containing the Answer must exists.
+        The user must be logged. A Response containing the Answer must exist.
         Will create an attribute containing the opinion_indicators retrieved to avoid multiple
         db calls.
 
@@ -409,7 +411,7 @@ class RequestForm(forms.ModelForm):
     def _get_preexisting_opinion_indicator(self, indicator):
         """Recover a pre-existing opinion_indicator in database.
 
-        The user must be logged. A Response containing the Answer must exists.
+        The user must be logged. A Response containing the Answer must exist.
 
         :param Indicator indicator: The indicator we want to recover in the
         response.
@@ -449,7 +451,7 @@ class RequestForm(forms.ModelForm):
         return initial
 
     def get_indicator_widget(self, indicator):
-        """Return the widget we should use for a indicator.
+        """Return the widget we should use for indicator.
 
         :param Indicator indicator: The indicator
         :rtype: django.forms.widget or None"""
@@ -460,7 +462,7 @@ class RequestForm(forms.ModelForm):
 
     @staticmethod
     def get_indicator_choices(indicator):
-        """Return the choices we should use for a indicator.
+        """Return the choices we should use for indicator.
 
         :param Indicator indicator: The indicator
         :rtype: List of String or None"""
@@ -487,11 +489,11 @@ class RequestForm(forms.ModelForm):
             return forms.ChoiceField(**kwargs)
 
     def add_indicator(self, indicator, data):
-        """Add a indicator to the form.
+        """Add indicator to the form.
 
         :param Indicator indicator: The indicator to add.
         :param dict data: The pre-existing values from a post request."""
-        kwargs = {"label": indicator.text, "required": indicator.required}
+        kwargs = {"label": indicator.text}  # , "required": indicator.required
         initial = self.get_indicator_initial(indicator, data)
         if initial:
             kwargs["initial"] = initial
@@ -502,7 +504,7 @@ class RequestForm(forms.ModelForm):
         if widget:
             kwargs["widget"] = widget
         field = self.get_indicator_field(indicator, **kwargs)
-        field.widget.attrs["category"] = indicator.category.name if indicator.category else ""
+        field.widget.attrs["category"] = indicator.category.title if indicator.category else ""
 
         if indicator.type == Indicator.DATE:
             field.widget.attrs["class"] = "date"
@@ -524,35 +526,27 @@ class RequestForm(forms.ModelForm):
         return reverse("expertise_type:expertise_type-detail-step", kwargs={"id": self.expertise_type.id, "step": self.step})
 
     @staticmethod
-    def save_status(matrix, opinion_indicator, indicator, expertise_type):
+    def save_status(opinion_indicator, indicator, expertise_type):
         if expertise_type.is_methodic():
-            matrix.append([opinion_indicator.indicator.category.order, opinion_indicator.indicator.order, opinion_indicator.body])
-            logger.warning(matrix)
+            pass
         if expertise_type.is_content():
             pass
         if expertise_type.is_tech():
             pass
 
     def save(self, commit=True):
-        """ Save the response object """
-        # Recover an existing response from the database if any
-        #  There is only one response by logged user.
         response = self._get_preexisting_response()
-        # if not self.expertise_type.editable_answers and response is not None:
-        #     return None
-        # if response is None:
-        matrix = []
-        result_matrix_eor_in = [[1, 1, 1], [1, 2, 1], [1, 3, 1], [1, 4, 0]]
+
         # TODO check opinion_indicator and set status.
-        request = super(RequestForm, self).save(commit=False)
-        request.expertise_type = self.expertise_type
-        request.expertise_opinion = self.expertise_opinion
-        request.interview_uuid = self.uuid  # TODO: ?
+        response = super(ExpertiseOpinionForm, self).save(commit=False)
+        response.expertise_type = self.expertise_type
+        response.expertise_opinion = self.expertise_opinion
+        response.id = self.uuid
         if self.user.is_authenticated:
-            request.user = self.user  # TODO: expert
-        request.save()
+            response.expert = Expert.get_expert(self.user)
+        response.save()
         # response "raw" data as dict (for signal)
-        data = {"expertise_type": request.expertise_type.id, "interview_uuid": request.id, "responses": []}
+        data = {"expertise_type": response.expertise_type.id, "id": response.id, "responses": []}
         # create an opinion_indicator object for each indicator and associate it with this
         # response.
         for field_name, field_value in list(self.cleaned_data.items()):
@@ -572,8 +566,8 @@ class RequestForm(forms.ModelForm):
                 indicator.body = field_value
                 data["responses"].append((opinion_indicator.indicator.id, opinion_indicator.body))
                 logger.debug("Creating opinion_indicator for indicator %d of type %s : %s", q_id, opinion_indicator.indicator.type, field_value)
-                indicator.request = request
-                self.save_status(matrix, opinion_indicator, indicator, self.expertise_type)
+                indicator.expertise_opinion = response
+                self.save_status(opinion_indicator, indicator, self.expertise_type)
                 opinion_indicator.save()
-        survey_completed.send(sender=Request, instance=request, data=data)
-        return request
+        survey_completed.send(sender=Request, instance=response, data=data)
+        return response
