@@ -336,3 +336,4 @@ lrr/media/
 lrr/frontend/node_modules
 !/lrr/static/gridstack/dist/
 lrr/survey
+lrr/templates/survey
