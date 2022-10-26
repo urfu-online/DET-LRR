@@ -88,7 +88,7 @@ class ResponseForm(models.ModelForm):
         #         qs_for_step = self.survey.questions.filter(category=self.categories[self.step])
         #
         #     for questioin qs_for_step:
-        #         self.add_question(question, data)
+        #         self.add_indicator(question, data)
         # else:
 
         disciplines = self.expertise_opinion.expertise.subjects.all()
@@ -239,7 +239,7 @@ class ResponseForm(models.ModelForm):
 
         :param Question question: The question
         :param **kwargs: A dict of parameter properly initialized in
-            add_question.
+            add_indicator.
         :rtype: django.forms.fields"""
         # logging.debug("Args passed to field %s", kwargs)
         try:

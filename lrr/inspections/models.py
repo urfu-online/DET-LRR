@@ -205,7 +205,7 @@ class Indicator(auto_prefetch.Model):
                 opinion_indicators_as_text.append(value)
         return opinion_indicators_as_text
 
-    def is_group_question(self):
+    def is_group_indicator(self):
         if self.per_discipline and not (self.discipline or self.parent):
             logger.debug(f"is_group_indicator {self.text}: {self.per_discipline} and {not (self.discipline or self.parent)}")
             return True
@@ -710,7 +710,7 @@ class Request(repository_model.BaseModel):
         resp = dict()
 
         for resp_type in EXPERTISE_TYPES.keys():
-            locals()[resp_type] = responses.filter(survey__name=EXPERTISE_TYPES[resp_type])
+            locals()[resp_type] = responses.filter(expertise_type__title=EXPERTISE_TYPES[resp_type])
             if locals()[resp_type].exists():
                 locals()[resp_type] = locals()[resp_type].latest()
                 resp[resp_type] = locals()[resp_type]
