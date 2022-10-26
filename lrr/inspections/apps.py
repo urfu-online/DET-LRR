@@ -4,5 +4,5 @@ from django.apps import AppConfig
 
 class InspectionsConfig(AppConfig):
     name = "lrr.inspections"
-    verbose_name = "экспертизы"
+    verbose_name = "Экспертизы"
     label = "inspections"

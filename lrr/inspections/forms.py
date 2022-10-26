@@ -238,5 +238,5 @@ class ExpertiseOpinionUpdateForm(forms.ModelForm):
 
 
 class IndicatorWidget(s2forms.Select2Widget):
-    search_fields = ["group__title"]
+    search_fields = ["category__title"]
     max_results = 5

@@ -32,9 +32,9 @@ CHOICES_HELP_TEXT = (
 )
 
 EXPERTISE_TYPES = {
-    "methodical": "Методическая экспертиза",
-    "contental": "Содержательная экспертиза",
-    "technical": "Техническая экспертиза"
+    'methodical': 'Методическая экспертиза',
+    'contental': 'Содержательная экспертиза',
+    'technical': 'Техническая экспертиза'
 }
 
 
@@ -45,11 +45,11 @@ def validate_choices(choices):
     values = choices.split(settings.CHOICES_SEPARATOR)
     empty = 0
     for value in values:
-        if value.replace(" ", "") == "":
+        if value.replace(' ', '') == '':
             empty += 1
     if len(values) < 2 + empty:
-        msg = "Для выбранного поля требуется связанный список вариантов."
-        msg += " Варианты должны содержать более одного элемента."
+        msg = 'Для выбранного поля требуется связанный список вариантов.'
+        msg += ' Варианты должны содержать более одного элемента.'
         raise ValidationError(msg)
 
 
@@ -58,21 +58,21 @@ def in_duration_day():
 
 
 class ExpertiseType(auto_prefetch.Model):
-    title = models.CharField(_("Name"), max_length=400)
-    description = models.TextField(_("Description"), null=True, blank=True)
+    title = models.CharField(_('Name'), max_length=400)
+    description = models.TextField(_('Description'), null=True, blank=True)
 
-    template = models.CharField(_("Template"), max_length=255, null=True, blank=True)
+    template = models.CharField(_('Template'), max_length=255, null=True, blank=True)
 
     class Meta:
-        verbose_name = "вид экспертизы"
-        verbose_name_plural = "виды экспертизы"
+        verbose_name = 'вид экспертизы'
+        verbose_name_plural = 'виды экспертизы'
 
     def __str__(self):
         return self.title
 
     @property
     def safe_name(self):
-        return self.title.replace(" ", "_").encode("utf-8").decode("ISO-8859-1")
+        return self.title.replace(' ', '_').encode('utf-8').decode('ISO-8859-1')
 
     def latest_answer_date(self):
         """Return the latest answer date.
@@ -85,10 +85,10 @@ class ExpertiseType(auto_prefetch.Model):
         return min_
 
     def get_absolute_url(self):
-        return reverse("survey:survey-detail", kwargs={"id": self.pk})
+        return reverse('survey:survey-detail', kwargs={'id': self.pk})
 
     def non_empty_categories(self):
-        return [x for x in list(self.categories.order_by("order", "id")) if x.questions.count() > 0]
+        return [x for x in list(self.categories.order_by('order', 'id')) if x.questions.count() > 0]
 
     def get_expertise_opinions(self, expert, expertise_type, request):
         return self.expertiseopinion_set.filter(Q(expert=expert) & Q(expertise_type=expertise_type) & Q(request=request))
@@ -113,15 +113,15 @@ class ExpertiseType(auto_prefetch.Model):
 
 
 class Category(auto_prefetch.Model):
-    title = models.CharField("Название", max_length=400)
-    expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.CASCADE, verbose_name="Вид экспертизы", related_name="categories",
+    title = models.CharField('Название', max_length=400)
+    expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.CASCADE, verbose_name='Вид экспертизы', related_name='categories',
                                               null=True, blank=True)
-    order = models.IntegerField("Порядок отображения", blank=True, null=True)
+    order = models.IntegerField('Порядок отображения', blank=True, null=True)
 
     class Meta:
         # pylint: disable=too-few-public-methods
-        verbose_name = "категория"
-        verbose_name_plural = "категории"
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
 
     def __str__(self):
         return self.title
@@ -130,53 +130,52 @@ class Category(auto_prefetch.Model):
         return slugify(str(self), allow_unicode=True)
 
 
-class SortAnswer:
-    CARDINAL = "cardinal"
-    ALPHANUMERIC = "alphanumeric"
+class SortOpinionIndicator:
+    CARDINAL = 'cardinal'
+    ALPHANUMERIC = 'alphanumeric'
 
 
 class Indicator(auto_prefetch.Model):
     """
     ex-Question
     """
-    TEXT = "text"
-    SHORT_TEXT = "short-text"
-    RADIO = "radio"
-    SELECT = "select"
-    SELECT_IMAGE = "select_image"
-    SELECT_MULTIPLE = "select-multiple"
-    INTEGER = "integer"
-    FLOAT = "float"
-    DATE = "date"
+    TEXT = 'text'
+    SHORT_TEXT = 'short-text'
+    RADIO = 'radio'
+    SELECT = 'select'
+    SELECT_IMAGE = 'select_image'
+    SELECT_MULTIPLE = 'select-multiple'
+    INTEGER = 'integer'
+    FLOAT = 'float'
+    DATE = 'date'
 
     INDICATOR_TYPES = (
-        (TEXT, _("text (multiple line)")),
-        (SHORT_TEXT, _("short text (one line)")),
-        (RADIO, _("radio")),
-        (SELECT, _("select")),
-        (SELECT_MULTIPLE, _("Select Multiple")),
-        (SELECT_IMAGE, _("Select Image")),
-        (INTEGER, _("integer")),
-        (FLOAT, _("float")),
-        (DATE, _("date")),
+        (TEXT, _('text (multiple line)')),
+        (SHORT_TEXT, _('short text (one line)')),
+        (RADIO, _('radio')),
+        (SELECT, _('select')),
+        (SELECT_MULTIPLE, _('Select Multiple')),
+        (SELECT_IMAGE, _('Select Image')),
+        (INTEGER, _('integer')),
+        (FLOAT, _('float')),
+        (DATE, _('date')),
     )
 
-    text = models.TextField("Наименование показателя", null=True)
-    order = models.IntegerField("Порядок отображения", default=0)
+    text = models.TextField('Наименование показателя', null=True)
+    order = models.IntegerField('Порядок отображения', default=0)
     category = auto_prefetch.ForeignKey(
-        Category, on_delete=models.SET_NULL, verbose_name="Категория", blank=True, null=True, related_name="indicators"
+        Category, on_delete=models.SET_NULL, verbose_name='Категория', blank=True, null=True, related_name='indicators'
     )
-    expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.CASCADE, verbose_name="Вид экспертизы", related_name="indicators", null=True)
-    type = models.CharField(_("Type"), max_length=200, choices=INDICATOR_TYPES, default=TEXT)
-    per_discipline = models.BooleanField("Для каждой дисциплины", default=False)
-    discipline = models.ForeignKey("repository.Subject", verbose_name="Дисциплина", blank=True, null=True, on_delete=models.SET_NULL)
-    choices = models.TextField(_("Choices"), blank=True, null=True, help_text=CHOICES_HELP_TEXT)
-    parent = models.ForeignKey('self', related_name='referrals', null=True, default=None, on_delete=models.SET_NULL)
+    expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.CASCADE, verbose_name='Вид экспертизы', related_name='indicators', null=True)
+    type = models.CharField(_('Type'), max_length=200, choices=INDICATOR_TYPES, default=TEXT)
+    per_discipline = models.BooleanField('Для каждой дисциплины', default=False)
+    discipline = models.ForeignKey('repository.Subject', verbose_name='Дисциплина', blank=True, null=True, on_delete=models.SET_NULL)
+    choices = models.TextField(_('Choices'), blank=True, null=True, help_text=CHOICES_HELP_TEXT)
 
     class Meta:
-        verbose_name = "показатель"
-        verbose_name_plural = "показатели"
-        ordering = ("expertise_type", "order")
+        verbose_name = 'показатель'
+        verbose_name_plural = 'показатели'
+        ordering = ('expertise_type', 'order')
 
     def save(self, *args, **kwargs):
         if self.type in [Indicator.RADIO, Indicator.SELECT, Indicator.SELECT_MULTIPLE]:
@@ -372,10 +371,10 @@ class Indicator(auto_prefetch.Model):
         cardinality = self.opinion_indicators_cardinality(
             min_cardinality, group_together, group_by_letter_case, group_by_slugify, filter, other_indicator
         )
-        # We handle SortAnswer without enum because using "type" as a variable
+        # We handle SortOpinionIndicator without enum because using "type" as a variable
         # name break the enum module and we want to use type in
         # answer_cardinality for simplicity
-        possibles_values = [SortAnswer.ALPHANUMERIC, SortAnswer.CARDINAL, None]
+        possibles_values = [SortOpinionIndicator.ALPHANUMERIC, SortOpinionIndicator.CARDINAL, None]
         undefined = sort_answer is None
         user_defined = isinstance(sort_answer, dict)
         valid = user_defined or sort_answer in possibles_values
@@ -388,13 +387,13 @@ class Indicator(auto_prefetch.Model):
             msg += ". We used the default cardinal sorting."
             logger.warning(msg)
         if undefined or not valid:
-            sort_answer = SortAnswer.CARDINAL
+            sort_answer = SortOpinionIndicator.CARDINAL
         sorted_cardinality = None
         if user_defined:
             sorted_cardinality = sorted(list(cardinality.items()), key=lambda x: sort_answer.get(x[0], 0))
-        elif sort_answer == SortAnswer.ALPHANUMERIC:
+        elif sort_answer == SortOpinionIndicator.ALPHANUMERIC:
             sorted_cardinality = sorted(cardinality.items())
-        elif sort_answer == SortAnswer.CARDINAL:
+        elif sort_answer == SortOpinionIndicator.CARDINAL:
             if other_indicator is None:
                 sorted_cardinality = sorted(list(cardinality.items()), key=lambda x: (-x[1], x[0]))
             else:
@@ -489,23 +488,23 @@ class OpinionIndicator(repository_model.BaseModel):
     """
     Answer
     """
-    indicator = auto_prefetch.ForeignKey(Indicator, on_delete=models.CASCADE, verbose_name="Показатель", related_name="opinion_indicators")
-    expertise_opinion = auto_prefetch.ForeignKey("inspections.ExpertiseOpinion", on_delete=models.CASCADE, verbose_name="Экспертное заключение", related_name="opinion_indicators")
-    created = models.DateTimeField(_("Creation date"), auto_now_add=True)
-    updated = models.DateTimeField(_("Update date"), auto_now=True)
-    body = models.TextField(_("Content"), blank=True, null=True)
-    discipline = auto_prefetch.ForeignKey("repository.Subject", verbose_name="Дисциплина", on_delete=models.SET_NULL, null=True, blank=True)
+    indicator = auto_prefetch.ForeignKey(Indicator, on_delete=models.CASCADE, verbose_name='Показатель', related_name='opinion_indicators')
+    expertise_opinion = auto_prefetch.ForeignKey('inspections.ExpertiseOpinion', on_delete=models.CASCADE, verbose_name='Экспертное заключение', related_name='opinion_indicators')
+    created = models.DateTimeField(_('Creation date'), auto_now_add=True)
+    updated = models.DateTimeField(_('Update date'), auto_now=True)
+    body = models.TextField(_('Content'), blank=True, null=True)
+    discipline = auto_prefetch.ForeignKey('repository.Subject', verbose_name='Дисциплина', on_delete=models.SET_NULL, null=True, blank=True)
 
     # @computed(models.JSONField(), depends=[['self', ['body']]])
     # def indicator(self):
-    #     return next(indicator for indicator in indicators if indicator["title"] == self.question.text)
+    #     return next(indicator for indicator in indicators if indicator['title'] == self.question.text)
 
     def __init__(self, *args, **kwargs):
         try:
-            indicator = Indicator.objects.get(pk=kwargs["indicator_id"])
+            indicator = Indicator.objects.get(pk=kwargs['indicator_id'])
         except KeyError:
-            indicator = kwargs.get("indicator")
-        body = kwargs.get("body")
+            indicator = kwargs.get('indicator')
+        body = kwargs.get('body')
         if indicator and body:
             self.check_opinion_indicator_body(indicator, body)
         super(OpinionIndicator, self).__init__(*args, **kwargs)
@@ -552,8 +551,8 @@ class OpinionIndicator(repository_model.BaseModel):
                     raise ValidationError(msg)
 
     class Meta:
-        verbose_name = "показатель заключения"
-        verbose_name_plural = "показатели заключения"
+        verbose_name = 'показатель заключения'
+        verbose_name_plural = 'показатели заключения'
 
     def __str__(self):
         return "{} to '{}' : '{}'".format(self.__class__.__name__, self.indicator, self.body)
@@ -612,27 +611,27 @@ class Request(repository_model.BaseModel):
 
     digital_resource = auto_prefetch.ForeignKey(repository_model.DigitalResource, verbose_name="Паспорт ЭОР",
                                                 on_delete=models.CASCADE)
-    date = models.DateTimeField("Дата заявки", blank=True, null=True)
-    subjects = models.ManyToManyField("repository.Subject", verbose_name="Дисциплина(ы)", blank=True)
-    directions = models.ManyToManyField("repository.Direction", verbose_name="Направление подготовки", blank=True)
-    digital_complexes = models.ManyToManyField("complexes.DigitalComplex", verbose_name="ЭУМК", blank=True)
-    expert = models.ManyToManyField("users.Expert", verbose_name="Назначенные эксперты", blank=True)
-    date_end = models.DateTimeField("Срок действия статуса экспертизы", blank=True, null=True)
+    date = models.DateTimeField('Дата заявки', blank=True, null=True)
+    subjects = models.ManyToManyField('repository.Subject', verbose_name='Дисциплина(ы)', blank=True)
+    directions = models.ManyToManyField('repository.Direction', verbose_name='Направление подготовки', blank=True)
+    digital_complexes = models.ManyToManyField('complexes.DigitalComplex', verbose_name='ЭУМК', blank=True)
+    expert = models.ManyToManyField('users.Expert', verbose_name='Назначенные эксперты', blank=True)
+    date_end = models.DateTimeField('Срок действия статуса экспертизы', blank=True, null=True)
     file = models.FileField(
-        verbose_name="№ протокола комиссии по ресурсному обеспечению модулей и ЭО методического совета",
-        upload_to="upload/files", null=True, blank=True)
-    remarks = models.TextField("Замечания и рекомендации комиссии", blank=True)
-    status = models.CharField("Состояние заявки", max_length=30, choices=STATUS_CHOICES,
+        verbose_name='№ протокола комиссии по ресурсному обеспечению модулей и ЭО методического совета',
+        upload_to='upload/files', null=True, blank=True)
+    remarks = models.TextField('Замечания и рекомендации комиссии', blank=True)
+    status = models.CharField('Состояние заявки', max_length=30, choices=STATUS_CHOICES,
                               default=NOT_ASSIGNED_STATUS)
-    status_text = models.TextField("Статус", blank=True, null=True)
-    type = models.CharField("Тип экспертизы", max_length=30, choices=TYPE_EXPERTISE, blank=True, null=True)
+    status_text = models.TextField('Статус', blank=True, null=True)
+    type = models.CharField('Тип экспертизы', max_length=30, choices=TYPE_EXPERTISE, blank=True, null=True)
 
     # TODO: возможно нужны
-    quality_category = models.CharField("Категория качества", max_length=30, choices=QUALITY_CATEGORIES, blank=True)
-    interactive_category = models.CharField("Категория интерактивности", max_length=30, choices=INTERACTIVE_CATEGORIES,
+    quality_category = models.CharField('Категория качества', max_length=30, choices=QUALITY_CATEGORIES, blank=True)
+    interactive_category = models.CharField('Категория интерактивности', max_length=30, choices=INTERACTIVE_CATEGORIES,
                                             blank=True)
-    owner = auto_prefetch.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_expertise",
-                                     verbose_name="Инициатор", blank=True, null=True)
+    owner = auto_prefetch.ForeignKey('users.Person', on_delete=models.PROTECT, related_name='owner_expertise',
+                                     verbose_name='Инициатор', blank=True, null=True)
 
     @classmethod
     def get_count_request_assigned_status(cls):
@@ -666,20 +665,20 @@ class Request(repository_model.BaseModel):
         return cls.objects.filter(digital_resource=digital_resource)
 
     class Meta:
-        verbose_name = "заявка"
-        verbose_name_plural = "заявки"
+        verbose_name = 'заявка'
+        verbose_name_plural = 'заявки'
 
     def __str__(self):
         return f"{self.get_status_display()} {self.digital_resource.title} {self.date} {self.owner}"
 
     def get_absolute_url(self):
-        return reverse("inspections:inspections_Request_detail", args=(self.pk,))
+        return reverse('inspections:inspections_Request_detail', args=(self.pk,))
 
     def get_absolute_url_digital_resource(self):
-        return reverse("repository:repository_DigitalResource_detail", args=(self.pk,))
+        return reverse('repository:repository_DigitalResource_detail', args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("inspections:inspections_Request_update", args=(self.pk,))
+        return reverse('inspections:inspections_Request_update', args=(self.pk,))
 
     def save(self, *args, **kwargs):
         if self.date is None:
@@ -702,7 +701,7 @@ class Request(repository_model.BaseModel):
 
     def get_responses(self):
         responses = OpinionIndicator.objects.filter(expertise_opinion__in=self.get_expertise_opinions_ids()).order_by(
-            "expertise_type", "-created").distinct("expertise_type")
+            'expertise_type', '-created').distinct('expertise_type')
         return responses
 
     def get_typed_responses(self):
@@ -761,27 +760,27 @@ class ExpertiseOpinion(repository_model.BaseModel):
 
     ]
 
-    expert = auto_prefetch.ForeignKey("users.Expert", verbose_name="Эксперт", on_delete=models.CASCADE, blank=True, null=True)
-    date = models.DateField("Дата проведения экспертизы", blank=True, null=True)
-    protocol = models.CharField("№ Протокола учебно-методического совета института", max_length=424, null=True,
+    expert = auto_prefetch.ForeignKey('users.Expert', verbose_name='Эксперт', on_delete=models.CASCADE, blank=True, null=True)
+    date = models.DateField('Дата проведения экспертизы', blank=True, null=True)
+    protocol = models.CharField('№ Протокола учебно-методического совета института', max_length=424, null=True,
                                 blank=True)
-    request = auto_prefetch.ForeignKey("inspections.Request", verbose_name="Заявка", on_delete=models.CASCADE, blank=True)
-    status = models.CharField("Состояние", max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
+    request = auto_prefetch.ForeignKey('inspections.Request', verbose_name='Заявка', on_delete=models.CASCADE, blank=True)
+    status = models.CharField('Состояние', max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
 
-    expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.PROTECT, verbose_name="Вид экспертизы", related_name="responses", null=True)
+    expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.PROTECT, verbose_name='Вид экспертизы', related_name='responses', null=True)
 
     class Meta:
-        verbose_name = "экспертное заключение"
-        verbose_name_plural = "экспертные заключения"
+        verbose_name = 'экспертное заключение'
+        verbose_name_plural = 'экспертные заключения'
 
     def __str__(self):
-        return f"{self.request} {self.status} {self.expertise_type}"
+        return f'{self.request} {self.status} {self.expertise_type}'
 
     def get_absolute_url(self):
-        return reverse("inspections:inspections_ExpertiseOpinion_detail", args=(self.pk,))
+        return reverse('inspections:inspections_ExpertiseOpinion_detail', args=(self.pk,))
 
     def get_update_url(self):
-        return reverse("inspections:inspections_ExpertiseOpinion_update", args=(self.pk,))
+        return reverse('inspections:inspections_ExpertiseOpinion_update', args=(self.pk,))
 
     @classmethod
     def get_close_my_checklist(cls, user):
@@ -878,15 +877,15 @@ class ExpertiseOpinion(repository_model.BaseModel):
 
 
 class StatusRequirement(auto_prefetch.Model):
-    indicator = auto_prefetch.ForeignKey("inspections.Indicator", verbose_name="Показатель", on_delete=models.CASCADE)
+    indicator = auto_prefetch.ForeignKey('inspections.Indicator', verbose_name='Показатель', on_delete=models.CASCADE)
     allowed_values = ArrayField(models.CharField(max_length=32, blank=True, null=True),
-                                verbose_name="Допустимые значения", blank=True, null=True)
-    allowed_num_values = IntegerRangeField(verbose_name="Диапазон допустимых числовых значений", blank=True,
+                                verbose_name='Допустимые значения', blank=True, null=True)
+    allowed_num_values = IntegerRangeField(verbose_name='Диапазон допустимых числовых значений', blank=True,
                                            null=True)  # null - нет, 0 - любое
     exclude_values = ArrayField(models.CharField(max_length=32, blank=True, null=True),
-                                verbose_name="Исключаемые значения", blank=True, null=True)
-    available = models.BooleanField(default=True, verbose_name="Используется")
-    status = auto_prefetch.ForeignKey("Status", on_delete=models.CASCADE, related_name="requirements")
+                                verbose_name='Исключаемые значения', blank=True, null=True)
+    available = models.BooleanField(default=True, verbose_name='Используется')
+    status = auto_prefetch.ForeignKey('Status', on_delete=models.CASCADE, related_name='requirements')
 
     def __str__(self):
         return self.indicator.category.title
@@ -914,23 +913,23 @@ class StatusRequirement(auto_prefetch.Model):
 
 class Status(models.Model):
     GROUPS = (
-        ("qual", "Категория качества контента ЭОР"),
-        ("struct", "Соответствие структуры и содержания ЭОР требованиям конкретных дисциплин ОП"),
-        ("tech", "Технологические возможности и сценарии функционирования ЭОР")
+        ('qual', 'Категория качества контента ЭОР'),
+        ('struct', 'Соответствие структуры и содержания ЭОР требованиям конкретных дисциплин ОП'),
+        ('tech', 'Технологические возможности и сценарии функционирования ЭОР')
     )
-    title = models.CharField("Наименование", max_length=1024, db_index=True)
-    group = models.CharField("Группа", max_length=6, choices=GROUPS, default="qual")
+    title = models.CharField('Наименование', max_length=1024, db_index=True)
+    group = models.CharField('Группа', max_length=6, choices=GROUPS, default='qual')
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = "статус"
-        verbose_name_plural = "статусы"
+        verbose_name = 'статус'
+        verbose_name_plural = 'статусы'
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        reqs = StatusRequirement.objects.filter(status=self).order_by("id")
+        reqs = StatusRequirement.objects.filter(status=self).order_by('id')
         empty_indicators = Indicator.objects.exclude(statusrequirement__in=reqs)
 
         for indicator in empty_indicators:
@@ -941,20 +940,91 @@ class Status(models.Model):
 
 
 class TemporaryStatus(models.Model):
-    request = models.ForeignKey("Request", verbose_name="Заявка", null=True, blank=True,
+    request = models.ForeignKey('Request', verbose_name='Заявка', null=True, blank=True,
                                 on_delete=models.CASCADE)
-    name = models.TextField("Тело статуса", blank=True, null=True)
-    date = models.DateTimeField("Дата выставления статуса", blank=True, null=True)
+    name = models.TextField('Тело статуса', blank=True, null=True)
+    date = models.DateTimeField('Дата выставления статуса', blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} ({self.date.strftime('%d.%m.%Y')})"
 
     class Meta:
-        verbose_name = "временный статус"
-        verbose_name_plural = "временные статусы"
+        verbose_name = 'временный статус'
+        verbose_name_plural = 'временные статусы'
 
     @classmethod
     def get_temporary_status(cls, request):
         if request:
             return cls.objects.filter(request=request)
         return None
+
+
+class AcceptableIndicatorValue(repository_model.BaseModel):
+    """
+    Код показателя
+    o Значение показателя
+    o КУРС_ЭОР
+    o Внеш_Внутр
+    o Авт_Неинтер_Преп
+    o Полн_Част
+    o Рейтинг
+
+    ENTITY_TYPES = (
+        ("course", "курс"),
+        ("eor", "ЭОР")
+    )
+    LOCATION_TYPES = (
+        ("external", "внешний"),
+        ("internal", "внутренний")
+    )
+    INTERACTION_TYPES = (
+        ('automated', 'Автоматизированный'),
+        ('non-interactive', 'Не интерактивный'),
+        ('teacher', 'С участием преподавателя')
+    )
+    COMPLIANCE_LEVELS = (
+        ('full', 'Полностью соответствует содержанию и результатам обучения дисциплины'),
+        ('partly', 'Частично соответствует содержанию и результатам обучения дисциплины')
+    )
+    """
+
+    indicator = auto_prefetch.ForeignKey('inspections.Indicator', verbose_name='Показатель', on_delete=models.CASCADE)
+    value = models.CharField('Значение показателя', max_length=256, null=True, blank=True)
+    entity = models.PositiveSmallIntegerField('КУРС_ЭОР', null=True, blank=True)
+    location = models.PositiveSmallIntegerField('Внеш_Внутр', null=True, blank=True)
+    interaction = models.PositiveSmallIntegerField('Тип интерактивности (Автоматизированный/Не интерактивный/С участием преподавателя)', null=True, blank=True)
+    compliance = models.PositiveSmallIntegerField('Соответствие содержанию дисциплины (Полностью/Частично)', null=True, blank=True)
+    per_discipline = models.BooleanField('Для каждой дисциплины', default=False)
+    rating = models.DecimalField('Рейтинг', decimal_places=3, max_digits=4, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'допустимое значение показателя'
+        verbose_name_plural = 'допустимые значения показателя'
+
+
+class SummaryIndicator(repository_model.BaseModel):
+    """
+    Код заявки
+    Код показателя
+    КУРС_ЭОРo
+    Внеш_Внутр
+    Авт_Неинтер_Преп
+    Полн_Част
+    Дисциплина
+    Образовательная программа
+    Рейтинг
+    Имеются противоречия
+    """
+    request = auto_prefetch.ForeignKey('inspections.Request', verbose_name='Заявка', on_delete=models.PROTECT)
+    indicator = auto_prefetch.ForeignKey('inspections.Indicator', verbose_name='Показатель', on_delete=models.CASCADE)
+    entity = models.PositiveSmallIntegerField('КУРС_ЭОР', null=True, blank=True)
+    location = models.PositiveSmallIntegerField('Внеш_Внутр', null=True, blank=True)
+    interaction = models.PositiveSmallIntegerField('Тип интерактивности (Автоматизированный/Не интерактивный/С участием преподавателя)', null=True, blank=True)
+    compliance = models.PositiveSmallIntegerField('Соответствие содержанию дисциплины (Полностью/Частично)', null=True, blank=True)
+    per_discipline = models.BooleanField('Для каждой дисциплины', default=False)
+    rating = models.DecimalField('Рейтинг', decimal_places=3, max_digits=4, null=True, blank=True)
+    have_conflicts = models.BooleanField('Имеются противоречия', default=False)
+
+    class Meta:
+        verbose_name = 'сводный показатель'
+        verbose_name_plural = 'сводные показатели'
