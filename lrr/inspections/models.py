@@ -171,6 +171,7 @@ class Indicator(auto_prefetch.Model):
     per_discipline = models.BooleanField('Для каждой дисциплины', default=False)
     discipline = models.ForeignKey('repository.Subject', verbose_name='Дисциплина', blank=True, null=True, on_delete=models.SET_NULL)
     choices = models.TextField(_('Choices'), blank=True, null=True, help_text=CHOICES_HELP_TEXT)
+    parent = models.ForeignKey('self', related_name='referrals', null=True, default=None, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'показатель'

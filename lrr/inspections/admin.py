@@ -116,6 +116,7 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('expertise_type',)
     autocomplete_fields = ('expertise_type',)
     list_editable = ('expertise_type', 'order')
+    ordering = ('order',)
 
 
 def bind_questions(modeladmin, request, queryset):
@@ -198,9 +199,10 @@ class StatusRequirementInline(admin.TabularInline):
 
 @admin.register(models.Indicator)
 class IndicatorAdmin(admin.ModelAdmin):
-    list_display = ('text', 'order', 'category', 'expertise_type', 'type', 'discipline', 'choices')
-    autocomplete_fields = ('discipline', 'category', 'expertise_type',)
+    list_display = ('text', 'order', 'category', 'parent', 'expertise_type', 'type', 'discipline', 'choices')
+    autocomplete_fields = ('discipline', 'parent', 'category', 'expertise_type',)
     search_fields = ('text',)
+    ordering = ('order',)
 
 
 @admin.register(models.Status)
