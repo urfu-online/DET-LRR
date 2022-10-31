@@ -6,10 +6,6 @@
 @import "colors";
 @import "select2_layout";
 
-//#djShowToolBarButton {
-//  display: none !important;
-//}
-
 header {
   h1 {
     margin-bottom: $spacer * 1.5 !important;
@@ -237,3 +233,35 @@ form.expertise {
 .d-flow-root {
   display: flow-root;
 }
+
+
+/* Underline From Left */
+.hvr-underline-from-left {
+  display: inline-block;
+  vertical-align: middle;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgb(0 0 0 / 0%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    background: #2098D1;
+    height: 4px;
+    transition-property: right;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+  }
+
+  &:hover::before,
+  &:focus::before,
+  &:active::before {
+    right: 0;
+  }
+}
+

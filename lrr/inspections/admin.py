@@ -18,7 +18,7 @@ class CheckListInline(admin.TabularInline):
         'created',
     ]
     extra = 0
-    autocomplete_fields = ['request', 'expert', 'expertise_type']
+    autocomplete_fields = ['expertise_request', 'expert', 'expertise_type']
 
 
 class CategoryInline(admin.TabularInline):
@@ -59,21 +59,21 @@ class OpinionIndicatorBaseInline(admin.StackedInline):
 class ExpertiseOpinionAdmin(admin.ModelAdmin):
     list_display = [
         'id',
-        'request',
+        'expertise_request',
         'expert',
         'date',
         'expertise_type'
     ]
     list_filter = ('expertise_type', 'created')
-    autocomplete_fields = ['expert', 'request', 'expertise_type']
+    autocomplete_fields = ['expert', 'expertise_request', 'expertise_type']
     date_hierarchy = 'created'
     inlines = [OpinionIndicatorBaseInline]
     readonly_fields = ('id', 'expertise_type', 'created', 'last_updated', 'expert')
 
 
-@admin.register(models.Request)
+@admin.register(models.ExpertiseRequest)
 class RequestAdmin(admin.ModelAdmin):
-    model = models.Request
+    model = models.ExpertiseRequest
     fields = [
         'digital_resource',
         'date',
@@ -218,8 +218,8 @@ class StatusAdmin(admin.ModelAdmin, DynamicArrayMixin):
 
 @admin.register(models.TemporaryStatus)
 class TemporaryStatus(admin.ModelAdmin):
-    list_display = ['request', 'name', 'date']
-    fields = ['request', 'name', 'date']
+    list_display = ['expertise_request', 'name', 'date']
+    fields = ['expertise_request', 'name', 'date']
 
 
 @admin.register(models.AcceptableIndicatorValue)
@@ -232,5 +232,5 @@ class AcceptableIndicatorValueAdmin(admin.ModelAdmin):
 @admin.register(models.SummaryIndicator)
 class SummaryIndicatorAdmin(admin.ModelAdmin):
     list_display = ('indicator', 'entity', 'location', 'interaction', 'compliance', 'per_discipline', 'rating',)
-    fields = ('request', 'indicator', 'entity', 'location', 'interaction', 'compliance', 'per_discipline', 'rating', 'have_conflicts')
-    autocomplete_fields = ('indicator', 'request')
+    fields = ('expertise_request', 'indicator', 'entity', 'location', 'interaction', 'compliance', 'per_discipline', 'rating', 'have_conflicts')
+    autocomplete_fields = ('indicator', 'expertise_request')

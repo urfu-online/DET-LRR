@@ -8,13 +8,13 @@
       {#      <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>#}
       {#      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>#}
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу
-        "{{ object.expertise.digital_resource }}"
+        "{{ object.expertise_request.digital_resource }}"
       </li>
     </ol>
   </nav>
-  <header><h1 class="display-3">Заявка на экспертизу "{{ object.expertise.digital_resource }}"</h1></header>
+  <header><h1 class="display-3">Заявка на экспертизу "{{ object.expertise_request.digital_resource }}"</h1></header>
   <a class="btn btn-primary" style="float: right;"
-     href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}">Паспорт
+     href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise_request.digital_resource.pk %}">Паспорт
     ЭОР</a>
   <div class="row p-2">
     <div class="col-12 p-2">
@@ -33,19 +33,19 @@
           <div class="form-group">
             <label><b>Инициатор</b></label>
             <br/>
-            {{ object.expertise.owner }}
+            {{ object.expertise_request.owner }}
           </div>
           <hr/>
           <div class="form-group">
             <label><b>Дата заявки</b></label>
             <br/>
-            {{ object.expertise.date }}
+            {{ object.expertise_request.date }}
           </div>
           <hr/>
           <div class="form-group">
             <label><b>Дисциплина(ы)</b></label>
             <div class="ui segment">
-              {% for subject in object.expertise.subjects.all %}
+              {% for subject in object.expertise_request.subjects.all %}
                 {{ subject }}
               {% endfor %}
             </div>
@@ -53,7 +53,7 @@
           <div class="form-group">
             <label><b>Направления подготовки/Образовательная программа</b></label>
             <div class="ui segment">
-              {% for direction in object.expertise.directions.all %}
+              {% for direction in object.expertise_request.directions.all %}
                 {{ direction }}
               {% endfor %}
             </div>
@@ -61,8 +61,8 @@
           <div class="form-group">
             <label><b>ЭУМК</b></label>
             <div class="ui segment">
-              {% if object.expertise.digital_complexes.all is not None %}
-                {% for digital_complex in object.expertise.digital_complexes.all %}
+              {% if object.expertise_request.digital_complexes.all is not None %}
+                {% for digital_complex in object.expertise_request.digital_complexes.all %}
                   <p>
                     <a href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}">{{ digital_complex }}</a>
                   </p>
@@ -77,6 +77,8 @@
       </diV>
     </div>
   </div>
+
+  <a href="{% url 'inspections:ExpertiseOpinion_expert_update' pk=object.pk %}">Провести экспертизу</a>
   <div class="card">
     <diV class="card-body shadow-1">
       <div class="form-group">

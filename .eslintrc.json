@@ -3,29 +3,16 @@
   "extends": [
     "eslint:recommended"
   ],
-  "parserOptions": {},
-  "plugins": [],
-  "rules": {
-    "node/no-unpublished-require": [
-      "error",
-      {
-        "allowModules": [],
-        "convertPath": null,
-        "tryExtensions": [
-          ".js",
-          ".json",
-          ".node"
-        ]
-      }
-    ],
-    "@typescript-eslint/strict-boolean-expressions": [
-      2,
-      {
-        "allowString": false,
-        "allowNumber": false
-      }
-    ]
+  "parserOptions": {
+    "ecmaVersion": "latest"
   },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true
+  },
+  "plugins": [],
+  "rules": {},
   "ignorePatterns": [
     "src/**/*.test.ts",
     "src/frontend/generated/*"

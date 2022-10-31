@@ -3,7 +3,7 @@
 {% load static %}
 {% load survey_extras %}
 
-{% block title %} {{ survey.name }} {% endblock title %}
+{% block title %} {{ expertise_type.title }} {% endblock title %}
 
 {% block js %}
   {{ response_form.media }}
@@ -35,16 +35,16 @@
 
 
     <div class="col-12 w-75">
-      <h1> {{ survey.name }} </h1>
+      <h1> {{ expertise_type.title }} </h1>
 
       <div class="card border-secondary shadow-2 my-3">
-        <div class="card-header">{{ survey.name }}</div>
+        <div class="card-header">{{ expertise_type.title }}</div>
 
         <div class="card-body">
-          <h5 class="card-title">{{ expertise_opinion.expertise.digital_resource }}</h5>
+          <h5 class="card-title">{{ expertise_opinion.expertise_request.digital_resource }}</h5>
 
-          <a class="btn btn-outline-primary" href="{% url "repository:repository_DigitalResource_detail" pk=expertise_opinion.expertise.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
-          <a class="btn btn-primary" href="{% url "inspections:inspections_ExpertiseOpinion_detail" pk=expertise_opinion.pk %}">Данные экспертного заключения</a>
+          <a class="btn btn-outline-primary" href="{% url "repository:repository_DigitalResource_detail" pk=expertise_opinion.expertise_request.digital_resource.pk %}"><i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
+          <a class="btn btn-primary" href="{% url "inspections:ExpertiseOpinion_detail" pk=expertise_opinion.pk %}">Данные экспертного заключения</a>
         </div>
       </div>
 
@@ -52,12 +52,7 @@
       <div class="mx-auto">
 
 
-        {% if survey.description %}
-          <div class="survey-description"> {{ survey.description|safe }} </div>
-        {% else %}
-        {% endif %}
-
-        <form action="{% url 'survey:survey-detail' id=survey.id expertise_opinion_pk=expertise_opinion_pk %}" method="post" class="expertise expertise-form">
+        <form action="{% url 'inspections:ExpertiseOpinion_expert_update' pk=expertise_opinion.id %}" method="post" class="expertise expertise-form">
           {% csrf_token %}
           <div class="accordion">
             {% for category in categories %}
@@ -76,17 +71,17 @@
                 </div>
 
                 <div id="collapse{{ category.slugify }}"
-                     class="card-collapse collapse {% if not survey.editable_answers and response_form.response is not None %}in{% endif %}
+                     class="card-collapse collapse {% if not expertise_type.editable_answers and response_form.response is not None %}in{% endif %}
 				        {{ response_form|collapse_form:category }}">
                   <div class="card-body">
-                    {% include "survey/question.html" %}
+                    {% include "inspections/question.html" %}
                   </div>
                 </div>
               </div>
 
             {% empty %}
               <h3> {% trans "Questions" %} </h3>
-              {% include "survey/question.html" %}
+              {% include "inspections/question.html" %}
             {% endfor %}
 
             <br>

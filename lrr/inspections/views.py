@@ -59,7 +59,7 @@ def normalize_values_list(values_list: list):
 
 class DigitalResourceFilter(django_filters.FilterSet):
     class Meta:
-        model = inspections_models.Request
+        model = inspections_models.ExpertiseRequest
         fields = {
             "digital_resource__title": ['contains'],
             "status": ['exact'],
@@ -75,23 +75,23 @@ def find_by_title_with_answer(lst, title):
 
 
 class RequestCompletionView(View):
-    url = reverse_lazy("inspections:inspections_RequestMyClose_list")
+    url = reverse_lazy("inspections:ExpertiseRequestMyClose_list")
     allow_heap = True
 
     def get(self, request, *args, **kwargs):
         try:
-            expertise_opinion = inspections_models.ExpertiseOpinion.objects.select_related("expertise").get(
+            expertise_opinion = inspections_models.ExpertiseOpinion.objects.select_related("expertise_request").get(
                 pk=kwargs["uuid"])
         except EmptyResultSet:
             expertise_opinion = inspections_models.ExpertiseOpinion.objects.none()
 
-        expertise = expertise_opinion.expertise
+        expertise_request = expertise_opinion.expertise_request
         statuses = inspections_models.Status.objects.all()
 
         if self.allow_heap:
-            answers = inspections_models.OpinionIndicator.objects.filter(response__in=expertise.get_responses())
+            answers = inspections_models.OpinionIndicator.objects.filter(response__in=expertise_request.get_responses())
         else:
-            typed_responses = expertise.get_typed_responses()
+            typed_responses = expertise_request.get_typed_responses()
 
             methodical_response = typed_responses["methodical"]
             methodical_answers = inspections_models.OpinionIndicator.objects.filter(response=methodical_response)
@@ -152,8 +152,8 @@ class RequestCompletionView(View):
 
 
 class RequestActiveSecretaryListView(GroupRequiredMixin, FilteredListView):
-    model = inspections_models.Request
-    form_class = forms.RequestCreateForm
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestCreateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
@@ -170,8 +170,8 @@ class RequestActiveSecretaryListView(GroupRequiredMixin, FilteredListView):
 
 
 class RequestCloseSecretaryListView(GroupRequiredMixin, FilteredListView):
-    model = inspections_models.Request
-    form_class = forms.RequestCreateForm
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestCreateForm
     allow_empty = True
     paginate_by = 12
     filterset_class = DigitalResourceFilter
@@ -208,8 +208,8 @@ class ExpertiseActiveExpert(GroupRequiredMixin, FilteredListView):
 
 
 class RequestCreateView(GroupRequiredMixin, generic.CreateView):
-    model = inspections_models.Request
-    form_class = forms.RequestCreateForm
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestCreateForm
     pk_url_kwarg = "pk"
     template_name = 'inspections/request_form_create.html'
     group_required = ["teacher", "admins"]
@@ -227,38 +227,38 @@ class RequestCreateView(GroupRequiredMixin, generic.CreateView):
         form.instance.status = "SUB_APP"
         form.instance.type = "FULL"
         form.save()
-        request = inspections_models.ExpertiseOpinion.objects.create(expertise=form.instance, status="START")
-        request.save()
+        expertise_request = inspections_models.ExpertiseOpinion.objects.create(expertise_request=form.instance, status="START")
+        expertise_request.save()
         form_valid = super(RequestCreateView, self).form_valid(form)
         return form_valid
 
     def get_context_data(self, **kwargs):
         context = super(RequestCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context["form"] = forms.RequestCreateForm(self.request.POST, instance=self.object)
+            context["form"] = forms.ExpertiseRequestCreateForm(self.request.POST, instance=self.object)
             # context["source_formset"] = forms.SourceFormset(self.request.POST, self.request.FILES, instance=self.object)
         else:
             context['dig_res'] = self.digital_resource
-            context["form"] = forms.RequestCreateForm(instance=self.object)
+            context["form"] = forms.ExpertiseRequestCreateForm(instance=self.object)
             # context["source_formset"] = forms.SourceFormset(instance=self.object)
         return context
 
 
 class RequestDetailView(GroupRequiredMixin, generic.DetailView):
-    model = inspections_models.Request
-    form_class = forms.RequestCreateForm
+    model = inspections_models.ExpertiseRequest
+    form_class = forms.ExpertiseRequestCreateForm
     group_required = ["teacher", "secretary", "admins", ]
 
 
 class RequestUpdateView(GroupRequiredMixin, generic.UpdateView):
-    model = inspections_models.Request
+    model = inspections_models.ExpertiseRequest
     form_class = forms.RequestUpdateForm
     pk_url_kwarg = "pk"
     template_name = 'inspections/request_form_update.html'
     group_required = ["secretary", "admins", ]
 
     def dispatch(self, request, *args, **kwargs):
-        self.request = get_object_or_404(inspections_models.Request, pk=kwargs["pk"])
+        self.expertise_request = get_object_or_404(inspections_models.ExpertiseRequest, pk=kwargs["pk"])
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -274,14 +274,14 @@ class RequestUpdateView(GroupRequiredMixin, generic.UpdateView):
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
             #                                                                      instance=self.object)
         else:
-            request = self.object
-            context['temporary_status'] = request.get_temporary_status()
-            expertise_opinion = request.get_expertise_opinion()
+            expertise_request = self.object
+            context['temporary_status'] = expertise_request.get_temporary_status()
+            expertise_opinion = expertise_request.get_expertise_opinion()
             context['expertise_opinion'] = expertise_opinion
             response = inspections_models.ExpertiseOpinion.objects.select_related('expertise_type').all()
-            answer = inspections_models.OpinionIndicator.objects.filter(response=response)
+            opinion_indicator = inspections_models.OpinionIndicator.objects.filter(expertise_opinion=expertise_opinion)
             context["form"] = forms.RequestUpdateForm(instance=self.object)
-        # self.object.digital_complex = inspections_models.Request.get_digital_resource(self)
+        # self.object.digital_complex = inspections_models.ExpertiseRequest.get_digital_resource(self)
         return context
 
 
@@ -335,14 +335,14 @@ class ExpertiseOpinionCreateView(GroupRequiredMixin, generic.CreateView):
     group_required = ["expert", "admins", "secretary"]
 
     def dispatch(self, request, *args, **kwargs):
-        self.expertise = get_object_or_404(inspections_models.Request, pk=kwargs["expertise_pk"])
+        self.expertise_request = get_object_or_404(inspections_models.ExpertiseRequest, pk=kwargs["expertise_request_pk"])
         self.digital_resource = get_object_or_404(inspections_models.DigitalResource,
-                                                  pk=kwargs["digital_resource_pk"])
+                                                  pk=self.expertise_request.digital_resource.pk)
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.digital_resource = self.digital_resource
-        form.instance.expertise = self.expertise
+        form.instance.expertise_request = self.expertise_request
         form.instance.status = "IN_PROCESS"
         form.save()
         form_valid = super(ExpertiseOpinionCreateView, self).form_valid(form)
@@ -358,12 +358,13 @@ class ExpertiseOpinionCreateView(GroupRequiredMixin, generic.CreateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy("inspections:inspections_Request_update", args=(self.object.expertise.pk,))
+        return reverse_lazy("inspections:ExpertiseRequest_update", args=(self.object.expertise_request.pk,))
 
 
 class ExpertiseOpinionDetailView(generic.DetailView):
     model = inspections_models.ExpertiseOpinion
     form_class = forms.ExpertiseOpinionUpdateForm
+    template_name = 'inspections/expertise_opinion_detail.html'
 
 
 class ExpertiseOpinionDetailCloseView(generic.DetailView):
@@ -378,12 +379,12 @@ class ExpertiseOpinionDetailCloseView(generic.DetailView):
             response = inspections_models.ExpertiseOpinion.objects.prefetch_related("user", "expertise_type", "expertise_opinion").filter(
                 user=self.request.user, expertise_type=self.object.expertise_type, expertise_opinion=self.object
             ).latest()
-            answers = inspections_models.OpinionIndicator.objects.filter(response=response).select_related("question").prefetch_related(
+            indicators = inspections_models.OpinionIndicator.objects.filter(response=response).select_related("question").prefetch_related(
                 "question__category").order_by('question__order')
-            context['answers'] = answers
-            context['categories'] = list(set([a.category for a in answers]))
+            context['indicators'] = indicators
+            context['categories'] = list(set([a.category for a in indicators]))
         except:
-            context['answers'] = None
+            context['indicators'] = None
             context['categories'] = None
         return context
 
@@ -403,12 +404,12 @@ class ExpertiseOpinionUpdateView(GroupRequiredMixin, generic.UpdateView):
         person = Expert.get_expert(user=self.request.user)
         form.instance.status = "IN_PROCESS"
         form.instance.expert = person
-        form.instance.expertise = self.get_object().expertise
+        form.instance.expertise_request = self.get_object().expertise_request
         form_valid = super(ExpertiseOpinionUpdateView, self).form_valid(form)
         return form_valid
 
     def get_success_url(self):
-        return reverse_lazy("inspections:inspections_ExpertiseMy_list")
+        return reverse_lazy("inspections:ExpertiseRequestMy_list")
 
     def get_context_data(self, **kwargs):
         context = super(ExpertiseOpinionUpdateView, self).get_context_data(**kwargs)
@@ -417,7 +418,7 @@ class ExpertiseOpinionUpdateView(GroupRequiredMixin, generic.UpdateView):
             # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
             #                                                                      instance=self.object)
         else:
-            checklists = self.model.get_checklists(expertise=self.object.expertise)
+            checklists = self.model.get_checklists(expertise_request=self.object.expertise_request)
             context['checklists'] = checklists
             logger.warning(checklists)
             context["form"] = forms.ExpertiseOpinionUpdateForm(instance=self.object)
@@ -425,37 +426,28 @@ class ExpertiseOpinionUpdateView(GroupRequiredMixin, generic.UpdateView):
         return context
 
 
-class ExpertiseOpinionUpdateExpertView(GroupRequiredMixin, generic.UpdateView):
-    model = inspections_models.ExpertiseOpinion
-    form_class = forms.ExpertiseOpinionUpdateForm
-    pk_url_kwarg = "pk"
-    group_required = ["expert", "admins"]
-    template_name = 'inspections/expertise_opinion_form_update_expert.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.digital_resource = get_object_or_404(inspections_models.DigitalResource,
-                                                  pk=kwargs["pk"])
-        return super().dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        form.instance.digital_resource = self.digital_resource
-        # form.instance.expertise = inspections_models.Request.get_request(self)
-        # form.instance.status = "START"
-        form.save()
-        form_valid = super(ExpertiseOpinionUpdateExpertView, self).form_valid(form)
-        return form_valid
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context["form"] = forms.ExpertiseOpinionUpdateForm(self.request.POST, instance=self.object)
-            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(self.request.POST,
-            #                                                                      instance=self.object)
-        else:
-            context['dig_res'] = self.digital_resource
-            context["form"] = forms.ExpertiseOpinionUpdateForm(instance=self.object)
-            # context["assignment_formset"] = forms.AssignmentAcademicGroupFormset(instance=self.object)
-        return context
+# class ExpertiseOpinionUpdateExpertView(GroupRequiredMixin, generic.UpdateView):
+#     model = inspections_models.ExpertiseOpinion
+#     form_class = forms.ExpertiseOpinionUpdateForm
+#     pk_url_kwarg = "pk"
+#     group_required = ["expert", "admins"]
+#     template_name = 'inspections/expertise_opinion_form_update_expert.html'
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         return super().dispatch(request, *args, **kwargs)
+#
+#     def form_valid(self, form):
+#         form.save()
+#         form_valid = super(ExpertiseOpinionUpdateExpertView, self).form_valid(form)
+#         return form_valid
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         if self.request.POST:
+#             context["form"] = forms.ExpertiseOpinionUpdateForm(self.request.POST, instance=self.object)
+#         else:
+#             context["form"] = forms.ExpertiseOpinionUpdateForm(instance=self.object)
+#         return context
 
 
 class ExpertiseOpinionView(generic.View):
@@ -463,71 +455,67 @@ class ExpertiseOpinionView(generic.View):
     success_url = '/ExpertiseMy/'
 
 
-class ExpertiseTypeDetail(View):
+class ExpertiseOpinionUpdateExpertView(View):
     @expertise_available
     def get(self, request, *args, **kwargs):
-        expertise_type = kwargs.get("expertise_type")
-        step = kwargs.get("step", 0)
-        expertise_opinion = kwargs.get("expertise_opinion")
-        expertise_opinion_pk = kwargs.get("expertise_opinion_pk")
+        # expertise_type = kwargs.get("expertise_type")
+        step = kwargs.get('step', 0)
+        # expertise_opinion = get_object_or_404(inspections_models.ExpertiseOpinion, kwargs.get('pk'))
+        expertise_opinion = kwargs.get('expertise_opinion')
+        # expertise_request_pk = kwargs.get('expertise_request_pk')
+        # self.expertise_request = inspections_models.ExpertiseRequest.objects.get(pk=expertise_request_pk)
         # expert = Expert.get_expert(user=request.user)
-        if expertise_type.template is not None and len(expertise_type.template) > 4:
-            template_name = expertise_type.template
+        if expertise_opinion.expertise_type.template is not None and len(expertise_opinion.expertise_type.template) > 4:
+            template_name = expertise_opinion.expertise_type.template
         else:
-            if expertise_type.is_all_in_one_page():
-                template_name = "inspections/one_page_survey.html"
-            else:
-                template_name = "inspections/survey.html"
+            # if expertise_type.is_all_in_one_page():
+            template_name = 'inspections/one_page_survey.html'
+            # else:
+            #     template_name = 'inspections/survey.html'
         if not request.user.is_authenticated:
-            return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
+            return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 
-        form = ExpertiseOpinionForm(expertise_type=expertise_type, expert=Expert.get_expert(request.user), step=step, expertise_opinion=expertise_opinion)
+        form = ExpertiseOpinionForm(expertise_type=expertise_opinion.expertise_type, expert=Expert.get_expert(request.user), step=step, expertise_request=expertise_opinion.expertise_request)
         categories = form.current_categories()
 
         asset_context = {
-            # If any of the widgets of the current form has a "date" class, flatpickr will be loaded into the template
-            "flatpickr": any([field.widget.attrs.get("class") == "date" for _, field in form.fields.items()])
+            # If any of the widgets of the current form has a 'date' class, flatpickr will be loaded into the template
+            'flatpickr': any([field.widget.attrs.get('class') == 'date' for _, field in form.fields.items()])
         }
         context = {
-            "response_form": form,
-            "expertise_type": expertise_type,
-            "categories": categories,
-            "step": step,
-            "asset_context": asset_context,
-            "expertise_opinion": expertise_opinion,
-            "expertise_opinion_pk": expertise_opinion_pk,
+            'response_form': form,
+            'expertise_type': expertise_opinion.expertise_type,
+            'categories': categories,
+            'step': step,
+            'asset_context': asset_context,
+            'expertise_opinion': expertise_opinion
         }
 
         return render(request, template_name, context)
 
     @expertise_available
     def post(self, request, *args, **kwargs):
-        expertise_type = kwargs.get("expertise_type")
-        expertise_opinion = kwargs.get("expertise_opinion")
-        expertise_opinion_pk = kwargs.get("expertise_opinion_pk")
         if not request.user.is_authenticated:
             return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
 
-        form = ExpertiseOpinionForm(request.POST, expertise_type=expertise_type, expert=Expert.get_expert(request.user), step=kwargs.get("step", 0),
-                                    expertise_opinion=expertise_opinion)
+        form = ExpertiseOpinionForm(request.POST, expert=Expert.get_expert(request.user), step=kwargs.get("step", 0))
+        expertise_opinion = form.instance
         categories = form.current_categories()
 
         # if not survey.editable_answers and form.response is not None:
-        #     LOGGER.info("Redirects to survey list after trying to edit non editable answer.")
+        #     LOGGER.info("Redirects to survey list after trying to edit non-editable answer.")
         #     return redirect(reverse("survey:survey-list"))
         context = {
             "response_form": form,
-            "expertise_type": expertise_type,
+            "expertise_type": expertise_opinion.expertise_type,
             "categories": categories,
-            "expertise_opinion": expertise_opinion,
-            "expertise_opinion_pk": expertise_opinion_pk
         }
         if form.is_valid():
             expertise_opinion.date = timezone.now()
             expertise_opinion.status = 'END'
             expertise_opinion.save()
-            return self.treat_valid_form(form, kwargs, request, expertise_type, expertise_opinion)
-        return self.handle_invalid_form(context, form, request, expertise_type)
+            return self.treat_valid_form(form, kwargs, request, expertise_opinion.expertise_type)
+        return self.handle_invalid_form(context, form, request, expertise_opinion.expertise_type)
 
     @staticmethod
     def handle_invalid_form(context, form, request, expertise_type):
@@ -535,16 +523,16 @@ class ExpertiseTypeDetail(View):
         if expertise_type.template is not None and len(expertise_type.template) > 4:
             template_name = expertise_type.template
         else:
-            if expertise_type.is_all_in_one_page():
-                template_name = "inspections/one_page_survey.html"
-            else:
-                template_name = "inspections/survey.html"
+            # if expertise_type.is_all_in_one_page():
+            template_name = "inspections/one_page_survey.html"
+            # else:
+            #     template_name = "inspections/survey.html"
         return render(request, template_name, context)
 
     def checking_answers(self, kwargs, request, expertise_type, expertise_opinion):
         pass  # TODO: статус экспертизы
 
-    def treat_valid_form(self, form, kwargs, request, expertise_type, expertise_opinion):
+    def treat_valid_form(self, form, kwargs, request, expertise_type):
         session_key = "expertise_type_%s" % (kwargs["id"],)
         if session_key not in request.session:
             request.session[session_key] = {}
@@ -552,18 +540,18 @@ class ExpertiseTypeDetail(View):
             request.session[session_key][key] = value
             request.session.modified = True
         next_url = form.next_step_url()
-        response = None
-        if expertise_type.is_all_in_one_page():
-            response = form.save()
-        else:
-            # when it's the last step
-            if not form.has_next_step():
-                save_form = ExpertiseOpinionForm(request.session[session_key], expertise_type=expertise_type, user=request.user,
-                                                 expertise_opinion=expertise_opinion)
-                if save_form.is_valid():
-                    response = save_form.save()
-                else:
-                    logger.warning("A step of the multipage form failed but should have been discovered before.")
+        # response = None
+        # if expertise_type.is_all_in_one_page():
+        response = form.save()
+        # else:
+        #     # when it's the last step
+        #     if not form.has_next_step():
+        #         save_form = ExpertiseOpinionForm(request.session[session_key], expertise_type=expertise_type, user=request.user,
+        #                                          expertise_opinion=expertise_opinion)
+        #         if save_form.is_valid():
+        #             response = save_form.save()
+        #         else:
+        #             logger.warning("A step of the multipage form failed but should have been discovered before.")
         # if there is a next step
         if next_url is not None:
             return redirect(next_url)
@@ -575,7 +563,7 @@ class ExpertiseTypeDetail(View):
             if "next" in request.session:
                 del request.session["next"]
             return redirect(next_)
-        return redirect("inspections:expertise_completion", uuid=expertise_opinion.pk)
+        return redirect("inspections:expertise_completion", uuid=self.pk)
 
 
 class ExpertiseTypeCompleted(TemplateView):

@@ -90,8 +90,8 @@ class ExpertiseType(auto_prefetch.Model):
     def non_empty_categories(self):
         return [x for x in list(self.categories.order_by('order', 'id')) if x.questions.count() > 0]
 
-    def get_expertise_opinions(self, expert, expertise_type, request):
-        return self.expertiseopinion_set.filter(Q(expert=expert) & Q(expertise_type=expertise_type) & Q(request=request))
+    def get_expertise_opinions(self, expert, expertise_type, expertise_request):
+        return self.expertiseopinion_set.filter(Q(expert=expert) & Q(expertise_type=expertise_type) & Q(expertise_request=expertise_request))
 
     def is_methodic(self):
         if 'методическая' in self.title.lower():
@@ -559,7 +559,7 @@ class OpinionIndicator(repository_model.BaseModel):
         return "{} to '{}' : '{}'".format(self.__class__.__name__, self.indicator, self.body)
 
 
-class Request(repository_model.BaseModel):
+class ExpertiseRequest(repository_model.BaseModel):
     """
     Заявка на проведение экспертизы, ex-Expertise
     """
@@ -668,29 +668,30 @@ class Request(repository_model.BaseModel):
     class Meta:
         verbose_name = 'заявка'
         verbose_name_plural = 'заявки'
+        get_latest_by = 'date'
 
     def __str__(self):
         return f"{self.get_status_display()} {self.digital_resource.title} {self.date} {self.owner}"
 
     def get_absolute_url(self):
-        return reverse('inspections:inspections_Request_detail', args=(self.pk,))
+        return reverse('inspections:ExpertiseRequest_detail', args=(self.pk,))
 
     def get_absolute_url_digital_resource(self):
         return reverse('repository:repository_DigitalResource_detail', args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('inspections:inspections_Request_update', args=(self.pk,))
+        return reverse('inspections:ExpertiseRequest_update', args=(self.pk,))
 
     def save(self, *args, **kwargs):
         if self.date is None:
             self.date = timezone.now()
         elif self.date is not None:
             self.date = None
-        super(Request, self).save(*args, **kwargs)
+        super(ExpertiseRequest, self).save(*args, **kwargs)
 
     # choose type checklist
     # def get_checklists(self, type):
-    #     return ExpertiseOpinion.objects.filter(expertise=self.pk, type=type)
+    #     return ExpertiseOpinion.objects.filter(expertise_request=self.pk, type=type)
     def get_expertise_opinion(self):
         return self.expertiseopinion_set.all()
 
@@ -719,12 +720,11 @@ class Request(repository_model.BaseModel):
         return resp
 
     def get_checklists_self(self):
-        return ExpertiseOpinion.objects.filter(request=self.pk)
+        return ExpertiseOpinion.objects.filter(expertise_request=self.pk)
 
-    def get_expertise(self):
-        expertise_pk = self.request.path.split('/')[5]
-        expertise = Request.objects.get(pk=expertise_pk)
-        return expertise
+    def get_expertise(self, request):
+        expertise_request_pk = request.path.split('/')[5]
+        return ExpertiseRequest.objects.get(pk=expertise_request_pk)
 
     def check_empty_queryset(self, type):
         if type == 'directions':
@@ -765,23 +765,25 @@ class ExpertiseOpinion(repository_model.BaseModel):
     date = models.DateField('Дата проведения экспертизы', blank=True, null=True)
     protocol = models.CharField('№ Протокола учебно-методического совета института', max_length=424, null=True,
                                 blank=True)
-    request = auto_prefetch.ForeignKey('inspections.Request', verbose_name='Заявка', on_delete=models.CASCADE, blank=True)
+    expertise_request = auto_prefetch.ForeignKey('inspections.ExpertiseRequest', verbose_name='Заявка', on_delete=models.CASCADE, blank=True)
     status = models.CharField('Состояние', max_length=30, choices=STATUS_CHOICES, default=START, blank=True)
 
-    expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.PROTECT, verbose_name='Вид экспертизы', related_name='responses', null=True)
+    expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.PROTECT, verbose_name='Вид экспертизы', related_name='opinions', null=True)
 
     class Meta:
         verbose_name = 'экспертное заключение'
         verbose_name_plural = 'экспертные заключения'
+        get_latest_by = "date"
 
     def __str__(self):
-        return f'{self.request} {self.status} {self.expertise_type}'
+        # return f'{self.expertise_request} {self.status} {self.expertise_type}'
+        return f'self.expertise_request {self.status} {self.expertise_type}'
 
     def get_absolute_url(self):
-        return reverse('inspections:inspections_ExpertiseOpinion_detail', args=(self.pk,))
+        return reverse('inspections:ExpertiseOpinion_detail', args=(self.pk,))
 
     def get_update_url(self):
-        return reverse('inspections:inspections_ExpertiseOpinion_update', args=(self.pk,))
+        return reverse('inspections:ExpertiseOpinion_update', args=(self.pk,))
 
     @classmethod
     def get_close_my_checklist(cls, user):
@@ -798,24 +800,24 @@ class ExpertiseOpinion(repository_model.BaseModel):
         objs = cls.objects.exclude(
             # (Q(status='IN_PROCESS') | Q(status='START')) &
             # Q(status=cls.START) | Q(status=cls.END) |
-            Q(expertise__status=Request.ASSIGNED_STATUS) | Q(expertise__status=Request.NOT_ASSIGNED_STATUS)
+            Q(expertise_request__status=ExpertiseRequest.ASSIGNED_STATUS) | Q(expertise_request__status=ExpertiseRequest.NOT_ASSIGNED_STATUS)
         )
         return objs
 
     @classmethod
-    def get_checklists(cls, expertise):
-        return cls.objects.filter(expertise=expertise)
+    def get_checklists(cls, expertise_request):
+        return cls.objects.filter(expertise_request=expertise_request)
 
-    def get_request(self, request):
+    def get_request(self, expertise_request):
         try:
-            return ExpertiseOpinion.objects.get(request=request).request
+            return ExpertiseOpinion.objects.get(expertise_request=expertise_request).expertise_request
         except:
-            return Request.objects.none()
+            return ExpertiseRequest.objects.none()
 
-    def get_dig_res(self, expertise):
+    def get_dig_res(self, expertise_request):
         try:
-            expertise = ExpertiseOpinion.objects.get(expertise=expertise).expertise
-            dig_res = expertise.digital_resource
+            expertise_request = ExpertiseOpinion.objects.get(expertise_request=expertise_request).expertise_request
+            dig_res = expertise_request.digital_resource
         except:
             dig_res = None
         return dig_res
@@ -941,8 +943,8 @@ class Status(models.Model):
 
 
 class TemporaryStatus(models.Model):
-    request = models.ForeignKey('Request', verbose_name='Заявка', null=True, blank=True,
-                                on_delete=models.CASCADE)
+    expertise_request = models.ForeignKey(ExpertiseRequest, verbose_name='Заявка', null=True, blank=True,
+                                          on_delete=models.CASCADE)
     name = models.TextField('Тело статуса', blank=True, null=True)
     date = models.DateTimeField('Дата выставления статуса', blank=True, null=True)
 
@@ -954,9 +956,9 @@ class TemporaryStatus(models.Model):
         verbose_name_plural = 'временные статусы'
 
     @classmethod
-    def get_temporary_status(cls, request):
-        if request:
-            return cls.objects.filter(request=request)
+    def get_temporary_status(cls, expertise_request):
+        if expertise_request:
+            return cls.objects.filter(expertise_request=expertise_request)
         return None
 
 
@@ -1016,7 +1018,7 @@ class SummaryIndicator(repository_model.BaseModel):
     Рейтинг
     Имеются противоречия
     """
-    request = auto_prefetch.ForeignKey('inspections.Request', verbose_name='Заявка', on_delete=models.PROTECT)
+    expertise_request = auto_prefetch.ForeignKey('inspections.ExpertiseRequest', verbose_name='Заявка', on_delete=models.PROTECT)
     indicator = auto_prefetch.ForeignKey('inspections.Indicator', verbose_name='Показатель', on_delete=models.CASCADE)
     entity = models.PositiveSmallIntegerField('КУРС_ЭОР', null=True, blank=True)
     location = models.PositiveSmallIntegerField('Внеш_Внутр', null=True, blank=True)

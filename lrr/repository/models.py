@@ -282,7 +282,7 @@ class DigitalResource(BaseModel):
             return ""
 
     def get_create_request_url(self):
-        return reverse("inspections:inspections_Request_create", args=(self.pk,))
+        return reverse("inspections:ExpertiseRequest_create", args=(self.pk,))
 
     def get_source(self):
         try:

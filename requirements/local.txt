@@ -37,5 +37,7 @@ pytest-django==4.4.0  # https://github.com/pytest-dev/pytest-django
 django-postgres-metrics
 django-permissions-auditor
 itertable
+pydotplus
+pygraphviz
 
 # django-schema-graph

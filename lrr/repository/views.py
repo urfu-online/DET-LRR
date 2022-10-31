@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic, View
 
-from lrr.inspections.models import Request, TemporaryStatus
+from lrr.inspections.models import ExpertiseRequest, TemporaryStatus
 from lrr.users.mixins import GroupRequiredMixin
 from lrr.users.models import Person
 from . import forms
@@ -182,9 +182,9 @@ class DigitalResourceDetailView(GroupRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DigitalResourceDetailView, self).get_context_data(**kwargs)
-        context['expertise'] = Request.get_digital_resource_status(self.object)
-        expertise = Request.get_expertise_mthd(self.object)
-        context['temporary_status'] = TemporaryStatus.get_temporary_status(expertise)
+        context['expertise_request'] = ExpertiseRequest.get_digital_resource_status(self.object)
+        expertise_request = ExpertiseRequest.get_expertise_mthd(self.object)
+        context['temporary_status'] = TemporaryStatus.get_temporary_status(expertise_request)
         context['source'] = models.Source.objects.filter(digital_resource=self.object)
         # TODO: доделать нормальное отображение source
         return context

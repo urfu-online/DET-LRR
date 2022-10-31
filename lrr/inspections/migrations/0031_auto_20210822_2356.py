@@ -7,10 +7,8 @@ import django.db.models.manager
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('users', '0023_student_academic_group'),
-        ('survey', '0019_remove_question_indicator'),
         ('repository', '0020_auto_20210822_2240'),
         ('inspections', '0030_auto_20210822_2240'),
     ]

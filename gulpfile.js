@@ -1,8 +1,10 @@
 ////////////////////////////////
 // Setup
 ////////////////////////////////
+// noinspection JSCheckFunctionSignatures
 
 // Gulp and package
+
 const {src, dest, parallel, series, watch} = require('gulp')
 const pjson = require('./package.json')
 
@@ -18,11 +20,11 @@ const postcss = require('gulp-postcss')
 const reload = browserSync.reload
 const rename = require('gulp-rename')
 const sass = require('gulp-sass')(require('sass'))
-const spawn = require('child_process').spawn
+// const spawn = require('child_process').spawn
 const uglify = require('gulp-uglify-es').default
 
 // Relative paths function
-function pathsConfig(appName) {
+function pathsConfig() {
     this.app = `./${pjson.name}`
     const vendorsRoot = 'node_modules'
 
@@ -49,14 +51,14 @@ let paths = pathsConfig()
 // Tasks
 ////////////////////////////////
 
-// Styles autoprefixing and minification
+// Styles auto prefixing and minification
 function styles() {
     let processCss = [
         autoprefixer(), // adds vendor prefixes
         pixrem(),       // add fallbacks for rem units
     ]
 
-        let minifyCss = [
+    let minifyCss = [
         cssnano({
             preset: ['default',
                 {
@@ -139,14 +141,14 @@ function imgCompression() {
 }
 
 // Run django server
-function runServer(cb) {
-    let cmd = spawn('python', ['manage.py', 'runserver'], {stdio: 'inherit'})
-
-    cmd.on('close', (code) => {
-        console.log(`runServer exited with code ${  code}`)
-        cb(code)
-    })
-}
+// function runServer(cb) {
+//     let cmd = spawn('python', ['manage.py', 'runserver'], {stdio: 'inherit'})
+//
+//     cmd.on('close', (code) => {
+//         console.log(`runServer exited with code ${code}`)
+//         cb(code)
+//     })
+// }
 
 // Browser sync server for live reload
 function initBrowserSync() {

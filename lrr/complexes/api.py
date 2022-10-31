@@ -7,7 +7,7 @@ from rest_framework import viewsets, permissions
 
 from lrr.complexes import models
 from lrr.complexes import serializers
-from lrr.inspections.models import Request
+from lrr.inspections.models import ExpertiseRequest
 from lrr.inspections.serializers import RequestSubjectListSerializer
 from lrr.repository.models import DigitalResource
 from lrr.repository.serializers import DigitalResourceListSerializer
@@ -71,12 +71,12 @@ class DigitalResourceSubjectListRecomendedFilter(FilterSet):
     subjects = filters.Filter(field_name="digital_resource__subjects_tags__tag__title")
 
     class Meta:
-        model = Request
+        model = ExpertiseRequest
         fields = ['subjects']
 
 
 class DigitalResourceSubjectListRecomended(viewsets.ModelViewSet):
-    queryset = Request.objects.filter(status='ASSIGNED_STATUS')
+    queryset = ExpertiseRequest.objects.filter(status='ASSIGNED_STATUS')
     serializer_class = RequestSubjectListSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)

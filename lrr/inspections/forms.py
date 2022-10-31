@@ -10,7 +10,7 @@ from django_select2 import forms as s2forms
 from lrr.inspections import models as inspections_models
 from lrr.users.models import Expert
 from lrr.utils import slugify
-from .models import Indicator, Request, Category, OpinionIndicator, ExpertiseOpinion
+from .models import Indicator, ExpertiseRequest, Category, OpinionIndicator, ExpertiseOpinion
 from .signals import survey_completed
 from .widgets import ImageSelectWidget
 
@@ -35,9 +35,9 @@ class DigitalComplexesWidget(s2forms.ModelSelect2MultipleWidget):
     max_results = 50
 
 
-class RequestCreateForm(forms.ModelForm):
+class ExpertiseRequestCreateForm(forms.ModelForm):
     class Meta:
-        model = inspections_models.Request
+        model = inspections_models.ExpertiseRequest
         fields = [
             "type",
             "subjects",
@@ -107,7 +107,7 @@ class RequestCreateForm(forms.ModelForm):
 
 class RequestUpdateForm(forms.ModelForm):
     class Meta:
-        model = inspections_models.Request
+        model = inspections_models.ExpertiseRequest
         fields = [
             # "digital_resource",
             # "subjects",
@@ -212,7 +212,7 @@ class ExpertiseOpinionCreateForm(forms.ModelForm):
             "expertise_type",
             "expert",
         ]
-        exclude = ["request", "date", "protocol", "status"],
+        exclude = ["expertise_request", "date", "protocol", "status"],
         widgets = {
             'expertise_type': forms.Select(
                 attrs={
@@ -237,7 +237,7 @@ class ExpertiseOpinionUpdateForm(forms.ModelForm):
             "date",
             "protocol",
             "status",
-            "request",
+            "expertise_request",
             "expertise_type"
         ]
         widgets = {
@@ -282,7 +282,7 @@ class ExpertiseOpinionForm(forms.ModelForm):
         """ Expects expertise_type object to be passed in initially """
         self.expertise_type = kwargs.pop("expertise_type")
         self.expert = kwargs.pop("expert")
-        self.expertise_opinion = kwargs.pop("expertise_opinion")
+        self.expertise_request = kwargs.pop("expertise_request")
         try:
             self.step = int(kwargs.pop("step"))
         except KeyError:
@@ -329,7 +329,7 @@ class ExpertiseOpinionForm(forms.ModelForm):
         #         self.add_indicator(indicator, data)
         # else:
 
-        disciplines = self.expertise_opinion.request.subjects.all()
+        disciplines = self.expertise_request.subjects.all()
         per_discipline_indicator_count = self.expertise_type.indicators.filter(per_discipline=True).count()
 
         for i, indicator in enumerate(self.expertise_type.indicators.all()):
@@ -353,7 +353,7 @@ class ExpertiseOpinionForm(forms.ModelForm):
         # if self.expertise_type.display_method == ExpertiseType.BY_CATEGORY:
         if self.step is not None and self.step < len(self.categories):
             return [self.categories[self.step]]
-        return [Category(title="Без категории", description="")]
+        return [Category(title="Без категории")]
         # else:
         #     extras = []
         #     if self.qs_with_no_cat:
@@ -372,16 +372,16 @@ class ExpertiseOpinionForm(forms.ModelForm):
         if self.response:
             return self.response
 
-        if not self.user.is_authenticated:
+        if not self.expert.get_user().is_authenticated:
             self.response = None
         else:
-            expert = Expert.get_expert(self.user)
+            # expert = Expert.get_expert(self.user)
             try:
-                self.response = ExpertiseOpinion.objects.prefetch_related("expert", "expertise_type", "request").filter(
-                    expert=expert, expertise_type=self.expertise_type, request=self.request
+                self.response = ExpertiseOpinion.objects.prefetch_related("expert", "expertise_type", "expertise_request").filter(
+                    expert=self.expert, expertise_type=self.expertise_type, expertise_request=self.expertise_request
                 ).latest()
-            except Request.DoesNotExist:
-                logger.debug(f"No saved response for {self.expertise_type} for expert {expert}")
+            except ExpertiseRequest.DoesNotExist:
+                logger.debug(f"No saved response for {self.expertise_type} for expert {self.expert}")
                 self.response = None
         return self.response
 
@@ -569,5 +569,5 @@ class ExpertiseOpinionForm(forms.ModelForm):
                 indicator.expertise_opinion = response
                 self.save_status(opinion_indicator, indicator, self.expertise_type)
                 opinion_indicator.save()
-        survey_completed.send(sender=Request, instance=response, data=data)
+        survey_completed.send(sender=ExpertiseRequest, instance=response, data=data)
         return response

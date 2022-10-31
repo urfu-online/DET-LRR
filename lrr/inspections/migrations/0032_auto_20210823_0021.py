@@ -7,9 +7,7 @@ import django_better_admin_arrayfield.models.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('survey', '0019_remove_question_indicator'),
         ('inspections', '0031_auto_20210822_2356'),
     ]
 

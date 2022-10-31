@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static crispy_forms_tags widget_tweaks bootstrap_icons %}
+{% load static crispy_forms_tags widget_tweaks bootstrap_icons survey_extras %}
 {% block content %}
 
   <nav aria-label="breadcrumb">
@@ -8,11 +8,12 @@
       {#      <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>#}
       {#      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>#}
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу
-        "{{ object.expertise.digital_resource }}"
+        "{{ object.expertise_request.digital_resource }}"
+        "{% get_all expertiseopinion %}"
       </li>
     </ol>
   </nav>
-  <header><h1 class="display-3">Заявка на экспертизу <br/>{{ object.expertise.digital_resource }}</h1></header>
+  <header><h1 class="display-3">Заявка на экспертизу <br/>{{ object.expertise_request.digital_resource }}</h1></header>
   <div class="row p-2">
     <div class="col-12 p-2">
       <div class="card h-100 border-secondary shadow-2">
@@ -23,24 +24,24 @@
             {{ form.non_field_errors }}
             {{ form.media.css }}
             <a class="btn btn-outline-primary position-absolute" style="right: 2em;"
-               href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}"><i
-              class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
+            {#               href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise_request.digital_resource.pk %}">#}
+            <i class="fas fa-passport fa-lg"></i> Паспорт ЭОР</a>
             <dl class="row">
               <dt class="col-sm-3">Тип заявки</dt>
-              <dd class="col-sm-9">{{ object.expertise.get_type_display }}</dd>
+              <dd class="col-sm-9">{{ object.expertise_request.get_type_display }}</dd>
             </dl>
             <dl class="row">
               <dt class="col-sm-3">Инициатор</dt>
-              <dd class="col-sm-9">{{ object.expertise.owner }}</dd>
+              <dd class="col-sm-9">{{ object.expertise_request.owner }}</dd>
             </dl>
             <dl class="row">
               <dt class="col-sm-3">Дата заявки</dt>
-              <dd class="col-sm-9">{{ object.expertise.date }}</dd>
+              <dd class="col-sm-9">{{ object.expertise_request.date }}</dd>
             </dl>
             <dl class="row">
               <dt class="col-sm-3">Дисциплина(ы)</dt>
               <dd class="col-sm-9">
-                {% for subject in object.expertise.subjects.all %}
+                {% for subject in object.expertise_request.subjects.all %}
                   {{ subject }}<br>
                 {% endfor %}
               </dd>
@@ -48,7 +49,7 @@
             <dl class="row">
               <dt class="col-sm-3">Направления подготовки/Образовательная программа</dt>
               <dd class="col-sm-9">
-                {% for direction in object.expertise.directions.all %}
+                {% for direction in object.expertise_request.directions.all %}
                   {{ direction }}<br>
                 {% endfor %}
               </dd>
@@ -57,10 +58,11 @@
               <dt class="col-sm-3">ЭУМК</dt>
               <dd class="col-sm-9">
 
-                {% for digital_complex in object.expertise.digital_complexes.all %}
+
+                {% for digital_complex in object.expertise_request.digital_complexes.all %}
                   <a class="btn btn-outline-link pl-0"
-                     href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}"><i
-                    class="fas fa-link"></i> {{ digital_complex }}</a>
+                    {#                     href="{% url 'complexes:complexes_DigitalComplex_detail' pk=digital_complex.pk %}"><i#}
+                     class="fas fa-link"></i> {{ digital_complex }}</a>
                 {% empty %}
                   <span class="text-muted">отсутствуют</span>
                 {% endfor %}

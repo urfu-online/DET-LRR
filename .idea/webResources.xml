@@ -6,6 +6,9 @@
         <entryData>
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/lrr/static" />
+            <path value="file://$PROJECT_DIR$/lrr/fixtures" />
+            <path value="file://$PROJECT_DIR$/backups" />
+            <path value="file://$PROJECT_DIR$/lrr/data" />
           </resourceRoots>
         </entryData>
       </entry>

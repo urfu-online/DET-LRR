@@ -8,7 +8,7 @@ from lrr.inspections import serializers
 class RequestViewSet(viewsets.ModelViewSet):
     """ViewSet for the Status_COR class"""
 
-    queryset = models.Request.objects.all()
+    queryset = models.ExpertiseRequest.objects.all()
     serializer_class = serializers.RequestSerializer
     permission_classes = [permissions.IsAuthenticated]
 

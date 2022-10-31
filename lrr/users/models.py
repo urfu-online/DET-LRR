@@ -39,10 +39,8 @@ class User(AbstractUser):
 
 
 class Person(models.Model):
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                              related_name='person')
-
 
     location = models.CharField("Адрес проживания", max_length=150, null=True, blank=True)
     date_birthday = models.DateTimeField("Дата рождения", null=True, blank=True)
@@ -105,7 +103,6 @@ class Person(models.Model):
 
 
 class Student(models.Model):
-
     person = models.ForeignKey("users.Person", on_delete=models.CASCADE)
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.PROTECT,
                                        verbose_name="Номер академической группы", null=True)
@@ -188,7 +185,6 @@ class ChoicesExpert(models.Model):
         (CONTENT, 'Содержательная'),
         (TECH, 'Техническая'),
 
-
     ]
     type = models.CharField("Вид экспертизы", max_length=30, choices=STATUS_CHOICES)
 
@@ -215,6 +211,9 @@ class Expert(models.Model):
     def get_absolute_url(self):
         return reverse("users:expert_detail", args=(self.pk,))
 
+    def get_user(self):
+        return self.person.user
+
     @classmethod
     def get_expert(cls, user):
         try:
@@ -230,7 +229,7 @@ class GroupDisciplines(models.Model):
     last_updated = models.DateTimeField("Последние обновление", auto_now=True, editable=False)
 
     academic_group = models.ForeignKey("users.AcademicGroup", on_delete=models.CASCADE, verbose_name="Академическая группа",
-                              blank=True, null=True)
+                                       blank=True, null=True)
     subject = models.ForeignKey("repository.Subject", verbose_name="Дисциплина(ы)", on_delete=models.PROTECT,
                                 blank=True, null=True)
     semestr = models.PositiveSmallIntegerField(verbose_name="Семестр", blank=True, null=True)

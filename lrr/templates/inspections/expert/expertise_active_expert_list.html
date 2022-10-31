@@ -65,13 +65,13 @@
       </tr>
       </thead>
       <tbody>
-      {% for object in object_list %}
+      {% for object in expertiseopinion_list %}
         <tr>
-          <td>{{ object.expertise.digital_resource.title }}</td>
-          <td>{{ object.expertise.owner }}</td>
+          <td>{{ object.expertise_request.digital_resource.title }}</td>
+          <td>{{ object.expertise_request.owner }}</td>
           <td class="text-nowrap">{{ object.created|date:'d E Y H:i' }}</td>
-          <td>{{ object.expertise.get_type_display }}</td>
-          <td><a class="btn btn-outline-primary text-nowrap" href="{{ object.get_update_url }}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
+          <td>{{ object.expertise_request.get_type_display }}</td>
+          <td><a class="btn btn-outline-primary text-nowrap" href="{{ object.expertise_request.get_absolute_url }}"><i class="fas fa-info-circle fa-lg"></i> Подробнее</a></td>
         </tr>
       {% endfor %}
       </tbody>

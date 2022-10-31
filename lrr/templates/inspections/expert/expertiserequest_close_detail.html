@@ -9,13 +9,13 @@
       {#      <li class="breadcrumb-item"><a href="/">Каталог ЭОР</a></li>#}
       {#      <li class="breadcrumb-item"><a href="/">Паспорт ЭОР: {{ dig_res }}</a></li>#}
       <li class="breadcrumb-item active" aria-current="page">Заявка на экспертизу
-        "{{ object.expertise.digital_resource }}"
+        "{{ object.expertise_request.digital_resource }}"
       </li>
     </ol>
   </nav>
-  <header><h1 class="display-3">чек-лист "{{ object.expertise.digital_resource }}"</h1></header>
+  <header><h1 class="display-3">чек-лист "{{ object.expertise_request.digital_resource }}"</h1></header>
   <a class="btn btn-primary" style="float: right;"
-     href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise.digital_resource.pk %}">Паспорт
+     href="{% url 'repository:repository_DigitalResource_detail' pk=object.expertise_request.digital_resource.pk %}">Паспорт
     ЭОР</a>
   <div class="row p-2">
     <div class="col-12 p-2">
@@ -96,7 +96,7 @@
     </diV>
   </div>
   {% if request.user|has_group:"secretary" %}
-    <a class="btn btn-primary mt-4" href="{% url 'inspections:inspections_Request_detail' pk=object.expertise.pk %}">Данные
+    <a class="btn btn-primary mt-4" href="{% url 'inspections:ExpertiseRequest_detail' pk=object.expertise_request.pk %}">Данные
       экспертизы</a>
   {% endif %}
 {% endblock %}

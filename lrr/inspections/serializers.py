@@ -13,7 +13,7 @@ class RequestSerializer(serializers.ModelSerializer):
     subjects = repo_serializers.SubjectSerializer(many=True, read_only=True)
 
     class Meta:
-        model = inspections_models.Request
+        model = inspections_models.ExpertiseRequest
         fields = [
             "digital_resource",
             "date",
@@ -37,7 +37,7 @@ class RequestSubjectListSerializer(serializers.ModelSerializer):
     copyright_holder = serializers.CharField(source='digital_resource.copyright_holder')
 
     class Meta:
-        model = inspections_models.Request
+        model = inspections_models.ExpertiseRequest
         fields = [
             "pk",
             "title",
@@ -51,7 +51,7 @@ class CheckListSerializer(serializers.ModelSerializer):
     class Meta:
         model = inspections_models.ExpertiseOpinion
         fields = [
-            "expertise",
+            "expertise_request",
             "type",
             "expert",
             "date",
