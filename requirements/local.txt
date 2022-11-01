@@ -39,5 +39,6 @@ django-permissions-auditor
 itertable
 pydotplus
 pygraphviz
-
+django-reset-migrations
+django-dbbackup
 # django-schema-graph

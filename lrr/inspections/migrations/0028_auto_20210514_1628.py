@@ -8,7 +8,6 @@ import django_better_admin_arrayfield.models.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0027_auto_20210514_1417'),
     ]
 
     operations = [

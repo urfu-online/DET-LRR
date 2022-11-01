@@ -9,8 +9,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('users', '0001_initial'),
-        ('repository', '0001_initial'),
-        ('inspections', '0002_auto_20210310_1652'),
     ]
 
     operations = [

@@ -8,7 +8,6 @@ from django.contrib.postgres.operations import HStoreExtension
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0032_auto_20210823_0021'),
     ]
 
     operations = [

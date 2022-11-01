@@ -6,8 +6,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0037_auto_20210915_1225'),
-        ('inspections', '0038_alter_expertiserequest_date'),
     ]
 
     operations = [

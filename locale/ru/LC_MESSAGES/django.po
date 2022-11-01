@@ -173,15 +173,15 @@ msgstr "Варианты"
 
 #: lrr/inspections/models.py:494
 msgid "Creation date"
-msgstr ""
+msgstr "Дата создания"
 
 #: lrr/inspections/models.py:495
 msgid "Update date"
-msgstr ""
+msgstr "Дата обновления"
 
 #: lrr/inspections/models.py:496
 msgid "Content"
-msgstr ""
+msgstr "Содержимое"
 
 #: lrr/templates/account/account_inactive.html:5
 #: lrr/templates/account/account_inactive.html:8
@@ -412,7 +412,7 @@ msgstr "Ваш основной адрес электронной почты д�
 #: lrr/templates/account/password_reset_from_key_done.html:4
 #: lrr/templates/account/password_reset_from_key_done.html:7
 msgid "Change Password"
-msgstr ""
+msgstr "Изменить пароль"
 
 #: lrr/templates/account/password_reset.html:7
 #: lrr/templates/account/password_reset.html:11
@@ -429,17 +429,19 @@ msgstr ""
 
 #: lrr/templates/account/password_reset.html:20
 msgid "Reset My Password"
-msgstr ""
+msgstr "Сбросить пароль"
 
 #: lrr/templates/account/password_reset.html:24
 msgid "Please contact us if you have any trouble resetting your password."
-msgstr ""
+msgstr "Пожалуйста, свяжитесь с нами, если у вас возникнут проблемы со сбросом пароля."
 
 #: lrr/templates/account/password_reset_done.html:15
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
+"Мы отправили вам электронное письмо. Пожалуйста, свяжитесь с нами, если вы не получили его "
+"в течение нескольких минут."
 
 #: lrr/templates/account/password_reset_from_key.html:8
 msgid "Bad Token"
@@ -524,11 +526,11 @@ msgstr ""
 
 #: lrr/templates/admin/edit_inline/_tabular.html:65
 msgid "Delete?"
-msgstr ""
+msgstr "Удалить?"
 
 #: lrr/templates/admin/edit_inline/_tabular.html:84
 msgid "Change"
-msgstr ""
+msgstr "Изменить"
 
 #: lrr/templates/admin/edit_inline/_tabular.html:84
 msgid "View"
@@ -536,7 +538,7 @@ msgstr ""
 
 #: lrr/templates/admin/edit_inline/_tabular.html:86
 msgid "View on site"
-msgstr ""
+msgstr "Посмотреть на сайте"
 
 #: lrr/templates/base.old.html:56
 msgid "Рабочий план группы"
@@ -616,11 +618,11 @@ msgstr ""
 
 #: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html:6
 msgid "Type into this box to filter down the list."
-msgstr ""
+msgstr "Введите значение в это поле, чтобы отфильтровать список."
 
 #: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html:7
 msgid "Filter"
-msgstr ""
+msgstr "Фильтр"
 
 #: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html:20
 msgid "Choose items and order by drag & drop."

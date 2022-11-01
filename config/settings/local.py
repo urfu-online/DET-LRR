@@ -73,9 +73,12 @@ if env("USE_DOCKER") == "yes":
 
 # django-extensions
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ["django_extensions"]  # noqa F405
+INSTALLED_APPS += ["django_extensions", 'reset_migrations', 'dbbackup']  # noqa F405
 # Celery
 # ------------------------------------------------------------------------------
 CELERY_TASK_EAGER_PROPAGATES = True
 CSRF_COOKIE_SECURE = False
 SILKY_ANALYZE_QUERIES = True
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': f'{ROOT_DIR}/backups/'}

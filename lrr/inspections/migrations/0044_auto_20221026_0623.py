@@ -6,7 +6,6 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0043_alter_expertiserequest_options'),
     ]
 
     operations = [

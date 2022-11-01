@@ -13,7 +13,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('repository', '0025_alter_competence_title'),
-        ('inspections', '0046_auto_20221026_0720'),
     ]
 
     operations = [

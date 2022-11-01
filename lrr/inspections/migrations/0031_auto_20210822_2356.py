@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
     dependencies = [
         ('users', '0023_student_academic_group'),
         ('repository', '0020_auto_20210822_2240'),
-        ('inspections', '0030_auto_20210822_2240'),
     ]
 
     operations = [

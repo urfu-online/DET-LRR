@@ -9,7 +9,6 @@ import django.db.models.manager
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0030_auto_20210822_2240'),
         ('survey', '0017_auto_20210419_1613'),
     ]
 

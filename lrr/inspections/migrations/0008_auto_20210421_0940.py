@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('inspections', '0007_expertiserequest_survey'),
     ]
 
     operations = [

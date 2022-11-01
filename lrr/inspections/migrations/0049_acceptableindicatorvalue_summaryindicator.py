@@ -10,7 +10,6 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0048_auto_20221026_0928'),
     ]
 
     operations = [

@@ -6,7 +6,6 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0035_alter_indicatorgroup_title'),
     ]
 
     operations = [

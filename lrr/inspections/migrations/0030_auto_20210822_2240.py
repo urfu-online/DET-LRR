@@ -7,7 +7,6 @@ import django.db.models.manager
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0029_merge_20210822_0855'),
     ]
 
     operations = [

@@ -9,7 +9,6 @@ import django.db.models.manager
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0036_statusrequirement_available'),
     ]
 
     operations = [

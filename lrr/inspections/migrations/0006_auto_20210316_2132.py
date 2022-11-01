@@ -9,7 +9,6 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         ('users', '0003_auto_20210316_2132'),
-        ('inspections', '0005_delete_questionbase'),
     ]
 
     operations = [

@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
         ('complexes', '0040_complexparentcomponent_literarysourcescomponent_platformcomponent_resourcecomponent_traditionalsessi'),
         ('users', '0030_auto_20211018_2339'),
         ('repository', '0025_alter_competence_title'),
-        ('inspections', '0051_indicator_parent'),
     ]
 
     operations = [

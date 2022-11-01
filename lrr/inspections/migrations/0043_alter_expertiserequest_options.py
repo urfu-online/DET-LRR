@@ -6,7 +6,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inspections', '0042_expertise_status_text'),
     ]
 
     operations = [
