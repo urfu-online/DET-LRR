@@ -14,13 +14,13 @@
   <div class="card-footer position-relative">
 
     {% if object.get_url %}
-      <span class="card-notify-go"><a href="{{ object.get_url }}" class="card-link"><i class="fas fa-user-graduate"></i> Перейти</a></span>
+      <span class="card-notify-go"><a href="{{ object.get_url }}" class="card-link  hvr-grow"><i class="fas fa-user-graduate"></i> Перейти</a></span>
     {% else %}
-      <span class="card-notify-go"><a href="{{ object.get_url }}" disabled="disabled" class="card-link disabled"><i
+      <span class="card-notify-go"><a href="{{ object.get_url }}" disabled="disabled" class="card-link  hvr-grow disabled"><i
         class="user graduate icon"></i> Перейти</a></span>
     {% endif %}
 
-    <span class="card-notify-more"><a href="{{ object.get_absolute_url }}" class="card-link">Подробнее <i
+    <span class="card-notify-more"><a href="{{ object.get_absolute_url }}" class="card-link  hvr-grow">Подробнее <i
       class="angle double right icon"></i></a></span>
   </div>
 

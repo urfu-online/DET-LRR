@@ -48,11 +48,11 @@
           </div>
           <div class="card-footer">
             {% if object.obj.get_url %}
-              <a href="{{ object.obj.get_url }}" class="card-link">К материалам</a>
+              <a href="{{ object.obj.get_url }}" class="card-link  hvr-grow">К материалам</a>
             {% else %}
-              <a href="#" disabled="disabled" class="card-link disabled">К материалам</a>
+              <a href="#" disabled="disabled" class="card-link  hvr-grow disabled">К материалам</a>
             {% endif %}
-            <a href="{{ object.obj.get_absolute_url }}" class="card-link"><i class="fas fa-info-circle fa-lg"></i>
+            <a href="{{ object.obj.get_absolute_url }}" class="card-link  hvr-grow"><i class="fas fa-info-circle fa-lg"></i>
               Подробнее</a>
             <div style="display: contents;" data-id="{{ object.obj.id }}" data-type="resource" data-action="bookmark"
                  title="Избранное">

@@ -9,7 +9,6 @@ const {src, dest, parallel, series, watch} = require('gulp')
 const pjson = require('./package.json')
 
 // Plugins
-const autoprefixer = require('autoprefixer')
 const browserSync = require('browser-sync').create()
 const concat = require('gulp-concat')
 const cssnano = require('cssnano')
@@ -23,6 +22,11 @@ const sass = require('gulp-sass')(require('sass'))
 // const spawn = require('child_process').spawn
 const uglify = require('gulp-uglify-es').default
 
+const processCss = [
+    require("postcss-merge-rules"),
+    require("pixrem"),       // add fallbacks for rem units
+]
+
 // Relative paths function
 function pathsConfig() {
     this.app = `./${pjson.name}`
@@ -30,7 +34,25 @@ function pathsConfig() {
 
     return {
         bootstrapSass: `${vendorsRoot}/bootstrap/scss`,
-        vendorsJS: [`${vendorsRoot}/jquery/dist/jquery.js`, `${vendorsRoot}/popper.js/dist/umd/popper.js`, `${vendorsRoot}/bootstrap/dist/js/bootstrap.js`,],
+        vendorsJS: [
+            `${vendorsRoot}/jquery/dist/jquery.js`,
+            `${vendorsRoot}/popper.js/dist/umd/popper.js`,
+            `${vendorsRoot}/bootstrap/dist/js/bootstrap.js`,
+            `${vendorsRoot}/datatables.net/js/jquery.dataTables.js`,
+            `${vendorsRoot}/datatables.net-bs4/js/dataTables.bootstrap4.js`,
+            `${vendorsRoot}/datatables.net-buttons/js/dataTables.buttons.js`,
+            `${vendorsRoot}/datatables.net-buttons-bs4/js/buttons.bootstrap4.js`,
+            `${vendorsRoot}/datatables.net-responsive/js/dataTables.responsive.js`,
+            `${vendorsRoot}/datatables.net-responsive-bs4/js/responsive.bootstrap4.js`,
+            `${vendorsRoot}/datatables.net-searchpanes/js/dataTables.searchPanes.js`,
+            `${vendorsRoot}/datatables.net-searchpanes-bs4/js/searchPanes.bootstrap4.js`,
+        ],
+        bundleCSS: [
+            `${vendorsRoot}/datatables.net-bs4/css/dataTables.bootstrap4.css`,
+            `${vendorsRoot}/datatables.net-buttons-bs4/css/buttons.bootstrap4.css`,
+            `${vendorsRoot}/datatables.net-responsive-bs4/css/responsive.bootstrap4.css`,
+            `${vendorsRoot}/datatables.net-searchpanes-bs4/css/searchPanes.bootstrap4.min.css`,
+        ],
         gridstackJS: [`${vendorsRoot}/gridstack/dist/gridstack-all.js`,],
         gridstackSCSS: `${vendorsRoot}/gridstack/dist/src/`,
         app: this.app,
@@ -51,10 +73,6 @@ let paths = pathsConfig()
 
 // Styles auto prefixing and minification
 function styles() {
-    let processCss = [autoprefixer(), // adds vendor prefixes
-        pixrem(),       // add fallbacks for rem units
-    ]
-
     let minifyCss = [cssnano({
         preset: ['default', {
             discardComments: {
@@ -77,10 +95,6 @@ function styles() {
 }
 
 function admin_extra_styles() {
-    let processCss = [autoprefixer(), // adds vendor prefixes
-        pixrem(),       // add fallbacks for rem units
-    ]
-
     let minifyCss = [cssnano({
         preset: ['default', {
             discardComments: {
@@ -100,8 +114,27 @@ function admin_extra_styles() {
         .pipe(dest(paths.css))
 }
 
+function bundle_styles() {
+    let minifyCss = [cssnano({
+        preset: ['default', {
+            discardComments: {
+                removeAll: true,
+            }
+        }]
+    })
+    ]
+
+    return src(paths.bundleCSS)
+        .pipe(concat('vendor.css'))
+        .pipe(postcss(processCss))
+        .pipe(dest(paths.css))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(postcss(minifyCss)) // Minifies the result
+        .pipe(dest(paths.css))
+}
+
 function gridstackStyles() {
-    let processCss = [autoprefixer(), // adds vendor prefixes
+    let processCss = [ // adds vendor prefixes
         pixrem(),       // add fallbacks for rem units
     ]
 
@@ -147,7 +180,7 @@ function vendorScripts() {
 // Gridstack Javascript minification
 function gridstackScripts() {
     return src(paths.gridstackJS)
-        .pipe(concat('gridstack.js'))
+        .pipe(concat('gridstack-all.js'))
         .pipe(dest(paths.js))
         .pipe(plumber()) // Checks for errors
         .pipe(uglify()) // Minifies the js
@@ -192,7 +225,7 @@ function watchPaths() {
 }
 
 // Generate all assets
-const generateAssets = parallel(admin_extra_styles, styles, scripts, vendorScripts, gridstackScripts, gridstackStyles, imgCompression)
+const generateAssets = parallel(admin_extra_styles, styles, bundle_styles, scripts, vendorScripts, gridstackScripts, gridstackStyles, imgCompression)
 
 // Set up dev environment
 const dev = parallel(initBrowserSync, watchPaths)

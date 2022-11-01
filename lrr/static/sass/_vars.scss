@@ -1,5 +1,4 @@
 // Options
-//
 // Quickly modify global styling by enabling or disabling optional features.
 
 $enable-caret: true !default;
@@ -123,9 +122,9 @@ $pagination-disabled-border-color: $pagination-border-color;
 
 $breadcrumb-bg: transparent;
 $link-hover-color: #DC1A54;
-$dropdown-link-hover-color: lighten(#DC1A54, 5%);
-$dropdown-link-hover-bg: lighten(#DC1A54, 90%);
-$pagination-hover-color: #DC1A54;
+$dropdown-link-hover-color: lighten($link-hover-color, 5%);
+$dropdown-link-hover-bg: lighten($link-hover-color, 90%);
+$pagination-hover-color: $link-hover-color;
 $pagination-hover-bg: $gray-200;
 
 

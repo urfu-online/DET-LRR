@@ -28,10 +28,10 @@
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
           </div>
           {% if request.user|has_group:"teacher" %}
-            <a class="dropdown-item" href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a>
-            <a class="dropdown-item" href="/">{% trans "Поиск ЭОР" %}</a>
-            <a class="dropdown-item" href="{% url "repository:repository_digitalresource_list_fav" %}">Избранные ЭОР</a>
-            <a class="dropdown-item" href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои ЭУМК</a>
+            <a class="dropdown-item hvr-forward" href="{% url 'repository:repository_digitalresource_owner_list' %}">Мои ЭОР</a>
+            <a class="dropdown-item hvr-forward" href="/">{% trans "Поиск ЭОР" %}</a>
+            <a class="dropdown-item hvr-forward" href="{% url "repository:repository_digitalresource_list_fav" %}">Избранные ЭОР</a>
+            <a class="dropdown-item hvr-forward" href="{% url 'complexes:complexes_DigitalComplexMy_list' %}">Мои ЭУМК</a>
           {% endif %}
         </li>
       {% endif %}
@@ -45,11 +45,11 @@
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
           </div>
           {% if request.user|has_group:"secretary" %}
-            <a class="dropdown-item" href="{% url 'inspections:ExpertiseRequestActiveSecretary_list' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'inspections:ExpertiseRequestActiveSecretary_list' %}">
               Активные заявки</a>
-            <a class="dropdown-item" href="{% url 'inspections:ExpertiseRequestCloseSecretary_list' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'inspections:ExpertiseRequestCloseSecretary_list' %}">
               Закрытые заявки</a>
-            <a class="dropdown-item" href="{% url 'users:expert_list' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'users:expert_list' %}">
               Эксперты</a>
           {% endif %}
         </li>
@@ -63,11 +63,11 @@
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown"></div>
           {% if request.user|has_group:"expert" %}
-            <a class="dropdown-item" href="{% url 'inspections:ExpertiseRequestMy_list' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'inspections:ExpertiseRequestMy_list' %}">
               Мои экспертизы</a>
-            <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseActiveExpert_list' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'inspections:inspections_ExpertiseActiveExpert_list' %}">
               Активные заявки</a>
-            <a class="dropdown-item" href="{% url 'inspections:inspections_ExpertiseMyClose_list' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'inspections:inspections_ExpertiseMyClose_list' %}">
               Мои заключения</a>
           {% endif %}
         </li>
@@ -80,13 +80,13 @@
             Кабинет РОП</a>
 
           {% if request.user|has_group:"rop" %}
-            <a class="dropdown-item" href="{% url 'repository:repository_statistics' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'repository:repository_statistics' %}">
               Статистика ЭОР</a>
-            <a class="dropdown-item"
+            <a class="dropdown-item hvr-forward"
                href="{% url 'complexes:complexes_DigitalComplex_all_list' %}">{% trans "Каталог ЭУМК" %}</a>
 
-            {#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>#}
-            {#                    <a class="dropdown-item" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>#}
+            {#                    <a class="dropdown-item hvr-forward" href="{% url 'users:expert_list' %}">Обсеспеченность ОП ЦОТ</a>#}
+            {#                    <a class="dropdown-item hvr-forward" href="{% url 'users:expert_list' %}">Покрытие компетенций ОП</a>#}
           {% endif %}
           {#                </div>#}
         </li>
@@ -100,7 +100,7 @@
             Кабинет студента</a>
 
           {% if request.user|has_group:"student" %}
-            <a class="dropdown-item"
+            <a class="dropdown-item hvr-forward"
                href="{% url 'complexes:complexes_AssignmentAcademicGroupMy_list' request.user.username %}">
               Мои дисциплины</a>
           {% endif %}
@@ -117,10 +117,10 @@
             Администрирование
           </a>
           <div class="dropdown-menu shadow-4" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{% url 'admin:index' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'admin:index' %}">
               Административная панель</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'repository:repository_DigitalResource_create' %}">
+            <a class="dropdown-item hvr-forward" href="{% url 'repository:repository_DigitalResource_create' %}">
               + Добавить паспорт ЭОР</a>
           </div>
         </li>
@@ -130,20 +130,20 @@
       {% if request.user.is_authenticated %}
 
         <hr class="dotted">
-        <li class="nav-item hvr-underline-from-left">
+        <li class="nav-item hvr-forward">
           <a class="nav-link"
              href="{% url 'users:detail' request.user.username %}">{% trans "Профиль" %}</a>
         </li>
-        <li class="nav-item hvr-underline-from-left">
+        <li class="nav-item hvr-forward">
           <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
         </li>
 
       {% else %}
 
-        <li class="nav-item">
-          <a id="sign-up-link hvr-underline-from-left" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+        <li class="nav-item hvr-forward">
+          <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
         </li>
-        <li class="nav-item hvr-underline-from-left">
+        <li class="nav-item hvr-forward">
           <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
         </li>
 

@@ -5,10 +5,10 @@
       <ul class="pagination pagination-lg justify-content-center">
         {% if page_obj.has_previous %}
           <li class="page-item">
-            <a class="page-link" href="?{% param_replace page=1 %}"><i class="fas fa-fast-backward"></i></a>
+            <a class="page-link hvr-icon-back" href="?{% param_replace page=1 %}"><i class="fas fa-fast-backward"></i></a>
           </li>
           <li class="page-item">
-            <a class="page-link" href="?{% param_replace page=page_obj.previous_page_number %}" tabindex="-1"><i class="fas fa-step-backward"></i></a>
+            <a class="page-link hvr-icon-back" href="?{% param_replace page=page_obj.previous_page_number %}" tabindex="-1"><i class="fas fa-step-backward"></i></a>
           </li>
         {% else %}
           <li class="page-item disabled">
@@ -20,15 +20,15 @@
         {% endif %}
 
         <li class="page-item">
-          <a class="page-link"><p>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span class="sr-only">(current)</span></p></a>
+          <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}<span class="sr-only">(current)</span></a>
         </li>
 
         {% if page_obj.has_next %}
           <li class="page-item">
-            <a class="page-link" href="?{% param_replace page=page_obj.next_page_number %}"><i class="fas fa-step-forward"></i></a>
+            <a class="page-link hvr-icon-forward" href="?{% param_replace page=page_obj.next_page_number %}"><i class="fas fa-step-forward"></i></a>
           </li>
           <li class="page-item">
-            <a class="page-link" href="?{% param_replace page=page_obj.paginator.num_pages %}"><i class="fas fa-fast-forward"></i></a>
+            <a class="page-link hvr-icon-forward" href="?{% param_replace page=page_obj.paginator.num_pages %}"><i class="fas fa-fast-forward"></i></a>
           </li>
         {% else %}
           <li class="page-item disabled">
