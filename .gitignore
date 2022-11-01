@@ -338,7 +338,10 @@ lrr/frontend/node_modules
 lrr/survey
 lrr/templates/survey
 /deprecated/*
-/lrr/static/css/gridstack.css
-/lrr/static/js/gridstack-all.js
-/lrr/static/css/vendor.css
-/lrr/static/css/vendor.min.css
+/lrr/static/css/gridstack*
+/lrr/static/js/gridstack-all*
+/lrr/static/css/vendor.*
+/lrr/static/css/admin_extra.*
+/lrr/static/css/project*
+/lrr/static/js/project.min.js
+/lrr/static/js/vendors*
