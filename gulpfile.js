@@ -30,11 +30,9 @@ function pathsConfig() {
 
     return {
         bootstrapSass: `${vendorsRoot}/bootstrap/scss`,
-        vendorsJs: [
-            `${vendorsRoot}/jquery/dist/jquery.js`,
-            `${vendorsRoot}/popper.js/dist/umd/popper.js`,
-            `${vendorsRoot}/bootstrap/dist/js/bootstrap.js`,
-        ],
+        vendorsJS: [`${vendorsRoot}/jquery/dist/jquery.js`, `${vendorsRoot}/popper.js/dist/umd/popper.js`, `${vendorsRoot}/bootstrap/dist/js/bootstrap.js`,],
+        gridstackJS: [`${vendorsRoot}/gridstack/dist/gridstack-all.js`,],
+        gridstackSCSS: `${vendorsRoot}/gridstack/dist/src/`,
         app: this.app,
         templates: `${this.app}/templates`,
         css: `${this.app}/static/css`,
@@ -53,29 +51,22 @@ let paths = pathsConfig()
 
 // Styles auto prefixing and minification
 function styles() {
-    let processCss = [
-        autoprefixer(), // adds vendor prefixes
+    let processCss = [autoprefixer(), // adds vendor prefixes
         pixrem(),       // add fallbacks for rem units
     ]
 
-    let minifyCss = [
-        cssnano({
-            preset: ['default',
-                {
-                    discardComments: {
-                        removeAll: true,
-                    }
-                }
-            ]
-        })   // minify result
+    let minifyCss = [cssnano({
+        preset: ['default', {
+            discardComments: {
+                removeAll: true,
+            }
+        }]
+    })   // minify result
     ]
 
     return src(`${paths.sass}/project.scss`)
         .pipe(sass({
-            includePaths: [
-                paths.bootstrapSass,
-                paths.sass
-            ]
+            includePaths: [paths.bootstrapSass, paths.sass]
         }).on('error', sass.logError))
         .pipe(plumber()) // Checks for errors
         .pipe(postcss(processCss))
@@ -86,24 +77,44 @@ function styles() {
 }
 
 function admin_extra_styles() {
-    let processCss = [
-        autoprefixer(), // adds vendor prefixes
+    let processCss = [autoprefixer(), // adds vendor prefixes
         pixrem(),       // add fallbacks for rem units
     ]
 
-    let minifyCss = [
-        cssnano({
-            preset: ['default',
-                {
-                    discardComments: {
-                        removeAll: true,
-                    }
-                }
-            ]
-        })   // minify result
+    let minifyCss = [cssnano({
+        preset: ['default', {
+            discardComments: {
+                removeAll: true,
+            }
+        }]
+    })   // minify result
     ]
 
     return src(`${paths.sass}/admin_extra.scss`)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(plumber()) // Checks for errors
+        .pipe(postcss(processCss))
+        .pipe(dest(paths.css))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(postcss(minifyCss)) // Minifies the result
+        .pipe(dest(paths.css))
+}
+
+function gridstackStyles() {
+    let processCss = [autoprefixer(), // adds vendor prefixes
+        pixrem(),       // add fallbacks for rem units
+    ]
+
+    let minifyCss = [cssnano({
+        preset: ['default', {
+            discardComments: {
+                removeAll: true,
+            }
+        }]
+    })   // minify result
+    ]
+
+    return src(`${paths.gridstackSCSS}/gridstack.scss`)
         .pipe(sass().on('error', sass.logError))
         .pipe(plumber()) // Checks for errors
         .pipe(postcss(processCss))
@@ -124,8 +135,19 @@ function scripts() {
 
 // Vendor Javascript minification
 function vendorScripts() {
-    return src(paths.vendorsJs)
+    return src(paths.vendorsJS)
         .pipe(concat('vendors.js'))
+        .pipe(dest(paths.js))
+        .pipe(plumber()) // Checks for errors
+        .pipe(uglify()) // Minifies the js
+        .pipe(rename({suffix: '.min'}))
+        .pipe(dest(paths.js))
+}
+
+// Gridstack Javascript minification
+function gridstackScripts() {
+    return src(paths.gridstackJS)
+        .pipe(concat('gridstack.js'))
         .pipe(dest(paths.js))
         .pipe(plumber()) // Checks for errors
         .pipe(uglify()) // Minifies the js
@@ -152,20 +174,13 @@ function imgCompression() {
 
 // Browser sync server for live reload
 function initBrowserSync() {
-    browserSync.init(
-        [
-            `${paths.css}/*.css`,
-            `${paths.js}/*.js`,
-            `${paths.templates}/*.html`
-        ], {
-            // https://www.browsersync.io/docs/options/#option-proxy
+    browserSync.init([`${paths.css}/*.css`, `${paths.js}/*.js`, `${paths.templates}/*.html`], {
+        // https://www.browsersync.io/docs/options/#option-proxy
 
-            proxy: 'localhost:8000',
-            // https://www.browsersync.io/docs/options/#option-open
-            // Disable as it doesn't work from inside a container
-            open: false
-        }
-    )
+        proxy: 'localhost:8000', // https://www.browsersync.io/docs/options/#option-open
+        // Disable as it doesn't work from inside a container
+        open: false
+    })
 }
 
 // Watch
@@ -177,19 +192,10 @@ function watchPaths() {
 }
 
 // Generate all assets
-const generateAssets = parallel(
-    admin_extra_styles,
-    styles,
-    scripts,
-    vendorScripts,
-    imgCompression
-)
+const generateAssets = parallel(admin_extra_styles, styles, scripts, vendorScripts, gridstackScripts, gridstackStyles, imgCompression)
 
 // Set up dev environment
-const dev = parallel(
-    initBrowserSync,
-    watchPaths
-)
+const dev = parallel(initBrowserSync, watchPaths)
 
 exports.default = series(generateAssets, dev)
 exports["generate-assets"] = generateAssets

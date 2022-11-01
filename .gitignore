@@ -338,3 +338,5 @@ lrr/frontend/node_modules
 lrr/survey
 lrr/templates/survey
 /deprecated/*
+/lrr/static/js/gridstack.js
+/lrr/static/css/gridstack.css
