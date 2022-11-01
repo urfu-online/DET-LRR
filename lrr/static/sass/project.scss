@@ -319,6 +319,11 @@ form.expertise {
 
 [title^='Избранное'] {
   svg path {
-    color: gold;
+    color: #F0D74D;
+
+    &:hover {
+      color: #FF00007A;
+    }
   }
+
 }

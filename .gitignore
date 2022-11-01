@@ -340,3 +340,5 @@ lrr/templates/survey
 /deprecated/*
 /lrr/static/css/gridstack.css
 /lrr/static/js/gridstack-all.js
+/lrr/static/css/vendor.css
+/lrr/static/css/vendor.min.css
