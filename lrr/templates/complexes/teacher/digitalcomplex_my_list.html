@@ -12,7 +12,7 @@
           aria-controls="filters"><i class="fas fa-search fa-lg"></i> Фильтры и поиск
   </button>
   <a class="btn btn-primary mt-3 " href="{% url 'complexes:complexes_DigitalComplex_create' %}"> Создать ЭУМК </a>
-  <div class="row actions" id="accordion">
+  <div class="row actions ml-0" id="accordion">
     <div id="filters" class="collapse mb-3" aria-labelledby="filters" data-parent="#accordion">
       <form action="" method="get">
         <div class="form-row p-2 align-items-end">
@@ -59,10 +59,10 @@
 
 
 
-  {#  <div class="row p-2">#}
+  {#  <div class="row">#}
   {#    {% if page_obj|length != 0 %}#}
   {#      {% for object in page_obj %}#}
-  {#        <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">#}
+  {#        <div class="col-12 col-md-6 col-lg-6 col-xl-4 my-2">#}
   {#          <div class="card h-100 border-secondary shadow-2">#}
   {#            <div class="card-header pb-0">#}
   {#              <p class="mb-2 text-muted float-right">{% md_icon "bank-outline" %}</i>#}
@@ -88,7 +88,7 @@
   {#    {% endif %}#}
   {#  </div>#}
 
-  <div class="row p-2">
+  <div class="row">
 
     {% for object in object_list %}
       <div class="col-12 col-lg-6 col-xl-4 p-2">

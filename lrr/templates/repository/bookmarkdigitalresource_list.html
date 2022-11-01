@@ -9,7 +9,7 @@
     </ol>
   </nav>
   <header><h1 class="display-3">Избранные электронные образовательные ресурсы</h1></header>
-  <div class="row actions" id="accordion">
+  <div class="row actions ml-0" id="accordion">
     <button class="btn btn-primary mr-3" data-toggle="collapse" data-target="#filters" aria-expanded="false"
             aria-controls="filters"><i class="fas fa-search fa-lg"></i> Фильтры и поиск
     </button>
@@ -33,9 +33,9 @@
     </div>
   </div>
 
-  <div class="row p-2">
+  <div class="row">
     {% for object in object_list %}
-      <div class="col-12 col-md-6 col-lg-6 col-xl-4 p-2">
+      <div class="col-12 col-md-6 col-lg-6 col-xl-4 my-2">
         <div class="card border-secondary h-100 shadow-2">
           <div class="card-header pb-0">
             <p class="mb-2 text-muted float-right"><i class="fas fa-university"></i>
@@ -54,7 +54,7 @@
             {% endif %}
             <a href="{{ object.obj.get_absolute_url }}" class="card-link  hvr-grow"><i class="fas fa-info-circle fa-lg"></i>
               Подробнее</a>
-            <div style="display: contents;" data-id="{{ object.obj.id }}" data-type="resource" data-action="bookmark"
+            <div class="ml-2 hvr-grow" data-id="{{ object.obj.id }}" data-type="resource" data-action="bookmark"
                  title="Избранное">
                 <span style="cursor: pointer;" aria-hidden="true"
                       class="{% if object.obj|favorited_by:user %}fa fa-star fa-lg{% else %}far fa-star fa-lg{% endif %}"></span>

@@ -10196,3 +10196,7 @@ form.expertise label {
 .hvr-grow:hover, .hvr-grow:focus, .hvr-grow:active {
   transform: scale(1.05);
 }
+
+[title^=Избранное] svg path {
+  color: gold;
+}

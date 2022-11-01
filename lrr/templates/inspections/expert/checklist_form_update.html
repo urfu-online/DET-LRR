@@ -13,7 +13,7 @@
     </ol>
   </nav>
   <header><h1 class="display-3">Чек-лист экспертизы "{{ digital_resource }}"</h1></header>
-  <div class="row p-2">
+  <div class="row">
     <div class="col-12 p-2">
       <form method="post">
         {% csrf_token %}
@@ -31,7 +31,7 @@
           <label>Дата экспертизы:</label>
           {{ expertise.date }}
         </div>
-        {#        <div class="row p-2">#}
+        {#        <div class="row">#}
         {#          <div class="col-12 p-2">#}
         {#            <div class="card h-100 border-secondary shadow-2">#}
         {#              <div class="card-body">#}

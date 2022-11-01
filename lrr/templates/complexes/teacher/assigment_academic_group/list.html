@@ -16,7 +16,7 @@
   <header><h1 class="display-3">Назначенные академические группы ЭУМК по дисциплине(ам) "{% for i in dig_complex.subjects.all %} {{ i }} {% endfor %}"</h1></header>
 
   {% if request.user.is_authenticated %}
-    <div class="row p-2">
+    <div class="row">
       <div class="col-12 col-lg-12 col-xl-10 p-2">
         <div class="card border-secondary shadow-2 h-100">
           <div class="card-header"><h5>Назначенные академические группы ЭУМК по дисциплине(ам) "{% for i in dig_complex.subjects.all %} {{ i }} {% endfor %}"</h5></div>

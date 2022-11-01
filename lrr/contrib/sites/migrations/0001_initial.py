@@ -1,3 +1,6 @@
+#  Уральский федеральный университет © 2022.
+#  Цифровой университет/Цифровые образовательные технологии
+
 import django.contrib.sites.models
 from django.contrib.sites.models import _simple_domain_name_validator
 from django.db import migrations, models
@@ -39,3 +42,4 @@ class Migration(migrations.Migration):
             managers=[("objects", django.contrib.sites.models.SiteManager())],
         )
     ]
+
