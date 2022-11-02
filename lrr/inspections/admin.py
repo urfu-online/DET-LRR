@@ -225,8 +225,8 @@ class TemporaryStatus(admin.ModelAdmin):
 
 @admin.register(models.AcceptableIndicatorValue)
 class AcceptableIndicatorValueAdmin(admin.ModelAdmin):
-    list_display = ('indicator', 'value', 'entity', 'location', 'interaction', 'compliance', 'per_discipline', 'rating',)
-    fields = ('indicator', 'value', 'entity', 'location', 'interaction', 'compliance', 'per_discipline', 'rating',)
+    list_display = ('indicator', 'value', 'entity', 'location', 'interaction', 'compliance', 'rating',)
+    fields = ('indicator', 'value', 'entity', 'location', 'interaction', 'compliance', 'rating',)
     autocomplete_fields = ('indicator',)
 
 

@@ -997,7 +997,6 @@ class AcceptableIndicatorValue(repository_model.BaseModel):
     location = models.PositiveSmallIntegerField('Внеш_Внутр', null=True, blank=True)
     interaction = models.PositiveSmallIntegerField('Тип интерактивности (Автоматизированный/Не интерактивный/С участием преподавателя)', null=True, blank=True)
     compliance = models.PositiveSmallIntegerField('Соответствие содержанию дисциплины (Полностью/Частично)', null=True, blank=True)
-    per_discipline = models.BooleanField('Для каждой дисциплины', default=False)
     rating = models.DecimalField('Рейтинг', decimal_places=3, max_digits=4, null=True, blank=True)
 
     class Meta:
