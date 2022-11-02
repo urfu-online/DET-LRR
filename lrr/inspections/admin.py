@@ -68,7 +68,7 @@ class ExpertiseOpinionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['expert', 'expertise_request', 'expertise_type']
     date_hierarchy = 'created'
     inlines = [OpinionIndicatorBaseInline]
-    readonly_fields = ('id', 'expertise_type', 'created', 'last_updated', 'expert')
+    readonly_fields = ('created', 'last_updated')
 
 
 @admin.register(models.ExpertiseRequest)
