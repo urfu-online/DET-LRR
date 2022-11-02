@@ -345,3 +345,4 @@ lrr/templates/survey
 /lrr/static/css/project*
 /lrr/static/js/project.min.js
 /lrr/static/js/vendors*
+/deprecated/
