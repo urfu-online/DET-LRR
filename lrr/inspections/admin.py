@@ -74,21 +74,22 @@ class ExpertiseOpinionAdmin(admin.ModelAdmin):
 @admin.register(models.ExpertiseRequest)
 class RequestAdmin(admin.ModelAdmin):
     model = models.ExpertiseRequest
-    fields = [
-        'digital_resource',
-        'date',
-        'subjects',
-        'directions',
-        'digital_complexes',
-        'expert',
-        'status_text',
-        'status',
-        'date_end',
-        'file',
-        'remarks',
-
-        'owner',
-    ]
+    # fields = [
+    #     'type',
+    #     'digital_resource',
+    #     'date',
+    #     'subjects',
+    #     'directions',
+    #     'digital_complexes',
+    #     'expert',
+    #     'status_text',
+    #     'status',
+    #     'date_end',
+    #     'file',
+    #     'remarks',
+    #
+    #     'owner',
+    # ]
     list_display = [
         'digital_resource',
         'date_end',
