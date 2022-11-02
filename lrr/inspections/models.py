@@ -495,6 +495,7 @@ class OpinionIndicator(repository_model.BaseModel):
     updated = models.DateTimeField(_('Update date'), auto_now=True)
     body = models.TextField(_('Content'), blank=True, null=True)
     discipline = auto_prefetch.ForeignKey('repository.Subject', verbose_name='Дисциплина', on_delete=models.SET_NULL, null=True, blank=True)
+    acceptable_indicator_value = auto_prefetch.ForeignKey('inspections.AcceptableIndicatorValue', verbose_name='Значение показателя', on_delete=models.SET_NULL, related_name='opinion_indicators', null=True)
 
     # @computed(models.JSONField(), depends=[['self', ['body']]])
     # def indicator(self):
@@ -1026,6 +1027,8 @@ class SummaryIndicator(repository_model.BaseModel):
     per_discipline = models.BooleanField('Для каждой дисциплины', default=False)
     rating = models.DecimalField('Рейтинг', decimal_places=3, max_digits=4, null=True, blank=True)
     have_conflicts = models.BooleanField('Имеются противоречия', default=False)
+
+    # TODO: сделать двойное поле "Дисциплина/Образовательная программа"
 
     class Meta:
         verbose_name = 'сводный показатель'
