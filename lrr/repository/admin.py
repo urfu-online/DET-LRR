@@ -17,6 +17,7 @@ class SubjectChildAdmin(EduProgramSubjectChildAdmin):
     base_model = SubjectChild  # Explicitly set here!
     show_in_index = False
     autocomplete_fields = ["subject"]
+    search_fields = ['subject__title']
 
 
 @admin.register(EduProgramChild)
@@ -24,6 +25,7 @@ class EduProgramChildAdmin(EduProgramSubjectChildAdmin):
     base_model = EduProgramChild  # Explicitly set here!
     show_in_index = False
     autocomplete_fields = ["program"]
+    search_fields = ['program__title']
 
 
 @admin.register(EduProgramSubject)

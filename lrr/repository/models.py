@@ -541,7 +541,7 @@ class EduProgramSubject(ShowFieldType, PolymorphicModel):
 
 
 class SubjectChild(EduProgramSubject):
-    subject = models.OneToOneField("repository.Subject", verbose_name="дисциплина", on_delete=models.CASCADE, primary_key=True)
+    subject = models.ForeignKey("repository.Subject", verbose_name="дисциплина", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "дисциплина"
@@ -552,7 +552,7 @@ class SubjectChild(EduProgramSubject):
 
 
 class EduProgramChild(EduProgramSubject):
-    program = models.OneToOneField("repository.EduProgram", verbose_name="образовательная программа", on_delete=models.CASCADE, primary_key=True)
+    program = models.ForeignKey("repository.EduProgram", verbose_name="образовательная программа", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "образовательная программа"

@@ -19,7 +19,7 @@ from django_better_admin_arrayfield.models.fields import ArrayField
 
 from lrr.complexes import models as complex_model
 from lrr.repository import models as repository_model
-from lrr.repository.models import DigitalResource
+from lrr.repository.models import DigitalResource, EduProgramSubject
 from lrr.users.models import Person, Expert
 
 logger = logging.getLogger(__name__)
@@ -1027,6 +1027,7 @@ class SummaryIndicator(repository_model.BaseModel):
     per_discipline = models.BooleanField('Для каждой дисциплины', default=False)
     rating = models.DecimalField('Рейтинг', decimal_places=3, max_digits=4, null=True, blank=True)
     have_conflicts = models.BooleanField('Имеются противоречия', default=False)
+    edu_program_subject = models.ManyToManyField(EduProgramSubject, verbose_name='дисциплина/образовательная программа')
 
     # TODO: сделать двойное поле "Дисциплина/Образовательная программа"
 
