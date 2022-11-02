@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 
 import environ
-from django.conf.global_settings import DATETIME_INPUT_FORMATS
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # lrr/
@@ -96,7 +95,7 @@ THIRD_PARTY_APPS = [
     'taggit',
     'fontawesome_free',
     'django_bootstrap_icons',
-    'permissions_auditor',
+    # 'permissions_auditor',
     # 'det',
     'smart_selects',
     'import_export',
@@ -105,7 +104,8 @@ THIRD_PARTY_APPS = [
     'django_json_widget',
     'sortedm2m',
     'analytical',
-    'postgres_metrics.apps.PostgresMetrics'
+    'django_extensions',
+    # 'postgres_metrics.apps.PostgresMetrics'
 ]
 
 LOCAL_APPS = [

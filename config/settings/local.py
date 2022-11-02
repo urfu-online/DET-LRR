@@ -73,7 +73,7 @@ if env("USE_DOCKER") == "yes":
 
 # django-extensions
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ["django_extensions", 'reset_migrations', 'dbbackup']  # noqa F405
+INSTALLED_APPS += ['reset_migrations', 'dbbackup']  # noqa F405
 # Celery
 # ------------------------------------------------------------------------------
 CELERY_TASK_EAGER_PROPAGATES = True
