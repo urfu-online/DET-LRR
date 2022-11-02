@@ -2,8 +2,35 @@ from django import forms
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from import_export_celery.admin_actions import create_export_job_action
+from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 
 from . import models
+from .models import EduProgramSubject, SubjectChild, EduProgramChild
+
+
+class EduProgramSubjectChildAdmin(PolymorphicChildModelAdmin):
+    base_model = EduProgramSubject
+
+
+@admin.register(SubjectChild)
+class SubjectChildAdmin(EduProgramSubjectChildAdmin):
+    base_model = SubjectChild  # Explicitly set here!
+    show_in_index = False
+    autocomplete_fields = ["subject"]
+
+
+@admin.register(EduProgramChild)
+class EduProgramChildAdmin(EduProgramSubjectChildAdmin):
+    base_model = EduProgramChild  # Explicitly set here!
+    show_in_index = False
+    autocomplete_fields = ["program"]
+
+
+@admin.register(EduProgramSubject)
+class EduProgramSubjectParentAdmin(PolymorphicParentModelAdmin):
+    child_models = (SubjectChild, EduProgramChild)
+    list_filter = (PolymorphicChildModelFilter,)
+    polymorphic_list = True
 
 
 class SubjectAdminForm(forms.ModelForm):

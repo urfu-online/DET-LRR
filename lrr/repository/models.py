@@ -4,12 +4,14 @@ import logging
 import uuid
 
 import auto_prefetch
-from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db import transaction
 from django.urls import reverse
 from django.utils.functional import cached_property
+from polymorphic.managers import PolymorphicManager
+from polymorphic.models import PolymorphicModel
+from polymorphic.showfields import ShowFieldType
 
 logger = logging.getLogger(__name__)
 
@@ -98,8 +100,8 @@ class DirectionsEnlargedGroup(BaseModel):
 
 
 class Direction(BaseModel):
+    title = models.CharField("Наименование", max_length=255, db_index=True)
     uni_id = models.CharField(db_index=True, max_length=64, null=True, blank=True)
-    title = models.CharField("Наименование", max_length=150, db_index=True)
     code = models.CharField("Код направления", max_length=8, db_index=True)
     scientific_branch = auto_prefetch.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions",
                                                  null=True, blank=True, on_delete=models.CASCADE)
@@ -525,6 +527,39 @@ class BookmarkDigitalResource(BookmarkBase):
 
     def __str__(self):
         return self.obj.title
+
+
+class EduProgramSubject(ShowFieldType, PolymorphicModel):
+    objects = PolymorphicManager()
+
+    def __str__(self):
+        return f"{self._meta.verbose_name}"
+
+    class Meta:
+        verbose_name = 'дисциплина/образовательная программа'
+        verbose_name_plural = 'дисциплины/образовательные программы'
+
+
+class SubjectChild(EduProgramSubject):
+    subject = models.OneToOneField("repository.Subject", verbose_name="дисциплина", on_delete=models.CASCADE, primary_key=True)
+
+    class Meta:
+        verbose_name = "дисциплина"
+        verbose_name_plural = "дисциплины"
+
+    def __str__(self):
+        return f"Дисциплина: {self.subject.title}"
+
+
+class EduProgramChild(EduProgramSubject):
+    program = models.OneToOneField("repository.EduProgram", verbose_name="образовательная программа", on_delete=models.CASCADE, primary_key=True)
+
+    class Meta:
+        verbose_name = "образовательная программа"
+        verbose_name_plural = "образовательные программы"
+
+    def __str__(self):
+        return f"Образовательная программа: {self.program.title}"
 
 
 old_default = json.JSONEncoder.default

@@ -78,9 +78,9 @@ class DigitalResourceFilterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DigitalResourceFilterForm, self).__init__(*args, **kwargs)
-        for field in self.fields:
-            logger.info(f"{field}")
-            # field.required = False
+        # for field in self.fields:
+        #     logger.info(f"{field}")
+        # field.required = False
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.form_class = 'form-row'
@@ -122,9 +122,9 @@ class BookmarkDigitalResourceFilterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(BookmarkDigitalResourceFilterForm, self).__init__(*args, **kwargs)
-        for field in self.fields:
-            logger.info(f"{field}")
-            # field.required = False
+        # for field in self.fields:
+        #     logger.info(f"{field}")
+        # field.required = False
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.form_class = 'form-row'
