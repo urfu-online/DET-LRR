@@ -14,6 +14,8 @@ from lrr.views import Favicon
 schema_view = get_swagger_view(title='LRR API')
 
 urlpatterns = [
+                  path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
+                  path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
                   path("", DigitalResourceListView.as_view(), name="home"),
                   path(
                       "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"

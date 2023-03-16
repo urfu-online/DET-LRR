@@ -1,4 +1,4 @@
-FROM node:16-bullseye-slim as client-builder
+FROM node:18-bullseye-slim as client-builder
 
 WORKDIR /app
 COPY ./package.json /app
@@ -7,7 +7,7 @@ COPY . /app
 RUN npm run build
 
 # Python build stage
-FROM python:3.10-slim-bullseye as base
+FROM python:slim-bullseye as base
 
 ENV TZ 'Asia/Yekaterinburg'
 ENV DEBIAN_FRONTEND=noninteractive

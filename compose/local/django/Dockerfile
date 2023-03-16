@@ -1,4 +1,4 @@
-FROM python:3.10-slim-bullseye
+FROM python:slim-bullseye
 
 ENV LC_ALL ru_RU.UTF-8
 ENV LANG ru_RU.UTF-8
