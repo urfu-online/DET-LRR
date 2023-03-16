@@ -42,3 +42,4 @@ pygraphviz
 django-reset-migrations
 django-dbbackup
 # django-schema-graph
+django-diagram
