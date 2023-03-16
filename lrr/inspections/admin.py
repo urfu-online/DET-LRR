@@ -234,5 +234,5 @@ class AcceptableIndicatorValueAdmin(admin.ModelAdmin):
 class SummaryIndicatorAdmin(admin.ModelAdmin):
     list_display = ('indicator', 'entity', 'location', 'interaction', 'compliance', 'per_discipline', 'rating',)
     # fields = ('expertise_request', 'indicator', 'entity', 'location', 'interaction', 'compliance', 'per_discipline', 'edu_program_subject', 'rating', 'have_conflicts')
-    autocomplete_fields = ('indicator', 'expertise_request', 'edu_program_subject')
+    autocomplete_fields = ('indicator', 'expertise_request',)  # 'edu_program_subject')
     filter_horizontal = ['edu_program_subject']  # TODO: add select2 widget

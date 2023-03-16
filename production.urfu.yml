@@ -37,6 +37,8 @@ services:
     volumes:
       - ${WEB_APP_PATH}/pgdata:/var/lib/postgresql/data
       - ${WEB_APP_PATH}/backups:/backups
+      - ./compose/production.urfu/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
     env_file:
       - ./.envs/.production/.postgres
 

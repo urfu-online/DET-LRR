@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from adminsortable2.admin import SortableInlineAdminMixin
+from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminBase
 from django.contrib import admin
 from django.db.models import JSONField
 from django.utils.html import format_html_join
@@ -20,7 +20,7 @@ class ThemeAdminInline(SortableInlineAdminMixin, admin.StackedInline):
 
 
 @admin.register(grid_models.ThematicPlan)
-class ThematicPlanAdmin(admin.ModelAdmin):
+class ThematicPlanAdmin(SortableAdminBase, admin.ModelAdmin):
     autocomplete_fields = ['digital_complex']
     list_display = [
         'digital_complex',

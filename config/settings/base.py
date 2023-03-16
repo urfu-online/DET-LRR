@@ -1,6 +1,6 @@
-"""
+'''
 Base settings to build other settings files upon.
-"""
+'''
 import os
 import sys
 from pathlib import Path
@@ -9,39 +9,39 @@ import environ
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # lrr/
-APPS_DIR = ROOT_DIR / "lrr"
+APPS_DIR = ROOT_DIR / 'lrr'
 env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=False)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
-    env.read_env(str(ROOT_DIR / ".env"))
+    env.read_env(str(ROOT_DIR / '.env'))
 
 #### Remove for production use
 DEVELOPMENT = True
 
 # GENERAL
 # ------------------------------------------------------------------------------
-DEBUG = env.bool("w", False)
-TIME_ZONE = "Asia/Yekaterinburg"
-LANGUAGE_CODE = "ru"
+DEBUG = env.bool('w', False)
+TIME_ZONE = 'Asia/Yekaterinburg'
+LANGUAGE_CODE = 'ru'
 SITE_ID = 1
 SITE_URL = 'http://localhost:8000'
 USE_I18N = True
 USE_L10N = False
 USE_TZ = True
-LOCALE_PATHS = [str(ROOT_DIR / "locale")]
+LOCALE_PATHS = [str(ROOT_DIR / 'locale')]
 
 # DATABASES
 # ------------------------------------------------------------------------------
-DATABASES = {"default": env.db("DATABASE_URL")}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
-DATABASES["default"]["CONN_MAX_AGE"] = 120
+DATABASES = {'default': env.db('DATABASE_URL')}
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+DATABASES['default']['CONN_MAX_AGE'] = 120
 
 # URLS
 # ------------------------------------------------------------------------------
-ROOT_URLCONF = "config.urls"
-WSGI_APPLICATION = "config.wsgi.application"
+ROOT_URLCONF = 'config.urls'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
@@ -50,8 +50,10 @@ sys.modules['fontawesome_free'] = __import__('fontawesome-free')
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
+    'jet.dashboard',
+    'jet',
     # 'adminactions',
-    'admin_export_action',
+    # 'admin_export_action',
     'data_wizard',
     'data_wizard.sources',
     'django.contrib.auth',
@@ -69,6 +71,7 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',
+    'crispy_bootstrap5',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -125,107 +128,108 @@ CORS_ORIGIN_ALLOW_ALL = True
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    "sites": "lrr.contrib.sites.migrations",
-    "import_export_celery": "lrr.contrib.sites.import_export_celery.migrations"
+    'sites': 'lrr.contrib.sites.migrations',
+    'import_export_celery': 'lrr.contrib.sites.import_export_celery.migrations'
 }
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
-AUTH_USER_MODEL = "users.User"
-LOGIN_REDIRECT_URL = "users:redirect"
-LOGIN_URL = "account_login"
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = 'users:redirect'
+LOGIN_URL = 'account_login'
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
 PASSWORD_HASHERS = [
-    "django.contrib.auth.hashers.Argon2PasswordHasher",
-    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
-    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
-    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.common.BrokenLinkEmailsMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "author.middlewares.AuthorDefaultBackendMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'author.middlewares.AuthorDefaultBackendMiddleware',
 ]
 
 # STATIC
 # ------------------------------------------------------------------------------
-STATIC_ROOT = str(ROOT_DIR / "staticfiles")
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [str(APPS_DIR / "static")]
+STATIC_ROOT = str(ROOT_DIR / 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [str(APPS_DIR / 'static')]
 STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
 # MEDIA
 # ------------------------------------------------------------------------------
-MEDIA_ROOT = os.path.join(APPS_DIR, "media")
-MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(APPS_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [str(APPS_DIR / "templates")],
-        "OPTIONS": {
-            "loaders": [
-                "django.template.loaders.filesystem.Loader",
-                "django.template.loaders.app_directories.Loader",
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [str(APPS_DIR / 'templates')],
+        'OPTIONS': {
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
             ],
-            "libraries": {
-                "user_tags": "lrr.templatetags.user_tags",
-                "survey_extras": "lrr.templatetags.survey_extras"
+            'libraries': {
+                'user_tags': 'lrr.templatetags.user_tags',
+                'survey_extras': 'lrr.templatetags.survey_extras'
             },
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.template.context_processors.i18n",
-                "django.template.context_processors.media",
-                "django.template.context_processors.static",
-                "django.template.context_processors.tz",
-                "django.contrib.messages.context_processors.messages",
-                "lrr.utils.context_processors.settings_context",
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'lrr.utils.context_processors.settings_context',
             ],
         },
     }
 ]
 
-FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap5',)
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # FIXTURES
 # ------------------------------------------------------------------------------
-FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
+FIXTURE_DIRS = (str(APPS_DIR / 'fixtures'),)
 
 # SECURITY
 # ------------------------------------------------------------------------------
@@ -233,69 +237,69 @@ FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = "SAMEORIGIN"
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # EMAIL
 # ------------------------------------------------------------------------------
 EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
+    'DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend'
 )
 EMAIL_TIMEOUT = 5
 
 # ADMIN
 # ------------------------------------------------------------------------------
-ADMIN_URL = "admin/"
-ADMINS = [("""urfu.online""", "mastergowen@gmail.com")]
+ADMIN_URL = 'admin/'
+ADMINS = [('''urfu.online''', 'mastergowen@gmail.com')]
 MANAGERS = ADMINS
 
 # LOGGING
 # ------------------------------------------------------------------------------
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s "
-                      "%(process)d %(thread)d %(message)s"
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
         }
     },
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
         }
     },
-    "root": {"level": "INFO", "handlers": ["console"]},
+    'root': {'level': 'INFO', 'handlers': ['console']},
 }
 
 # Celery
 # ------------------------------------------------------------------------------
 if USE_TZ:
     CELERY_TIMEZONE = TIME_ZONE
-CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_TIME_LIMIT = 5 * 60
 CELERY_TASK_SOFT_TIME_LIMIT = 120
-CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-IMPORT_EXPORT_CELERY_INIT_MODULE = "config.celery_app"
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+IMPORT_EXPORT_CELERY_INIT_MODULE = 'config.celery_app'
 IMPORT_EXPORT_CELERY_MODELS = {
-    "repository": {
+    'repository': {
         'app_label': 'lrr.repository',
         'model_name': 'DigitalResource',
     }
 }
 # django-allauth
 # ------------------------------------------------------------------------------
-ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_ADAPTER = "lrr.users.adapters.AccountAdapter"
-SOCIALACCOUNT_ADAPTER = "lrr.users.adapters.SocialAccountAdapter"
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_ADAPTER = 'lrr.users.adapters.AccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'lrr.users.adapters.SocialAccountAdapter'
 DEFAULT_FORMFIELD_CLASSES = 'mt-4 shadow-sm bg-white border border-secondary'
 # ACCOUNT_FORMS = {'signup': 'lrr.users.forms.UserSignupForm'}
 ACCOUNT_FORMS = {
@@ -311,16 +315,16 @@ ACCOUNT_FORMS = {
 # django-rest-framework
 # -------------------------------------------------------------------------------
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    "DATETIME_INPUT_FORMATS": [
-        "iso-8601"
+    'DATETIME_INPUT_FORMATS': [
+        'iso-8601'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
@@ -330,18 +334,18 @@ REST_FRAMEWORK = {
 DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M']
 
 EXCEL_COMPATIBLE_CSV = True
-CHOICES_SEPARATOR = ","
-USER_DID_NOT_ANSWER = "NAA"
-SURVEY_DEFAULT_PIE_COLOR = "blue!50"
+CHOICES_SEPARATOR = ','
+USER_DID_NOT_ANSWER = 'NAA'
+SURVEY_DEFAULT_PIE_COLOR = 'blue!50'
 DEFAULT_SURVEY_PUBLISHING_DURATION = 7
 
-SUPPORT_URL = "https://itoo.urfu.ru"
+SUPPORT_URL = 'https://itoo.urfu.ru'
 
 # Cookie names
 
-LANGUAGE_COOKIE_NAME = "lrr_language"
-SESSION_COOKIE_NAME = "lrr_sessionid"
-CSRF_COOKIE_NAME = "lrr_csrftoken"
+LANGUAGE_COOKIE_NAME = 'lrr_language'
+SESSION_COOKIE_NAME = 'lrr_sessionid'
+CSRF_COOKIE_NAME = 'lrr_csrftoken'
 
 SESSION_COOKIE_SECURE = True
 
@@ -355,8 +359,8 @@ DATA_WIZARD = {
 
 USE_DJANGO_JQUERY = True
 
-DEFAULT_SOURCE_NAME = "---"
-DEFAULT_SOURCE_TYPE = "---"
+DEFAULT_SOURCE_NAME = '---'
+DEFAULT_SOURCE_TYPE = '---'
 
 MATOMO_DOMAIN_PATH = 'tracker.urfu.online'
 MATOMO_SITE_ID = '2'
@@ -373,16 +377,16 @@ HTML_MINIFY = True
 TAGGIT_CASE_INSENSITIVE = True
 
 AUTH_ADFS = {
-    "SERVER": "sts.urfu.ru",
-    "CLIENT_ID": "your-configured-client-id",
-    "RELYING_PARTY_ID": "your-adfs-RPT-name",
+    'SERVER': 'sts.urfu.ru',
+    'CLIENT_ID': 'your-configured-client-id',
+    'RELYING_PARTY_ID': 'your-adfs-RPT-name',
     # Make sure to read the documentation about the AUDIENCE setting
     # when you configured the identifier as a URL!
-    "AUDIENCE": "microsoft:identityserver:your-RelyingPartyTrust-identifier",
-    # "CA_BUNDLE": "/path/to/ca-bundle.pem",
-    "CLAIM_MAPPING": {"first_name": "given_name",
-                      "last_name": "family_name",
-                      "email": "email"},
+    'AUDIENCE': 'microsoft:identityserver:your-RelyingPartyTrust-identifier',
+    # 'CA_BUNDLE': '/path/to/ca-bundle.pem',
+    'CLAIM_MAPPING': {'first_name': 'given_name',
+                      'last_name': 'family_name',
+                      'email': 'email'},
 }
 
 DJRICHTEXTFIELD_CONFIG = {

@@ -8,7 +8,7 @@ from django.db import models as models
 from django.db.models import CharField, Prefetch
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from lrr.repository.models import Source, DigitalResource, EduProgram
 
