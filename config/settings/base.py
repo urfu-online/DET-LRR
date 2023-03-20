@@ -50,10 +50,12 @@ sys.modules['fontawesome_free'] = __import__('fontawesome-free')
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
-    'jet.dashboard',
-    'jet',
+    # 'jet.dashboard',
+    # 'jet',
     # 'adminactions',
     # 'admin_export_action',
+    'admin_interface',
+    'colorfield',
     'data_wizard',
     'data_wizard.sources',
     'django.contrib.auth',
@@ -79,8 +81,7 @@ THIRD_PARTY_APPS = [
     'django_celery_beat',
     'rest_framework',
     'rest_framework.authtoken',
-    'admin_interface',
-    'colorfield',
+
     'rest_framework_swagger',
     'polymorphic',
     'dynamic_formsets',
@@ -200,6 +201,7 @@ TEMPLATES = [
         'DIRS': [str(APPS_DIR / 'templates')],
         'OPTIONS': {
             'loaders': [
+                'apptemplates.Loader',
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
             ],
@@ -238,6 +240,7 @@ SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
 # EMAIL
 # ------------------------------------------------------------------------------

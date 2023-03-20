@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-26 17:05+0500\n"
+"POT-Creation-Date: 2023-03-20 17:30+0500\n"
 "PO-Revision-Date: 2019-03-10 22:53+0230\n"
 "Last-Translator: b'  <vladm.ru@gmail.com>'\n"
 "Language-Team: \n"
@@ -19,105 +19,102 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Translated-Using: django-rosetta 0.9.2\n"
 
-#: lrr/survey/actions.py:14
+#: deprecated/survey/actions.py
 #, python-format
 msgid "%(count)d survey was successfully marked as published."
 msgid_plural "%(count)d surveys were successfully marked as published"
 msgstr[0] "опрос %(count)d успешно помечен как опубликованный."
 msgstr[1] "опросы %(count)d помечены как опубликованные."
 
-#: lrr/survey/actions.py:23
+#: deprecated/survey/actions.py
 msgid "Mark selected surveys as published"
 msgstr "Помечено как опублиовано"
 
-#: lrr/survey/exporter/csv/survey2csv.py:38
+#: deprecated/survey/exporter/csv/survey2csv.py
 msgid "Anonymous"
 msgstr "Анонимно"
 
-#: lrr/survey/exporter/csv/survey2csv.py:68
+#: deprecated/survey/exporter/csv/survey2csv.py
 msgid "user"
 msgstr ""
 
-#: lrr/survey/exporter/csv/survey2csv.py:112
+#: deprecated/survey/exporter/csv/survey2csv.py
 msgid "Export to CSV"
 msgstr ""
 
-#: lrr/survey/exporter/tex/question2tex.py:63
+#: deprecated/survey/exporter/tex/question2tex.py
 msgid "with"
 msgstr "с"
 
 # there is a mistake in the EN singular and plural cases.
 # Entrevistado reffers to all surveyed.
-#: lrr/survey/exporter/tex/question2tex.py:65
+#: deprecated/survey/exporter/tex/question2tex.py
 #, python-format
 msgid "%(min_cardinality)d respondents or more"
 msgid_plural "%(min_cardinality)d respondent or more"
 msgstr[0] "%(min_cardinality)d отвечает или более"
 msgstr[1] "%(min_cardinality)d отвечают или более"
 
-#: lrr/survey/exporter/tex/question2tex.py:77
+#: deprecated/survey/exporter/tex/question2tex.py
 msgid "excluding"
 msgstr "за исключением"
 
-#: lrr/survey/exporter/tex/question2tex.py:82
-#: lrr/survey/exporter/tex/question2tex.py:116
-#: lrr/survey/exporter/tex/question2tex.py:119
+#: deprecated/survey/exporter/tex/question2tex.py
 msgid "and"
 msgstr "и"
 
-#: lrr/survey/exporter/tex/question2tex.py:113
-#: lrr/survey/exporter/tex/question2tex.py:114
+#: deprecated/survey/exporter/tex/question2tex.py
 msgid "or"
 msgstr "или"
 
-#: lrr/survey/exporter/tex/question2tex.py:128
+#: deprecated/survey/exporter/tex/question2tex.py
 msgid "Repartition of answers"
 msgstr "Перераспределение ответов"
 
-#: lrr/survey/exporter/tex/question2tex_chart.py:67
+#: deprecated/survey/exporter/tex/question2tex_chart.py
 msgid "Left blank"
 msgstr "Оставить пустым"
 
-#: lrr/survey/exporter/tex/question2tex_chart.py:112
-#: lrr/survey/exporter/tex/question2tex_sankey.py:56
+#: deprecated/survey/exporter/tex/question2tex_chart.py
+#: deprecated/survey/exporter/tex/question2tex_sankey.py
 msgid "for the question"
 msgstr "для вопроса"
 
-#: lrr/survey/exporter/tex/question2tex_chart.py:122
+#: deprecated/survey/exporter/tex/question2tex_chart.py
 msgid "No answers for this question."
 msgstr "Нет ответов для этого вопроса."
 
-#: lrr/survey/exporter/tex/question2tex_raw.py:25
+#: deprecated/survey/exporter/tex/question2tex_raw.py
 msgid "Participant"
 msgstr "Участник"
 
-#: lrr/survey/exporter/tex/question2tex_sankey.py:29
+#: deprecated/survey/exporter/tex/question2tex_sankey.py
 msgid "Cannot generate PDF, we need 'pySankeyBeta' to be installed."
 msgstr ""
 
 #  as in "opposite of right"
-#: lrr/survey/exporter/tex/question2tex_sankey.py:56
+#: deprecated/survey/exporter/tex/question2tex_sankey.py
 msgid "left"
 msgstr "не правильно"
 
-#: lrr/survey/exporter/tex/question2tex_sankey.py:58
+#: deprecated/survey/exporter/tex/question2tex_sankey.py
 msgid "in relation with the question"
 msgstr "в связи с вопросом"
 
 # as in "opposite of left"
-#: lrr/survey/exporter/tex/question2tex_sankey.py:60
+#: deprecated/survey/exporter/tex/question2tex_sankey.py
 msgid "right"
 msgstr "правильно"
 
-#: lrr/survey/exporter/tex/survey2tex.py:32
+#: deprecated/survey/exporter/tex/survey2tex.py
 msgid "Cannot generate PDF, we need 'xelatex' to be installed."
 msgstr ""
 
-#: lrr/survey/exporter/tex/survey2tex.py:81
+#: deprecated/survey/exporter/tex/survey2tex.py
 msgid "We could not render a chart because the type"
 msgstr "Мы не смогли отобразить диаграмму, потому что тип"
 
-#: lrr/survey/exporter/tex/survey2tex.py:84
+#: deprecated/survey/exporter/tex/survey2tex.py
 msgid ""
 "is not a standard type nor the path to an importable valid Question2Tex "
 "child class. Choose between 'raw', 'sankey', 'pie', 'cloud', 'square', "
@@ -127,65 +124,65 @@ msgstr ""
 "текстовому дочернему классу Question2Tex. Выбрать между 'raw', 'sankey', "
 "'pie', 'cloud', 'square', 'polar' o 'package.path.MyQuestion2TexCustomClass'"
 
-#: lrr/survey/exporter/tex/survey2tex.py:158
+#: deprecated/survey/exporter/tex/survey2tex.py
 msgid "No questions to display in this survey."
 msgstr ""
 
-#: lrr/survey/exporter/tex/survey2tex.py:188
+#: deprecated/survey/exporter/tex/survey2tex.py
 msgid "Cannot export multiple PDF, choose only one."
 msgstr ""
 
-#: lrr/survey/exporter/tex/survey2tex.py:197
+#: deprecated/survey/exporter/tex/survey2tex.py
 #, python-format
 msgid "Error during PDF generation: %s"
 msgstr ""
 
-#: lrr/survey/exporter/tex/survey2tex.py:204
+#: deprecated/survey/exporter/tex/survey2tex.py
 msgid "Export to PDF"
 msgstr ""
 
-#: lrr/survey/models/answer.py:24
+#: deprecated/survey/models/answer.py
 msgid "Question"
 msgstr "Вопрос"
 
-#: lrr/survey/models/answer.py:25
+#: deprecated/survey/models/answer.py
 msgid "Response"
 msgstr "Ответ"
 
-#: lrr/survey/models/answer.py:26 lrr/survey/models/response.py:27
+#: deprecated/survey/models/answer.py deprecated/survey/models/response.py
 msgid "Creation date"
 msgstr "Дата создания"
 
-#: lrr/survey/models/answer.py:27 lrr/survey/models/response.py:28
+#: deprecated/survey/models/answer.py deprecated/survey/models/response.py
 msgid "Update date"
 msgstr "Дата обновления"
 
-#: lrr/survey/models/answer.py:28
+#: deprecated/survey/models/answer.py
 msgid "Content"
 msgstr "Содержание"
 
-#: lrr/survey/models/category.py:12 lrr/survey/models/survey.py:28
+#: deprecated/survey/models/category.py deprecated/survey/models/survey.py
 msgid "Name"
 msgstr "Название"
 
-#: lrr/survey/models/category.py:15
+#: deprecated/survey/models/category.py
 msgid "Display order"
 msgstr "Порядок отображения"
 
-#: lrr/survey/models/category.py:16 lrr/survey/models/survey.py:29
+#: deprecated/survey/models/category.py deprecated/survey/models/survey.py
 msgid "Description"
 msgstr "Описание"
 
-#: lrr/survey/models/category.py:20
+#: deprecated/survey/models/category.py
 msgid "category"
 msgstr "категория"
 
-#: lrr/survey/models/category.py:21
+#: deprecated/survey/models/category.py
 msgid "categories"
 msgstr "категории"
 
 # "if the question type" repeated in english original
-#: lrr/survey/models/question.py:19
+#: deprecated/survey/models/question.py
 msgid ""
 "The choices field is only used if the question type\n"
 "if the question type is 'radio', 'select', or\n"
@@ -197,110 +194,110 @@ msgstr ""
 "'select multiple' предоставляет разделенный запятыми список\n"
 "вариантов этого вопроса ."
 
-#: lrr/survey/models/question.py:58
+#: deprecated/survey/models/question.py
 msgid "text (multiple line)"
 msgstr "текст (многострочный)"
 
-#: lrr/survey/models/question.py:59
+#: deprecated/survey/models/question.py
 msgid "short text (one line)"
 msgstr "короткий текст (однострочный)"
 
-#: lrr/survey/models/question.py:60
+#: deprecated/survey/models/question.py
 msgid "radio"
 msgstr "radio"
 
-#: lrr/survey/models/question.py:61
+#: deprecated/survey/models/question.py
 msgid "select"
 msgstr "выбор"
 
-#: lrr/survey/models/question.py:62
+#: deprecated/survey/models/question.py
 msgid "Select Multiple"
 msgstr "Множественный выбор"
 
-#: lrr/survey/models/question.py:63
+#: deprecated/survey/models/question.py
 msgid "Select Image"
 msgstr "выбор изображения"
 
-#: lrr/survey/models/question.py:64
+#: deprecated/survey/models/question.py
 msgid "integer"
 msgstr "целое"
 
-#: lrr/survey/models/question.py:65
+#: deprecated/survey/models/question.py
 msgid "float"
 msgstr ""
 
-#: lrr/survey/models/question.py:66
+#: deprecated/survey/models/question.py
 msgid "date"
 msgstr ""
 
-#: lrr/survey/models/question.py:70
+#: deprecated/survey/models/question.py
 msgid "Order"
 msgstr "Порядок"
 
-#: lrr/survey/models/question.py:71
+#: deprecated/survey/models/question.py
 msgid "Required"
 msgstr "Требуемый"
 
-#: lrr/survey/models/question.py:73
+#: deprecated/survey/models/question.py
 msgid "Category"
 msgstr "Категория"
 
-#: lrr/survey/models/question.py:76
+#: deprecated/survey/models/question.py
 msgid "Type"
 msgstr "Тип"
 
-#: lrr/survey/models/question.py:79
+#: deprecated/survey/models/question.py
 msgid "Choices"
 msgstr "Варианты"
 
-#: lrr/survey/models/response.py:33
+#: deprecated/survey/models/response.py
 msgid "User"
 msgstr "Пользователь"
 
-#: lrr/survey/models/response.py:34
+#: deprecated/survey/models/response.py
 msgid "Interview unique identifier"
 msgstr "Уникальный идентификатор интервью"
 
-#: lrr/survey/models/survey.py:23
+#: deprecated/survey/models/survey.py
 msgid "By question"
 msgstr "По вопросам"
 
-#: lrr/survey/models/survey.py:24
+#: deprecated/survey/models/survey.py
 msgid "By category"
 msgstr "По категориям"
 
-#: lrr/survey/models/survey.py:25
+#: deprecated/survey/models/survey.py
 msgid "All in one page"
 msgstr "Все в одной странице"
 
-#: lrr/survey/models/survey.py:30
+#: deprecated/survey/models/survey.py
 msgid "Users can see it and answer it"
 msgstr "Пользователи могут увидеть его и ответить на него"
 
-#: lrr/survey/models/survey.py:31
+#: deprecated/survey/models/survey.py
 msgid "Only authenticated users can see it and answer it"
 msgstr ""
 "Только прошедшие проверку пользователи могут видеть его и отвечать на него"
 
-#: lrr/survey/models/survey.py:32
+#: deprecated/survey/models/survey.py
 msgid "Users can edit their answers afterwards"
 msgstr "Пользователи могут редактировать свои ответы впоследствии"
 
-#: lrr/survey/models/survey.py:34
+#: deprecated/survey/models/survey.py
 #, fuzzy
 #| msgid "Display order"
 msgid "Display method"
 msgstr "Порядок отображения"
 
-#: lrr/survey/models/survey.py:36
+#: deprecated/survey/models/survey.py
 msgid "Template"
 msgstr "Шаблон"
 
-#: lrr/survey/models/survey.py:37
+#: deprecated/survey/models/survey.py
 msgid "Publication date"
 msgstr "Дата публикации"
 
-#: lrr/survey/models/survey.py:38
+#: deprecated/survey/models/survey.py
 msgid "Expiration date"
 msgstr "дата удаления"
 

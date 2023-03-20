@@ -3,6 +3,7 @@ from django.contrib import admin
 
 
 class LRRAdminSite(admin.AdminSite):
+    label = 'LRRAdmin'
     site_header = 'Каталог ЦОТ (development)'
     if "det" in settings.INSTALLED_APPS:
         login_template = "det-admin/login.html"

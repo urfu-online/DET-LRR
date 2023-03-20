@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-26 17:05+0500\n"
+"POT-Creation-Date: 2023-03-20 17:30+0500\n"
 "PO-Revision-Date: 2022-06-13 23:57+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Unknown\n"
@@ -15,85 +15,131 @@ msgstr ""
 "X-Loco-Parser: loco_parse_po\n"
 "X-Generator: Loco https://localise.biz/\n"
 
-#: lrr/det/templates/det-admin/base.html:43
+#: deprecated/templates/survey/completed.html
+#: lrr/templates/inspections/completed.html
+msgid "Survey completed"
+msgstr ""
+
+#: deprecated/templates/survey/completed.html
+#: lrr/templates/inspections/completed.html
+msgid "Sorry! Your already replied to our survey"
+msgstr ""
+
+#: deprecated/templates/survey/completed.html
+#: lrr/templates/inspections/completed.html
+msgid "Back to survey list"
+msgstr ""
+
+#: deprecated/templates/survey/confirm.html
+#: lrr/templates/inspections/confirm.html
+msgid "Survey submitted"
+msgstr ""
+
+#: deprecated/templates/survey/confirm.html
+#: lrr/templates/inspections/confirm.html
+msgid "Thanks! Your answers have been saved"
+msgstr ""
+
+#: deprecated/templates/survey/confirm.html
+#: lrr/templates/inspections/confirm.html
+msgid "You can always come back and change them."
+msgstr "Вы всегда можете вернуться и изменить их."
+
+#: deprecated/templates/survey/list.html
+msgid "Welcome to the Django Survey app"
+msgstr ""
+
+#: deprecated/templates/survey/list.html
+msgid "Take the Survey"
+msgstr ""
+
+#: deprecated/templates/survey/survey.html
+#: lrr/templates/inspections/survey.html
+msgid "Questions"
+msgstr ""
+
+#: deprecated/templates/survey/survey.html
+#: lrr/templates/inspections/survey.html
+msgid "Сохранить"
+msgstr ""
+
+#: lrr/det/templates/det-admin/base.html
 msgid "Welcome,"
 msgstr ""
 
-#: lrr/det/templates/det-admin/base.html:48
+#: lrr/det/templates/det-admin/base.html
 msgid "View site"
 msgstr ""
 
-#: lrr/det/templates/det-admin/base.html:53
+#: lrr/det/templates/det-admin/base.html
 msgid "Documentation"
 msgstr ""
 
-#: lrr/det/templates/det-admin/base.html:57
+#: lrr/det/templates/det-admin/base.html
 msgid "Change password"
 msgstr ""
 
-#: lrr/det/templates/det-admin/base.html:59
+#: lrr/det/templates/det-admin/base.html
 msgid "Log out"
 msgstr ""
 
-#: lrr/det/templates/det-admin/base.html:69
-#: lrr/det/templates/det-admin/logout.html:4
+#: lrr/det/templates/det-admin/base.html
+#: lrr/det/templates/det-admin/logout.html
 msgid "Home"
 msgstr ""
 
-#: lrr/det/templates/det-admin/base_site.html:6
-#: lrr/det/templates/det-admin/base_site.html:32
-#: lrr/templates/admin/base_site.html:6 lrr/templates/admin/base_site.html:57
+#: lrr/det/templates/det-admin/base_site.html
 msgid "Django administration"
 msgstr ""
 
-#: lrr/det/templates/det-admin/includes/login/errors.html:8
+#: lrr/det/templates/det-admin/includes/login/errors.html
 msgid "Please correct the error below."
 msgstr ""
 
-#: lrr/det/templates/det-admin/includes/login/errors.html:8
+#: lrr/det/templates/det-admin/includes/login/errors.html
 msgid "Please correct the errors below."
 msgstr ""
 
-#: lrr/det/templates/det-admin/index.html:24
+#: lrr/det/templates/det-admin/index.html
 msgid "Recent actions"
 msgstr ""
 
-#: lrr/det/templates/det-admin/index.html:25
+#: lrr/det/templates/det-admin/index.html
 msgid "My actions"
 msgstr ""
 
-#: lrr/det/templates/det-admin/index.html:29
+#: lrr/det/templates/det-admin/index.html
 msgid "None available"
 msgstr ""
 
-#: lrr/det/templates/det-admin/index.html:43
+#: lrr/det/templates/det-admin/index.html
 msgid "Unknown content"
 msgstr ""
 
-#: lrr/det/templates/det-admin/login.html:26
+#: lrr/det/templates/det-admin/login.html
 msgid "Sign In to your account"
 msgstr ""
 
-#: lrr/det/templates/det-admin/login.html:33
+#: lrr/det/templates/det-admin/login.html
 #, python-format
 msgid ""
 "You are authenticated as %(username)s, but are not authorized to access this "
 "page. Would you like to login to a different account?"
 msgstr ""
 
-#: lrr/det/templates/det-admin/login.html:81
+#: lrr/det/templates/det-admin/login.html
 msgid "Log in"
 msgstr ""
 
-#: lrr/det/templates/det-admin/login.html:87
+#: lrr/det/templates/det-admin/login.html
 msgid "Forgotten your password or username?"
 msgstr ""
 
-#: lrr/det/templates/det-admin/login.html:100
+#: lrr/det/templates/det-admin/login.html
 msgid "Sign up"
 msgstr "Зарегистрироваться"
 
-#: lrr/det/templates/det-admin/login.html:102
+#: lrr/det/templates/det-admin/login.html
 #, python-format
 msgid ""
 "\n"
@@ -103,132 +149,131 @@ msgid ""
 "          "
 msgstr ""
 
-#: lrr/det/templates/det-admin/login.html:108
+#: lrr/det/templates/det-admin/login.html
 msgid "Register"
 msgstr ""
 
-#: lrr/det/templates/det-admin/logout.html:10
+#: lrr/det/templates/det-admin/logout.html
 msgid "Thanks for spending some quality time with the Web site today."
 msgstr ""
 
-#: lrr/det/templates/det-admin/logout.html:12
+#: lrr/det/templates/det-admin/logout.html
 msgid "Log in again"
 msgstr ""
 
-#: lrr/inspections/models.py:61
+#: lrr/inspections/models.py
 msgid "Name"
 msgstr "Наименование"
 
-#: lrr/inspections/models.py:62
+#: lrr/inspections/models.py
 msgid "Description"
 msgstr "Описание"
 
-#: lrr/inspections/models.py:64
+#: lrr/inspections/models.py
 msgid "Template"
 msgstr "Шаблон"
 
-#: lrr/inspections/models.py:153
+#: lrr/inspections/models.py
 msgid "text (multiple line)"
 msgstr "текст (многострочный)"
 
-#: lrr/inspections/models.py:154
+#: lrr/inspections/models.py
 msgid "short text (one line)"
 msgstr "короткий текст (однострочный)"
 
-#: lrr/inspections/models.py:155
+#: lrr/inspections/models.py
 msgid "radio"
 msgstr "radio"
 
-#: lrr/inspections/models.py:156
+#: lrr/inspections/models.py
 msgid "select"
 msgstr "выбор"
 
-#: lrr/inspections/models.py:157
+#: lrr/inspections/models.py
 msgid "Select Multiple"
 msgstr "множественный выбор"
 
-#: lrr/inspections/models.py:158
+#: lrr/inspections/models.py
 msgid "Select Image"
 msgstr "выбор изображения"
 
-#: lrr/inspections/models.py:159
+#: lrr/inspections/models.py
 msgid "integer"
 msgstr "целое"
 
-#: lrr/inspections/models.py:160
+#: lrr/inspections/models.py
 msgid "float"
 msgstr "число с плавающей запятой"
 
-#: lrr/inspections/models.py:161
+#: lrr/inspections/models.py
 msgid "date"
 msgstr "дата"
 
-#: lrr/inspections/models.py:170
+#: lrr/inspections/models.py
 msgid "Type"
 msgstr "Тип"
 
-#: lrr/inspections/models.py:173
+#: lrr/inspections/models.py
 msgid "Choices"
 msgstr "Варианты"
 
-#: lrr/inspections/models.py:494
+#: lrr/inspections/models.py
 msgid "Creation date"
 msgstr "Дата создания"
 
-#: lrr/inspections/models.py:495
+#: lrr/inspections/models.py
 msgid "Update date"
 msgstr "Дата обновления"
 
-#: lrr/inspections/models.py:496
+#: lrr/inspections/models.py
 msgid "Content"
 msgstr "Содержимое"
 
-#: lrr/templates/account/account_inactive.html:5
-#: lrr/templates/account/account_inactive.html:8
+#: lrr/templates/account/account_inactive.html
 msgid "Account Inactive"
 msgstr ""
 
-#: lrr/templates/account/account_inactive.html:10
+#: lrr/templates/account/account_inactive.html
 msgid "This account is inactive."
 msgstr ""
 
-#: lrr/templates/account/email.html:6
+#: lrr/templates/account/email.html
 msgid "Account"
 msgstr ""
 
-#: lrr/templates/account/email.html:9
+#: lrr/templates/account/email.html
 msgid "E-mail Addresses"
 msgstr ""
 
-#: lrr/templates/account/email.html:36
+#: lrr/templates/account/email.html
 msgid "Verified"
 msgstr ""
 
-#: lrr/templates/account/email.html:38
+#: lrr/templates/account/email.html
 msgid "Unverified"
 msgstr ""
 
-#: lrr/templates/account/email.html:40
+#: lrr/templates/account/email.html
 msgid "Primary"
 msgstr ""
 
-#: lrr/templates/account/email.html:47
+#: lrr/templates/account/email.html
 msgid "Make Primary"
 msgstr ""
 
-#: lrr/templates/account/email.html:48
+#: lrr/templates/account/email.html
 msgid "Re-send Verification"
 msgstr ""
 
-#: lrr/templates/account/email.html:49
+#: lrr/templates/account/email.html
 msgid "Remove"
 msgstr ""
 
-#: lrr/templates/account/email.html:58
+#: lrr/templates/account/email.html
 msgid "Warning:"
 msgstr ""
 
-#: lrr/templates/account/email.html:58
+#: lrr/templates/account/email.html
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
 "an e-mail address so you can receive notifications, reset your password, etc."
@@ -237,110 +282,61 @@ msgstr ""
 "действительно должны добавить адрес электронной почты, чтобы вы могли "
 "получать уведомления, сбрасывать пароль и т. д."
 
-#: lrr/templates/account/email.html:66
+#: lrr/templates/account/email.html
 msgid "Add E-mail Address"
 msgstr ""
 
-#: lrr/templates/account/email.html:70
+#: lrr/templates/account/email.html
 msgid "Add E-mail"
 msgstr ""
 
-#: lrr/templates/account/email.html:83
+#: lrr/templates/account/email.html
 msgid "Do you really want to remove the selected e-mail address?"
 msgstr ""
 
-#: lrr/templates/account/email/base_message.txt:1
-#, python-format
-msgid "Hello from %(site_name)s!"
-msgstr ""
-
-#: lrr/templates/account/email/base_message.txt:5
-#, python-format
-msgid ""
-"Thank you for using %(site_name)s!\n"
-"%(site_domain)s"
-msgstr ""
-
-#: lrr/templates/account/email/email_confirmation_message.txt:5
-#, python-format
-msgid ""
-"You're receiving this e-mail because user %(user_display)s has given your e-"
-"mail address to register an account on %(site_domain)s.\n"
-"\n"
-"To confirm this is correct, go to %(activate_url)s"
-msgstr ""
-
-#: lrr/templates/account/email/email_confirmation_subject.txt:3
-msgid "Please Confirm Your E-mail Address"
-msgstr ""
-
-#: lrr/templates/account/email/password_reset_key_message.txt:4
-msgid ""
-"You're receiving this e-mail because you or someone else has requested a "
-"password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password."
-msgstr ""
-"Вы получили это электронное письмо, потому что вы или кто-то другой "
-"запросили пароль для вашей учетной записи пользователя.\n"
-"Его можно смело игнорировать, если вы не запрашивали сброс пароля. Нажмите "
-"на ссылку ниже, чтобы сбросить пароль."
-
-#: lrr/templates/account/email/password_reset_key_message.txt:9
-#, python-format
-msgid "In case you forgot, your username is %(username)s."
-msgstr ""
-
-#: lrr/templates/account/email/password_reset_key_subject.txt:3
-msgid "Password Reset E-mail"
-msgstr ""
-
-#: lrr/templates/account/email_confirm.html:6
-#: lrr/templates/account/email_confirm.html:10
+#: lrr/templates/account/email_confirm.html
 msgid "Confirm E-mail Address"
 msgstr ""
 
-#: lrr/templates/account/email_confirm.html:16
+#: lrr/templates/account/email_confirm.html
 #, python-format
 msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
 msgstr ""
 
-#: lrr/templates/account/email_confirm.html:20
+#: lrr/templates/account/email_confirm.html
 msgid "Confirm"
 msgstr ""
 
-#: lrr/templates/account/email_confirm.html:27
+#: lrr/templates/account/email_confirm.html
 #, python-format
 msgid ""
 "This e-mail confirmation link expired or is invalid. Please <a href="
 "\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
 
-#: lrr/templates/account/login.html:7 lrr/templates/account/login.html:12
-#: lrr/templates/account/login.html:27 lrr/templates/base.old.html:89
-#: lrr/templates/includes/navigation.html:147
+#: lrr/templates/account/login.html lrr/templates/base.old.html
+#: lrr/templates/includes/navigation.html
 msgid "Sign In"
 msgstr "Войти"
 
-#: lrr/templates/account/login.html:14 lrr/templates/account/signup.html:9
-#: lrr/templates/account/signup.html:18 lrr/templates/base.old.html:86
-#: lrr/templates/includes/navigation.html:144
+#: lrr/templates/account/login.html lrr/templates/account/signup.html
+#: lrr/templates/base.old.html lrr/templates/includes/navigation.html
 msgid "Sign Up"
 msgstr "Зарегистрироваться"
 
-#: lrr/templates/account/login.html:29
+#: lrr/templates/account/login.html
 msgid "Forgot Password?"
 msgstr ""
 
-#: lrr/templates/account/login.html:34
+#: lrr/templates/account/login.html
 msgid ""
 "Or sign in with one\n"
 "        of your existing third party accounts."
 msgstr ""
 
-#: lrr/templates/account/login.html:51
+#: lrr/templates/account/login.html
 #, python-format
 msgid ""
 "If you have not created an account yet, then please\n"
@@ -349,105 +345,55 @@ msgstr ""
 "Если вы еще не создали учетную запись, то сначала  <a href=\"%(signup_url)s"
 "\"> зарегистрируйтесь</a>."
 
-#: lrr/templates/account/logout.html:5 lrr/templates/account/logout.html:8
-#: lrr/templates/account/logout.html:18 lrr/templates/base.old.html:80
-#: lrr/templates/includes/navigation.html:138
+#: lrr/templates/account/logout.html lrr/templates/base.old.html
+#: lrr/templates/includes/navigation.html
 msgid "Sign Out"
 msgstr "Выйти"
 
-#: lrr/templates/account/logout.html:10
+#: lrr/templates/account/logout.html
 msgid "Are you sure you want to sign out?"
 msgstr ""
 
-#: lrr/templates/account/messages/cannot_delete_primary_email.txt:2
-#, python-format
-msgid "You cannot remove your primary e-mail address (%(email)s)."
-msgstr ""
-
-#: lrr/templates/account/messages/email_confirmation_sent.txt:2
-#, python-format
-msgid "Confirmation e-mail sent to %(email)s."
-msgstr ""
-
-#: lrr/templates/account/messages/email_confirmed.txt:2
-#, python-format
-msgid "You have confirmed %(email)s."
-msgstr ""
-
-#: lrr/templates/account/messages/email_deleted.txt:2
-#, python-format
-msgid "Removed e-mail address %(email)s."
-msgstr ""
-
-#: lrr/templates/account/messages/logged_in.txt:4
-#, python-format
-msgid "Successfully signed in as %(name)s."
-msgstr ""
-
-#: lrr/templates/account/messages/logged_out.txt:2
-msgid "You have signed out."
-msgstr "You have signed out."
-
-#: lrr/templates/account/messages/password_changed.txt:2
-msgid "Password successfully changed."
-msgstr "Пароль успешно изменен."
-
-#: lrr/templates/account/messages/password_set.txt:2
-msgid "Password successfully set."
-msgstr "Пароль успешно установлен."
-
-#: lrr/templates/account/messages/primary_email_set.txt:2
-msgid "Primary e-mail address set."
-msgstr ""
-
-#: lrr/templates/account/messages/unverified_primary_email.txt:2
-msgid "Your primary e-mail address must be verified."
-msgstr "Ваш основной адрес электронной почты должен быть подтвержден."
-
-#: lrr/templates/account/password_change.html:6
-#: lrr/templates/account/password_change.html:9
-#: lrr/templates/account/password_change.html:14
-#: lrr/templates/account/password_reset_from_key.html:5
-#: lrr/templates/account/password_reset_from_key.html:8
-#: lrr/templates/account/password_reset_from_key_done.html:4
-#: lrr/templates/account/password_reset_from_key_done.html:7
+#: lrr/templates/account/password_change.html
+#: lrr/templates/account/password_reset_from_key.html
+#: lrr/templates/account/password_reset_from_key_done.html
 msgid "Change Password"
 msgstr "Изменить пароль"
 
-#: lrr/templates/account/password_reset.html:7
-#: lrr/templates/account/password_reset.html:11
-#: lrr/templates/account/password_reset_done.html:6
-#: lrr/templates/account/password_reset_done.html:9
+#: lrr/templates/account/password_reset.html
+#: lrr/templates/account/password_reset_done.html
 msgid "Password Reset"
 msgstr "Восстановление пароля"
 
-#: lrr/templates/account/password_reset.html:16
+#: lrr/templates/account/password_reset.html
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
 msgstr ""
 
-#: lrr/templates/account/password_reset.html:20
+#: lrr/templates/account/password_reset.html
 msgid "Reset My Password"
 msgstr "Сбросить пароль"
 
-#: lrr/templates/account/password_reset.html:24
+#: lrr/templates/account/password_reset.html
 msgid "Please contact us if you have any trouble resetting your password."
-msgstr "Пожалуйста, свяжитесь с нами, если у вас возникнут проблемы со сбросом пароля."
+msgstr ""
+"Пожалуйста, свяжитесь с нами, если у вас возникнут проблемы со сбросом "
+"пароля."
 
-#: lrr/templates/account/password_reset_done.html:15
+#: lrr/templates/account/password_reset_done.html
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
-"Мы отправили вам электронное письмо. Пожалуйста, свяжитесь с нами, если вы не получили его "
-"в течение нескольких минут."
+"Мы отправили вам электронное письмо. Пожалуйста, свяжитесь с нами, если вы "
+"не получили его в течение нескольких минут."
 
-#: lrr/templates/account/password_reset_from_key.html:8
+#: lrr/templates/account/password_reset_from_key.html
 msgid "Bad Token"
 msgstr ""
 
-#: lrr/templates/account/password_reset_from_key.html:12
+#: lrr/templates/account/password_reset_from_key.html
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
@@ -455,195 +401,166 @@ msgid ""
 "a>."
 msgstr ""
 
-#: lrr/templates/account/password_reset_from_key.html:18
+#: lrr/templates/account/password_reset_from_key.html
 msgid "change password"
 msgstr ""
 
-#: lrr/templates/account/password_reset_from_key.html:21
-#: lrr/templates/account/password_reset_from_key_done.html:8
+#: lrr/templates/account/password_reset_from_key.html
+#: lrr/templates/account/password_reset_from_key_done.html
 msgid "Your password is now changed."
 msgstr "Теперь ваш пароль изменен."
 
-#: lrr/templates/account/password_set.html:6
-#: lrr/templates/account/password_set.html:9
-#: lrr/templates/account/password_set.html:14
+#: lrr/templates/account/password_set.html
 msgid "Set Password"
 msgstr ""
 
-#: lrr/templates/account/signup.html:6
+#: lrr/templates/account/signup.html
 msgid "Signup"
 msgstr "Зарегистрироваться"
 
-#: lrr/templates/account/signup.html:11
+#: lrr/templates/account/signup.html
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
 
-#: lrr/templates/account/signup_closed.html:5
+#: lrr/templates/account/signup_closed.html
 msgid "Sign Up Closed"
 msgstr "Регистрация закрыта"
 
-#: lrr/templates/account/snippets/already_logged_in.html:6
+#: lrr/templates/account/snippets/already_logged_in.html
 #, python-format
 msgid "You are already logged in as %(user_display)s"
 msgstr ""
 
-#: lrr/templates/account/verification_sent.html:5
-#: lrr/templates/account/verification_sent.html:8
-#: lrr/templates/account/verified_email_required.html:5
-#: lrr/templates/account/verified_email_required.html:8
+#: lrr/templates/account/verification_sent.html
+#: lrr/templates/account/verified_email_required.html
 msgid "Verify Your E-mail Address"
 msgstr ""
 
-#: lrr/templates/account/verification_sent.html:10
+#: lrr/templates/account/verification_sent.html
 msgid ""
 "We have sent an e-mail to you for verification. Follow the link provided to "
 "finalize the signup process. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
 
-#: lrr/templates/account/verified_email_required.html:12
+#: lrr/templates/account/verified_email_required.html
 msgid ""
 "This part of the site requires us to verify that\n"
 "    you are who you claim to be. For this purpose, we require that you\n"
 "    verify ownership of your e-mail address. "
 msgstr ""
 
-#: lrr/templates/account/verified_email_required.html:16
+#: lrr/templates/account/verified_email_required.html
 msgid ""
 "We have sent an e-mail to you for\n"
 "    verification. Please click on the link inside this e-mail. Please\n"
 "    contact us if you do not receive it within a few minutes."
 msgstr ""
 
-#: lrr/templates/account/verified_email_required.html:20
+#: lrr/templates/account/verified_email_required.html
 #, python-format
 msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
 "mail address</a>."
 msgstr ""
 
-#: lrr/templates/admin/edit_inline/_tabular.html:65
+#: lrr/templates/admin/edit_inline/_tabular.html
 msgid "Delete?"
 msgstr "Удалить?"
 
-#: lrr/templates/admin/edit_inline/_tabular.html:84
+#: lrr/templates/admin/edit_inline/_tabular.html
 msgid "Change"
 msgstr "Изменить"
 
-#: lrr/templates/admin/edit_inline/_tabular.html:84
+#: lrr/templates/admin/edit_inline/_tabular.html
 msgid "View"
 msgstr ""
 
-#: lrr/templates/admin/edit_inline/_tabular.html:86
+#: lrr/templates/admin/edit_inline/_tabular.html
 msgid "View on site"
 msgstr "Посмотреть на сайте"
 
-#: lrr/templates/base.old.html:56
+#: lrr/templates/base.old.html
 msgid "Рабочий план группы"
 msgstr ""
 
-#: lrr/templates/base.old.html:77 lrr/templates/includes/navigation.html:135
+#: lrr/templates/base.old.html lrr/templates/includes/navigation.html
 msgid "Профиль"
 msgstr ""
 
-#: lrr/templates/includes/navigation.html:32
+#: lrr/templates/includes/navigation.html
 msgid "Поиск ЭОР"
 msgstr ""
 
-#: lrr/templates/includes/navigation.html:86
+#: lrr/templates/includes/navigation.html
 msgid "Каталог ЭУМК"
 msgstr ""
 
-#: lrr/templates/inspections/completed.html:4
-#: lrr/templates/inspections/completed.html:7
-#: lrr/templates/survey/completed.html:4 lrr/templates/survey/completed.html:7
-msgid "Survey completed"
-msgstr ""
-
-#: lrr/templates/inspections/completed.html:8
-#: lrr/templates/survey/completed.html:8
-msgid "Sorry! Your already replied to our survey"
-msgstr ""
-
-#: lrr/templates/inspections/completed.html:9
-#: lrr/templates/survey/completed.html:9
-msgid "Back to survey list"
-msgstr ""
-
-#: lrr/templates/inspections/confirm.html:4
-#: lrr/templates/inspections/confirm.html:7 lrr/templates/survey/confirm.html:4
-#: lrr/templates/survey/confirm.html:7
-msgid "Survey submitted"
-msgstr ""
-
-#: lrr/templates/inspections/confirm.html:10
-#: lrr/templates/survey/confirm.html:10
-msgid "Thanks! Your answers have been saved"
-msgstr ""
-
-#: lrr/templates/inspections/confirm.html:14
-#: lrr/templates/survey/confirm.html:14
-msgid "You can always come back and change them."
-msgstr "Вы всегда можете вернуться и изменить их."
-
-#: lrr/templates/inspections/survey.html:88 lrr/templates/survey/survey.html:88
-msgid "Questions"
-msgstr ""
-
-#: lrr/templates/inspections/survey.html:93 lrr/templates/survey/survey.html:93
-msgid "Сохранить"
-msgstr ""
-
-#: lrr/templates/rest_framework_swagger/index.html:28
+#: lrr/templates/rest_framework_swagger/index.html
 msgid "Logout"
 msgstr ""
 
-#: lrr/templates/rest_framework_swagger/index.html:30
+#: lrr/templates/rest_framework_swagger/index.html
 msgid "Session Login"
 msgstr ""
 
-#: lrr/templates/rest_framework_swagger/index.html:41
+#: lrr/templates/rest_framework_swagger/index.html
 msgid "You are logged in as: "
 msgstr "Вы вошли как:"
 
-#: lrr/templates/rest_framework_swagger/index.html:43
+#: lrr/templates/rest_framework_swagger/index.html
 msgid "Viewing as an anonymous user"
 msgstr ""
 
-#: lrr/templates/rest_framework_swagger/index.html:55
+#: lrr/templates/rest_framework_swagger/index.html
 msgid "Powered by "
 msgstr ""
 
-#: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html:6
+#: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html
 msgid "Type into this box to filter down the list."
 msgstr "Введите значение в это поле, чтобы отфильтровать список."
 
-#: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html:7
+#: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html
 msgid "Filter"
 msgstr "Фильтр"
 
-#: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html:20
+#: lrr/templates/sortedm2m/sorted_checkbox_select_multiple_widget.html
 msgid "Choose items and order by drag & drop."
 msgstr ""
 
-#: lrr/templates/survey/list.html:6
-msgid "Welcome to the Django Survey app"
-msgstr ""
-
-#: lrr/templates/survey/list.html:10
-msgid "Take the Survey"
-msgstr ""
-
-#: lrr/users/apps.py:7
+#: lrr/users/apps.py
 msgid "Users"
 msgstr ""
 
-#: lrr/users/models.py:17
+#: lrr/users/models.py
 msgid "Name of User"
 msgstr ""
 
-#: lrr/users/views.py:58
+#: lrr/users/views.py
 msgid "Информация успешно обновлена"
 msgstr ""
+
+#~ msgid ""
+#~ "You're receiving this e-mail because you or someone else has requested a "
+#~ "password for your user account.\n"
+#~ "It can be safely ignored if you did not request a password reset. Click "
+#~ "the link below to reset your password."
+#~ msgstr ""
+#~ "Вы получили это электронное письмо, потому что вы или кто-то другой "
+#~ "запросили пароль для вашей учетной записи пользователя.\n"
+#~ "Его можно смело игнорировать, если вы не запрашивали сброс пароля. "
+#~ "Нажмите на ссылку ниже, чтобы сбросить пароль."
+
+#~ msgid "You have signed out."
+#~ msgstr "You have signed out."
+
+#~ msgid "Password successfully changed."
+#~ msgstr "Пароль успешно изменен."
+
+#~ msgid "Password successfully set."
+#~ msgstr "Пароль успешно установлен."
+
+#~ msgid "Your primary e-mail address must be verified."
+#~ msgstr "Ваш основной адрес электронной почты должен быть подтвержден."

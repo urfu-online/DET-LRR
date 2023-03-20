@@ -14,8 +14,8 @@ from lrr.views import Favicon
 schema_view = get_swagger_view(title='LRR API')
 
 urlpatterns = [
-                  path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
-                  path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+                  # path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
+                  # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
                   path("", DigitalResourceListView.as_view(), name="home"),
                   path(
                       "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
@@ -50,10 +50,10 @@ urlpatterns += [
 
 ]
 
-if "admin_export_action" in settings.INSTALLED_APPS:
-    urlpatterns += [
-        path('export_action/', include("admin_export_action.urls", namespace="admin_export_action")),
-    ]
+# if "admin_export_action" in settings.INSTALLED_APPS:
+#     urlpatterns += [
+#         path('export_action/', include("admin_export_action.urls", namespace="admin_export_action")),
+#     ]
 
 if "data_wizard" in settings.INSTALLED_APPS:
     urlpatterns += [
