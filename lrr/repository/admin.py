@@ -150,6 +150,12 @@ class DigitalResourceAdminForm(forms.ModelForm):
         fields = "__all__"
 
 
+class DigitalResourceImmutableAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.DigitalResource
+        fields = "__all__"
+
+
 class SourceInline(admin.TabularInline):
     model = models.Source
     extra = 1
@@ -197,6 +203,46 @@ class DigitalResourceAdmin(ImportExportModelAdmin):
     list_filter = ["platform"]
     search_fields = ["title", "description", ]
     actions = (create_export_job_action,)
+
+
+@admin.register(models.DigitalResourceImmutable)
+class DigitalResourceImmutableAdmin(ImportExportModelAdmin):
+    form = DigitalResourceImmutableAdminForm
+    list_display = [
+        "digital_resource",
+        "type",
+        "source_data",
+        "copyright_holder",
+        "created",
+    ]
+    readonly_fields = [
+        "digital_resource",
+        "id",
+        "created",
+        "last_updated",
+        "title",
+        "type",
+        "source_data",
+        "platform",
+        "language",
+        "keywords",
+        "description",
+        "authors",
+        "copyright_holder",
+        "edu_programs_tags",
+        "owner",
+        "result_edu",
+        "subjects_tags",
+        "created",
+        "last_updated",
+        "subjects_tags",
+        "copyright_holder",
+        "edu_programs_tags",
+        "platform",
+        "language"
+    ]
+    list_filter = ["platform"]
+    search_fields = ["title", "description", ]
 
 
 class CompetenceAdminForm(forms.ModelForm):

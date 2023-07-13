@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 import uuid
 
 from django.conf import settings
@@ -62,6 +63,11 @@ class Person(models.Model):
     @property
     def short_name(self):
         return f"{self.last_name} {self.first_name[0]}. {self.middle_name[0]}."
+
+    @property
+    def full_name_display(self):
+        full_name = f"{self.last_name if self.last_name else ''} {self.first_name if self.first_name else ''} {self.middle_name if self.middle_name else ''}"
+        return re.sub(" +", " ", full_name)
 
     def get_absolute_url(self):
         return reverse("repository_Person_detail", args=(self.pk,))

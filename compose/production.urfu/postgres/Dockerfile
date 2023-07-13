@@ -1,4 +1,4 @@
-FROM postgres:12-alpine
+FROM postgres:15-alpine
 
 COPY ./compose/production.urfu/postgres/maintenance /usr/local/bin/maintenance
 RUN chmod +x /usr/local/bin/maintenance/*

@@ -63,7 +63,7 @@ class ExpertiseType(auto_prefetch.Model):
 
     template = models.CharField(_('Template'), max_length=255, null=True, blank=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'вид экспертизы'
         verbose_name_plural = 'виды экспертизы'
 
@@ -118,7 +118,7 @@ class Category(auto_prefetch.Model):
                                               null=True, blank=True)
     order = models.IntegerField('Порядок отображения', blank=True, null=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         # pylint: disable=too-few-public-methods
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
@@ -173,7 +173,7 @@ class Indicator(auto_prefetch.Model):
     choices = models.TextField(_('Choices'), blank=True, null=True, help_text=CHOICES_HELP_TEXT)
     parent = models.ForeignKey('self', related_name='referrals', null=True, default=None, on_delete=models.SET_NULL)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'показатель'
         verbose_name_plural = 'показатели'
         ordering = ('expertise_type', 'order')
@@ -552,7 +552,7 @@ class OpinionIndicator(repository_model.BaseModel):
                     msg += " should be in {} ".format(choices)
                     raise ValidationError(msg)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'показатель заключения'
         verbose_name_plural = 'показатели заключения'
 
@@ -666,7 +666,7 @@ class ExpertiseRequest(repository_model.BaseModel):
     def get_expertise_mthd(cls, digital_resource):
         return cls.objects.filter(digital_resource=digital_resource)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'заявка'
         verbose_name_plural = 'заявки'
         get_latest_by = 'date'
@@ -771,7 +771,7 @@ class ExpertiseOpinion(repository_model.BaseModel):
 
     expertise_type = auto_prefetch.ForeignKey(ExpertiseType, on_delete=models.PROTECT, verbose_name='Вид экспертизы', related_name='opinions', null=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'экспертное заключение'
         verbose_name_plural = 'экспертные заключения'
         get_latest_by = "date"
@@ -1000,7 +1000,7 @@ class AcceptableIndicatorValue(repository_model.BaseModel):
     compliance = models.PositiveSmallIntegerField('Соответствие содержанию дисциплины (Полностью/Частично)', null=True, blank=True)
     rating = models.DecimalField('Рейтинг', decimal_places=3, max_digits=4, null=True, blank=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'допустимое значение показателя'
         verbose_name_plural = 'допустимые значения показателя'
 
@@ -1031,6 +1031,6 @@ class SummaryIndicator(repository_model.BaseModel):
 
     # TODO: сделать двойное поле "Дисциплина/Образовательная программа"
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'сводный показатель'
         verbose_name_plural = 'сводные показатели'

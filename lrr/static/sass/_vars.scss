@@ -1,6 +1,8 @@
 // Options
 // Quickly modify global styling by enabling or disabling optional features.
 
+// Add SASS theme customizations here..
+
 $enable-caret: true !default;
 $enable-rounded: true !default;
 $enable-shadows: true !default;
@@ -35,15 +37,28 @@ $yellow: #f0ad4e;
 $green: #4bbf73;
 $teal: #20c997;
 $cyan: #1f9bcf;
-$primary: #30364A;
-$secondary: $white;
-$success: $green;
-$info: $cyan;
-$warning: $yellow;
-$danger: $red;
-$light: $white;
-$dark: $gray-800;
+//$primary: #30364A;
+//$secondary: $white;
+//$success: $green;
+//$info: $cyan;
+//$warning: $yellow;
+//$danger: $red;
+//$light: $white;
+//$dark: $gray-800;
 $yiq-contrasted-threshold: 185;
+$enable-grid-classes: false;
+$primary: #2f3c48;
+$secondary: #6f7f8c;
+$success: #3e4d59;
+$danger: #cc330d;
+$info: #5c8f94;
+$warning: #6e9fa5;
+$light: #eceeec;
+$dark: #1e2b37;
+$enable-gradients: false;
+$spacer: 1rem;
+$border-width: 1px;
+$btn-border-radius: 0;
 
 // Options
 

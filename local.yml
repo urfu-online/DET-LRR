@@ -37,8 +37,8 @@ services:
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
     networks:
       - lrr
-    ports:
-      - "0.0.0.0:5432:5432"
+    #    ports:
+    #      - "0.0.0.0:5432:5432"
     env_file:
       - ./.envs/.local/.postgres
   #    ports:

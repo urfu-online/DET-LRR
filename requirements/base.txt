@@ -1,42 +1,42 @@
-pytz==2022.7.1  # https://github.com/stub42/pytz
+pytz==2023.3  # https://github.com/stub42/pytz
 python-slugify  # https://github.com/un33k/python-slugify
 Pillow  # https://github.com/python-pillow/Pillow
 argon2-cffi==21.3.0  # https://github.com/hynek/argon2_cffi
-whitenoise==6.4.0  # https://github.com/evansd/whitenoise
+whitenoise==6.5.0  # https://github.com/evansd/whitenoise
 redis  # https://github.com/andymccurdy/redis-py
-hiredis==2.2.2  # https://github.com/redis/hiredis-py
-celery==5.2.7  # pyup: < 5.0  # https://github.com/celery/celery
+hiredis==2.2.3  # https://github.com/redis/hiredis-py
+celery==5.3.1  # pyup: < 5.0  # https://github.com/celery/celery
 django-celery-beat==2.5.0  # https://github.com/celery/django-celery-beat
 # flower==1.0.0 # https://github.com/mher/flower
-uvicorn[standard]==0.21.0  # https://github.com/encode/uvicorn
+uvicorn[standard]==0.22.0  # https://github.com/encode/uvicorn
 pip-review
 # Django
 # ------------------------------------------------------------------------------
-django==4.1.7  # pyup: < 4.0  # https://www.djangoproject.com/
-django-filter==22.1
+django==4.2.3  # pyup: < 4.0  # https://www.djangoproject.com/
+django-filter==23.2
 django-environ==0.10.0  # https://github.com/joke2k/django-environ
 django-model-utils==4.3.1  # https://github.com/jazzband/django-model-utils
-django-allauth==0.52.0 # https://github.com/pennersr/django-allauth
+django-allauth==0.54.0 # https://github.com/pennersr/django-allauth
 django-auth-adfs==1.11.4
 django-crispy-forms==2.0  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==0.7
-django-redis==5.2.0  # https://github.com/jazzband/django-redis
+django-redis==5.3.0  # https://github.com/jazzband/django-redis
 # Django REST Framework
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
 django-apptemplates
 django-admin-interface
-django-cors-headers==3.14.0
+django-cors-headers==4.2.0
 django-rest-swagger
 django-polymorphic
 django-dynamic-formsets==0.0.8
 six==1.16.0 # https://pypi.org/project/six/1.15.0/
-django-select2==8.1.1
+django-select2==8.1.2
 django-rest-polymorphic # https://github.com/apirobot/django-rest-polymorphic https://django-polymorphic.readthedocs.io/en/stable/third-party.html#example
 
 pandas
 fontawesome-free==5.15.4
 django-sortedm2m==3.1.1
-django-postgres-metrics==0.13.1  # https://github.com/django-postgres-metrics/django-postgres-metrics
+django-postgres-metrics==0.15.0  # https://github.com/django-postgres-metrics/django-postgres-metrics
 django-better-admin-arrayfield
 django-adminactions
 # django-admin-export-action
@@ -48,9 +48,9 @@ django-import-export # https://github.com/django-import-export/django-import-exp
 django-import-export-celery
 django-widget-tweaks # https://github.com/jazzband/django-widget-tweaks
 django-analytical
-django-auto-prefetch==1.5.0
+django-auto-prefetch==1.7.0
 
-django-computedfields==0.2.1
+django-computedfields==0.2.3
 django-easy-select2
 
 addict
@@ -58,15 +58,15 @@ django_reverse_admin
 django-json-widget==1.1.1
 
 django_material_icons
-django_bootstrap_icons==0.8.2
+django_bootstrap_icons
 
 django-htmlmin
-django-taggit==3.1.0
-django-admin-sortable2==2.1.4
+django-taggit==4.0.0
+django-admin-sortable2==2.1.8
 django-versatileimagefield==3.0
 
-humanize==4.6.0 # https://github.com/jmoiron/humanize
+humanize==4.7.0 # https://github.com/jmoiron/humanize
 inclusive-django-range-fields==0.2.3
-django_components==0.26.1
+django_components==0.28.1
 django-richtextfield
 django-djet2

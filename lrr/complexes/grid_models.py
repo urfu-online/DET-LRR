@@ -14,7 +14,7 @@ class ThematicPlan(BaseModel):
                                                related_name="thematic_plan", on_delete=models.CASCADE)
     plan_object = models.JSONField(verbose_name="Объект плана", null=True, blank=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "структурно-тематический план"
         verbose_name_plural = "структурно-тематические планы"
 
@@ -25,14 +25,14 @@ class ThematicPlan(BaseModel):
         return self.digital_complex.get_themes()
 
 
-class Theme(models.Model):
+class Theme(auto_prefetch.Model):
     title = models.CharField(max_length=64, db_index=True)
     thematic_plan = auto_prefetch.ForeignKey(ThematicPlan, related_name="themes",
                                              on_delete=models.CASCADE,
                                              blank=True, null=True)
     order = models.PositiveSmallIntegerField(default=0)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         ordering = ["order"]
         verbose_name = "тема"
         verbose_name_plural = "темы структурно-тематического плана"
@@ -41,7 +41,7 @@ class Theme(models.Model):
         return f"{self.thematic_plan.digital_complex}: {self.order} - {self.title}"
 
 
-class PlanComponent(models.Model):
+class PlanComponent(auto_prefetch.Model):
     ASYNC = 'ASYNC'
     SYNC = 'SYNC'
     UNKNOWN = 'UNKNOWN'
@@ -58,7 +58,7 @@ class PlanComponent(models.Model):
     content = models.JSONField(verbose_name="Содержимое ячейки структурно-тематического плана", null=True, blank=True)
     week_range = IntegerRangeField("Диапазон", blank=True, null=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "компонент"
         verbose_name_plural = "компоненты структурно-тематического плана"
 

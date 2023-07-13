@@ -15,7 +15,7 @@ RUN apt-get update \
     && echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
     && apt-get update \
   # psycopg2 dependencies
-  && apt-get install -y libpq-dev postgresql-client-12 \
+  && apt-get install -y libpq-dev postgresql-client-15 \
   # Translations dependencies
   && apt-get install -y --no-install-recommends  gettext \
   && apt-get install -y --no-install-recommends graphviz libgraphviz-dev pkg-config git \

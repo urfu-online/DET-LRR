@@ -10,7 +10,7 @@
       <li class="breadcrumb-item active" aria-current="page">Профиль</li>
     </ol>
   </nav>
-  
+
   <header><h1 class="display-3">Профиль</h1></header>
 
   <div class="row">
@@ -21,7 +21,7 @@
           <div class="col p-2"><p>{{ object.username }}</p></div>
           <div class="w-100"></div>
           <div class="col-sm-4 p-2">ФИО:</div>
-          <div class="col p-2"><p>{{ person.last_name }} {{ person.first_name }} {{ person.middle_name }}</p></div>
+          <div class="col p-2"><p>{{ person.full_name_display }}</p></div>
           <div class="w-100"></div>
           <div class="col-sm-4 p-2">Страна:</div>
           <div class="col p-2"><p>{% if person.country %}{{ person.country }}{% else %}<em>Не задана</em>{% endif %}</p></div>
@@ -40,7 +40,10 @@
         {% if person.avatar %}
           <img src='/media/{{ person.avatar }}' class="ui large bordered rounded image">
         {% else %}
-          <p>Нет аватара</p>
+          <figure class="figure">
+            <img src="{% static 'images/avatar_placeholder.png' %}" class="figure-img img-fluid rounded">
+            <figcaption class="figure-caption text-center">Нет аватара</figcaption>
+          </figure>
         {% endif %}
       </div>
     </div>

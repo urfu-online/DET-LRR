@@ -30,7 +30,7 @@ class Subject(BaseModel):
     description = models.TextField("Описание", null=True, blank=True)
     labor = models.PositiveSmallIntegerField("Трудоемкость", null=True, blank=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "дисциплина"
         verbose_name_plural = "дисциплины"
 
@@ -58,7 +58,7 @@ class Organization(BaseModel):
     contacts = models.TextField("Контакты", null=True, blank=True)
     url = models.URLField("URL", null=True, blank=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "организация"
         verbose_name_plural = "организации"
 
@@ -76,7 +76,7 @@ class ScientificBranch(BaseModel):
     title = models.CharField("Наименование", max_length=64)
     code = models.PositiveSmallIntegerField("Код", blank=True, null=True, unique=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "научная отрасль"
         verbose_name_plural = "научные отрасли"
 
@@ -91,7 +91,7 @@ class DirectionsEnlargedGroup(BaseModel):
     title = models.CharField("Наименование УГН", max_length=128)
     code = models.CharField("Код УГН", max_length=64, unique=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "укрупненная группа направлений"
         verbose_name_plural = "укрупненные группа направлений"
 
@@ -106,7 +106,7 @@ class Direction(BaseModel):
     scientific_branch = auto_prefetch.ForeignKey(ScientificBranch, verbose_name="Научная отрасль", related_name="directions",
                                                  null=True, blank=True, on_delete=models.CASCADE)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "направление подготовки"
         verbose_name_plural = "направления подготовки"
 
@@ -182,7 +182,7 @@ class EduProgram(BaseModel):
         except:
             return ""
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "образовательная программа"
         verbose_name_plural = "образовательные программы"
 
@@ -205,7 +205,7 @@ class ResultEdu(BaseModel):
     competence = auto_prefetch.ForeignKey("repository.Competence", verbose_name="Компетенция", null=True, blank=True,
                                           on_delete=models.PROTECT)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "образовательный результат"
         verbose_name_plural = "образовательные результаты"
 
@@ -261,7 +261,7 @@ class DigitalResource(BaseModel):
     keywords = models.CharField("Ключевые слова", max_length=6024, null=True, blank=True)
     description = models.TextField("Описание", null=True, blank=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "паспорт ЭОР"
         verbose_name_plural = "паспорта ЭОР"
         ordering = ["title"]
@@ -327,6 +327,56 @@ class DigitalResource(BaseModel):
         }
 
 
+class DigitalResourceImmutable(BaseModel):
+    # source_data
+    MANUAL = 'MANUAL'
+    IMPORT = 'IMPORT'
+
+    SOURCES = [
+        (MANUAL, 'вручную'),
+        (IMPORT, 'импорт'),
+    ]
+
+    # type
+    OK = 'OK'
+    EUK = 'EUK'
+    TEXT_EOR = 'TEXT_EOR'
+    MULTIMEDIA_EOR = 'MULTIMEDIA_EOR'
+
+    RESOURCE_TYPE = [
+        (OK, 'Онлайн-курс'),
+        (EUK, 'ЭУК'),  # что такое ЭУК ?
+        (TEXT_EOR, 'Текстовый электронный образовательный ресурс'),
+        (MULTIMEDIA_EOR, 'Мультимедийный электронный образовательный ресурс'),
+    ]
+
+    digital_resource = auto_prefetch.ForeignKey("DigitalResource", on_delete=models.CASCADE)
+
+    authors = models.ManyToManyField("users.Person", verbose_name="Авторы", blank=True,
+                                     related_name="authors_digital_resource_immutable")
+    copyright_holder = auto_prefetch.ForeignKey("Organization", on_delete=models.PROTECT, verbose_name="Правообладатель")
+    subjects_tags = models.ManyToManyField("SubjectTag", verbose_name="Теги дисциплин ЭОР", blank=True)
+    edu_programs_tags = models.ManyToManyField("EduProgramTag", verbose_name="Теги образовательных программ ЭОР",
+                                               blank=True)
+    owner = auto_prefetch.ForeignKey("users.Person", on_delete=models.PROTECT, related_name="owner_digital_resource_immutable",
+                                     verbose_name="Владелец", blank=True, null=True)
+    language = auto_prefetch.ForeignKey("Language", on_delete=models.PROTECT, verbose_name="Язык ресурса")
+    platform = auto_prefetch.ForeignKey("Platform", on_delete=models.PROTECT, verbose_name="Платформа")
+    result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
+    competences = models.ManyToManyField("Competence", verbose_name="Компетенции", blank=True)
+
+    title = models.CharField("Наименование ресурса", max_length=1024)
+    type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
+    source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
+    keywords = models.CharField("Ключевые слова", max_length=6024, null=True, blank=True)
+    description = models.TextField("Описание", null=True, blank=True)
+
+    class Meta(auto_prefetch.Model.Meta):
+        verbose_name = "неизменяемая копия ЭОР"
+        verbose_name_plural = "неизменяемые копии ЭОР"
+        ordering = ["title"]
+
+
 class Source(BaseModel):
     # type
     URL = 'URL'
@@ -343,7 +393,7 @@ class Source(BaseModel):
                                                 on_delete=models.CASCADE)
     type = models.CharField("Тип", choices=SOURCE_TYPE, max_length=8, null=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "компонент"
         verbose_name_plural = "компоненты"
 
@@ -411,7 +461,7 @@ class Competence(BaseModel):
 
     # TODO: add fields
     # type choices_to TYPES
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "компетенция"
         verbose_name_plural = "компетенции"
 
@@ -433,7 +483,7 @@ class Platform(BaseModel):
     logo = models.ImageField("Логотип", upload_to="upload/images/", null=True, blank=True)
     contacts = models.TextField("Контакты", null=True, blank=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "платформа"
         verbose_name_plural = "платформы"
 
@@ -471,7 +521,7 @@ class Language(models.Model):
 class SubjectTag(BaseModel):
     tag = auto_prefetch.ForeignKey("repository.Subject", on_delete=models.CASCADE, verbose_name="Дисциплина")
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "тег дисциплины"
         verbose_name_plural = "теги дисциплин"
 
@@ -492,7 +542,7 @@ class SubjectTag(BaseModel):
 class EduProgramTag(BaseModel):
     tag = auto_prefetch.ForeignKey("repository.EduProgram", on_delete=models.CASCADE, verbose_name="Образовательная программа")
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "тег образовательной программы"
         verbose_name_plural = "теги образовательных программ"
 
@@ -506,8 +556,8 @@ class EduProgramTag(BaseModel):
         return reverse("repository_EduProgramTag_update", args=(self.pk,))
 
 
-class BookmarkBase(models.Model):
-    class Meta:
+class BookmarkBase(auto_prefetch.Model):
+    class Meta(auto_prefetch.Model.Meta):
         abstract = True
 
     user = auto_prefetch.ForeignKey("users.User", verbose_name="Пользователь", on_delete=models.CASCADE)
@@ -520,7 +570,7 @@ class BookmarkBase(models.Model):
 
 
 class BookmarkDigitalResource(BookmarkBase):
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         db_table = "bookmark__digital_resource"
 
     obj = auto_prefetch.ForeignKey('repository.DigitalResource', verbose_name="Паспорт ЭОР", on_delete=models.CASCADE)

@@ -34,7 +34,7 @@ django-coverage-plugin  # https://github.com/nedbat/django_coverage_plugin
 pytest-django==4.4.0  # https://github.com/pytest-dev/pytest-django
 # pygraphviz
 # notebook
-django-postgres-metrics
+# django-postgres-metrics==0.15.0
 django-permissions-auditor
 itertable
 pydotplus

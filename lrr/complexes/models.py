@@ -56,7 +56,7 @@ class DigitalComplex(BaseModel):
                                      verbose_name="Владелец", blank=True, null=True)
     form_control = models.CharField("Форма контроля", choices=FORM_TYPES, max_length=1, default="-")
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "цифровой Комплекс (ЭУМК)"
         verbose_name_plural = "цифровые Комплексы (ЭУМК)"
 
@@ -135,7 +135,7 @@ class AssignmentAcademicGroup(BaseModel):
                                       verbose_name="Дисциплина/Семестр", blank=True,
                                       null=True)
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = "ресурсное обеспечение академической группы"
         verbose_name_plural = "ресурсное обеспечение академических групп"
 
@@ -164,7 +164,7 @@ class ComplexParentComponent(BaseModel, PolymorphicModel):
     def get_absolute_url(self):
         return reverse("complexes:complexes_DigitalComplex_detail", args=(self.digital_complex.pk,))
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'компонент комплекса'
         verbose_name_plural = 'компоненты комплексов'
         ordering = ["order"]
@@ -179,7 +179,7 @@ class ResourceComponent(ComplexParentComponent):
     def get_absolute_url(self):
         return reverse("complexes:complexes_ComplexParentComponent_create", args=(self.digital_complex.pk,))
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'компонент ЭОР'
         verbose_name_plural = 'компоненты ЭОР'
 
@@ -194,7 +194,7 @@ class LiterarySourcesComponent(ComplexParentComponent):
     def get_absolute_url(self):
         return reverse("complexes:complexes_ComplexParentComponent_create", args=(self.digital_complex.pk,))
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'литературный источник'
         verbose_name_plural = 'литературные источники'
 
@@ -210,7 +210,7 @@ class PlatformComponent(ComplexParentComponent):
     def get_absolute_url(self):
         return reverse("complexes:complexes_ComplexParentComponent_create", args=(self.digital_complex.pk,))
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'среда обучения'
         verbose_name_plural = 'среда обучения'
 
@@ -226,6 +226,6 @@ class TraditionalSessionComponent(ComplexParentComponent):
     def __str__(self):
         return self.title
 
-    class Meta:
+    class Meta(auto_prefetch.Model.Meta):
         verbose_name = 'синхронное занятие'
         verbose_name_plural = 'синхронные занятия'
