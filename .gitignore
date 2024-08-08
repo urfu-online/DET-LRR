@@ -346,3 +346,6 @@ lrr/templates/survey
 /lrr/static/js/project.min.js
 /lrr/static/js/vendors*
 /deprecated/
+backups/
+package-lock.json
+lrr/det/.idea/
