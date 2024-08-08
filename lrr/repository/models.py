@@ -255,8 +255,8 @@ class DigitalResource(BaseModel):
     result_edu = models.ManyToManyField("ResultEdu", verbose_name="Образовательный результат", blank=True)
     competences = models.ManyToManyField("Competence", verbose_name="Компетенции", blank=True)
 
-    title = models.CharField("Наименование ресурса", max_length=1024)
-    type = models.CharField("Тип ресурса", max_length=30, choices=RESOURCE_TYPE, null=True)
+    title = models.TextField("Наименование ЭОР")
+    type = models.CharField("Вид ЭОР", max_length=30, choices=RESOURCE_TYPE, null=True)
     source_data = models.CharField("Источник данных", max_length=30, choices=SOURCES, default=MANUAL)
     keywords = models.CharField("Ключевые слова", max_length=6024, null=True, blank=True)
     description = models.TextField("Описание", null=True, blank=True)
