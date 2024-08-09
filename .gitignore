@@ -349,3 +349,4 @@ lrr/templates/survey
 /deprecated/
 /backups/*
 package-lock.json
+.vscode/settings.json

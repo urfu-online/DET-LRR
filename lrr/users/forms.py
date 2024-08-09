@@ -46,6 +46,15 @@ class UserSignupForm(SignupForm):
         # You must return the original result.
         return user
 
+    class Meta:
+        model = User
+        fields = [
+            "email",
+            "username",
+            "password1",
+            "password2",
+        ]
+
 
 class StudentForm(form.ModelForm):
     class Meta:
