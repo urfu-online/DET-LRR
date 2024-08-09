@@ -332,6 +332,7 @@ lrr/media/
 .envs/*
 !.envs/.local/
 /.idea/
+**/.idea
 /parsed/.idea/
 lrr/frontend/node_modules
 !/lrr/static/gridstack/dist/
@@ -346,3 +347,5 @@ lrr/templates/survey
 /lrr/static/js/project.min.js
 /lrr/static/js/vendors*
 /deprecated/
+/backups/*
+package-lock.json

@@ -54,7 +54,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 
 # STATIC
 # ------------------------
-STATICFILES_STORAGE = "lrr.storage.WhiteNoiseStaticFilesStorage"
+# STATICFILES_STORAGE = "lrr.storage.WhiteNoiseStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # MEDIA
 # ------------------------------------------------------------------------------
 
