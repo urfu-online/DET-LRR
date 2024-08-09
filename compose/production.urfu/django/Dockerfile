@@ -63,10 +63,10 @@ RUN sed -i 's/\r$//g' /start-celerybeat
 RUN chmod +x /start-celerybeat
 
 
-COPY ./compose/production.urfu/django/celery/flower/start /start-flower
-RUN sed -i 's/\r$//g' /start-flower
-RUN chmod +x /start-flower
-COPY --from=client-builder /app /app
+# COPY ./compose/production.urfu/django/celery/flower/start /start-flower
+# RUN sed -i 's/\r$//g' /start-flower
+# RUN chmod +x /start-flower
+# COPY --from=client-builder /app /app
 # --chown=django:django
 #USER django
 

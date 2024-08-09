@@ -67,12 +67,12 @@ services:
       - lrr
     command: /start-celerybeat
 
-  flower:
-    <<: *django
-    image: ${COMPOSE_PROJECT_NAME}_flower_${ENVIRONMENT}
-    container_name: ${COMPOSE_PROJECT_NAME}_flower_${ENVIRONMENT}
-    networks:
-      - lrr
-    command: /start-flower
+  # flower:
+  #   <<: *django
+  #   image: ${COMPOSE_PROJECT_NAME}_flower_${ENVIRONMENT}
+  #   container_name: ${COMPOSE_PROJECT_NAME}_flower_${ENVIRONMENT}
+  #   networks:
+  #     - lrr
+  #   command: /start-flower
 
 

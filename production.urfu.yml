@@ -61,11 +61,11 @@ services:
       - lrr
     command: /start-celerybeat
 
-  flower:
-    <<: *django
-    image: lrr_flower
-    networks:
-      - lrr
-    command: /start-flower
+  # flower:
+  #   <<: *django
+  #   image: lrr_flower
+  #   networks:
+  #     - lrr
+  #   command: /start-flower
 
 
