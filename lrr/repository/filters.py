@@ -155,7 +155,7 @@ class DigitalResourceFilter(django_filters.FilterSet):
     copyright_holder = django_filters.ModelChoiceFilter(field_name='copyright_holder', queryset=models.Organization.objects.all(), label="Правообладатель")
     platform = django_filters.ModelChoiceFilter(field_name='platform', queryset=models.Platform.objects.all(), label="Платформа")
     language = django_filters.ModelChoiceFilter(field_name='language', queryset=models.Language.objects.all(), label="Язык")
-    subjects_tags = django_filters.ModelChoiceFilter(field_name='subjects_tags__tag__title', queryset=models.Subject.objects.all()[:200], lookup_expr="icontains", widget=Select2Widget, label="Дисциплины") #ПРОСТО ЧТОБЫ РАБОТАЛО
+    subjects_tags = django_filters.ModelChoiceFilter(field_name='subjects_tags__tag__title', queryset=models.Subject.objects.all()[:500], lookup_expr="icontains", widget=Select2Widget, label="Дисциплины") #ПРОСТО ЧТОБЫ РАБОТАЛО
     edu_programs_tags = django_filters.ModelChoiceFilter(field_name='edu_programs_tags__tag__title', lookup_expr="icontains", queryset=models.EduProgram.objects.all(), widget=Select2Widget, label="Направление / ОП")
 
     class Meta:
@@ -170,7 +170,7 @@ class DigitalResourceBookmarkFilter(django_filters.FilterSet):
     copyright_holder = django_filters.ModelChoiceFilter(field_name='obj__copyright_holder', queryset=models.Organization.objects.all(), label="Правообладатель")
     platform = django_filters.ModelChoiceFilter(field_name='obj__platform', queryset=models.Platform.objects.all(), label="Платформа")
     language = django_filters.ModelChoiceFilter(field_name='obj__language', queryset=models.Language.objects.all(), label="Язык")
-    subjects_tags = django_filters.ModelChoiceFilter(field_name='obj__subjects_tags__tag__title', queryset=models.Subject.objects.all()[:200], lookup_expr="exact", widget=Select2Widget, label="Дисциплины") #ПРОСТО ЧТОБЫ РАБОТАЛО
+    subjects_tags = django_filters.ModelChoiceFilter(field_name='obj__subjects_tags__tag__title', queryset=models.Subject.objects.all()[:500], lookup_expr="exact", widget=Select2Widget, label="Дисциплины") #ПРОСТО ЧТОБЫ РАБОТАЛО
     edu_programs_tags = django_filters.ModelChoiceFilter(field_name='obj__edu_programs_tags__tag__title', queryset=models.EduProgram.objects.all(), lookup_expr="exact", widget=Select2Widget, label="Направление / ОП")
 
     class Meta:
