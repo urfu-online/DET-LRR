@@ -11,3 +11,4 @@ sentry-sdk==1.10.1  # https://github.com/getsentry/sentry-python
 # ------------------------------------------------------------------------------
 # django-anymail==8.4  # https://github.com/anymail/django-anymail
 django-extensions  # https://github.com/django-extensions/django-extensions
+django-debug-toolbar  # https://github.com/jazzband/django-debug-toolbar
