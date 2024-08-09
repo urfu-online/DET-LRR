@@ -7,7 +7,7 @@ COPY . /app
 RUN npm run build
 
 # Python build stage
-FROM python:3.10-slim-bullseye as base
+FROM python:3.10-slim as base
 
 ENV TZ 'Asia/Yekaterinburg'
 ENV DEBIAN_FRONTEND=noninteractive
